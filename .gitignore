@@ -1,0 +1,11 @@
+# Ignore the Gradle project-specific cache directory.
+.gradle
+
+# Ignore the IDEA project directory.
+.idea
+
+# Ignore the Gradle build output directory.
+build
+
+# Ignore the IDEA build output directory.
+out
