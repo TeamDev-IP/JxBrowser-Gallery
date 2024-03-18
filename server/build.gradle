@@ -33,9 +33,3 @@ application {
     // Define the main class for the application
     mainClass.set('Server')
 }
-
-tasks.withType<JavaExec> {
-    // Assign all Java system properties from
-    // the command line to the JavaExec task.
-    systemProperties(System.getProperties().mapKeys { it.key as String })
-}
