@@ -3,3 +3,39 @@
  * TeamDev PROPRIETARY and CONFIDENTIAL.
  * Use is subject to license terms.
  */
+
+plugins {
+    // Apply the java plugin to add support for Java
+    id('java')
+
+    // Apply the application plugin to add support for building a CLI application
+    id('application')
+
+    // Provides convenience methods for adding JxBrowser dependencies into a project
+    id('com.teamdev.jxbrowser') version '1.0.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+jxbrowser {
+    version = '7.37.2'
+    includePreviewBuilds()
+}
+
+dependencies {
+    // Use JxBrowser cross-platform binaries
+    implementation(jxbrowser.crossPlatform)
+}
+
+application {
+    // Define the main class for the application
+    mainClass.set('Server')
+}
+
+tasks.withType<JavaExec> {
+    // Assign all Java system properties from
+    // the command line to the JavaExec task.
+    systemProperties(System.getProperties().mapKeys { it.key as String })
+}
