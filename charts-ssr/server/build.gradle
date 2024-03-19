@@ -29,6 +29,11 @@ plugins {
     id('com.teamdev.jxbrowser') version '1.0.1'
 }
 
+// Set the Java version to 17.
+tasks.withType(JavaCompile) {
+    options.release = 17
+}
+
 repositories {
     mavenCentral()
 }
