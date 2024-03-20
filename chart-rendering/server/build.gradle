@@ -30,7 +30,7 @@ plugins {
 }
 
 // Set the Java version to 17.
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.release = 17
 }
 
