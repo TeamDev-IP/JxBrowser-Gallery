@@ -26,7 +26,7 @@ plugins {
     id('io.micronaut.application') version "4.3.4"
 
     // Provides convenience methods for adding JxBrowser dependencies into a project.
-    id('com.teamdev.jxbrowser') version '1.0.1'
+    id('com.teamdev.jxbrowser') version '1.0.2'
 }
 
 // Set the Java version to 17.
@@ -43,7 +43,7 @@ repositories {
 }
 
 jxbrowser {
-    version = '7.37.2'
+    version = '8.0.0-eap.1'
     includePreviewBuilds()
 }
 
