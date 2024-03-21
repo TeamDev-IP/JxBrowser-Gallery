@@ -8,7 +8,7 @@ This project demonstrates how to render a chart on the server-side using JxBrows
 ### Running locally:
 ```shell
    ./gradlew clean build
-   ./gradlew :server:run
+   ./gradlew :server:run -D"jxbrowser.license.key"=your_license_key
 ```
 
 [jdk-java-net]: (https://jdk.java.net/)

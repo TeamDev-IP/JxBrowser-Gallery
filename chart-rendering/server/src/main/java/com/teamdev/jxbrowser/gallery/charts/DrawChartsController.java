@@ -20,17 +20,37 @@
 
 package com.teamdev.jxbrowser.gallery.charts;
 
+import com.teamdev.jxbrowser.engine.Engine;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Produces;
 
+import java.util.concurrent.atomic.AtomicReference;
+
+import static com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN;
+
 @Controller("/draw-charts")
 public class DrawChartsController {
 
     @Get
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_HTML)
     public String index() {
-        return "OK";
+        // Initialize Chromium.
+        var engine = Engine.newInstance(OFF_SCREEN);
+
+        // Create a Browser instance.
+        var browser = engine.newBrowser();
+
+        // Load a web page and wait until it is loaded completely.
+        browser.navigation().loadUrlAndWait("https://html5test.teamdev.com/");
+
+        // Print HTML of the loaded web page.
+        var response = new AtomicReference<String>();
+        browser.mainFrame().ifPresent(frame -> response.set(frame.html()));
+
+        // Shutdown Chromium and release allocated resources.
+        engine.close();
+        return response.get();
     }
 }
