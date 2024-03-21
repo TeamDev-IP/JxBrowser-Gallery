@@ -1,0 +1,11 @@
+{
+  "name": "charts",
+  "version": "1.0.0",
+  "description": "The server-side chart rendering application.",
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.1.4"
+  }
+}

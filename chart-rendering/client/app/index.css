@@ -1,0 +1,10 @@
+#container {
+    display: flex;
+    justify-content: center;
+}
+li {
+    background-color: tomato;
+    border-bottom: 1px solid #111;
+    list-style: none;
+    padding: 0.5rem 1rem;
+}
