@@ -18,30 +18,19 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import com.teamdev.jxbrowser.engine.Engine;
+package com.teamdev.jxbrowser.gallery.charts;
 
-import static com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN;
+import io.micronaut.http.MediaType;
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Produces;
 
-public final class Server {
+@Controller("/draw-charts")
+public class DrawChartsController {
 
-    private Server() {
-    }
-
-    @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    public static void main(String[] args) {
-        // Initialize Chromium.
-        var engine = Engine.newInstance(OFF_SCREEN);
-
-        // Create a Browser instance.
-        var browser = engine.newBrowser();
-
-        // Load a web page and wait until it is loaded completely.
-        browser.navigation().loadUrlAndWait("https://html5test.teamdev.com/");
-
-        // Print HTML of the loaded web page.
-        browser.mainFrame().ifPresent(frame -> System.out.println(frame.html()));
-
-        // Shutdown Chromium and release allocated resources.
-        engine.close();
+    @Get
+    @Produces(MediaType.TEXT_PLAIN)
+    public String index() {
+        return "OK";
     }
 }

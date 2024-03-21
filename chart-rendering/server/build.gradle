@@ -36,6 +36,7 @@ tasks.withType(JavaCompile).configureEach {
 
 micronaut {
     version "4.3.4"
+    runtime("netty")
 }
 
 repositories {
@@ -50,11 +51,12 @@ jxbrowser {
 dependencies {
     // Use the JxBrowser cross-platform binaries.
     implementation(jxbrowser.crossPlatform)
+    runtimeOnly("io.micronaut.serde:micronaut-serde-jackson")
 }
 
 application {
     // Define the main class for the server application.
-    mainClass.set('Server')
+    mainClass.set('com.teamdev.jxbrowser.gallery.charts.Application')
 }
 
 run {
