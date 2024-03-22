@@ -18,8 +18,8 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-export async function init() {
-    const container = document.querySelector('#container') || null;
-    container.innerHTML = "<h1>The Rendered Inner HTML</h1>";
+export function init() {
+    const container = document.getElementById('container') || null;
+    container.innerHTML = "The Rendered Inner HTML";
 }
 init();

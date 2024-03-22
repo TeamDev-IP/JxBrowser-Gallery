@@ -29,25 +29,31 @@ import io.micronaut.http.annotation.Produces;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN;
+import static java.util.Objects.requireNonNull;
 
-@Controller("/draw-charts")
-public class DrawChartsController {
+@Controller("/render")
+public class RenderController {
 
     @Get
     @Produces(MediaType.TEXT_HTML)
     public String index() {
+        var pageUrl = RenderController.class.getClassLoader()
+                                            .getResource("app/index.html");
+
         // Initialize Chromium.
         var engine = Engine.newInstance(OFF_SCREEN);
 
         // Create a Browser instance.
         var browser = engine.newBrowser();
 
-        // Load a web page and wait until it is loaded completely.
-        browser.navigation().loadUrlAndWait("https://html5test.teamdev.com/");
+        // Load the web page and wait until it is loaded completely.
+        browser.navigation()
+               .loadUrlAndWait(requireNonNull(pageUrl).toString());
 
         // Print HTML of the loaded web page.
         var response = new AtomicReference<String>();
-        browser.mainFrame().ifPresent(frame -> response.set(frame.html()));
+        browser.mainFrame()
+               .ifPresent(frame -> response.set(frame.html()));
 
         // Shutdown Chromium and release allocated resources.
         engine.close();
