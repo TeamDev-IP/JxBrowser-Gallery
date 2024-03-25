@@ -18,8 +18,68 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-export function init() {
-    const container = document.getElementById('container') || null;
-    container.innerHTML = "The Rendered Inner HTML";
+import Chart from 'chart.js/auto'
+
+(async function() {
+    const data = [
+        { year: 2010, count: 10 },
+        { year: 2011, count: 20 },
+        { year: 2012, count: 15 },
+        { year: 2013, count: 25 },
+        { year: 2014, count: 22 },
+        { year: 2015, count: 30 },
+        { year: 2016, count: 28 },
+    ];
+
+    new Chart(
+        document.getElementById('charts'),
+        {
+            type: 'bar',
+            data: {
+                labels: data.map(row => row.year),
+                datasets: [
+                    {
+                        label: 'Acquisitions by year',
+                        data: data.map(row => row.count)
+                    }
+                ]
+            }
+        }
+    );
+})();
+
+function readSingleFile(e) {
+    var file = e.target.files[0];
+    if (!file) {
+        return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var contents = e.target.result;
+        displayContents(contents);
+    };
+    reader.readAsText(file);
 }
-init();
+
+function displayContents(contents) {
+    var element = document.getElementById('file-content');
+    element.textContent = contents;
+}
+
+document.getElementById('file-input')
+    .addEventListener('change', readSingleFile, false);
+
+function readTextFile(file) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function () {
+        if(rawFile.readyState === 4)  {
+            if(rawFile.status === 200 || rawFile.status == 0) {
+                var allText = rawFile.responseText;
+                console.log(allText);
+            }
+        }
+    }
+    rawFile.send(null);
+}
+

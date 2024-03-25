@@ -5,7 +5,12 @@
   "scripts": {
     "build": "webpack"
   },
+  "dependencies": {
+    "@cubejs-client/core": "^0.31.0",
+    "chart.js": "^4.0.0"
+  },
   "devDependencies": {
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "parcel": "^2.6.2"
   }
 }

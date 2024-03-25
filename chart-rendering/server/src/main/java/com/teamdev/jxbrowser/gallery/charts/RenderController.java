@@ -38,7 +38,7 @@ public class RenderController {
     @Produces(MediaType.TEXT_HTML)
     public String index() {
         var pageUrl = RenderController.class.getClassLoader()
-                                            .getResource("app/index.html");
+                                            .getResource("app/widget-one.html");
 
         // Initialize Chromium.
         var engine = Engine.newInstance(OFF_SCREEN);
