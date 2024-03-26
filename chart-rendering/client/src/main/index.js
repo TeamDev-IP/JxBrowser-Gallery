@@ -82,4 +82,3 @@ function readTextFile(file) {
     }
     rawFile.send(null);
 }
-
