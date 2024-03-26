@@ -18,67 +18,101 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Chart from 'chart.js/auto'
+import Chart from 'chart.js/auto';
 
-(async function() {
-    const data = [
-        { year: 2010, count: 10 },
-        { year: 2011, count: 20 },
-        { year: 2012, count: 15 },
-        { year: 2013, count: 25 },
-        { year: 2014, count: 22 },
-        { year: 2015, count: 30 },
-        { year: 2016, count: 28 },
-    ];
+const data = `Portugal,PRT,1996,81.29369
+Portugal,PRT,1997,83.36548
+Portugal,PRT,1998,84.836
+Portugal,PRT,1999,90.897446
+Portugal,PRT,2000,86.92667
+Portugal,PRT,2001,84.353134
+Portugal,PRT,2002,90.251045
+Portugal,PRT,2003,82.943
+Portugal,PRT,2004,87.91043
+Portugal,PRT,2005,91.884384
+Portugal,PRT,2006,84.42744
+Portugal,PRT,2007,83.85632
+Portugal,PRT,2008,84.85321
+Portugal,PRT,2009,81.150635
+Portugal,PRT,2010,72.60679
+Portugal,PRT,2011,75.488716
+Portugal,PRT,2012,78.298454
+Portugal,PRT,2013,70.894264
+Portugal,PRT,2014,69.70747
+Portugal,PRT,2015,75.54063
+Portugal,PRT,2016,70.72357
+Portugal,PRT,2017,78.5582
+Portugal,PRT,2018,73.121956
+Portugal,PRT,2019,73.62269
+Portugal,PRT,2020,68.29146
+Portugal,PRT,2021,66.67629
+Portugal,PRT,2022,71.03251`;
 
+function CSVToArray(strData, strDelimiter) {
+    strDelimiter = (strDelimiter || ',');
+    var objPattern = new RegExp(
+        (
+            '(\\' + strDelimiter + '|\\r?\\n|\\r|^)' +
+            '(?:"([^"]*(?:""[^"]*)*)"|' +
+            '([^"\\' + strDelimiter + '\\r\\n]*))'
+        ),
+        'gi',
+    );
+    var arrData = [[]];
+    var arrMatches = null;
+    while (arrMatches = objPattern.exec(strData)) {
+        var strMatchedDelimiter = arrMatches[1];
+        if (
+            strMatchedDelimiter.length &&
+            strMatchedDelimiter !== strDelimiter
+        ) {
+            arrData.push([]);
+        }
+        var strMatchedValue;
+        if (arrMatches[2]) {
+            strMatchedValue = arrMatches[2].replace(
+                new RegExp('""', 'g'),
+                '"',
+            );
+        } else {
+            strMatchedValue = arrMatches[3];
+        }
+        arrData[arrData.length - 1].push(strMatchedValue);
+    }
+    return (arrData);
+}
+
+const parsedData = CSVToArray(data);
+console.log(parsedData);
+
+(async function () {
     new Chart(
         document.getElementById('charts'),
         {
-            type: 'bar',
+            type: 'line',
             data: {
-                labels: data.map(row => row.year),
+                labels: parsedData.map(row => row[2]),
                 datasets: [
                     {
-                        label: 'Acquisitions by year',
-                        data: data.map(row => row.count)
-                    }
-                ]
-            }
-        }
+                        label: 'Portugal: share of primary energy consumption from fossil fuels',
+                        data: parsedData.map(row => row[3]),
+                    },
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20,
+                            callback: function (value) {
+                                return value + '%';
+                            },
+                        },
+                    },
+                },
+            },
+        },
     );
 })();
-
-function readSingleFile(e) {
-    var file = e.target.files[0];
-    if (!file) {
-        return;
-    }
-    var reader = new FileReader();
-    reader.onload = function(e) {
-        var contents = e.target.result;
-        displayContents(contents);
-    };
-    reader.readAsText(file);
-}
-
-function displayContents(contents) {
-    var element = document.getElementById('file-content');
-    element.textContent = contents;
-}
-
-document.getElementById('file-input')
-    .addEventListener('change', readSingleFile, false);
-
-function readTextFile(file) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function () {
-        if(rawFile.readyState === 4)  {
-            if(rawFile.status === 200 || rawFile.status == 0) {
-                var allText = rawFile.responseText;
-                console.log(allText);
-            }
-        }
-    }
-    rawFile.send(null);
-}

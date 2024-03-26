@@ -10,7 +10,7 @@
     "chart.js": "^4.0.0"
   },
   "devDependencies": {
-    "webpack-cli": "^5.1.4",
-    "parcel": "^2.6.2"
+    "parcel": "^2.6.2",
+    "webpack-cli": "^5.1.4"
   }
 }
