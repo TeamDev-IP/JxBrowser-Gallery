@@ -21,11 +21,16 @@
 package com.teamdev.jxbrowser.gallery.charts;
 
 import com.teamdev.jxbrowser.engine.Engine;
+import com.teamdev.jxbrowser.navigation.event.FrameLoadFinished;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Produces;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN;
@@ -36,7 +41,11 @@ public class RenderController {
 
     @Get
     @Produces(MediaType.TEXT_HTML)
-    public String index() {
+    public String index() throws URISyntaxException, IOException {
+        var dataFilePath = requireNonNull(RenderController.class.getClassLoader()
+                                                                .getResource("data.csv"));
+        var data = new String(Files.readAllBytes(Path.of(dataFilePath.toURI())));
+
         var pageUrl = RenderController.class.getClassLoader()
                                             .getResource("app/widget-one.html");
 
@@ -47,16 +56,22 @@ public class RenderController {
         var browser = engine.newBrowser();
 
         // Load the web page and wait until it is loaded completely.
-        browser.navigation()
-               .loadUrlAndWait(requireNonNull(pageUrl).toString());
-
-        // Print HTML of the loaded web page.
+        var navigation = browser.navigation();
         var response = new AtomicReference<String>();
-        browser.mainFrame()
-               .ifPresent(frame -> response.set(frame.html()));
+        navigation.on(FrameLoadFinished.class, event -> {
+            browser.mainFrame()
+                   .ifPresent(frame -> {
+                                  var javaScript = "const data = `%s`;drawFossilFuelsConsumptionChart(data);"
+                                          .formatted(data);
+                                  frame.executeJavaScript(javaScript);
+                                  response.set(frame.html());
+                                  engine.close();
+                              }
+                   );
+        });
+        navigation.loadUrlAndWait(requireNonNull(pageUrl).toString());
 
         // Shutdown Chromium and release allocated resources.
-        engine.close();
         return response.get();
     }
 }
