@@ -55,8 +55,6 @@ function CSVToArray(strData, strDelimiter) {
 }
 
 function drawFossilFuelsConsumptionChart(csvData) {
-    console.log("Drawing chart");
-    console.log(csvData);
     const parsedData = CSVToArray(csvData);
     new Chart(
         document.getElementById('charts'),
@@ -72,6 +70,7 @@ function drawFossilFuelsConsumptionChart(csvData) {
                 ],
             },
             options: {
+                animation: false,
                 scales: {
                     y: {
                         min: 0,

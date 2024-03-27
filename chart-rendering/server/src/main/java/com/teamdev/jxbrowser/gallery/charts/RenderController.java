@@ -21,12 +21,14 @@
 package com.teamdev.jxbrowser.gallery.charts;
 
 import com.teamdev.jxbrowser.engine.Engine;
-import com.teamdev.jxbrowser.navigation.event.FrameLoadFinished;
+import com.teamdev.jxbrowser.view.swing.graphics.BitmapImage;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Produces;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -40,8 +42,8 @@ import static java.util.Objects.requireNonNull;
 public class RenderController {
 
     @Get
-    @Produces(MediaType.TEXT_HTML)
-    public String index() throws URISyntaxException, IOException {
+    @Produces(MediaType.IMAGE_PNG)
+    public byte[] index() throws URISyntaxException, IOException {
         var dataFilePath = requireNonNull(RenderController.class.getClassLoader()
                                                                 .getResource("data.csv"));
         var data = new String(Files.readAllBytes(Path.of(dataFilePath.toURI())));
@@ -56,20 +58,26 @@ public class RenderController {
         var browser = engine.newBrowser();
 
         // Load the web page and wait until it is loaded completely.
-        var navigation = browser.navigation();
-        var response = new AtomicReference<String>();
-        navigation.on(FrameLoadFinished.class, event -> {
-            browser.mainFrame()
-                   .ifPresent(frame -> {
-                                  var javaScript = "const data = `%s`;drawFossilFuelsConsumptionChart(data);"
-                                          .formatted(data);
-                                  frame.executeJavaScript(javaScript);
-                                  response.set(frame.html());
-                                  engine.close();
+        browser.navigation()
+               .loadUrlAndWait(requireNonNull(pageUrl).toString());
+
+        var response = new AtomicReference<byte[]>();
+        browser.mainFrame()
+               .ifPresent(frame -> {
+                              var bitmap = browser.bitmap();
+                              var image = BitmapImage.toToolkit(bitmap);
+                              var baos = new ByteArrayOutputStream();
+                              try {
+                                  ImageIO.write(image, "png", baos);
+                                  byte[] bytes = baos.toByteArray();
+                                  response.set(bytes);
+                              } catch (IOException e) {
+                                  throw new RuntimeException(e);
                               }
-                   );
-        });
-        navigation.loadUrlAndWait(requireNonNull(pageUrl).toString());
+                          }
+               );
+
+        engine.close();
 
         // Shutdown Chromium and release allocated resources.
         return response.get();
