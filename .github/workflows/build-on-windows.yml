@@ -27,6 +27,6 @@ jobs:
       - name: Configure Pagefile
         uses: al-cheb/configure-pagefile-action@v1.3
 
-      - name: Build project and run tests
+      - name: Build the project
         shell: cmd
         run: gradlew.bat build --stacktrace

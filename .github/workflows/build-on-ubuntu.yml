@@ -26,7 +26,7 @@ jobs:
 
       # JxBrowser can't be used in headless Linux environment without X server.
       # https://jxbrowser-support.teamdev.com/docs//guides/introduction/x-server-in-headless-linux.html
-      - name: Build project and run tests
+      - name: Build the project
         shell: bash
         run: |
           sudo apt install xvfb
