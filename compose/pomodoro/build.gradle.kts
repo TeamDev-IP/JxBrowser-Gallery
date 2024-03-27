@@ -18,6 +18,6 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "jxbrowser-gallery"
-
-include("compose:pomodoro")
+plugins {
+    kotlin("jvm") version "1.9.23"
+}

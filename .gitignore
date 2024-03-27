@@ -44,3 +44,10 @@ build
 .idea/modules
 *.iml
 *.ipr
+
+# Ignore Node.js dependencies and built output.
+node_modules
+dist
+
+# Ignore generated WebGL resources for `:compose:pomodoro`.
+compose/pomodoro/src/main/resources/webgl
