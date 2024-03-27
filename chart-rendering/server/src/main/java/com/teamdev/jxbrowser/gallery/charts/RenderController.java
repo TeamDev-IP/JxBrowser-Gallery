@@ -21,6 +21,7 @@
 package com.teamdev.jxbrowser.gallery.charts;
 
 import com.teamdev.jxbrowser.engine.Engine;
+import com.teamdev.jxbrowser.js.JsFunction;
 import com.teamdev.jxbrowser.view.swing.graphics.BitmapImage;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
@@ -64,12 +65,17 @@ public class RenderController {
         var response = new AtomicReference<byte[]>();
         browser.mainFrame()
                .ifPresent(frame -> {
+                              var function = (JsFunction) frame.executeJavaScript(
+                                      "window.drawFossilFuelsConsumptionChart"
+                              );
+                              var input = "`%s`".formatted(data);
+                              requireNonNull(function).invoke(null, input);
                               var bitmap = browser.bitmap();
                               var image = BitmapImage.toToolkit(bitmap);
-                              var baos = new ByteArrayOutputStream();
+                              var stream = new ByteArrayOutputStream();
                               try {
-                                  ImageIO.write(image, "png", baos);
-                                  byte[] bytes = baos.toByteArray();
+                                  ImageIO.write(image, "png", stream);
+                                  var bytes = stream.toByteArray();
                                   response.set(bytes);
                               } catch (IOException e) {
                                   throw new RuntimeException(e);

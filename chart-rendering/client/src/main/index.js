@@ -87,3 +87,5 @@ function drawFossilFuelsConsumptionChart(csvData) {
         },
     );
 }
+
+window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;
