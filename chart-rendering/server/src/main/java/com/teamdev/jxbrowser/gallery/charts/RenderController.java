@@ -21,7 +21,6 @@
 package com.teamdev.jxbrowser.gallery.charts;
 
 import com.teamdev.jxbrowser.engine.Engine;
-import com.teamdev.jxbrowser.js.JsFunction;
 import com.teamdev.jxbrowser.view.swing.graphics.BitmapImage;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
@@ -49,6 +48,10 @@ public class RenderController {
                                                                 .getResource("data.csv"));
         var data = new String(Files.readAllBytes(Path.of(dataFilePath.toURI())));
 
+        var jsPath = requireNonNull(RenderController.class.getClassLoader()
+                                                          .getResource("app/widget-one.js"));
+        var js = new String(Files.readAllBytes(Path.of(jsPath.toURI())));
+
         var pageUrl = RenderController.class.getClassLoader()
                                             .getResource("app/widget-one.html");
 
@@ -65,11 +68,8 @@ public class RenderController {
         var response = new AtomicReference<byte[]>();
         browser.mainFrame()
                .ifPresent(frame -> {
-                              var function = (JsFunction) frame.executeJavaScript(
-                                      "window.drawFossilFuelsConsumptionChart"
-                              );
-                              var input = "`%s`".formatted(data);
-                              requireNonNull(function).invoke(null, input);
+                              frame.executeJavaScript("const data = `%s`;".formatted(data));
+                              frame.executeJavaScript(js);
                               var bitmap = browser.bitmap();
                               var image = BitmapImage.toToolkit(bitmap);
                               var stream = new ByteArrayOutputStream();
