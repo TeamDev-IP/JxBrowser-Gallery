@@ -59,10 +59,10 @@ public class RenderController {
                                           .getResource("canvas.html");
 
         // Preload the chart drawing JavaScript.
-        chartDrawingJs = fileContentAsString("charts.js");
+        chartDrawingJs = resourceContentAsString("charts.js");
 
         // Preload data sets.
-        fossilFuelsConsumptionData = fileContentAsString("fossil-fuels-consumption.csv");
+        fossilFuelsConsumptionData = resourceContentAsString("fossil-fuels-consumption.csv");
     }
 
     @Get("/fossil-fuels-consumption")
@@ -88,7 +88,7 @@ public class RenderController {
         return HttpResponse.ok();
     }
 
-    private static String fileContentAsString(String fileName) {
+    private static String resourceContentAsString(String fileName) {
         try {
             var classLoader = RenderController.class.getClassLoader();
             var dataFilePath = classLoader.getResource(fileName);
