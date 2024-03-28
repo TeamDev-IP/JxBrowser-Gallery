@@ -4,12 +4,8 @@
  *  Use is subject to license terms.
  */
 
-import dependency.JUnit
 import dependency.Java
 import dependency.JxBrowser
-import dependency.Kotest
-import gradle.task.logSummaryReport
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
@@ -24,33 +20,9 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation(Kotest.assertions)
-    with(JUnit) {
-        testImplementation(lib)
-        testRuntimeOnly(launcher)
-    }
-}
-
 kotlin {
     jvmToolchain {
         languageVersion = Java.version
         vendor = Java.vendor
-    }
-}
-
-tasks {
-    withType<Test>().configureEach {
-        useJUnitPlatform {
-            includeEngines("junit-jupiter")
-        }
-        testLogging {
-            showStandardStreams = true
-            showExceptions = true
-            exceptionFormat = TestExceptionFormat.FULL
-            showStackTraces = true
-            showCauses = true
-        }
-        logSummaryReport()
     }
 }

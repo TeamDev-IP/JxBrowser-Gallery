@@ -27,7 +27,6 @@ dependencies {
     implementation(GradlePlugins.jxbrowser)
     implementation(GradlePlugins.compose)
     implementation(GradlePlugins.taskTree)
-    implementation(GradlePlugins.dokka)
 }
 
 /**
@@ -61,7 +60,4 @@ object GradlePlugins {
 
     private const val taskTreeVersion = "2.1.1" // `TaskTree.version`.
     const val taskTree = "com.dorongold.plugins:task-tree:$taskTreeVersion"
-
-    private const val dokkaVersion = "1.9.20" // `Dokka.version`.
-    const val dokka = "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
 }
