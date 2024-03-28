@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 import static java.util.Objects.requireNonNull;
 
-@Controller("/render")
+@Controller
 public class RenderController {
 
     private final Browser browser;
@@ -51,7 +51,7 @@ public class RenderController {
         browser = engine.newBrowser();
     }
 
-    @Get
+    @Get("/render")
     @Produces(MediaType.IMAGE_PNG)
     public byte[] index() throws URISyntaxException, IOException {
         var dataFilePath = requireNonNull(RenderController.class.getClassLoader()
@@ -59,11 +59,11 @@ public class RenderController {
         var data = new String(Files.readAllBytes(Path.of(dataFilePath.toURI())));
 
         var jsPath = requireNonNull(RenderController.class.getClassLoader()
-                                                          .getResource("app/widget-one.js"));
+                                                          .getResource("app/bundle.js"));
         var js = new String(Files.readAllBytes(Path.of(jsPath.toURI())));
 
         var pageUrl = RenderController.class.getClassLoader()
-                                            .getResource("app/widget-one.html");
+                                            .getResource("app/canvas.html");
 
         // Load the web page and wait until it is loaded completely.
         browser.navigation()
@@ -72,7 +72,9 @@ public class RenderController {
         var response = new AtomicReference<byte[]>();
         browser.mainFrame()
                .ifPresent(frame -> {
-                   var javaScript = "const data = `%s`;".formatted(data) + js;
+                   var javaScript =
+                           "const data = `%s`;".formatted(data) + js + ";\n" +
+                                   "window.drawFossilFuelsConsumptionChart(data);";
                    frame.executeJavaScript(javaScript);
                               var bitmap = browser.bitmap();
                               var image = BitmapImage.toToolkit(bitmap);
