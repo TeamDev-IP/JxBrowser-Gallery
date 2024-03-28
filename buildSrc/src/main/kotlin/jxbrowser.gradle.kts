@@ -18,13 +18,15 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import gradle.dsl
+
 plugins {
     id("jvm-module")
     id("com.teamdev.jxbrowser")
 }
 
 jxbrowser {
-    version = "${libs.findVersion("jxbrowser").get()}"
+    version = libs.versions["jxbrowser"]
     includePreviewBuilds()
 }
 
@@ -32,5 +34,7 @@ dependencies {
     implementation(jxbrowser.currentPlatform)
 }
 
-private val Project.libs: VersionCatalog
-    get() = versionCatalogs.named("libs")
+// `versionCatalogs` is a generated property, so this extension
+// can't be moved to `main` sources.
+private val Project.libs
+    get() = versionCatalogs.named("libs").dsl()

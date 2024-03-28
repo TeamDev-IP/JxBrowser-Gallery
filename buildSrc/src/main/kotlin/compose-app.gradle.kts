@@ -18,6 +18,7 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import gradle.dsl
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -47,21 +48,23 @@ compose.desktop {
 }
 
 /**
- * Returns version of JxBrowser.
+ * Returns the version of JxBrowser.
  *
  * This method removes `-eap` prefix from the returned version, if any.
- * For example, if this string is `8.0.0-eap.7-test`, then the method
- * would return just `8.0.0`.
+ * For example, if the currently used version is `8.0.0-eap.7-test`,
+ * then the method would return just `8.0.0`.
  *
- * This is needed because `Dmg` version descriptor should match
+ * This is needed because Dmg version descriptor should match
  * the following format: `MAJOR[.MINOR][.PATCH]`.
  */
 private fun Project.jxBrowserVersion(): String {
     val pattern = "(.*?)-eap".toRegex()
-    val version = libs.findVersion("jxbrowser").get().toString()
+    val version = libs.versions["jxbrowser"]
     val matchResult = pattern.find(version)
     return matchResult?.groups?.get(1)?.value ?: version
 }
 
-private val Project.libs: VersionCatalog
-    get() = versionCatalogs.named("libs")
+// `versionCatalogs` is a generated property, so this extension
+// can't be moved to `main` sources.
+private val Project.libs
+    get() = versionCatalogs.named("libs").dsl()

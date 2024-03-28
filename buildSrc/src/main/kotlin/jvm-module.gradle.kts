@@ -18,13 +18,15 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import gradle.dsl
+
 plugins {
     id("org.jetbrains.kotlin.jvm")
     id("detekt-code-analysis")
     id("com.dorongold.task-tree")
 }
 
-version = "${libs.findVersion("jxbrowser").get()}"
+version = libs.versions["jxbrowser"]
 group = "com.teamdev.jxbrowser"
 
 repositories {
@@ -32,13 +34,13 @@ repositories {
 }
 
 kotlin {
-    val javaVersion = "${libs.findVersion("java").get()}"
-    val javaVendor = "${libs.findVersion("javaVendor").get()}"
     jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(javaVersion)
-        vendor = JvmVendorSpec.matching(javaVendor)
+        languageVersion = JavaLanguageVersion.of(libs.versions["java"])
+        vendor = JvmVendorSpec.matching(libs.versions["javaVendor"])
     }
 }
 
-private val Project.libs: VersionCatalog
-    get() = versionCatalogs.named("libs")
+// `versionCatalogs` is a generated property, so this extension
+// can't be moved to `main` sources.
+private val Project.libs
+    get() = versionCatalogs.named("libs").dsl()
