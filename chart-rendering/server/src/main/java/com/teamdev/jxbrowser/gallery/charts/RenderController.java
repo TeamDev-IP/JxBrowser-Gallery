@@ -94,8 +94,7 @@ public class RenderController {
             var dataFilePath = classLoader.getResource(fileName);
             var uri = requireNonNull(dataFilePath).toURI();
             var path = Path.of(uri);
-            var bytes = Files.readAllBytes(path);
-            var result = new String(bytes);
+            var result = Files.readString(path);
             return result;
         } catch (IOException | URISyntaxException e) {
             throw new IllegalStateException("Unable to preload data.", e);
