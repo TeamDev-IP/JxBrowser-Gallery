@@ -15,7 +15,7 @@ package com.teamdev.jxbrowser.license.internal
  * Please note, this provider is for internal usage within
  * the repository modules. Some tests and example modules need a license.
  */
-public object LicenseProvider {
+object LicenseProvider {
 
     /**
      * Path to a file in resources containing a license key for JxBrowser.
@@ -27,7 +27,7 @@ public object LicenseProvider {
     /**
      * JxBrowser license key.
      */
-    public val key: String by lazy { readLicenseFromResources() }
+    val key: String by lazy { readLicenseFromResources() }
 
     private fun readLicenseFromResources(): String {
         val file = javaClass.getResource(LICENSE_FILE)

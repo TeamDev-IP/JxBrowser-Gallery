@@ -18,8 +18,8 @@ repositories {
 
 dependencies {
     implementation(jxbrowser.compose)
-    implementation(":jxbrowser-license")
     implementation(compose.desktop.currentOs)
+    implementation(project(":jxbrowser-license"))
 }
 
 compose.desktop {

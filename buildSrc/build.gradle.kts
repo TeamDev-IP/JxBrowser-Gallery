@@ -20,7 +20,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(":jxbrowser-license")
     implementation(libs.kotlin.gradlePlugin)
     implementation(libs.detekt.gradlePlugin)
     implementation(libs.jxbrowser.gradlePlugin)

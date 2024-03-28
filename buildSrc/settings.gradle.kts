@@ -6,8 +6,6 @@
 
 rootProject.name = "buildSrc"
 
-includeBuild("../jxbrowser-license")
-
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {

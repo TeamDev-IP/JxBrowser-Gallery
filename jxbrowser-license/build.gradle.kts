@@ -5,17 +5,5 @@
  */
 
 plugins {
-    alias(libs.plugins.kotlinJvm)
-}
-
-repositories {
-    mavenCentral()
-}
-
-kotlin {
-    explicitApi()
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.javaVendor.get())
-    }
+    `jvm-module`
 }
