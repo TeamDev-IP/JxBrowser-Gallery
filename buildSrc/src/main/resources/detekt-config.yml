@@ -1,0 +1,37 @@
+naming:
+  ClassNaming:
+    excludes: &testFiles # Allows ticks-named nested test and spec suites.
+      - "**/*Test.kt"
+      - "**/*Spec.kt"
+  MatchingDeclarationName:
+    excludes: *testFiles # Allows ticks-named top-level test and spec suites.
+  FunctionNaming:
+    ignoreAnnotated: ['Composable']
+
+style:
+  UnusedPrivateMember:
+    allowedNames: '(_|ignored|expected|serialVersionUID|about|ABOUT)'
+  MagicNumber:
+    ignoreNumbers:
+      - '-1'
+      - '0'
+      - '1'
+      - '2'
+      - '3'
+  MaxLineLength:
+    maxLineLength: 100
+    excludeCommentStatements: true
+  ForbiddenComment:
+    allowedPatterns: 'TODO:'
+  WildcardImport:
+    excludeImports: ['java.util.*', 'java.awt.event.KeyEvent.*', 'com.teamdev.jxbrowser.ui.KeyCode.*']
+
+complexity:
+  TooManyFunctions:
+    excludes:
+      - '**/*Exts.kt'
+      - '**/*Extensions.kt'
+      - '**/*Test.kt'
+      - '**/*Spec.kt'
+  LongMethod:
+    excludes: *testFiles # Allows long names for test and spec methods.
