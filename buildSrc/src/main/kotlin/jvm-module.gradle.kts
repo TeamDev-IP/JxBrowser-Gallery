@@ -4,16 +4,13 @@
  *  Use is subject to license terms.
  */
 
-import dependency.Java
-import dependency.JxBrowser
-
 plugins {
     id("org.jetbrains.kotlin.jvm")
     id("detekt-code-analysis")
     id("com.dorongold.task-tree")
 }
 
-version = JxBrowser.version
+version = "${libs.findVersion("jxbrowser").get()}"
 group = "com.teamdev.jxbrowser"
 
 repositories {
@@ -21,8 +18,13 @@ repositories {
 }
 
 kotlin {
+    val javaVersion = "${libs.findVersion("java").get()}"
+    val javaVendor = "${libs.findVersion("javaVendor").get()}"
     jvmToolchain {
-        languageVersion = Java.version
-        vendor = Java.vendor
+        languageVersion = JavaLanguageVersion.of(javaVersion)
+        vendor = JvmVendorSpec.matching(javaVendor)
     }
 }
+
+private val Project.libs: VersionCatalog
+    get() = versionCatalogs.named("libs")

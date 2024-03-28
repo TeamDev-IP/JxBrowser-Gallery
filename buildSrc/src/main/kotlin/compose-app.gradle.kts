@@ -4,7 +4,6 @@
  *  Use is subject to license terms.
  */
 
-import dependency.JxBrowser
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -28,22 +27,27 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = project.name
-            packageVersion = JxBrowser.version.toValidVersion()
+            packageVersion = jxBrowserVersion()
         }
     }
 }
 
 /**
- * Removes `-eap` prefix from this version string, if any.
+ * Returns version of JxBrowser.
  *
- * For example, if this string is `8.0.0-eap.7-test`,
- * then the method would return just `8.0.0`.
+ * This method removes `-eap` prefix from the returned version, if any.
+ * For example, if this string is `8.0.0-eap.7-test`, then the method
+ * would return just `8.0.0`.
  *
  * This is needed because `Dmg` version descriptor should match
  * the following format: `MAJOR[.MINOR][.PATCH]`.
  */
-private fun String.toValidVersion(): String {
+private fun Project.jxBrowserVersion(): String {
     val pattern = "(.*?)-eap".toRegex()
-    val matchResult = pattern.find(this)
-    return matchResult?.groups?.get(1)?.value ?: this
+    val version = libs.findVersion("jxbrowser").get().toString()
+    val matchResult = pattern.find(version)
+    return matchResult?.groups?.get(1)?.value ?: version
 }
+
+private val Project.libs: VersionCatalog
+    get() = versionCatalogs.named("libs")

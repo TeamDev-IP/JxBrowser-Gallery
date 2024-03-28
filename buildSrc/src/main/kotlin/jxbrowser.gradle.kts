@@ -4,18 +4,19 @@
  *  Use is subject to license terms.
  */
 
-import dependency.JxBrowser
-
 plugins {
     id("jvm-module")
     id("com.teamdev.jxbrowser")
 }
 
 jxbrowser {
-    version = JxBrowser.version
+    version = "${libs.findVersion("jxbrowser").get()}"
     includePreviewBuilds()
 }
 
 dependencies {
     implementation(jxbrowser.currentPlatform)
 }
+
+private val Project.libs: VersionCatalog
+    get() = versionCatalogs.named("libs")

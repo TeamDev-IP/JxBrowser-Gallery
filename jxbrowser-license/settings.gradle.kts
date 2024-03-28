@@ -4,13 +4,12 @@
  *  Use is subject to license terms.
  */
 
-/**
- * Provides a repository for downloading JVMs.
- *
- * This plugin is needed for the Gradle toolchain management.
- */
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
-}
-
 rootProject.name = "jxbrowser-license"
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
+}
