@@ -24,15 +24,14 @@ import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.view.swing.graphics.BitmapImage;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Produces;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -44,30 +43,33 @@ public class RenderController {
 
     private final Browser browser;
 
+    private final URL canvasUrl;
+    private final String chartDrawingJs;
+    private final String fossilFuelsConsumptionData;
+
     RenderController() {
         // Initialize Chromium.
         var engine = Engine.newInstance(HARDWARE_ACCELERATED);
+
         // Create a Browser instance.
         browser = engine.newBrowser();
+
+        // Set the HTML canvas URL.
+        canvasUrl = RenderController.class.getClassLoader()
+                                          .getResource("app/canvas.html");
+
+        // Preload the chart drawing JavaScript.
+        chartDrawingJs = fileContentAsString("app/charts.js");
+
+        // Preload data sets.
+        fossilFuelsConsumptionData = fileContentAsString("fossil-fuels-consumption.csv");
     }
 
     @Get("/fossil-fuels-consumption")
-    @Produces(MediaType.TEXT_PLAIN)
-    public HttpResponse<?> index() throws URISyntaxException, IOException {
-        var dataFilePath = requireNonNull(RenderController.class.getClassLoader()
-                                                                .getResource("fossil-fuels-consumption.csv"));
-        var data = new String(Files.readAllBytes(Path.of(dataFilePath.toURI())));
-
-        var jsPath = requireNonNull(RenderController.class.getClassLoader()
-                                                          .getResource("app/charts.js"));
-        var js = new String(Files.readAllBytes(Path.of(jsPath.toURI())));
-
-        var pageUrl = RenderController.class.getClassLoader()
-                                            .getResource("app/canvas.html");
-
+    public HttpResponse<?> index() throws IOException {
         // Load the web page and wait until it is loaded completely.
         browser.navigation()
-               .loadUrlAndWait(requireNonNull(pageUrl).toString());
+               .loadUrlAndWait(canvasUrl.toString());
 
         var mainFrame = browser.mainFrame();
         if (mainFrame.isEmpty()) {
@@ -75,8 +77,8 @@ public class RenderController {
         }
         var frame = mainFrame.get();
         var javaScript =
-                "const data = `%s`;".formatted(data)
-                        + js
+                "const data = `%s`;".formatted(fossilFuelsConsumptionData)
+                        + chartDrawingJs
                         + "window.drawFossilFuelsConsumptionChart('chart', data);";
         frame.executeJavaScript(javaScript);
         var bitmap = browser.bitmap();
@@ -84,5 +86,19 @@ public class RenderController {
         ImageIO.write(image, "png", new File("fossil-fuels-consumption.png"));
 
         return HttpResponse.ok();
+    }
+
+    private static String fileContentAsString(String fileName) {
+        try {
+            var classLoader = RenderController.class.getClassLoader();
+            var dataFilePath = classLoader.getResource(fileName);
+            var uri = requireNonNull(dataFilePath).toURI();
+            var path = Path.of(uri);
+            var bytes = Files.readAllBytes(path);
+            var result = new String(bytes);
+            return result;
+        } catch (IOException | URISyntaxException e) {
+            throw new IllegalStateException("Unable to preload data.", e);
+        }
     }
 }
