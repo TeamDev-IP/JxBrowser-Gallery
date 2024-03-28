@@ -43,6 +43,7 @@ object LicenseProvider {
      */
     val key: String by lazy { readLicenseFromResources() }
 
+    @Suppress("MaxLineLength") // Contains a file path.
     private fun readLicenseFromResources(): String {
         val file = javaClass.getResource(LICENSE_FILE)
                 ?: error("JxBrowser license key was not found in the app's resources. " +
