@@ -4,6 +4,7 @@
  *  Use is subject to license terms.
  */
 
+import dependency.JxBrowser
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -24,11 +25,25 @@ dependencies {
 
 compose.desktop {
     application {
-        // TODO:2024-03-28:yevhenii.nadtochii: Can't use JxBrowser EAP version here.
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = project.name
-            packageVersion = "8.0.0"
+            packageVersion = JxBrowser.version.toValidVersion()
         }
     }
+}
+
+/**
+ * Removes `-eap` prefix from this version string, if any.
+ *
+ * For example, if this string is `8.0.0-eap.7-test`,
+ * then the method would return just `8.0.0`.
+ *
+ * This is needed because `Dmg` version descriptor should match
+ * the following format: `MAJOR[.MINOR][.PATCH]`.
+ */
+private fun String.toValidVersion(): String {
+    val pattern = "(.*?)-eap".toRegex()
+    val matchResult = pattern.find(this)
+    return matchResult?.groups?.get(1)?.value ?: this
 }
