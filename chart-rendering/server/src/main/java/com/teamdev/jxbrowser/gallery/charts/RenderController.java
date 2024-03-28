@@ -56,10 +56,10 @@ public class RenderController {
 
         // Set the HTML canvas URL.
         canvasUrl = RenderController.class.getClassLoader()
-                                          .getResource("app/canvas.html");
+                                          .getResource("canvas.html");
 
         // Preload the chart drawing JavaScript.
-        chartDrawingJs = fileContentAsString("app/charts.js");
+        chartDrawingJs = fileContentAsString("charts.js");
 
         // Preload data sets.
         fossilFuelsConsumptionData = fileContentAsString("fossil-fuels-consumption.csv");
