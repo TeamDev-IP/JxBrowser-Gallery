@@ -14,12 +14,11 @@ plugins {
 
 repositories {
     google()
-    jetBrainsDev()
 }
 
 dependencies {
-    implementation(":jxbrowser-license")
     implementation(jxbrowser.compose)
+    implementation(":jxbrowser-license")
     implementation(compose.desktop.currentOs)
 }
 
@@ -33,15 +32,3 @@ compose.desktop {
         }
     }
 }
-
-/**
- * Registers JetBrains repository that contains `-dev` artifacts.
- *
- * Such artifacts are not stable and thus published to a separate repository.
- * In general, their usage is discouraged.
- *
- * Sometimes, we need them to try a newer version of Compose until
- * it is officially released. For example, to check out a new feature,
- * or verify a delivered bug fix.
- */
-fun RepositoryHandler.jetBrainsDev() = maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
