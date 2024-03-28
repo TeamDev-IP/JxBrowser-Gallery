@@ -20,7 +20,7 @@
 
 import Chart from 'chart.js/auto';
 
-function CSVToArray(strData, strDelimiter) {
+function csvToArray(strData, strDelimiter) {
     strDelimiter = (strDelimiter || ',');
     var objPattern = new RegExp(
         (
@@ -54,17 +54,17 @@ function CSVToArray(strData, strDelimiter) {
     return (arrData);
 }
 
-function drawFossilFuelsConsumptionChart(csvData) {
-    const parsedData = CSVToArray(csvData);
+window.drawFossilFuelsConsumptionChart = (canvas, csvData) => {
+    const parsedData = csvToArray(csvData);
     new Chart(
-        document.getElementById('chart'),
+        document.getElementById(canvas),
         {
             type: 'line',
             data: {
                 labels: parsedData.map(row => row[2]),
                 datasets: [
                     {
-                        label: 'Portugal: share of primary energy consumption from fossil fuels',
+                        label: 'Portugal: share of primary energy consumption from fossil fuels.',
                         data: parsedData.map(row => row[3]),
                     },
                 ],
@@ -87,5 +87,3 @@ function drawFossilFuelsConsumptionChart(csvData) {
         },
     );
 }
-
-window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;
