@@ -20,6 +20,7 @@
 
 package com.teamdev.jxbrowser.gallery.charts;
 
+import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.view.swing.graphics.BitmapImage;
 import io.micronaut.http.MediaType;
@@ -35,11 +36,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN;
+import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 import static java.util.Objects.requireNonNull;
 
 @Controller("/render")
 public class RenderController {
+
+    private final Browser browser;
+
+    RenderController() {
+        // Initialize Chromium.
+        var engine = Engine.newInstance(HARDWARE_ACCELERATED);
+        // Create a Browser instance.
+        browser = engine.newBrowser();
+    }
 
     @Get
     @Produces(MediaType.IMAGE_PNG)
@@ -55,12 +65,6 @@ public class RenderController {
         var pageUrl = RenderController.class.getClassLoader()
                                             .getResource("app/widget-one.html");
 
-        // Initialize Chromium.
-        var engine = Engine.newInstance(OFF_SCREEN);
-
-        // Create a Browser instance.
-        var browser = engine.newBrowser();
-
         // Load the web page and wait until it is loaded completely.
         browser.navigation()
                .loadUrlAndWait(requireNonNull(pageUrl).toString());
@@ -68,8 +72,8 @@ public class RenderController {
         var response = new AtomicReference<byte[]>();
         browser.mainFrame()
                .ifPresent(frame -> {
-                              frame.executeJavaScript("const data = `%s`;".formatted(data));
-                              frame.executeJavaScript(js);
+                   var javaScript = "const data = `%s`;".formatted(data) + js;
+                   frame.executeJavaScript(javaScript);
                               var bitmap = browser.bitmap();
                               var image = BitmapImage.toToolkit(bitmap);
                               var stream = new ByteArrayOutputStream();
@@ -82,8 +86,6 @@ public class RenderController {
                               }
                           }
                );
-
-        engine.close();
 
         // Shutdown Chromium and release allocated resources.
         return response.get();
