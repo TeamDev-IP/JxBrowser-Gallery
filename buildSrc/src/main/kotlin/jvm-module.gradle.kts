@@ -9,7 +9,6 @@ import dependency.Java
 import dependency.JxBrowser
 import dependency.Kotest
 import gradle.task.logSummaryReport
-import gradle.versionFromCli
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
@@ -18,13 +17,7 @@ plugins {
     id("com.dorongold.task-tree")
 }
 
-/**
- * The version can be passed to the build as a CLI argument.
- *
- * We need this functionality because the version of the deployed
- * artifacts comes from CI/CD.
- */
-version = versionFromCli() ?: JxBrowser.version
+version = JxBrowser.version
 group = "com.teamdev.jxbrowser"
 
 repositories {
