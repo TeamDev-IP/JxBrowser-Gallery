@@ -4,12 +4,6 @@
  *  Use is subject to license terms.
  */
 
-import gradle.kotlin.dsl.accessors._bab2ea2dab2c8fd57c2317797b04ea1a.compose
-import gradle.kotlin.dsl.accessors._bab2ea2dab2c8fd57c2317797b04ea1a.desktop
-import org.gradle.api.artifacts.dsl.RepositoryHandler
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.maven
-import org.gradle.kotlin.dsl.repositories
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
