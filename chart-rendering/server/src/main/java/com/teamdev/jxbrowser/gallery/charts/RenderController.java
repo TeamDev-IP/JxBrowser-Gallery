@@ -23,18 +23,18 @@ package com.teamdev.jxbrowser.gallery.charts;
 import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.view.swing.graphics.BitmapImage;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Produces;
 
 import javax.imageio.ImageIO;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 import static java.util.Objects.requireNonNull;
@@ -51,11 +51,11 @@ public class RenderController {
         browser = engine.newBrowser();
     }
 
-    @Get("/fossil-fuel-consumption")
-    @Produces(MediaType.IMAGE_PNG)
-    public byte[] index() throws URISyntaxException, IOException {
+    @Get("/fossil-fuels-consumption")
+    @Produces(MediaType.TEXT_PLAIN)
+    public HttpResponse<?> index() throws URISyntaxException, IOException {
         var dataFilePath = requireNonNull(RenderController.class.getClassLoader()
-                                                                .getResource("fossil-fuel-consumption.csv"));
+                                                                .getResource("fossil-fuels-consumption.csv"));
         var data = new String(Files.readAllBytes(Path.of(dataFilePath.toURI())));
 
         var jsPath = requireNonNull(RenderController.class.getClassLoader()
@@ -69,28 +69,20 @@ public class RenderController {
         browser.navigation()
                .loadUrlAndWait(requireNonNull(pageUrl).toString());
 
-        var response = new AtomicReference<byte[]>();
-        browser.mainFrame()
-               .ifPresent(frame -> {
-                   var javaScript =
-                           "const data = `%s`;".formatted(data)
-                                   + js
-                                   + "window.drawFossilFuelsConsumptionChart('chart', data);";
-                   frame.executeJavaScript(javaScript);
-                              var bitmap = browser.bitmap();
-                              var image = BitmapImage.toToolkit(bitmap);
-                              var stream = new ByteArrayOutputStream();
-                              try {
-                                  ImageIO.write(image, "png", stream);
-                                  var bytes = stream.toByteArray();
-                                  response.set(bytes);
-                              } catch (IOException e) {
-                                  throw new RuntimeException(e);
-                              }
-                          }
-               );
+        var mainFrame = browser.mainFrame();
+        if (mainFrame.isEmpty()) {
+            throw new IllegalStateException("The browser main frame is not available");
+        }
+        var frame = mainFrame.get();
+        var javaScript =
+                "const data = `%s`;".formatted(data)
+                        + js
+                        + "window.drawFossilFuelsConsumptionChart('chart', data);";
+        frame.executeJavaScript(javaScript);
+        var bitmap = browser.bitmap();
+        var image = BitmapImage.toToolkit(bitmap);
+        ImageIO.write(image, "png", new File("fossil-fuels-consumption.png"));
 
-        // Shutdown Chromium and release allocated resources.
-        return response.get();
+        return HttpResponse.ok();
     }
 }
