@@ -1,0 +1,33 @@
+name: Build under Ubuntu
+
+on: push
+
+jobs:
+  build:
+    name: Build under Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.9.0
+
+      # Keep synced with `dependency.Java` object.
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: zulu
+          cache: gradle
+
+      # JxBrowser can't be used in headless Linux environment without X server.
+      # https://jxbrowser-support.teamdev.com/docs//guides/introduction/x-server-in-headless-linux.html
+      - name: Build the project
+        shell: bash
+        run: |
+          sudo apt install xvfb
+          xvfb-run --server-args="-screen 0 800x600x24+32" ./gradlew build --stacktrace
