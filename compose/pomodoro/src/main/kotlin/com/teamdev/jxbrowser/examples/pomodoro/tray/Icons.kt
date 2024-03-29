@@ -36,7 +36,7 @@ import androidx.compose.ui.res.useResource
  * Created by [Hilmy Abiyyu A.](https://www.flaticon.com/authors/hilmy-abiyyu-a).
  */
 // TODO:2024-03-18:yevhenii.nadtochii: They need to be re-sized.
-// See issue: https://github.com/TeamDev-IP/JxBrowser-Kotlin/issues/136
+// See issue: https://github.com/TeamDev-IP/JxBrowser-Gallery/issues/7
 object Icons {
     val pause = BitmapPainter(useResource("icons/pause.png", ::loadImageBitmap))
     val play = BitmapPainter(useResource("icons/play.png", ::loadImageBitmap))
