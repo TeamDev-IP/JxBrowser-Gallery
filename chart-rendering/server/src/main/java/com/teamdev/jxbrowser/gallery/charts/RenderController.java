@@ -80,10 +80,9 @@ public class RenderController {
     private void runChartDrawingJs(String data, String chartDrawingFunction) {
         var mainFrame = browser.mainFrame()
                                .orElseThrow();
-        var javaScript =
-                "const data = `%s`;".formatted(data)
-                        + chartDrawingJs
-                        + chartDrawingFunction + "('chart', data);";
+        var javaScript = "%s; const data = `%s`; %s('chart', data);".formatted(
+                chartDrawingJs, data, chartDrawingFunction
+        );
         mainFrame.executeJavaScript(javaScript);
     }
 
