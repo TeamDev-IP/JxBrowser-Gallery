@@ -33,7 +33,7 @@ final class Resource {
     }
 
     /**
-     * Reads the content of the resource file as a string.
+     * Reads the content of the resource file as a single string.
      *
      * @return the resource content
      */

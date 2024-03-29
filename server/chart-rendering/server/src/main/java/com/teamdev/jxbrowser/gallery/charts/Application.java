@@ -22,11 +22,20 @@ package com.teamdev.jxbrowser.gallery.charts;
 
 import io.micronaut.runtime.Micronaut;
 
+/**
+ * The entry point of the application.
+ */
 public final class Application {
 
+    /**
+     * Prevents direct instantiation of this class.
+     */
     private Application() {
     }
 
+    /**
+     * The main entry point of the application.
+     */
     public static void main(String[] args) {
         Micronaut.run(Application.class, args);
     }

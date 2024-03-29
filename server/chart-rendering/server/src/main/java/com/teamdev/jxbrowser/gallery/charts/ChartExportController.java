@@ -33,25 +33,51 @@ import java.net.URL;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 
+/**
+ * A controller that exports charts to various image and non-image formats.
+ *
+ * <p>The process of rendering and exporting a chart is roughly the following:
+ * <ol>
+ *   <li>A pre-created {@link Browser} instance navigates to the local URL denoting
+ *       the HTML canvas where the chart will be drawn.
+ *   <li>The chart data is loaded and passed to the chart-drawing script via
+ *       {@code frame.executeJavaScript(...)}.
+ *   <li>A JavaScript function is called to draw the chart on the canvas.
+ *   <li>In case of export to an image, the browser's bitmap, which now contains
+ *       the rendered chart, is converted to a {@code BufferedImage} and subsequently
+ *       saved in the desired image format.
+ * </ol>
+ */
 @Controller("/export")
-public class ChartExportController {
+final class ChartExportController {
 
     private final Browser browser;
     private final URL canvasUrl;
 
+    /**
+     * Creates a new controller instance.
+     *
+     * <p>Initializes a {@link Browser} instance that will be used for server-side
+     * rendering of the charts.
+     *
+     * <p>Also, obtains the URL of the local HTML representing the canvas where
+     * the charts will be drawn.
+     */
+    @SuppressWarnings("resource" /* The engine has the same lifetime as the application. */)
     ChartExportController() {
-        // Initialize Chromium.
         var engine = Engine.newInstance(HARDWARE_ACCELERATED);
-
-        // Create a Browser instance.
         browser = engine.newBrowser();
-
-        // Set the HTML canvas URL.
         canvasUrl = new Resource("chart-rendering/canvas.html").url();
     }
 
+    /**
+     * Exports the "Fossil Fuels Consumption" chart to a PNG image.
+     *
+     * @return an HTTP response indicating the success of the operation
+     * @throws IOException if an I/O error occurs during the operation
+     */
     @Get("/fossil-fuels-consumption/png")
-    public HttpResponse<?> fossilFuelsConsumptionPng() throws IOException {
+    HttpResponse<?> fossilFuelsConsumptionPng() throws IOException {
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
