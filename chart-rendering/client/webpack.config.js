@@ -27,7 +27,8 @@ const config = {
         path: __dirname,
         filename: '[name]'
     },
-    target: "web"
+    target: "web",
+    mode: "production",
 };
 
 module.exports = config;
