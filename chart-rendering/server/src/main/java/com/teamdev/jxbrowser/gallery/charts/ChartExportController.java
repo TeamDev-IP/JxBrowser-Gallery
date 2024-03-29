@@ -39,7 +39,6 @@ public class ChartExportController {
     private final Browser browser;
 
     private final URL canvasUrl;
-    private final String chartDrawingJs;
     private final String fossilFuelsConsumptionData;
 
     ChartExportController() {
@@ -51,9 +50,6 @@ public class ChartExportController {
 
         // Set the HTML canvas URL.
         canvasUrl = new Resource("widgets/canvas.html").url();
-
-        // Preload the chart drawing JavaScript.
-        chartDrawingJs = new Resource("widgets/chart-drawing.js").contentAsString();
 
         // Preload data sets.
         fossilFuelsConsumptionData = new Resource("fossil-fuels-consumption.csv").contentAsString();
@@ -74,8 +70,8 @@ public class ChartExportController {
     private void runChartDrawingJs(String data, String chartDrawingFunction) {
         var mainFrame = browser.mainFrame()
                                .orElseThrow();
-        var javaScript = "%s; const data = `%s`; %s('chart', data);".formatted(
-                chartDrawingJs, data, chartDrawingFunction
+        var javaScript = "const data = `%s`; %s('chart', data);".formatted(
+                data, chartDrawingFunction
         );
         mainFrame.executeJavaScript(javaScript);
     }
