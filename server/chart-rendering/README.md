@@ -14,3 +14,6 @@ This project demonstrates how to render and export HTML/CSS/JS charts on the ser
 After this, open `/server/chart-rendering/client/app/index.html` to launch the client side of the application.
 
 The exported files appear under the `/server/chart-rendering/server/exported` directory.
+
+[jdk-java-net]: (https://jdk.java.net/)
+[npm]: (https://nodejs.org/en/download)
