@@ -1,6 +1,6 @@
 # Apps built with JxBrowser and Compose Desktop
 
-To run an application, use `run` or `runDistributable` Gradle tasks. 
+To run an application, use `run` or `runDistributable` Gradle task. 
 See [docs][compose-gradle-plugin] to Compose Gradle plugin to know difference 
 between them.
 
