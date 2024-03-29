@@ -5,7 +5,20 @@
     <link rel="stylesheet" type="text/css" href="./index.css">
 </head>
 <body>
-<div style="width: 800px;"><canvas id="chart"></canvas></div>
-<script type="module" src="./chart-drawing.js"></script>
+<div style="width: 800px;">
+    <canvas id="fossil-fuels-consumption"></canvas>
+</div>
+<script type="text/javascript" src="./chart-drawing.js"></script>
+<script type="text/javascript">
+    function httpGet(theUrl)
+    {
+        const xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+    const data = httpGet("http://localhost:8080/dataset/fossil-fuels-consumption");
+    window.drawFossilFuelsConsumptionChart('fossil-fuels-consumption', data);
+</script>
 </body>
 </html>
