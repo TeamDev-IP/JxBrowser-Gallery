@@ -44,7 +44,10 @@ jxbrowser {
 }
 
 dependencies {
+    // Use the JxBrowser cross-platform dependency.
     implementation(jxbrowser.crossPlatform)
+
+    // Add dependencies needed at Micronaut runtime.
     runtimeOnly("io.micronaut.serde:micronaut-serde-jackson")
     runtimeOnly("org.yaml:snakeyaml")
 }
@@ -58,11 +61,12 @@ tasks.withType<JavaCompile> {
 }
 
 tasks.withType<JavaExec> {
-    // Assign all Java system properties from
-    // the command line to the JavaExec task.
+    // Assign all Java system properties from the command line to the JavaExec task.
     systemProperties(System.getProperties().mapKeys { it.key as String })
 }
 
 tasks.named("build") {
+    // Ensure the client-side code has been built so that the chart-drawing
+    // JS bundle is available.
     dependsOn(":server:chart-rendering:client:build")
 }
