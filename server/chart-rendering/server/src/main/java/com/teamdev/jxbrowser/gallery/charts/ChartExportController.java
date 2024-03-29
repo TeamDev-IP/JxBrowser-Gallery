@@ -46,7 +46,7 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
  *       {@code frame.executeJavaScript(...)}.
  *   <li>A JavaScript function is called to draw the chart on the canvas.
  *   <li>In case of an export to an image, the browser's bitmap, which now contains
- *       the rendered chart, is converted to a {@code BufferedImage} and subsequently
+ *       the rendered chart, is converted to {@code BufferedImage} and subsequently
  *       saved in the desired image format.
  * </ol>
  */
@@ -54,7 +54,7 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 final class ChartExportController {
 
     /**
-     * A {@link Browser} instance that is re-used for server-side rendering of the charts.
+     * A browser instance that is re-used for server-side rendering of the charts.
      */
     private final Browser browser;
 

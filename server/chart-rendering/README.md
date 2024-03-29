@@ -1,6 +1,6 @@
 # Server-Side Chart Rendering with JxBrowser
 
-This project demonstrates how to render and export HTML/CSS/JS charts on the server-side using JxBrowser.
+This project demonstrates how to render and export HTML/CSS/JS charts on the server side using JxBrowser.
 
 ### Running locally:
 ```shell

@@ -32,7 +32,7 @@ import java.nio.file.Path;
 final class Resource {
 
     /**
-     * The URL of the resource file this instance represents.
+     * The URL of the resource file this instance handles.
      */
     private final URL url;
 

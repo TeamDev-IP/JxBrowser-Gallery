@@ -22,4 +22,3 @@
  * Contains the server types of the chart rendering application.
  */
 package com.teamdev.jxbrowser.gallery.charts;
-

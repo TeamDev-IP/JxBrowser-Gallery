@@ -1,7 +1,3 @@
-import gradle.get
-import gradle.libs
-import org.gradle.kotlin.dsl.version
-
 /*
  *  Copyright 2024, TeamDev. All rights reserved.
  *
@@ -21,6 +17,9 @@ import org.gradle.kotlin.dsl.version
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+import gradle.get
+import gradle.libs
 
 plugins {
     id("jvm-module")
