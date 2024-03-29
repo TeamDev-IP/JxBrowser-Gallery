@@ -98,7 +98,7 @@ class Animator : AutoCloseable {
         val index = this::class.java.getResource(WEBGL_PAGE)
             ?: error(
                 "Pomodoro WebGL animations were not found in the app's resources. " +
-                        "The expected location: `examples/pomodoro/src/main/resources$WEBGL_PAGE`."
+                        "The expected location: `pomodoro/src/main/resources$WEBGL_PAGE`."
             )
         navigation.loadUrl(index.toExternalForm())
         while (!animationsLoaded()) {
@@ -141,7 +141,7 @@ class Animator : AutoCloseable {
  */
 private fun createEngine() = Engine(RenderingMode.OFF_SCREEN) {
     options {
-        license = JxBrowserLicense(LicenseProvider.key)
+        license = LicenseProvider.license
         schemes {
             add(Scheme.JAR, InterceptJarRequestCallback())
         }
