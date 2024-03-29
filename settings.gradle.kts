@@ -20,4 +20,6 @@
 
 rootProject.name = "jxbrowser-gallery"
 
+include("chart-rendering:client")
+include("chart-rendering:server")
 include("compose:pomodoro")
