@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.detekt.gradlePlugin)
     implementation(libs.jxbrowser.gradlePlugin)
     implementation(libs.compose.gradlePlugin)
+    implementation(libs.micronaut.gradlePlugin)
     implementation(libs.taskTree.gradlePlugin)
 }
 

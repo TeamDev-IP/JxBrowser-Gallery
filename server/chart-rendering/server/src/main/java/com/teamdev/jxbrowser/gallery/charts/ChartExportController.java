@@ -22,6 +22,8 @@ package com.teamdev.jxbrowser.gallery.charts;
 
 import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
+import com.teamdev.jxbrowser.engine.EngineOptions;
+import com.teamdev.jxbrowser.license.internal.LicenseProvider;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -72,7 +74,10 @@ final class ChartExportController {
      */
     @SuppressWarnings("resource" /* The engine has the same lifetime as the application. */)
     ChartExportController() {
-        var engine = Engine.newInstance(HARDWARE_ACCELERATED);
+        var options = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
+                .licenseKey(LicenseProvider.INSTANCE.getKey())
+                .build();
+        var engine = Engine.newInstance(options);
         browser = engine.newBrowser();
         canvasUrl = new Resource("rendering/canvas.html").url();
     }

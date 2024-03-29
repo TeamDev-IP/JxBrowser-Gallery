@@ -1,3 +1,7 @@
+import gradle.get
+import gradle.libs
+import org.gradle.kotlin.dsl.version
+
 /*
  *  Copyright 2024, TeamDev. All rights reserved.
  *
@@ -18,17 +22,19 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-const config = {
-    entry: {
-        './app/chart-drawing.js': './src/main/index.js',
-        '../server/src/main/resources/rendering/chart-drawing.js': './src/main/index.js',
-    },
-    output: {
-        path: __dirname,
-        filename: '[name]',
-    },
-    target: 'web',
-    mode: 'production',
-};
+plugins {
+    id("jvm-module")
+    id("jxbrowser")
+    id("io.micronaut.application")
+}
 
-module.exports = config;
+dependencies {
+    implementation(project(":jxbrowser-license"))
+    runtimeOnly(libs.micronaut.serdeJackson)
+    runtimeOnly(libs.snakeyaml)
+}
+
+micronaut {
+    version = libs.versions.micronaut.get()
+    runtime("netty")
+}

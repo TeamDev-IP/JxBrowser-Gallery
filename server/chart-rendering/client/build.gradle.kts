@@ -18,19 +18,32 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import org.apache.tools.ant.taskdefs.condition.Os
+import gradle.web.BuildWeb
+import gradle.web.buildWebProject
 
-val npm = if (Os.isFamily(Os.FAMILY_WINDOWS)) "npm.cmd" else "npm"
+tasks {
+    val buildWebProject = buildWebProject(projectDir, projectDir.resolve("app"))
 
-task<Exec>("npmInstall") {
-    commandLine(npm, "install")
+    val serverResources = projectDir.resolve("../server/src/main/resources/rendering")
+    val copyWebProjectOutput = copyWebProjectOutput(buildWebProject, serverResources)
+
+    val build by registering {
+        dependsOn(buildWebProject)
+        dependsOn(copyWebProjectOutput)
+    }
 }
 
-task<Exec>("npmBuild") {
-    commandLine(npm, "run", "build")
-    dependsOn("npmInstall")
-}
-
-tasks.register("build") {
-    dependsOn("npmBuild")
+/**
+ * Registers a tak to copy [buildWebProject] output to the given [destination].
+ */
+fun TaskContainerScope.copyWebProjectOutput(
+    buildWebProject: TaskProvider<BuildWeb>,
+    destination: File
+): TaskProvider<Copy> {
+    val copyWebProjectOutput by registering(Copy::class) {
+        from(buildWebProject)
+        into(destination)
+        exclude("*.html")
+    }
+    return copyWebProjectOutput
 }

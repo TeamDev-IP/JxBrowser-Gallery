@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "The server-side chart rendering application.",
   "scripts": {
-    "build": "webpack"
+    "build": "vite build"
   },
   "dependencies": {
     "chart.js": "^4.0.0"
   },
   "devDependencies": {
-    "webpack-cli": "^5.1.4"
+    "vite": "^5.1.2"
   }
 }
