@@ -29,13 +29,9 @@ import io.micronaut.http.annotation.Get;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
-import static java.util.Objects.requireNonNull;
 
 @Controller("/render")
 public class RenderController {
@@ -58,10 +54,10 @@ public class RenderController {
                                           .getResource("canvas.html");
 
         // Preload the chart drawing JavaScript.
-        chartDrawingJs = resourceContentAsString("chart-drawing.js");
+        chartDrawingJs = new Resource("chart-drawing.js").readAsString();
 
         // Preload data sets.
-        fossilFuelsConsumptionData = resourceContentAsString("fossil-fuels-consumption.csv");
+        fossilFuelsConsumptionData = new Resource("fossil-fuels-consumption.csv").readAsString();
     }
 
     @Get("/fossil-fuels-consumption")
@@ -89,18 +85,5 @@ public class RenderController {
         var bitmap = browser.bitmap();
         var image = new BitmapConverter().toBufferedImage(bitmap);
         ImageIO.write(image, "png", new File(fileName));
-    }
-
-    private static String resourceContentAsString(String resourceName) {
-        try {
-            var dataFilePath = RenderController.class.getClassLoader()
-                                                     .getResource(resourceName);
-            var uri = requireNonNull(dataFilePath).toURI();
-            var path = Path.of(uri);
-            var result = Files.readString(path);
-            return result;
-        } catch (IOException | URISyntaxException e) {
-            throw new IllegalStateException("Unable to preload a resource.", e);
-        }
     }
 }
