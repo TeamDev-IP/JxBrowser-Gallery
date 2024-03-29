@@ -22,16 +22,11 @@ package com.teamdev.jxbrowser.gallery.charts;
 
 import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
-import com.teamdev.jxbrowser.ui.Bitmap;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 
 import javax.imageio.ImageIO;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -40,7 +35,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
-import static java.awt.image.Raster.createInterleavedRaster;
 import static java.util.Objects.requireNonNull;
 
 @Controller("/render")
@@ -93,33 +87,8 @@ public class RenderController {
 
     private void saveBitmap(String fileName) throws IOException {
         var bitmap = browser.bitmap();
-        var image = toBufferedImage(bitmap);
+        var image = new BitmapConverter().toBufferedImage(bitmap);
         ImageIO.write(image, "png", new File(fileName));
-    }
-
-    /**
-     * Converts a {@link Bitmap} instance to a {@link BufferedImage}.
-     *
-     * <p>Alternatively, add the "jxbrowser.javafx"/"jxbrowser.swing"/"jxbrowser.swt"
-     * dependency to the project and use the {@code BitmapImage.toToolkitImage()} method.
-     *
-     * @param bitmap the {@link Bitmap} instance to convert
-     * @return a {@link BufferedImage} instance
-     */
-    private static BufferedImage toBufferedImage(Bitmap bitmap) {
-        var size = bitmap.size();
-        var width = size.width();
-        var height = size.height();
-        var raster = createInterleavedRaster(
-                0, width, height, width * 4, 4, new int[]{2, 1, 0, 3}, null
-        );
-        var colorModel = new ComponentColorModel(
-                ColorSpace.getInstance(1000), new int[]{8, 8, 8, 8}, true, true, 3, 0
-        );
-        var dataBuffer = (DataBufferByte) raster.getDataBuffer();
-        var pixels = bitmap.pixels();
-        System.arraycopy(pixels, 0, dataBuffer.getData(), 0, pixels.length);
-        return new BufferedImage(colorModel, raster, true, null);
     }
 
     private static String resourceContentAsString(String resourceName) {
