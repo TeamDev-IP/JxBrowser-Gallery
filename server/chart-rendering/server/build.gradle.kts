@@ -47,7 +47,7 @@ dependencies {
     // Use the JxBrowser cross-platform dependency.
     implementation(jxbrowser.crossPlatform)
 
-    // Add dependencies needed at Micronaut runtime.
+    // Add the dependencies needed at Micronaut runtime.
     runtimeOnly("io.micronaut.serde:micronaut-serde-jackson")
     runtimeOnly("org.yaml:snakeyaml")
 }
@@ -61,7 +61,7 @@ tasks.withType<JavaCompile> {
 }
 
 tasks.withType<JavaExec> {
-    // Assign all Java system properties from the command line to the JavaExec task.
+    // Assign all Java system properties from the command line to the `JavaExec` task.
     systemProperties(System.getProperties().mapKeys { it.key as String })
 }
 

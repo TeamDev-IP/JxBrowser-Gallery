@@ -34,7 +34,7 @@ public final class Application {
     }
 
     /**
-     * The main entry point of the application.
+     * The "main" entry point.
      */
     public static void main(String[] args) {
         Micronaut.run(Application.class, args);

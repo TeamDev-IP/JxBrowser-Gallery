@@ -43,7 +43,7 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
  *   <li>The chart data is loaded and passed to the chart-drawing script via
  *       {@code frame.executeJavaScript(...)}.
  *   <li>A JavaScript function is called to draw the chart on the canvas.
- *   <li>In case of export to an image, the browser's bitmap, which now contains
+ *   <li>In case of an export to an image, the browser's bitmap, which now contains
  *       the rendered chart, is converted to a {@code BufferedImage} and subsequently
  *       saved in the desired image format.
  * </ol>
