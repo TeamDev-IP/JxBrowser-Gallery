@@ -1,3 +1,6 @@
+# Secrets
+jxbrowser-license/src/main/resources/jxbrowser-license
+
 # Ignore Gradle project-specific cache directory
 .gradle
 
