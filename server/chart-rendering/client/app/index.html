@@ -32,8 +32,10 @@
 </button>
 <script type="text/javascript" src="./chart-drawing.js"></script>
 <script type="text/javascript">
+    const SERVER_URL = 'http://localhost:8080';
+
     function exportFossilFuelsConsumptionChart() {
-        httpGet('http://localhost:8080/export/fossil-fuels-consumption/png');
+        httpGet(`${SERVER_URL}/export/fossil-fuels-consumption/png`);
     }
 
     function httpGet(url) {
@@ -43,7 +45,7 @@
         return xmlHttp.responseText;
     }
 
-    const data = httpGet('http://localhost:8080/dataset/fossil-fuels-consumption');
+    const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption`);
     window.drawFossilFuelsConsumptionChart('fossil-fuels-consumption', data);
 </script>
 </body>
