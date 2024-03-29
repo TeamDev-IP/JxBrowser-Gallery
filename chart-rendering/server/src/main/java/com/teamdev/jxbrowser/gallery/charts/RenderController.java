@@ -59,14 +59,14 @@ public class RenderController {
                                           .getResource("canvas.html");
 
         // Preload the chart drawing JavaScript.
-        chartDrawingJs = resourceContentAsString("charts.js");
+        chartDrawingJs = resourceContentAsString("chart-drawing.js");
 
         // Preload data sets.
         fossilFuelsConsumptionData = resourceContentAsString("fossil-fuels-consumption.csv");
     }
 
     @Get("/fossil-fuels-consumption")
-    public HttpResponse<?> index() throws IOException {
+    public HttpResponse<?> fossilFuelsConsumption() throws IOException {
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
@@ -93,16 +93,16 @@ public class RenderController {
         ImageIO.write(image, "png", new File(fileName));
     }
 
-    private static String resourceContentAsString(String fileName) {
+    private static String resourceContentAsString(String resourceName) {
         try {
-            var classLoader = RenderController.class.getClassLoader();
-            var dataFilePath = classLoader.getResource(fileName);
+            var dataFilePath = RenderController.class.getClassLoader()
+                                                     .getResource(resourceName);
             var uri = requireNonNull(dataFilePath).toURI();
             var path = Path.of(uri);
             var result = Files.readString(path);
             return result;
         } catch (IOException | URISyntaxException e) {
-            throw new IllegalStateException("Unable to preload data.", e);
+            throw new IllegalStateException("Unable to preload a resource.", e);
         }
     }
 }

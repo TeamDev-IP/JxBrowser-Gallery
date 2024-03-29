@@ -22,7 +22,7 @@ const config = {
     entry: "./src/main/index.js",
     output: {
         path: __dirname + "/app",
-        filename: "charts.js",
+        filename: "chart-drawing.js",
         libraryTarget: "this"
     },
     target: "web"
