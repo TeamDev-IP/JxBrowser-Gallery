@@ -18,19 +18,26 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.get
-import gradle.libs
+package gradle
 
-plugins {
-    id("jvm-module")
-    id("com.teamdev.jxbrowser")
-}
+import org.gradle.accessors.dm.LibrariesForLibs
+import org.gradle.api.Project
+import org.gradle.api.internal.catalog.ExternalModuleDependencyFactory.VersionNotationSupplier
+import org.gradle.kotlin.dsl.the
 
-jxbrowser {
-    version = libs.versions.jxbrowser.get()
-    includePreviewBuilds()
-}
+/**
+ * Returns generated type-safe version catalogs accessors for the conventional
+ * `libs` catalog.
+ */
+val Project.libs
+    get() = the<LibrariesForLibs>()
 
-dependencies {
-    implementation(jxbrowser.currentPlatform)
-}
+/**
+ * Allows to access the version immediately, omitting the intermediate call
+ * to `asProvider()` method.
+ *
+ * The method is useful when the declared version has subversion(s). For example,
+ * if there are both `versions.java` and `versions.java.vendor`, then it is
+ * impossible to call `get()` directly on `java`.
+ */
+fun VersionNotationSupplier.get(): String = asProvider().get()

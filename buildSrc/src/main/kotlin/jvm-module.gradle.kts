@@ -18,7 +18,8 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.dsl
+import gradle.libs
+import gradle.get
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
@@ -26,7 +27,7 @@ plugins {
     id("com.dorongold.task-tree")
 }
 
-version = libs.versions["jxbrowser"]
+version = libs.versions.jxbrowser.get()
 group = "com.teamdev.jxbrowser"
 
 repositories {
@@ -35,12 +36,7 @@ repositories {
 
 kotlin {
     jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions["java"])
-        vendor = JvmVendorSpec.matching(libs.versions["javaVendor"])
+        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
+        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
     }
 }
-
-// `versionCatalogs` is a generated property, so this extension
-// can't be moved to `main` sources.
-private val Project.libs
-    get() = versionCatalogs.named("libs").dsl()

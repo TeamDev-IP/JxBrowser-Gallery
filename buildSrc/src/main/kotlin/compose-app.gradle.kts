@@ -18,7 +18,8 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.dsl
+import gradle.get
+import gradle.libs
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -59,12 +60,7 @@ compose.desktop {
  */
 private fun Project.jxBrowserVersion(): String {
     val pattern = "(.*?)-eap".toRegex()
-    val version = libs.versions["jxbrowser"]
+    val version = libs.versions.jxbrowser.get()
     val matchResult = pattern.find(version)
     return matchResult?.groups?.get(1)?.value ?: version
 }
-
-// `versionCatalogs` is a generated property, so this extension
-// can't be moved to `main` sources.
-private val Project.libs
-    get() = versionCatalogs.named("libs").dsl()
