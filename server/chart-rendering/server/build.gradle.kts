@@ -66,7 +66,7 @@ tasks.withType<JavaExec> {
 }
 
 tasks.named("build") {
-    // Ensure the client-side code has been built so that the chart-drawing
+    // Ensure the client-side code is built first so that the chart-drawing
     // JS bundle is available.
     dependsOn(":server:chart-rendering:client:build")
 }
