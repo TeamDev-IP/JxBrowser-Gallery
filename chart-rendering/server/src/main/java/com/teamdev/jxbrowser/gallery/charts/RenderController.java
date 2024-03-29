@@ -50,14 +50,13 @@ public class RenderController {
         browser = engine.newBrowser();
 
         // Set the HTML canvas URL.
-        canvasUrl = RenderController.class.getClassLoader()
-                                          .getResource("widgets/canvas.html");
+        canvasUrl = new Resource("widgets/canvas.html").url();
 
         // Preload the chart drawing JavaScript.
-        chartDrawingJs = new Resource("widgets/chart-drawing.js").readAsString();
+        chartDrawingJs = new Resource("widgets/chart-drawing.js").contentAsString();
 
         // Preload data sets.
-        fossilFuelsConsumptionData = new Resource("fossil-fuels-consumption.csv").readAsString();
+        fossilFuelsConsumptionData = new Resource("fossil-fuels-consumption.csv").contentAsString();
     }
 
     @Get("/fossil-fuels-consumption")

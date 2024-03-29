@@ -2,6 +2,7 @@ package com.teamdev.jxbrowser.gallery.charts;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -26,11 +27,20 @@ final class Resource {
     }
 
     /**
+     * Returns the URL of the resource file.
+     *
+     * @return the resource URL
+     */
+    URL url() {
+        return classLoader.getResource(resourceName);
+    }
+
+    /**
      * Reads the content of the resource file as a string.
      *
      * @return the resource content
      */
-    String readAsString() {
+    String contentAsString() {
         try {
             var dataFilePath = classLoader.getResource(resourceName);
             var uri = requireNonNull(dataFilePath).toURI();
