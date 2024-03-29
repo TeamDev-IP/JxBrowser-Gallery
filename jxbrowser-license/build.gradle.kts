@@ -19,5 +19,9 @@
  */
 
 plugins {
-    `jvm-module`
+    jxbrowser
+}
+
+dependencies {
+    implementation(jxbrowser.kotlin)
 }

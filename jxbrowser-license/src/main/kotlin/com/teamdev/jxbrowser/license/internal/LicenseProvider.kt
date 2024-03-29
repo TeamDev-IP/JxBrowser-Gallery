@@ -20,6 +20,10 @@
 
 package com.teamdev.jxbrowser.license.internal
 
+import com.teamdev.jxbrowser.license.JxBrowserLicense
+import com.teamdev.jxbrowser.engine.EngineOptions
+import com.teamdev.jxbrowser.dsl.engine.OptionsDsl
+
 /**
  * Provides a license key for JxBrowser.
  *
@@ -27,7 +31,7 @@ package com.teamdev.jxbrowser.license.internal
  * a plain string. It is a user responsibility to put a key into [LICENSE_FILE].
  *
  * Please note, this provider is for internal usage within
- * the repository modules. Some tests and example modules need a license.
+ * the repository modules.
  */
 object LicenseProvider {
 
@@ -40,8 +44,17 @@ object LicenseProvider {
 
     /**
      * JxBrowser license key.
+     *
+     * Pass the property value to [EngineOptions.Builder.licenseKey] (Java API).
      */
     val key: String by lazy { readLicenseFromResources() }
+
+    /**
+     * JxBrowser license.
+     *
+     * Pass the property value to [OptionsDsl.license] (Kotlin API).
+     */
+    val license: JxBrowserLicense by lazy { JxBrowserLicense(key) }
 
     @Suppress("MaxLineLength") // Contains a file path.
     private fun readLicenseFromResources(): String {

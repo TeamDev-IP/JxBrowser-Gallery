@@ -1,6 +1,6 @@
 [versions]
 # The JxBrowser version used within the project.
-jxbrowser = "8.0.0-eap.7-test" # https://europe-maven.pkg.dev/jxbrowser/eaps/com/teamdev/jxbrowser/jxbrowser-mac/maven-metadata.xml
+jxbrowser = "8.0.0-eap.1" # https://europe-maven.pkg.dev/jxbrowser/eaps/com/teamdev/jxbrowser/jxbrowser-mac/maven-metadata.xml
 jxbrowser-gradlePlugin = "1.0.2" # https://github.com/TeamDev-IP/JxBrowser-Gradle-Plugin/releases
 
 java = "17" # See also: `org.gradle.jvm.toolchain.JavaLanguageVersion`
