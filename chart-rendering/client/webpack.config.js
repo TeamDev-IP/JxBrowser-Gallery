@@ -21,7 +21,7 @@
 const config = {
     entry: {
         './app/chart-drawing.js': './src/main/index.js',
-        '../server/src/main/resources/chart-drawing.js': './src/main/index.js'
+        '../server/src/main/resources/widgets/chart-drawing.js': './src/main/index.js'
     },
     output: {
         path: __dirname,
