@@ -20,6 +20,13 @@
 
 import Chart from 'chart.js/auto';
 
+/**
+ * Draws a chart that visualizes the share of primary energy consumption from
+ * fossil fuels in Portugal.
+ *
+ * @param canvas the ID of the canvas element to draw the chart on
+ * @param csvData the CSV data to be visualized
+ */
 window.drawFossilFuelsConsumptionChart = (canvas, csvData) => {
     const parsedData = csvToArray(csvData);
     new Chart(
@@ -54,9 +61,12 @@ window.drawFossilFuelsConsumptionChart = (canvas, csvData) => {
     );
 }
 
+/**
+ * Parses the CSV data from a string into a JS array.
+ */
 function csvToArray(strData, strDelimiter) {
     strDelimiter = (strDelimiter || ',');
-    var objPattern = new RegExp(
+    const objPattern = new RegExp(
         (
             '(\\' + strDelimiter + '|\\r?\\n|\\r|^)' +
             '(?:"([^"]*(?:""[^"]*)*)"|' +
@@ -64,17 +74,17 @@ function csvToArray(strData, strDelimiter) {
         ),
         'gi',
     );
-    var arrData = [[]];
-    var arrMatches = null;
+    const arrData = [[]];
+    let arrMatches = null;
     while (arrMatches = objPattern.exec(strData)) {
-        var strMatchedDelimiter = arrMatches[1];
+        const strMatchedDelimiter = arrMatches[1];
         if (
             strMatchedDelimiter.length &&
             strMatchedDelimiter !== strDelimiter
         ) {
             arrData.push([]);
         }
-        var strMatchedValue;
+        let strMatchedValue;
         if (arrMatches[2]) {
             strMatchedValue = arrMatches[2].replace(
                 new RegExp('""', 'g'),
