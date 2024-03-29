@@ -19,11 +19,13 @@
  */
 
 const config = {
-    entry: "./src/main/index.js",
+    entry: {
+        './app/chart-drawing.js': './src/main/index.js',
+        '../server/src/main/resources/chart-drawing.js': './src/main/index.js'
+    },
     output: {
-        path: __dirname + "/app",
-        filename: "chart-drawing.js",
-        libraryTarget: "this"
+        path: __dirname,
+        filename: '[name]'
     },
     target: "web"
 };
