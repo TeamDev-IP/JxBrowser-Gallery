@@ -47,7 +47,7 @@ public class ChartExportController {
         browser = engine.newBrowser();
 
         // Set the HTML canvas URL.
-        canvasUrl = new Resource("widgets/canvas.html").url();
+        canvasUrl = new Resource("ssr/canvas.html").url();
     }
 
     @Get("/fossil-fuels-consumption/png")
