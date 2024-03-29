@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import static java.util.Objects.requireNonNull;
 
 /**
- * A utility class for reading resources from the classpath.
+ * A utility for reading resources from the classpath.
  */
 final class Resource {
 
