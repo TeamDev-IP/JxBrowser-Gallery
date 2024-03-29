@@ -8,8 +8,13 @@
 <div style="width: 800px;">
     <canvas id="fossil-fuels-consumption"></canvas>
 </div>
+<button id="exportButton" onclick="exportFossilFuelsConsumptionChart()">Export to PNG</button>
 <script type="text/javascript" src="./chart-drawing.js"></script>
 <script type="text/javascript">
+    function exportFossilFuelsConsumptionChart() {
+        httpGet('http://localhost:8080/export/fossil-fuels-consumption/png');
+    }
+
     function httpGet(url) {
         const xmlHttp = new XMLHttpRequest();
         xmlHttp.open('GET', url, false); // false for synchronous request
