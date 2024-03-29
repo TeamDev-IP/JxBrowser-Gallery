@@ -67,7 +67,7 @@ final class ChartExportController {
     ChartExportController() {
         var engine = Engine.newInstance(HARDWARE_ACCELERATED);
         browser = engine.newBrowser();
-        canvasUrl = new Resource("chart-rendering/canvas.html").url();
+        canvasUrl = new Resource("rendering/canvas.html").url();
     }
 
     /**
