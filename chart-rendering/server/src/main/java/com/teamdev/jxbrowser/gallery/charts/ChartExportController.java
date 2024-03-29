@@ -33,8 +33,8 @@ import java.net.URL;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 
-@Controller("/render")
-public class RenderController {
+@Controller("/export")
+public class ChartExportController {
 
     private final Browser browser;
 
@@ -42,7 +42,7 @@ public class RenderController {
     private final String chartDrawingJs;
     private final String fossilFuelsConsumptionData;
 
-    RenderController() {
+    ChartExportController() {
         // Initialize Chromium.
         var engine = Engine.newInstance(HARDWARE_ACCELERATED);
 
@@ -59,8 +59,8 @@ public class RenderController {
         fossilFuelsConsumptionData = new Resource("fossil-fuels-consumption.csv").contentAsString();
     }
 
-    @Get("/fossil-fuels-consumption")
-    public HttpResponse<?> fossilFuelsConsumption() throws IOException {
+    @Get("/fossil-fuels-consumption/png")
+    public HttpResponse<?> fossilFuelsConsumptionPng() throws IOException {
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
