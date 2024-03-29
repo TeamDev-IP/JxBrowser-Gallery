@@ -18,21 +18,51 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-apply from: "$projectDir/npm-cli.gradle"
-
-tasks.register('npmInstall') {
-    doLast {
-        npm 'install'
-    }
+plugins {
+    java
+    id("io.micronaut.application") version "4.3.4"
+    id("com.teamdev.jxbrowser") version "1.0.2"
 }
 
-tasks.register('npmBuild') {
-    doLast {
-        npm 'run', 'build'
-    }
-    dependsOn npmInstall
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
-tasks.register('build') {
-    dependsOn npmBuild
+micronaut {
+    version = "4.3.4"
+    runtime("netty")
+}
+
+repositories {
+    mavenCentral()
+}
+
+jxbrowser {
+    version = "8.0.0-eap.1"
+    includePreviewBuilds()
+}
+
+dependencies {
+    implementation(jxbrowser.crossPlatform)
+    runtimeOnly("io.micronaut.serde:micronaut-serde-jackson")
+    runtimeOnly("org.yaml:snakeyaml")
+}
+
+application {
+    mainClass.set("com.teamdev.jxbrowser.gallery.charts.Application")
+}
+
+tasks.withType<JavaCompile> {
+    options.release.set(17)
+}
+
+tasks.withType<JavaExec> {
+    // Assign all Java system properties from
+    // the command line to the JavaExec task.
+    systemProperties(System.getProperties().mapKeys { it.key as String })
+}
+
+tasks.named("build") {
+    dependsOn(":server:chart-rendering:client:build")
 }
