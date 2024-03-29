@@ -14,6 +14,3 @@ detekt-gradlePlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plug
 jxbrowser-gradlePlugin = { module = "com.teamdev.jxbrowser:JxBrowser-Gradle-Plugin", version.ref = "jxbrowser-gradlePlugin" }
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
 taskTree-gradlePlugin = { module = "com.dorongold.plugins:task-tree", version.ref = "taskTree-gradlePlugin" }
-
-[plugins]
-kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
