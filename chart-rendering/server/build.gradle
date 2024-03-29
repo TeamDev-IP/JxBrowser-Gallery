@@ -52,7 +52,9 @@ dependencies {
     // Use the JxBrowser cross-platform binaries.
     implementation(jxbrowser.crossPlatform)
 
+    // Add dependencies needed at Micronaut runtime.
     runtimeOnly("io.micronaut.serde:micronaut-serde-jackson")
+    runtimeOnly("org.yaml:snakeyaml")
 }
 
 application {
