@@ -21,14 +21,14 @@
 const config = {
     entry: {
         './app/chart-drawing.js': './src/main/index.js',
-        '../server/src/main/resources/widgets/chart-drawing.js': './src/main/index.js'
+        '../server/src/main/resources/widgets/chart-drawing.js': './src/main/index.js',
     },
     output: {
         path: __dirname,
-        filename: '[name]'
+        filename: '[name]',
     },
-    target: "web",
-    mode: "production",
+    target: 'web',
+    mode: 'production',
 };
 
 module.exports = config;
