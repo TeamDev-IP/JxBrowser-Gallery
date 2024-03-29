@@ -10,14 +10,14 @@
 </div>
 <script type="text/javascript" src="./chart-drawing.js"></script>
 <script type="text/javascript">
-    function httpGet(theUrl)
-    {
+    function httpGet(url) {
         const xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-        xmlHttp.send( null );
+        xmlHttp.open('GET', url, false); // false for synchronous request
+        xmlHttp.send(null);
         return xmlHttp.responseText;
     }
-    const data = httpGet("http://localhost:8080/dataset/fossil-fuels-consumption");
+
+    const data = httpGet('http://localhost:8080/dataset/fossil-fuels-consumption');
     window.drawFossilFuelsConsumptionChart('fossil-fuels-consumption', data);
 </script>
 </body>
