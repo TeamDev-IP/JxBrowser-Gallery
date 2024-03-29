@@ -66,7 +66,7 @@ public class RenderController {
 
         runChartDrawingJs(fossilFuelsConsumptionData, "window.drawFossilFuelsConsumptionChart");
 
-        saveBitmap("fossil-fuels-consumption.png");
+        saveBitmap("exported/fossil-fuels-consumption.png");
 
         return HttpResponse.ok();
     }
@@ -83,6 +83,8 @@ public class RenderController {
     private void saveBitmap(String fileName) throws IOException {
         var bitmap = browser.bitmap();
         var image = new BitmapConverter().toBufferedImage(bitmap);
-        ImageIO.write(image, "png", new File(fileName));
+        var output = new File(fileName);
+        output.getParentFile().mkdirs();
+        ImageIO.write(image, "png", output);
     }
 }
