@@ -2,4 +2,5 @@ micronaut:
   server:
     cors:
       enabled: true
+      localhost-pass-through: true
     port: 8080
