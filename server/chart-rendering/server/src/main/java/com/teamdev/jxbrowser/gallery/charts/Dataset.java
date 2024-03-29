@@ -27,12 +27,21 @@ package com.teamdev.jxbrowser.gallery.charts;
 enum Dataset {
     FOSSIL_FUELS_CONSUMPTION("fossil-fuels-consumption.csv");
 
+    /**
+     * The resource containing the dataset.
+     */
     private final Resource resource;
 
+    /**
+     * Initializes a new enum instance for the resource with the passed name.
+     */
     Dataset(String resourceName) {
         this.resource = new Resource(resourceName);
     }
 
+    /**
+     * Returns the content of the dataset as a string.
+     */
     String contentAsString() {
         return resource.contentAsString();
     }

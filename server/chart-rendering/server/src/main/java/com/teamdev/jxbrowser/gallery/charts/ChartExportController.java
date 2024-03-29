@@ -51,7 +51,14 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 @Controller("/export")
 final class ChartExportController {
 
+    /**
+     * A {@link Browser} instance that is re-used for server-side rendering of the charts.
+     */
     private final Browser browser;
+
+    /**
+     * The URL of the local HTML representing the canvas where the charts are drawn.
+     */
     private final URL canvasUrl;
 
     /**
