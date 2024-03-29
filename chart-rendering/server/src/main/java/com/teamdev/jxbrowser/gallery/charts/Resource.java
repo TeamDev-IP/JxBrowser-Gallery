@@ -6,15 +6,12 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * A utility for reading resources from the classpath.
  */
 final class Resource {
 
-    private final String resourceName;
-    private final ClassLoader classLoader;
+    private final URL url;
 
     /**
      * Creates a new instance of this class.
@@ -22,8 +19,8 @@ final class Resource {
      * @param resourceName the name of the resource to read
      */
     Resource(String resourceName) {
-        this.resourceName = resourceName;
-        this.classLoader = Resource.class.getClassLoader();
+        this.url = Resource.class.getClassLoader()
+                                 .getResource(resourceName);
     }
 
     /**
@@ -32,7 +29,7 @@ final class Resource {
      * @return the resource URL
      */
     URL url() {
-        return classLoader.getResource(resourceName);
+        return url;
     }
 
     /**
@@ -42,8 +39,7 @@ final class Resource {
      */
     String contentAsString() {
         try {
-            var dataFilePath = classLoader.getResource(resourceName);
-            var uri = requireNonNull(dataFilePath).toURI();
+            var uri = url.toURI();
             var path = Path.of(uri);
             var result = Files.readString(path);
             return result;

@@ -29,15 +29,9 @@ import static io.micronaut.http.MediaType.TEXT_CSV;
 @Controller("/dataset")
 public class DataController {
 
-    private final String fossilFuelsConsumptionData;
-
-    DataController() {
-        fossilFuelsConsumptionData = new Resource("fossil-fuels-consumption.csv").contentAsString();
-    }
-
     @Get("/fossil-fuels-consumption")
     @Produces(TEXT_CSV)
     public String fossilFuelsConsumption() {
-        return fossilFuelsConsumptionData;
+        return Dataset.FOSSIL_FUELS_CONSUMPTION.contentAsString();
     }
 }

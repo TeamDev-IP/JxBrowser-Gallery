@@ -37,9 +37,7 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 public class ChartExportController {
 
     private final Browser browser;
-
     private final URL canvasUrl;
-    private final String fossilFuelsConsumptionData;
 
     ChartExportController() {
         // Initialize Chromium.
@@ -50,9 +48,6 @@ public class ChartExportController {
 
         // Set the HTML canvas URL.
         canvasUrl = new Resource("widgets/canvas.html").url();
-
-        // Preload data sets.
-        fossilFuelsConsumptionData = new Resource("fossil-fuels-consumption.csv").contentAsString();
     }
 
     @Get("/fossil-fuels-consumption/png")
@@ -60,9 +55,10 @@ public class ChartExportController {
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
-        runChartDrawingJs(fossilFuelsConsumptionData, "window.drawFossilFuelsConsumptionChart");
+        var data = Dataset.FOSSIL_FUELS_CONSUMPTION.contentAsString();
+        runChartDrawingJs(data, "window.drawFossilFuelsConsumptionChart");
 
-        saveBitmap("exported/fossil-fuels-consumption.png");
+        saveBitmapPng("exported/fossil-fuels-consumption.png");
 
         return HttpResponse.ok();
     }
@@ -76,11 +72,12 @@ public class ChartExportController {
         mainFrame.executeJavaScript(javaScript);
     }
 
-    private void saveBitmap(String fileName) throws IOException {
+    private void saveBitmapPng(String fileName) throws IOException {
         var bitmap = browser.bitmap();
         var image = new BitmapConverter().toBufferedImage(bitmap);
         var output = new File(fileName);
-        output.getParentFile().mkdirs();
+        output.getParentFile()
+              .mkdirs();
         ImageIO.write(image, "png", output);
     }
 }
