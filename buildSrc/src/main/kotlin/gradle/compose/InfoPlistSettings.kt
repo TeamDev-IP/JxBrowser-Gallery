@@ -25,7 +25,7 @@ import org.jetbrains.compose.desktop.application.dsl.InfoPlistSettings
 /**
  * This file contains the configuration of Information Property List.
  *
- * `Info.plist` is a metadata file for executables in macOS and IOS.
+ * `Info.plist` is a metadata file for executables in macOS and iOS.
  *
  * It is configured in `nativeDistributions` section of the Compose extension:
  *
