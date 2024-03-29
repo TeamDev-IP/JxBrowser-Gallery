@@ -61,8 +61,9 @@ final class Resource {
         try {
             var uri = url.toURI();
             var path = Path.of(uri);
-            var result = Files.readString(path);
-            return result;
+            var content = Files.readString(path);
+            var trimmed = content.trim();
+            return trimmed;
         } catch (IOException | URISyntaxException e) {
             throw new IllegalStateException("Unable to preload a resource.", e);
         }
