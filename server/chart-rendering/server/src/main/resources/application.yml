@@ -1,6 +1,8 @@
 micronaut:
   server:
+    # Enable CORS support and allow requests from all origins to reach the server on `localhost`.
     cors:
       enabled: true
       localhost-pass-through: true
+    # Ensure the application is running on port 8080.
     port: 8080
