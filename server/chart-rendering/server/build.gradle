@@ -67,4 +67,4 @@ run {
     systemProperties System.getProperties()
 }
 
-build.dependsOn(":client:build")
+build.dependsOn(":server:chart-rendering:client:build")
