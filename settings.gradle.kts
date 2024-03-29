@@ -20,4 +20,7 @@
 
 rootProject.name = "jxbrowser-gallery"
 
-include("compose:pomodoro")
+include(
+    "jxbrowser-license",
+    "compose:pomodoro"
+)
