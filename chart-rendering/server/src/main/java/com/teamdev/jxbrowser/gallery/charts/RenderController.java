@@ -67,25 +67,30 @@ public class RenderController {
 
     @Get("/fossil-fuels-consumption")
     public HttpResponse<?> index() throws IOException {
-        // Load the web page and wait until it is loaded completely.
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
-        var mainFrame = browser.mainFrame();
-        if (mainFrame.isEmpty()) {
-            throw new IllegalStateException("The browser main frame is not available");
-        }
-        var frame = mainFrame.get();
-        var javaScript =
-                "const data = `%s`;".formatted(fossilFuelsConsumptionData)
-                        + chartDrawingJs
-                        + "window.drawFossilFuelsConsumptionChart('chart', data);";
-        frame.executeJavaScript(javaScript);
-        var bitmap = browser.bitmap();
-        var image = BitmapImage.toToolkit(bitmap);
-        ImageIO.write(image, "png", new File("fossil-fuels-consumption.png"));
+        runChartDrawingJs(fossilFuelsConsumptionData, "window.drawFossilFuelsConsumptionChart");
+
+        saveBitmap("fossil-fuels-consumption.png");
 
         return HttpResponse.ok();
+    }
+
+    private void runChartDrawingJs(String data, String chartDrawingFunction) {
+        var mainFrame = browser.mainFrame()
+                               .orElseThrow();
+        var javaScript =
+                "const data = `%s`;".formatted(data)
+                        + chartDrawingJs
+                        + chartDrawingFunction + "('chart', data);";
+        mainFrame.executeJavaScript(javaScript);
+    }
+
+    private void saveBitmap(String fileName) throws IOException {
+        var bitmap = browser.bitmap();
+        var image = BitmapImage.toToolkit(bitmap);
+        ImageIO.write(image, "png", new File(fileName));
     }
 
     private static String resourceContentAsString(String fileName) {
