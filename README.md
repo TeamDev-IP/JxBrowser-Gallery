@@ -4,9 +4,8 @@ A gallery of apps built with JxBrowser, each solving a real-world use-case.
 
 ## Prerequisites for building
 
-1. JDK 17 is required to build the apps. Gradle JVM toolchain is configured to use `Zulu JDK`. 
-   Both Java version and vendor are declared in `gradle/libs.versions.toml`.
-2. Node.js 20. It is used to build WebGL part of Pomodoro app.
+JDK 17 is required to build the apps. Gradle JVM toolchain is configured to use `Zulu JDK`. 
+Both Java version and vendor are declared in `gradle/libs.versions.toml`.
 
 ## JxBrowser license
 
