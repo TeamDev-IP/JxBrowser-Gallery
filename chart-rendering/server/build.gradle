@@ -51,8 +51,6 @@ jxbrowser {
 dependencies {
     // Use the JxBrowser cross-platform binaries.
     implementation(jxbrowser.crossPlatform)
-    // JxBrowser for Swing dependency.
-    implementation(jxbrowser.swing)
 
     runtimeOnly("io.micronaut.serde:micronaut-serde-jackson")
 }

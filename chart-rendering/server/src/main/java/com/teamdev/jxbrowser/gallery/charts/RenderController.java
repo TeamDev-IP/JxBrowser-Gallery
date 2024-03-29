@@ -22,12 +22,17 @@ package com.teamdev.jxbrowser.gallery.charts;
 
 import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
-import com.teamdev.jxbrowser.view.swing.graphics.BitmapImage;
+import com.teamdev.jxbrowser.ui.Bitmap;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 
 import javax.imageio.ImageIO;
+import java.awt.color.ColorSpace;
+import java.awt.image.BufferedImage;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -88,8 +93,21 @@ public class RenderController {
 
     private void saveBitmap(String fileName) throws IOException {
         var bitmap = browser.bitmap();
-        var image = BitmapImage.toToolkit(bitmap);
+        var image = createImage(bitmap);
         ImageIO.write(image, "png", new File(fileName));
+    }
+
+    private static BufferedImage createImage(Bitmap bitmap) {
+        var size = bitmap.size();
+        var width = size.width();
+        var height = size.height();
+        var raster = Raster.createInterleavedRaster(0, width, height, width * 4, 4, new int[]{2, 1, 0, 3}, null);
+        var colorModel = new ComponentColorModel(ColorSpace.getInstance(1000),
+                                                 new int[]{8, 8, 8, 8}, true, true, 3, 0);
+        var dataBuffer = (DataBufferByte) raster.getDataBuffer();
+        var pixels = bitmap.pixels();
+        System.arraycopy(pixels, 0, dataBuffer.getData(), 0, pixels.length);
+        return new BufferedImage(colorModel, raster, true, null);
     }
 
     private static String resourceContentAsString(String resourceName) {
