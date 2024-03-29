@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * A utility for reading resources from the classpath.
+ * A utility type for reading resources from the classpath.
  */
 final class Resource {
 
