@@ -6,11 +6,9 @@
     "build": "webpack"
   },
   "dependencies": {
-    "@cubejs-client/core": "^0.31.0",
     "chart.js": "^4.0.0"
   },
   "devDependencies": {
-    "parcel": "^2.6.2",
     "webpack-cli": "^5.1.4"
   }
 }
