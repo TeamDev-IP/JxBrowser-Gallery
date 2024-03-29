@@ -3,7 +3,7 @@
 This project demonstrates how to render and export HTML/CSS/JS charts on the server side using JxBrowser.
 
 ### Prerequisites:
-1. [Java 17+][jdk-java-net].
+1. [Java 17+][java].
 2. [NPM][npm]
 
 ### Running locally:
@@ -15,5 +15,5 @@ After this, open `/server/chart-rendering/client/app/index.html` to launch the c
 
 The exported files appear under the `/server/chart-rendering/server/exported` directory.
 
-[jdk-java-net]: (https://jdk.java.net/)
+[java]: (https://www.azul.com/downloads/#zulu)
 [npm]: (https://nodejs.org/en/download)
