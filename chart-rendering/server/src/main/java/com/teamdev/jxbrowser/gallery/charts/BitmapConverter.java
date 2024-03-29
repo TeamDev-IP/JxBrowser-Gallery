@@ -10,11 +10,12 @@ import java.awt.image.DataBufferByte;
 import static java.awt.image.Raster.createInterleavedRaster;
 
 /**
- * A converter of {@link Bitmap} instances to Java AWT's {@link BufferedImage}.
+ * A converter of {@link Bitmap} instances into {@code BufferedImage}.
  *
  * <p>Performs the image conversion "by hand". Alternatively, you may add the
  * "JxBrowser JavaFX"/"JxBrowser Swing"/"JxBrowser SWT" dependency to the project
- * and use the {@code BitmapImage.toToolkitImage()} method.
+ * and use the {@code BitmapImage.toToolkitImage()} method. The resulting image
+ * will belong to the corresponding UI toolkit.
  */
 final class BitmapConverter {
 
