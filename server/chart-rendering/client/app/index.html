@@ -48,7 +48,8 @@
         win.document.body.innerHTML =
             `Your file: <a href="${url}" download="${filename}">${filename}</a>
                 <br><br>
-                Also, available on the server filesystem as '<i>./exported/${filename}</i>'.`
+                Also, available on the server filesystem as
+                '<i>{project root}/server/chart-rendering/server/exported/${filename}</i>'.`
         window.URL.revokeObjectURL(url);
     }
 
