@@ -86,7 +86,7 @@ final class ChartExportController {
     /**
      * Exports the "Fossil Fuels Consumption" chart to a PNG image.
      *
-     * @return a streamed file containing the exported PNG image
+     * @return a {@link SystemFile} instance representing the exported PNG image
      * @throws IOException if an I/O error occurs during the operation
      */
     @Get("/fossil-fuels-consumption/png")
