@@ -39,6 +39,10 @@
             .then(r => r.blob());
         const url = window.URL.createObjectURL(data);
         const filename = 'fossil-fuels.png';
+        openFileDownloadPopup(url, filename);
+    }
+
+    function openFileDownloadPopup(url, filename) {
         const win = window.open(
             "",
             "",
