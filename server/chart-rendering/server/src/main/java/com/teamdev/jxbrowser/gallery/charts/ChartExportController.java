@@ -46,8 +46,9 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
  *       {@code frame.executeJavaScript(...)}.
  *   <li>A JavaScript function is called to draw the chart on the canvas.
  *   <li>In case of an export to an image, the browser's bitmap, which now contains
- *       the rendered chart, is converted to {@code BufferedImage} and subsequently
- *       saved in the desired image format.
+ *       the rendered chart, is converted to {@code BufferedImage} and saved
+ *       in the desired image format.
+ *   <li>The saved file bytes are streamed back to the client as {@link SystemFile}.
  * </ol>
  */
 @Controller("/export")
