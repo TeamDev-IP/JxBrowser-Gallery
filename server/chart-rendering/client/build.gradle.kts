@@ -18,32 +18,32 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.libs
-import gradle.get
+import gradle.web.BuildWeb
+import gradle.web.buildWebProject
 
-plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("detekt-code-analysis")
-    id("com.dorongold.task-tree")
-}
+tasks {
+    val buildWebProject = buildWebProject(projectDir, projectDir.resolve("app"))
 
-version = libs.versions.jxbrowser.get()
-group = "com.teamdev.jxbrowser"
+    val serverResources = projectDir.resolve("../server/src/main/resources/rendering")
+    val copyWebProjectOutput = copyWebProjectOutput(buildWebProject, serverResources)
 
-repositories {
-    mavenCentral()
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
+    val build by registering {
+        dependsOn(buildWebProject)
+        dependsOn(copyWebProjectOutput)
     }
 }
 
-kotlin {
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
+/**
+ * Registers a tak to copy [buildWebProject] output to the given [destination].
+ */
+fun TaskContainerScope.copyWebProjectOutput(
+    buildWebProject: TaskProvider<BuildWeb>,
+    destination: File
+): TaskProvider<Copy> {
+    val copyWebProjectOutput by registering(Copy::class) {
+        from(buildWebProject)
+        into(destination)
+        exclude("*.html")
     }
+    return copyWebProjectOutput
 }

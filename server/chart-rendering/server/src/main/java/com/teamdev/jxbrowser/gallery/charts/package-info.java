@@ -18,32 +18,7 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.libs
-import gradle.get
-
-plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("detekt-code-analysis")
-    id("com.dorongold.task-tree")
-}
-
-version = libs.versions.jxbrowser.get()
-group = "com.teamdev.jxbrowser"
-
-repositories {
-    mavenCentral()
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
-    }
-}
-
-kotlin {
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
-    }
-}
+/**
+ * Contains the server types of the chart rendering application.
+ */
+package com.teamdev.jxbrowser.gallery.charts;

@@ -18,32 +18,31 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.libs
-import gradle.get
+package com.teamdev.jxbrowser.gallery.charts;
 
-plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("detekt-code-analysis")
-    id("com.dorongold.task-tree")
-}
+/**
+ * An enumeration of datasets available to the application.
+ */
+@SuppressWarnings("NonSerializableFieldInSerializableClass" /* OK for this enum. */)
+enum Dataset {
+    FOSSIL_FUELS_CONSUMPTION("fossil-fuels-consumption.csv");
 
-version = libs.versions.jxbrowser.get()
-group = "com.teamdev.jxbrowser"
+    /**
+     * The resource containing the dataset.
+     */
+    private final Resource resource;
 
-repositories {
-    mavenCentral()
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
+    /**
+     * Initializes a new enum instance for the resource with the passed name.
+     */
+    Dataset(String resourceName) {
+        this.resource = new Resource(resourceName);
     }
-}
 
-kotlin {
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
+    /**
+     * Returns the content of the dataset as a string.
+     */
+    String contentAsString() {
+        return resource.contentAsString();
     }
 }

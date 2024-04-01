@@ -18,32 +18,28 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.libs
-import gradle.get
+package com.teamdev.jxbrowser.gallery.charts;
 
-plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("detekt-code-analysis")
-    id("com.dorongold.task-tree")
-}
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Produces;
 
-version = libs.versions.jxbrowser.get()
-group = "com.teamdev.jxbrowser"
+import static io.micronaut.http.MediaType.TEXT_CSV;
 
-repositories {
-    mavenCentral()
-}
+/**
+ * A controller that provides access to the dataset files.
+ */
+@Controller("/dataset")
+final class DataController {
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
-    }
-}
-
-kotlin {
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
+    /**
+     * Returns the content of the "Fossil fuels consumption" dataset.
+     *
+     * @return the dataset content in the CSV format
+     */
+    @Get("/fossil-fuels-consumption")
+    @Produces(TEXT_CSV)
+    String fossilFuelsConsumption() {
+        return Dataset.FOSSIL_FUELS_CONSUMPTION.contentAsString();
     }
 }

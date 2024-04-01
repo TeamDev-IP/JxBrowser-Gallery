@@ -18,32 +18,17 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.libs
-import gradle.get
+import {defineConfig} from "vite"
 
-plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("detekt-code-analysis")
-    id("com.dorongold.task-tree")
-}
-
-version = libs.versions.jxbrowser.get()
-group = "com.teamdev.jxbrowser"
-
-repositories {
-    mavenCentral()
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
-    }
-}
-
-kotlin {
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
-    }
-}
+// noinspection JSUnusedGlobalSymbols
+export default defineConfig({
+    build: {
+        emptyOutDir: false,
+        rollupOptions: {
+            input: './src/main/index.js',
+            output: {
+                entryFileNames: 'chart-drawing.js',
+            }
+        },
+    },
+})

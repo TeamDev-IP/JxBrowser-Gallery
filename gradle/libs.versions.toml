@@ -1,16 +1,29 @@
 [versions]
+# Versions of JxBrowser and the related dependencies.
+jxbrowser = "8.0.0-eap.1" # https://europe-maven.pkg.dev/jxbrowser/eaps/com/teamdev/jxbrowser/jxbrowser-mac/maven-metadata.xml
+jxbrowser-gradlePlugin = "1.0.2" # https://github.com/TeamDev-IP/JxBrowser-Gradle-Plugin/releases
+
+# Other platforms, libraries, and plugins.
 java = "17" # See also: `org.gradle.jvm.toolchain.JavaLanguageVersion`
 java-vendor = "AZUL" # See also: `org.gradle.jvm.toolchain.JvmVendorSpec`
 kotlin = "1.9.23" # https://github.com/JetBrains/kotlin/releases
 detekt = "1.23.6" # https://github.com/detekt/detekt/releases
 compose = "1.6.1" # https://github.com/JetBrains/compose-multiplatform/releases
-jxbrowser = "8.0.0-eap.1" # https://europe-maven.pkg.dev/jxbrowser/eaps/com/teamdev/jxbrowser/jxbrowser-mac/maven-metadata.xml
-jxbrowser-gradlePlugin = "1.0.2" # https://github.com/TeamDev-IP/JxBrowser-Gradle-Plugin/releases
+micronaut = "4.3.7" # https://github.com/micronaut-projects/micronaut-starter
+micronaut-gradlePlugin = "4.3.5" # https://github.com/micronaut-projects/micronaut-gradle-plugin
+micronaut-serdeJackson = "2.8.2" # https://mvnrepository.com/artifact/io.micronaut.serde/micronaut-serde-jackson
+snakeyaml = "2.2" # https://mvnrepository.com/artifact/org.yaml/snakeyaml
 taskTree-gradlePlugin = "2.1.1" # https://github.com/dorongold/gradle-task-tree/releases
 
 [libraries]
+# Aliases for the JxBrowser-related dependencies.
+jxbrowser-gradlePlugin = { module = "com.teamdev.jxbrowser:JxBrowser-Gradle-Plugin", version.ref = "jxbrowser-gradlePlugin" }
+
+# Other aliases.
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 detekt-gradlePlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
-jxbrowser-gradlePlugin = { module = "com.teamdev.jxbrowser:JxBrowser-Gradle-Plugin", version.ref = "jxbrowser-gradlePlugin" }
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+micronaut-gradlePlugin = { module = "io.micronaut.gradle:micronaut-gradle-plugin", version.ref = "micronaut-gradlePlugin" }
+micronaut-serdeJackson = { module = "io.micronaut.serde:micronaut-serde-jackson", version.ref = "micronaut-serdeJackson" }
+snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
 taskTree-gradlePlugin = { module = "com.dorongold.plugins:task-tree", version.ref = "taskTree-gradlePlugin" }

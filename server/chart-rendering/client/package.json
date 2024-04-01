@@ -1,0 +1,14 @@
+{
+  "name": "charts",
+  "version": "1.0.0",
+  "description": "The server-side chart rendering application.",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "chart.js": "^4.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.1.2"
+  }
+}

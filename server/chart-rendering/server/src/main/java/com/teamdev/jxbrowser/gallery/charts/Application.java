@@ -18,32 +18,25 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.libs
-import gradle.get
+package com.teamdev.jxbrowser.gallery.charts;
 
-plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("detekt-code-analysis")
-    id("com.dorongold.task-tree")
-}
+import io.micronaut.runtime.Micronaut;
 
-version = libs.versions.jxbrowser.get()
-group = "com.teamdev.jxbrowser"
+/**
+ * The entry point of the application.
+ */
+public final class Application {
 
-repositories {
-    mavenCentral()
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
+    /**
+     * Prevents direct instantiation of this class.
+     */
+    private Application() {
     }
-}
 
-kotlin {
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
+    /**
+     * The "main" entry point.
+     */
+    public static void main(String[] args) {
+        Micronaut.run(Application.class, args);
     }
 }
