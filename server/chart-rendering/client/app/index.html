@@ -37,17 +37,19 @@
     async function exportFossilFuelsConsumptionChart() {
         const data = await fetch(`${SERVER_URL}/export/fossil-fuels-consumption/png`)
             .then(r => r.blob());
+        const url = window.URL.createObjectURL(data);
         const filename = 'fossil-fuels.png';
-        if(confirm(`Saved as './exported/${filename}' on the server. Download on this PC?`)) {
-            const url = window.URL.createObjectURL(data);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        }
+        const win = window.open(
+            "",
+            "",
+            `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,
+            menubar=no,width=600,height=300,left=100,top=100`
+        );
+        win.document.body.innerHTML =
+            `Your file: <a href="${url}" download="${filename}">${filename}</a>
+                <br><br>
+                Also, available on the server filesystem as '<i>./exported/${filename}</i>'.`
+        window.URL.revokeObjectURL(url);
     }
 
     function httpGet(url) {
