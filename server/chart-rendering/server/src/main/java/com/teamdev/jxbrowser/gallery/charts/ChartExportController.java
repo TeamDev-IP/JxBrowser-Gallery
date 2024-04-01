@@ -24,9 +24,9 @@ import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.license.internal.LicenseProvider;
-import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.server.types.files.SystemFile;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -85,20 +85,20 @@ final class ChartExportController {
     /**
      * Exports the "Fossil Fuels Consumption" chart to a PNG image.
      *
-     * @return an HTTP response indicating the success of the operation
+     * @return a streamed file containing the exported PNG image
      * @throws IOException if an I/O error occurs during the operation
      */
     @Get("/fossil-fuels-consumption/png")
-    HttpResponse<?> fossilFuelsConsumptionPng() throws IOException {
+    SystemFile fossilFuelsConsumptionPng() throws IOException {
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
         var data = Dataset.FOSSIL_FUELS_CONSUMPTION.contentAsString();
         runChartDrawingJs(data, "window.drawFossilFuelsConsumptionChart");
 
-        saveBitmapPng("exported/fossil-fuels-consumption.png");
+        var image = saveBitmapPng("exported/fossil-fuels-consumption.png");
 
-        return HttpResponse.ok();
+        return new SystemFile(image);
     }
 
     private void runChartDrawingJs(String data, String chartDrawingFunction) {
@@ -110,12 +110,13 @@ final class ChartExportController {
         mainFrame.executeJavaScript(javaScript);
     }
 
-    private void saveBitmapPng(String fileName) throws IOException {
+    private File saveBitmapPng(String fileName) throws IOException {
         var bitmap = browser.bitmap();
         var image = new BitmapConverter().toBufferedImage(bitmap);
         var output = new File(fileName);
         output.getParentFile()
               .mkdirs();
         ImageIO.write(image, "png", output);
+        return output;
     }
 }

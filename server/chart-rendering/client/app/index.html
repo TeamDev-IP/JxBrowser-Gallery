@@ -34,8 +34,20 @@
 <script type="text/javascript">
     const SERVER_URL = 'http://localhost:8080';
 
-    function exportFossilFuelsConsumptionChart() {
-        httpGet(`${SERVER_URL}/export/fossil-fuels-consumption/png`);
+    async function exportFossilFuelsConsumptionChart() {
+        const data = await fetch(`${SERVER_URL}/export/fossil-fuels-consumption/png`)
+            .then(r => r.blob());
+        const filename = 'fossil-fuels.png';
+        if(confirm(`Saved as './exported/${filename}' on the server. Download on this PC?`)) {
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
     }
 
     function httpGet(url) {
