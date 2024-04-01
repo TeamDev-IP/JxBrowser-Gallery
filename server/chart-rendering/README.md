@@ -11,9 +11,11 @@ This project demonstrates how to render and export HTML/CSS/JS charts on the ser
    ./gradlew build
    ./gradlew :server:chart-rendering:server:run -D"jxbrowser.license.key"=your_license_key
 ```
-After this, open `/server/chart-rendering/client/app/index.html` to launch the client side of the application.
+After this, open `/server/chart-rendering/client/app/index.html` to launch the client side 
+of the application.
 
-The exported files appear under the `/server/chart-rendering/server/exported` directory.
+The exported files are available for download in the browser and also appear under the 
+`{project root}/server/chart-rendering/server/exported` directory on the server-local file system.
 
 [java]: (https://www.azul.com/downloads/#zulu)
 [npm]: (https://nodejs.org/en/download)
