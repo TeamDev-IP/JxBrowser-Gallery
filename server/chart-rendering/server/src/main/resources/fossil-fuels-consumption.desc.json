@@ -1,0 +1,17 @@
+{
+  "title": "Share of primary energy consumption from fossil fuels, Portugal",
+  "description": "This is a CSV file containing data share of primary energy consumption from fossil fuels in Portugal.",
+  "numberOfRows": 27,
+  "columns": [
+    {
+      "name": "Year",
+      "type": "integer",
+      "description": "The year in which the data was recorded."
+    },
+    {
+      "name": "Consumption",
+      "type": "float",
+      "description": "The percentage of primary energy consumption from fossil fuels."
+    }
+  ]
+}

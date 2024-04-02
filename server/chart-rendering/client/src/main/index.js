@@ -34,11 +34,11 @@ window.drawFossilFuelsConsumptionChart = (canvas, csvData) => {
         {
             type: 'line',
             data: {
-                labels: parsedData.map(row => row[2]),
+                labels: parsedData.map(row => row[0]),
                 datasets: [
                     {
                         label: 'Share of primary energy consumption from fossil fuels, Portugal',
-                        data: parsedData.map(row => row[3]),
+                        data: parsedData.map(row => row[1]),
                     },
                 ],
             },
