@@ -113,5 +113,4 @@ populateFossilFuelsConsumptionDesc();
 const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
 window.drawFossilFuelsConsumptionChart('fossil-fuels-consumption', data);
 
-window.exportFossilFuelsConsumptionChart = exportFossilFuelsConsumptionChart;
 window.switchTab = switchTab;
