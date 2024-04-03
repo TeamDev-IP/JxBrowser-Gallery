@@ -94,7 +94,7 @@ final class ChartExportController {
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
-        var data = Dataset.FOSSIL_FUELS_CONSUMPTION.contentAsString();
+        var data = Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
         runChartDrawingJs(data, "window.drawFossilFuelsConsumptionChart");
 
         var image = saveBitmapPng("exported/fossil-fuels-consumption.png");

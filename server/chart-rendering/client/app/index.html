@@ -62,10 +62,10 @@
     async function populateFossilFuelsConsumptionDesc() {
         chartCount++;
 
-        const description = await fetch(`${SERVER_URL}/dataset/fossil-fuels-consumption/description`)
+        const info = await fetch(`${SERVER_URL}/dataset/fossil-fuels-consumption/info`)
             .then(response => response.text());
 
-        const dataset = JSON.parse(description);
+        const dataset = JSON.parse(info);
 
         const datasetDiv = document.createElement('div');
         datasetDiv.style.width = '800px';

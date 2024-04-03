@@ -20,41 +20,51 @@
 
 package com.teamdev.jxbrowser.gallery.charts;
 
+import com.google.gson.JsonParser;
+
 /**
  * An enumeration of datasets available to the application.
  */
 @SuppressWarnings("NonSerializableFieldInSerializableClass" /* OK for this enum. */)
 enum Dataset {
-    FOSSIL_FUELS_CONSUMPTION(
-            "fossil-fuels-consumption.desc.json",
-            "fossil-fuels-consumption.csv"
-    );
+    FOSSIL_FUELS_CONSUMPTION("fossil-fuels-consumption.info.json");
 
     /**
-     * The resource containing the dataset.
+     * The resource containing the dataset info.
      */
-    private final Resource description;
+    private final Resource info;
+
+    /**
+     * The resource containing the dataset data.
+     */
     private final Resource data;
 
     /**
      * Initializes a new enum instance for the resource with the passed name.
      */
-    Dataset(String descriptionResource, String dataResource) {
-        this.description = new Resource(descriptionResource);
-        this.data = new Resource(dataResource);
+    Dataset(String resourceName) {
+        this.info = new Resource(resourceName);
+        this.data = new Resource(dataRef(info.contentAsString()));
     }
 
     /**
-     * Returns the description of the dataset as a string.
+     * Returns the description of the dataset as a JSON string.
      */
-    String descriptionAsString() {
-        return description.contentAsString();
+    String infoAsString() {
+        return info.contentAsString();
     }
 
     /**
      * Returns the content of the dataset as a string.
      */
-    String contentAsString() {
+    String dataAsString() {
         return data.contentAsString();
+    }
+
+    private static String dataRef(String json) {
+        var jsonElement = JsonParser.parseString(json);
+        var jsonObject = jsonElement.getAsJsonObject();
+        var result = jsonObject.get("dataRef").getAsString();
+        return result;
     }
 }

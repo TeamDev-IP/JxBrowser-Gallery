@@ -18,12 +18,18 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import gradle.libs
+
 plugins {
     id("server-app")
 }
 
 application {
     mainClass.set("com.teamdev.jxbrowser.gallery.charts.Application")
+}
+
+dependencies {
+    implementation(libs.gson)
 }
 
 val dependentTasks = listOf("processResources", "inspectRuntimeClasspath")

@@ -34,14 +34,14 @@ import static io.micronaut.http.MediaType.TEXT_JSON;
 final class DataController {
 
     /**
-     * Returns the description of the "Fossil fuels consumption" dataset.
+     * Returns the info about the "Fossil fuels consumption" dataset.
      *
-     * @return the dataset description in the JSON format
+     * @return the dataset info in the JSON format
      */
-    @Get("/fossil-fuels-consumption/description")
+    @Get("/fossil-fuels-consumption/info")
     @Produces(TEXT_JSON)
-    String fossilFuelsConsumptionDesc() {
-        return Dataset.FOSSIL_FUELS_CONSUMPTION.descriptionAsString();
+    String fossilFuelsConsumptionInfo() {
+        return Dataset.FOSSIL_FUELS_CONSUMPTION.infoAsString();
     }
 
     /**
@@ -52,6 +52,6 @@ final class DataController {
     @Get("/fossil-fuels-consumption/data")
     @Produces(TEXT_CSV)
     String fossilFuelsConsumptionData() {
-        return Dataset.FOSSIL_FUELS_CONSUMPTION.contentAsString();
+        return Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
     }
 }
