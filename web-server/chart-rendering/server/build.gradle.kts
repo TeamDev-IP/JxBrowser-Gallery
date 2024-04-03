@@ -38,6 +38,6 @@ dependentTasks.forEach { taskName ->
     tasks.named(taskName) {
         // Ensure the client-side code is built first so that the chart-drawing
         // JS bundle is already in the classpath.
-        dependsOn(":server:chart-rendering:client:build")
+        dependsOn(":web-server:chart-rendering:client:build")
     }
 }

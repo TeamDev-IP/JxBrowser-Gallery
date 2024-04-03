@@ -23,6 +23,6 @@ rootProject.name = "jxbrowser-gallery"
 include(
     "jxbrowser-license",
     "compose:pomodoro",
-    "server:chart-rendering:client",
-    "server:chart-rendering:server"
+    "web-server:chart-rendering:client",
+    "web-server:chart-rendering:server"
 )
