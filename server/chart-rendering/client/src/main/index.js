@@ -18,82 +18,85 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Chart from 'chart.js/auto';
+import * as a from './chart-rendering.js';
 
-/**
- * Draws a chart that visualizes the share of primary energy consumption from
- * fossil fuels in Portugal.
- *
- * @param canvas the ID of the canvas element to draw the chart on
- * @param csvData the CSV data to be visualized
- */
-window.drawFossilFuelsConsumptionChart = (canvas, csvData) => {
-    const parsedData = csvToArray(csvData);
-    new Chart(
-        document.getElementById(canvas),
-        {
-            type: 'line',
-            data: {
-                labels: parsedData.map(row => row[0]),
-                datasets: [
-                    {
-                        label: 'Share of primary energy consumption from fossil fuels, Portugal',
-                        data: parsedData.map(row => row[1]),
-                    },
-                ],
-            },
-            options: {
-                animation: false,
-                scales: {
-                    y: {
-                        min: 0,
-                        max: 100,
-                        ticks: {
-                            stepSize: 20,
-                            callback: function (value) {
-                                return value + '%';
-                            },
-                        },
-                    },
-                },
-            },
-        },
-    );
+const SERVER_URL = 'http://localhost:8080';
+let chartCount = 0;
+
+export async function exportFossilFuelsConsumptionChart() {
+    const data = await fetch(`${SERVER_URL}/export/fossil-fuels-consumption/png`)
+        .then(r => r.blob());
+    const url = window.URL.createObjectURL(data);
+    const filename = 'fossil-fuels.png';
+    openFileDownloadPopup(url, filename);
 }
 
-/**
- * Parses the CSV data from a string into a JS array.
- */
-function csvToArray(strData, strDelimiter) {
-    strDelimiter = (strDelimiter || ',');
-    const objPattern = new RegExp(
-        (
-            '(\\' + strDelimiter + '|\\r?\\n|\\r|^)' +
-            '(?:"([^"]*(?:""[^"]*)*)"|' +
-            '([^"\\' + strDelimiter + '\\r\\n]*))'
-        ),
-        'gi',
+function openFileDownloadPopup(url, filename) {
+    const win = window.open(
+        "",
+        "",
+        `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,
+            menubar=no,width=600,height=300,left=100,top=100`
     );
-    const arrData = [[]];
-    let arrMatches = null;
-    while (arrMatches = objPattern.exec(strData)) {
-        const strMatchedDelimiter = arrMatches[1];
-        if (
-            strMatchedDelimiter.length &&
-            strMatchedDelimiter !== strDelimiter
-        ) {
-            arrData.push([]);
-        }
-        let strMatchedValue;
-        if (arrMatches[2]) {
-            strMatchedValue = arrMatches[2].replace(
-                new RegExp('""', 'g'),
-                '"',
-            );
-        } else {
-            strMatchedValue = arrMatches[3];
-        }
-        arrData[arrData.length - 1].push(strMatchedValue);
-    }
-    return (arrData);
+    win.document.body.innerHTML =
+        `Your file: <a href="${url}" download="${filename}">${filename}</a>
+                <br><br>
+                Also, available on the server filesystem as
+                '<i>{project root}/server/chart-rendering/server/exported/${filename}</i>'.`
 }
+
+async function populateFossilFuelsConsumptionDesc() {
+    chartCount++;
+
+    const info = await fetch(`${SERVER_URL}/dataset/fossil-fuels-consumption/info`)
+        .then(response => response.text());
+
+    const dataset = JSON.parse(info);
+
+    const datasetDiv = document.createElement('div');
+    datasetDiv.style.width = '800px';
+    datasetDiv.style.border = '1px solid black';
+    datasetDiv.style.padding = '10px';
+    datasetDiv.style.marginBottom = '10px';
+
+    const titleParagraph = document.createElement('p');
+    titleParagraph.innerText = `Dataset #${chartCount}: ${dataset.title}`;
+    titleParagraph.style.fontWeight = 'bold';
+    datasetDiv.appendChild(titleParagraph);
+
+    const descriptionParagraph = document.createElement('p');
+    descriptionParagraph.innerText = `${dataset.description}`;
+    datasetDiv.appendChild(descriptionParagraph);
+
+    const rowCountParagraph = document.createElement('p');
+    rowCountParagraph.innerHTML = `<b>Number of records:</b> ${dataset.rowCount}`;
+    datasetDiv.appendChild(rowCountParagraph);
+
+    const columnsParagraph = document.createElement('p');
+    columnsParagraph.innerText = `Columns:`;
+    columnsParagraph.style.fontWeight = 'bold';
+    datasetDiv.appendChild(columnsParagraph);
+
+    const columnsList = document.createElement('ul');
+    dataset.columns.forEach(column => {
+        const columnListItem = document.createElement('li');
+        columnListItem.innerHTML = `<i>${column.title}</i> - ${column.description}`;
+        columnsList.appendChild(columnListItem);
+    });
+    datasetDiv.appendChild(columnsList);
+
+    document.getElementById('datasets').appendChild(datasetDiv);
+}
+
+function httpGet(url) {
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open('GET', url, false);
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+}
+
+populateFossilFuelsConsumptionDesc();
+const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
+window.drawFossilFuelsConsumptionChart('fossil-fuels-consumption', data);
+
+window.exportFossilFuelsConsumptionChart = exportFossilFuelsConsumptionChart;
