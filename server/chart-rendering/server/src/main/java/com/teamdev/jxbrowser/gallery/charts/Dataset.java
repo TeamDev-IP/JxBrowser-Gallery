@@ -25,24 +25,36 @@ package com.teamdev.jxbrowser.gallery.charts;
  */
 @SuppressWarnings("NonSerializableFieldInSerializableClass" /* OK for this enum. */)
 enum Dataset {
-    FOSSIL_FUELS_CONSUMPTION("fossil-fuels-consumption.csv");
+    FOSSIL_FUELS_CONSUMPTION(
+            "fossil-fuels-consumption.desc.json",
+            "fossil-fuels-consumption.csv"
+    );
 
     /**
      * The resource containing the dataset.
      */
-    private final Resource resource;
+    private final Resource description;
+    private final Resource data;
 
     /**
      * Initializes a new enum instance for the resource with the passed name.
      */
-    Dataset(String resourceName) {
-        this.resource = new Resource(resourceName);
+    Dataset(String descriptionResource, String dataResource) {
+        this.description = new Resource(descriptionResource);
+        this.data = new Resource(dataResource);
+    }
+
+    /**
+     * Returns the description of the dataset as a string.
+     */
+    String descriptionAsString() {
+        return description.contentAsString();
     }
 
     /**
      * Returns the content of the dataset as a string.
      */
     String contentAsString() {
-        return resource.contentAsString();
+        return data.contentAsString();
     }
 }

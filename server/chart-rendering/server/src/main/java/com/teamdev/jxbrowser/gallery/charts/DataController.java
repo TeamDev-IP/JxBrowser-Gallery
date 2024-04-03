@@ -25,21 +25,33 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Produces;
 
 import static io.micronaut.http.MediaType.TEXT_CSV;
+import static io.micronaut.http.MediaType.TEXT_JSON;
 
 /**
- * A controller that provides access to the dataset files.
+ * A controller that provides access to the datasets used within the application.
  */
 @Controller("/dataset")
 final class DataController {
+
+    /**
+     * Returns the description of the "Fossil fuels consumption" dataset.
+     *
+     * @return the dataset description in the JSON format
+     */
+    @Get("/fossil-fuels-consumption/description")
+    @Produces(TEXT_JSON)
+    String fossilFuelsConsumptionDesc() {
+        return Dataset.FOSSIL_FUELS_CONSUMPTION.descriptionAsString();
+    }
 
     /**
      * Returns the content of the "Fossil fuels consumption" dataset.
      *
      * @return the dataset content in the CSV format
      */
-    @Get("/fossil-fuels-consumption")
+    @Get("/fossil-fuels-consumption/data")
     @Produces(TEXT_CSV)
-    String fossilFuelsConsumption() {
+    String fossilFuelsConsumptionData() {
         return Dataset.FOSSIL_FUELS_CONSUMPTION.contentAsString();
     }
 }
