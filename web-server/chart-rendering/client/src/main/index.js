@@ -85,7 +85,7 @@ async function populateFossilFuelsConsumptionDesc() {
     });
     datasetDiv.appendChild(columnsList);
 
-    document.getElementById('datasets').appendChild(datasetDiv);
+    document.getElementById(`dataset-${chartCount}`).prepend(datasetDiv);
 }
 
 function httpGet(url) {
@@ -95,8 +95,18 @@ function httpGet(url) {
     return xmlHttp.responseText;
 }
 
+function switchTab(tabId) {
+    const tabContent = document.getElementsByClassName("tab-content");
+    let i;
+    for (i = 0; i < tabContent.length; i++) {
+        tabContent[i].style.display = "none";
+    }
+    document.getElementById(tabId).style.display = "block";
+}
+
 populateFossilFuelsConsumptionDesc();
 const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
 window.drawFossilFuelsConsumptionChart('fossil-fuels-consumption', data);
 
 window.exportFossilFuelsConsumptionChart = exportFossilFuelsConsumptionChart;
+window.switchTab = switchTab;

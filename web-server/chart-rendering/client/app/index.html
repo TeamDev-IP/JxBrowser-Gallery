@@ -24,14 +24,19 @@
     <title>Exporting rich charts as images</title>
 </head>
 <body>
-<div id="datasets" style="display: flex;">
-</div>
-<div style="width: 800px;">
-    <canvas id="fossil-fuels-consumption"></canvas>
+<div id="datasets" style="display: flex; flex-direction: column;">
+    <div>
+        <button id="tab1" onclick="window.switchTab('dataset-1')">Dataset #1</button>
+    </div>
+    <div id="dataset-1" class="tab-content">
+        <div style="width: 800px;">
+            <canvas id="fossil-fuels-consumption"></canvas>
+        </div>
+        <button onclick="window.exportFossilFuelsConsumptionChart()">
+            Export to PNG
+        </button>
+    </div>
 </div>
 <script type="text/javascript" src="./chart-drawing.js"></script>
-<button id="fossil-fuels-consumption-export" onclick="window.exportFossilFuelsConsumptionChart()">
-    Export to PNG
-</button>
 </body>
 </html>
