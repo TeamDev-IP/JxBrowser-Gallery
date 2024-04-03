@@ -86,6 +86,11 @@ async function populateFossilFuelsConsumptionDesc() {
     datasetDiv.appendChild(columnsList);
 
     document.getElementById(`dataset-${chartCount}`).prepend(datasetDiv);
+
+    const button = document.createElement('button');
+    button.innerText = 'Export to PNG';
+    button.onclick = exportFossilFuelsConsumptionChart;
+    document.getElementById(`dataset-${chartCount}`).appendChild(button);
 }
 
 function httpGet(url) {
