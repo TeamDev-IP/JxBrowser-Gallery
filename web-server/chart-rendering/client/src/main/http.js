@@ -18,6 +18,12 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * Sends a GET request to the specified URL and returns the response.
+ *
+ * @param url {string} the URL to send the request to
+ * @return {string} the response from the server
+ */
 export function httpGet(url) {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open('GET', url, false);

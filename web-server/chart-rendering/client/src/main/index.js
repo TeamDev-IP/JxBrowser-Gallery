@@ -25,6 +25,10 @@ import {openFileDownloadPopup} from "./popup";
 
 const SERVER_URL = 'http://localhost:8080';
 
+/**
+ * Initializes the tab containing the chart that visualizes the share of primary
+ * energy consumption from fossil fuels in Portugal.
+ */
 window.initFossilFuelsConsumptionChart = () => {
     const info = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/info`);
     const datasetInfo = JSON.parse(info);

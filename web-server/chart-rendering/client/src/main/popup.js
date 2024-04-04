@@ -18,6 +18,12 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * Opens a new popup window with a link to download the file.
+ *
+ * @param url the URL of the file to download
+ * @param filename the name under which the file should be saved
+ */
 export function openFileDownloadPopup(url, filename) {
     const win = window.open(
         "",

@@ -20,6 +20,10 @@
 
 let tabCount = 0;
 
+/**
+ * Creates a new content tab and returns the corresponding DOM element ID.
+ * @return {string} the ID of the DOM element representing the new tab
+ */
 export function newTab() {
     tabCount++;
 
@@ -41,6 +45,13 @@ export function newTab() {
     return contentDiv.id;
 }
 
+/**
+ * Populates the tab with the specified dataset information.
+ *
+ * @param tabId the ID of the tab to populate
+ * @param datasetInfo the dataset information to display
+ * @param exportPng the function to call when the user clicks the "Export to PNG" button
+ */
 export function populateTab(tabId, datasetInfo, exportPng) {
     const content = document.getElementById(tabId);
 
@@ -60,6 +71,11 @@ export function populateTab(tabId, datasetInfo, exportPng) {
     content.appendChild(button);
 }
 
+/**
+ * Switches the displayed content to the tab with the specified ID.
+ *
+ * @param tabId the ID of the tab to switch to
+ */
 function switchToTab(tabId) {
     const tabContent = document.getElementsByClassName("tab-content");
     for (let i = 0; i < tabContent.length; i++) {
@@ -68,6 +84,12 @@ function switchToTab(tabId) {
     document.getElementById(tabId).style.display = "block";
 }
 
+/**
+ * Creates a panel that displays the specified dataset information.
+ *
+ * @param datasetInfo the dataset information to display
+ * @return {HTMLDivElement} the panel with the dataset information
+ */
 function datasetInfoPanel(datasetInfo) {
     const datasetInfoPanel = document.createElement('div');
     datasetInfoPanel.className = 'dataset-info-panel';
