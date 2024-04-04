@@ -40,7 +40,7 @@ enum Dataset {
     private final Resource data;
 
     /**
-     * Initializes a new enum instance for the resource with the passed name.
+     * Initializes a new enum instance for the dataset denoted by the passed resource name.
      */
     Dataset(String resourceName) {
         this.info = new Resource(resourceName);
