@@ -18,6 +18,11 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#datasets {
+    display: flex;
+    flex-direction: column;
+}
+
 .tab-content {
     width: 800px;
 }
