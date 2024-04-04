@@ -104,11 +104,11 @@ function datasetInfoPanel(datasetInfo) {
     datasetInfoPanel.appendChild(descriptionParagraph);
 
     const rowCountParagraph = document.createElement('p');
-    rowCountParagraph.innerHTML = `<b>Row count:</b> ${datasetInfo.rowCount}`;
+    rowCountParagraph.innerHTML = `Row count: ${datasetInfo.rowCount}`;
     datasetInfoPanel.appendChild(rowCountParagraph);
 
     const columnsParagraph = document.createElement('p');
-    columnsParagraph.innerHTML = `<b>Columns:</b>`;
+    columnsParagraph.innerHTML = `Columns:`;
     datasetInfoPanel.appendChild(columnsParagraph);
 
     const columnList = document.createElement('ul');
