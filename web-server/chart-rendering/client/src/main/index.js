@@ -18,7 +18,7 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import "./chart-drawing";
+import {drawFossilFuelsConsumptionChart} from "./chart-drawing";
 import {httpGet} from "./http";
 import {newTab, populateTab} from "./page-content";
 import {openFileDownloadPopup} from "./popup";
@@ -29,7 +29,7 @@ const SERVER_URL = 'http://localhost:8080';
  * Initializes the tab containing the chart that visualizes the share of primary
  * energy consumption from fossil fuels in Portugal.
  */
-window.initFossilFuelsConsumptionChart = () => {
+export function initFossilFuelsConsumptionChart() {
     const info = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/info`);
     const datasetInfo = JSON.parse(info);
     const tabId = newTab();
@@ -46,3 +46,6 @@ window.initFossilFuelsConsumptionChart = () => {
         openFileDownloadPopup(url, filename);
     }
 }
+
+window.initFossilFuelsConsumptionChart = initFossilFuelsConsumptionChart;
+window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;

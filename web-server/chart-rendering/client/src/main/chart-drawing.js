@@ -27,7 +27,7 @@ import Chart from 'chart.js/auto';
  * @param canvas the ID of the canvas element to draw the chart on
  * @param csvData the CSV data to be visualized
  */
-window.drawFossilFuelsConsumptionChart = (canvas, csvData) => {
+export function drawFossilFuelsConsumptionChart(canvas, csvData) {
     const parsedData = csvToArray(csvData);
     new Chart(
         document.getElementById(canvas),
