@@ -34,7 +34,6 @@ export function newTab() {
     if (tabCount > 1) {
         contentDiv.style.display = 'none';
     }
-    contentDiv.style.width = '800px';
 
     document.getElementById('tabs').appendChild(button);
     document.getElementById('content').appendChild(contentDiv);
@@ -71,10 +70,7 @@ function switchToTab(tabId) {
 
 function datasetInfoPanel(datasetInfo) {
     const datasetInfoPanel = document.createElement('div');
-    datasetInfoPanel.style.width = '800px';
-    datasetInfoPanel.style.border = '1px solid black';
-    datasetInfoPanel.style.padding = '10px';
-    datasetInfoPanel.style.marginBottom = '10px';
+    datasetInfoPanel.className = 'dataset-info-panel';
 
     const titleParagraph = document.createElement('p');
     titleParagraph.innerHTML = `<b>Dataset #${tabCount}:</b> ${datasetInfo.title}`;
@@ -89,8 +85,7 @@ function datasetInfoPanel(datasetInfo) {
     datasetInfoPanel.appendChild(rowCountParagraph);
 
     const columnsParagraph = document.createElement('p');
-    columnsParagraph.innerText = `Columns:`;
-    columnsParagraph.style.fontWeight = 'bold';
+    columnsParagraph.innerHTML = `<b>Columns:</b>`;
     datasetInfoPanel.appendChild(columnsParagraph);
 
     const columnList = document.createElement('ul');

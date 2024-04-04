@@ -18,32 +18,13 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.web.BuildWeb
-import gradle.web.buildWebProject
-
-tasks {
-    val buildWebProject = buildWebProject(projectDir, projectDir.resolve("app"))
-
-    val serverResources = projectDir.resolve("../server/src/main/resources/rendering")
-    val copyWebProjectOutput = copyWebProjectOutput(buildWebProject, serverResources)
-
-    val build by registering {
-        dependsOn(buildWebProject)
-        dependsOn(copyWebProjectOutput)
-    }
+.tab-content {
+    width: 800px;
 }
 
-/**
- * Registers a tak to copy [buildWebProject] output to the given [destination].
- */
-fun TaskContainerScope.copyWebProjectOutput(
-    buildWebProject: TaskProvider<BuildWeb>,
-    destination: File
-): TaskProvider<Copy> {
-    val copyWebProjectOutput by registering(Copy::class) {
-        from(buildWebProject)
-        into(destination)
-        exclude("*.html", "*.css")
-    }
-    return copyWebProjectOutput
+.dataset-info-panel {
+    width: 800px;
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 10px;
 }
