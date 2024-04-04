@@ -22,6 +22,7 @@ let tabCount = 0;
 
 /**
  * Creates a new content tab and returns the corresponding DOM element ID.
+ *
  * @return {string} the ID of the DOM element representing the new tab
  */
 export function newTab() {
