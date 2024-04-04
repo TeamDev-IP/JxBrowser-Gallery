@@ -18,7 +18,7 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import * as a from './chart-rendering.js';
+import './chart-rendering.js';
 
 const SERVER_URL = 'http://localhost:8080';
 let chartCount = 0;
