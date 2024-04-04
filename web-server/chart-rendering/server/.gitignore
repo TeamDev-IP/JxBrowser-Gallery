@@ -1,5 +1,5 @@
 # The JavaScript bundle used for chart drawing.
-**/chart-drawing.js
+**/charts.js
 
 # The chart export results.
 **/exported/**

@@ -18,17 +18,9 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import {defineConfig} from "vite"
-
-// noinspection JSUnusedGlobalSymbols
-export default defineConfig({
-    build: {
-        emptyOutDir: false,
-        rollupOptions: {
-            input: './src/main/index.js',
-            output: {
-                entryFileNames: 'charts.js',
-            }
-        },
-    },
-})
+export function httpGet(url) {
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open('GET', url, false);
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+}
