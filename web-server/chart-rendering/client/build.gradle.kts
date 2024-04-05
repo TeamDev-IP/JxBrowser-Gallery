@@ -18,11 +18,32 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "jxbrowser-gallery"
+import gradle.web.BuildWeb
+import gradle.web.buildWebProject
 
-include(
-    "jxbrowser-license",
-    "compose:pomodoro",
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server"
-)
+tasks {
+    val buildWebProject = buildWebProject(projectDir, projectDir.resolve("app"))
+
+    val serverResources = projectDir.resolve("../server/src/main/resources/rendering")
+    val copyWebProjectOutput = copyWebProjectOutput(buildWebProject, serverResources)
+
+    val build by registering {
+        dependsOn(buildWebProject)
+        dependsOn(copyWebProjectOutput)
+    }
+}
+
+/**
+ * Registers a tak to copy [buildWebProject] output to the given [destination].
+ */
+fun TaskContainerScope.copyWebProjectOutput(
+    buildWebProject: TaskProvider<BuildWeb>,
+    destination: File
+): TaskProvider<Copy> {
+    val copyWebProjectOutput by registering(Copy::class) {
+        from(buildWebProject)
+        into(destination)
+        exclude("*.html", "*.css")
+    }
+    return copyWebProjectOutput
+}

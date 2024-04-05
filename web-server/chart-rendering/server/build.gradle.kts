@@ -18,11 +18,26 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "jxbrowser-gallery"
+import gradle.libs
 
-include(
-    "jxbrowser-license",
-    "compose:pomodoro",
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server"
-)
+plugins {
+    id("server-app")
+}
+
+application {
+    mainClass.set("com.teamdev.jxbrowser.gallery.charts.Application")
+}
+
+dependencies {
+    implementation(libs.gson)
+}
+
+val dependentTasks = listOf("processResources", "inspectRuntimeClasspath")
+
+dependentTasks.forEach { taskName ->
+    tasks.named(taskName) {
+        // Ensure the client-side code is built first so that the chart-drawing
+        // JS bundle is already in the classpath.
+        dependsOn(":web-server:chart-rendering:client:build")
+    }
+}

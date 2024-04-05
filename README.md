@@ -5,6 +5,7 @@ A gallery of apps built with JxBrowser, each solving a real-world use-case.
 All applications are grouped according to a toolkit they use:
 
 - [Compose Desktop](compose/README.md)
+- [Web Server](web-server/README.md)
 
 ## Prerequisites for building
 

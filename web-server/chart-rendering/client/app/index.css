@@ -18,11 +18,18 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "jxbrowser-gallery"
+#datasets {
+    display: flex;
+    flex-direction: column;
+}
 
-include(
-    "jxbrowser-license",
-    "compose:pomodoro",
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server"
-)
+.tab-content {
+    width: 800px;
+}
+
+.dataset-info-panel {
+    width: 800px;
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 10px;
+}
