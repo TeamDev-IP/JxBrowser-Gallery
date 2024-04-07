@@ -6,6 +6,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@material/web": "^1.4.0",
     "chart.js": "^4.0.0"
   },
   "devDependencies": {

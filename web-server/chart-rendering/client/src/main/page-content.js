@@ -18,6 +18,8 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import '@material/web/button/outlined-button.js';
+
 let tabCount = 0;
 
 /**
@@ -66,7 +68,7 @@ export function populateTab(tabId, datasetInfo, exportPng) {
     const br = document.createElement('br');
     content.appendChild(br);
 
-    const button = document.createElement('button');
+    const button = document.createElement('md-outlined-button');
     button.innerText = 'Export to PNG';
     button.onclick = exportPng;
     content.appendChild(button);
