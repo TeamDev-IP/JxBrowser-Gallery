@@ -18,12 +18,22 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import '@material/web/button/outlined-button.js';
+import '@material/web/tabs/primary-tab.js';
+import '@material/web/tabs/tabs.js';
+
 import {drawFossilFuelsConsumptionChart} from "./chart-drawing";
 import {httpGet} from "./http";
-import {newTab, populateTab} from "./page-content";
+import {newTab, populateTab, switchToTab} from "./page-content";
 import {openFileDownloadPopup} from "./popup";
 
 const SERVER_URL = 'http://localhost:8080';
+
+document.getElementById('tabs').addEventListener('change', (event) => {
+    const tabIndex = event.target.activeTabIndex;
+    const tabId = `content-${tabIndex + 1}`;
+    switchToTab(tabId)
+});
 
 /**
  * Initializes the tab containing the chart that visualizes the share of primary

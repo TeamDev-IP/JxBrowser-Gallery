@@ -19,6 +19,8 @@
  */
 
 import '@material/web/button/outlined-button.js';
+import '@material/web/tabs/primary-tab.js';
+import '@material/web/tabs/tabs.js';
 
 let tabCount = 0;
 
@@ -30,10 +32,12 @@ let tabCount = 0;
 export function newTab() {
     tabCount++;
 
-    const button = document.createElement('button');
-    button.id = `tab-${tabCount}`;
-    button.innerText = `Dataset #${tabCount}`;
-    button.onclick = () => switchToTab(`content-${tabCount}`);
+    const primaryTab = document.createElement('md-primary-tab');
+    primaryTab.id = `tab-${tabCount}`;
+    primaryTab.innerText = `Dataset #${tabCount}`;
+    if (tabCount === 1) {
+        primaryTab.active = true;
+    }
 
     const contentDiv = document.createElement('div');
     contentDiv.id = `content-${tabCount}`;
@@ -42,7 +46,7 @@ export function newTab() {
         contentDiv.style.display = 'none';
     }
 
-    document.getElementById('tabs').appendChild(button);
+    document.getElementById('tabs').appendChild(primaryTab);
     document.getElementById('content').appendChild(contentDiv);
 
     return contentDiv.id;
@@ -79,7 +83,7 @@ export function populateTab(tabId, datasetInfo, exportPng) {
  *
  * @param tabId the ID of the tab to switch to
  */
-function switchToTab(tabId) {
+export function switchToTab(tabId) {
     const tabContent = document.getElementsByClassName("tab-content");
     for (let i = 0; i < tabContent.length; i++) {
         tabContent[i].style.display = "none";
