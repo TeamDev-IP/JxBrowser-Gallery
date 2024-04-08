@@ -18,6 +18,15 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+:root {
+    --md-primary-tab-container-color: #ffffff;
+    --md-primary-tab-label-text-color: gray;
+}
+
+#tabs {
+    width: 800px;
+}
+
 #datasets {
     display: flex;
     flex-direction: column;
