@@ -21,6 +21,9 @@
 import '@material/web/button/outlined-button.js';
 import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';
+import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+
+document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
 
 let tabCount = 0;
 
@@ -35,6 +38,7 @@ export function newTab() {
     const primaryTab = document.createElement('md-primary-tab');
     primaryTab.id = `tab-${tabCount}`;
     primaryTab.innerText = `Dataset #${tabCount}`;
+    primaryTab.classList.add('md-typescale-title-medium');
     if (tabCount === 1) {
         primaryTab.active = true;
     }
@@ -99,7 +103,8 @@ export function switchToTab(tabId) {
  */
 function datasetInfoPanel(datasetInfo) {
     const datasetInfoPanel = document.createElement('div');
-    datasetInfoPanel.className = 'dataset-info-panel';
+    datasetInfoPanel.classList.add('dataset-info-panel');
+    datasetInfoPanel.classList.add('md-typescale-body-medium');
 
     const titleParagraph = document.createElement('p');
     titleParagraph.innerHTML = `<b>Dataset #${tabCount}:</b> ${datasetInfo.title}`;
