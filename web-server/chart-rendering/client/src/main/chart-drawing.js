@@ -20,6 +20,8 @@
 
 import Chart from 'chart.js/auto';
 
+Chart.defaults.font.family = "Lato"
+
 /**
  * Draws a chart that visualizes the share of primary energy consumption from
  * fossil fuels in Portugal.
