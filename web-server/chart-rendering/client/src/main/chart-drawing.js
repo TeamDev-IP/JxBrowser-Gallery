@@ -56,6 +56,7 @@ export function drawFossilFuelsConsumptionChart(canvas, csvData) {
                         },
                     },
                 },
+                devicePixelRatio: 4,
             },
         },
     );
