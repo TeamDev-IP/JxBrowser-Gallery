@@ -27,6 +27,8 @@
     --md-primary-tab-container-color: #ffffff;
 
     --md-list-container-color: #ffffff;
+    --md-list-item-label-text-color: #5b5b5b;
+    --md-list-item-supporting-text-color: #5b5b5b;
 }
 
 #tabs {
