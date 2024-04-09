@@ -69,17 +69,22 @@ export function populateTab(tabId, datasetInfo, exportPng) {
     const datasetInfoDiv = datasetInfoPanel(datasetInfo);
     content.appendChild(datasetInfoDiv);
 
+    const canvasContainer = document.createElement('div');
+    canvasContainer.className = 'canvas-container';
+
     const canvas = document.createElement('canvas');
     canvas.id = datasetInfo.id;
-    content.appendChild(canvas);
+    canvasContainer.appendChild(canvas);
 
     const br = document.createElement('br');
-    content.appendChild(br);
+    canvasContainer.appendChild(br);
 
     const button = document.createElement('md-outlined-button');
     button.innerText = 'Export to PNG';
     button.onclick = exportPng;
-    content.appendChild(button);
+    canvasContainer.appendChild(button);
+
+    content.appendChild(canvasContainer);
 }
 
 /**
@@ -92,7 +97,7 @@ export function switchToTab(tabId) {
     for (let i = 0; i < tabContent.length; i++) {
         tabContent[i].style.display = "none";
     }
-    document.getElementById(tabId).style.display = "block";
+    document.getElementById(tabId).style.display = "flex";
 }
 
 /**

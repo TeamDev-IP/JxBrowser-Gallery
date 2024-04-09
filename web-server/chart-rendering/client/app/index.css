@@ -28,7 +28,7 @@
 }
 
 #tabs {
-    width: 800px;
+    width: 80%;
 }
 
 #datasets {
@@ -37,11 +37,15 @@
 }
 
 .tab-content {
-    width: 800px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .dataset-info-panel {
-    width: 780px;
-    padding: 10px;
-    margin-bottom: 10px;
+    flex: 1;
+}
+
+.canvas-container {
+    flex: 4;
 }
