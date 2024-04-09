@@ -22,6 +22,10 @@ import '@material/web/button/outlined-button.js';
 import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';
 import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+// noinspection ES6UnusedImports Needed so the Material Web styles are picked up correctly.
+import { MdList } from '@material/web/list/list.js';
+// noinspection ES6UnusedImports Needed so the Material Web styles are picked up correctly.
+import { MdListItem } from '@material/web/list/list-item.js';
 
 document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
 
@@ -109,31 +113,46 @@ export function switchToTab(tabId) {
 function datasetInfoPanel(datasetInfo) {
     const datasetInfoPanel = document.createElement('div');
     datasetInfoPanel.classList.add('dataset-info-panel');
-    datasetInfoPanel.classList.add('md-typescale-body-medium');
+    datasetInfoPanel.classList.add('md-typescale-title-medium');
 
-    const titleParagraph = document.createElement('p');
-    titleParagraph.innerHTML = `<b>Dataset #${tabCount}:</b> ${datasetInfo.title}`;
-    datasetInfoPanel.appendChild(titleParagraph);
+    const list = document.createElement('md-list');
 
-    const descriptionParagraph = document.createElement('p');
-    descriptionParagraph.innerText = `${datasetInfo.description}`;
-    datasetInfoPanel.appendChild(descriptionParagraph);
+    const title = document.createElement('md-list-item');
+    title.appendChild(createHeadlineDiv(`${datasetInfo.title}`));
+    list.appendChild(title);
 
-    const rowCountParagraph = document.createElement('p');
-    rowCountParagraph.innerHTML = `Row count: ${datasetInfo.rowCount}`;
-    datasetInfoPanel.appendChild(rowCountParagraph);
+    const description = document.createElement('md-list-item');
+    description.appendChild(createHeadlineDiv('Description'));
+    description.appendChild(createSupportingTextDiv(`${datasetInfo.description}`));
+    list.appendChild(description);
 
-    const columnsParagraph = document.createElement('p');
-    columnsParagraph.innerHTML = `Columns:`;
-    datasetInfoPanel.appendChild(columnsParagraph);
+    const rowCount = document.createElement('md-list-item');
+    rowCount.appendChild(createHeadlineDiv('Row count'));
+    rowCount.appendChild(createSupportingTextDiv(`${datasetInfo.rowCount}`));
+    list.appendChild(rowCount);
 
-    const columnList = document.createElement('ul');
+    const columns = document.createElement('md-list-item');
+    columns.appendChild(createHeadlineDiv(`Columns:`));
     datasetInfo.columns.forEach(column => {
-        const columnListItem = document.createElement('li');
-        columnListItem.innerHTML = `<i>${column.title}</i> - ${column.description}`;
-        columnList.appendChild(columnListItem);
+        const text = `<i>${column.title}</i> - ${column.description}`;
+        columns.appendChild(createSupportingTextDiv(text));
     });
-    datasetInfoPanel.appendChild(columnList);
+    list.appendChild(columns);
 
+    datasetInfoPanel.appendChild(list);
     return datasetInfoPanel;
+}
+
+function createHeadlineDiv(title) {
+    const titleDiv = document.createElement('div');
+    titleDiv.setAttribute('slot', 'headline');
+    titleDiv.innerText = title;
+    return titleDiv;
+}
+
+function createSupportingTextDiv(text) {
+    const supportingTextDiv = document.createElement('div');
+    supportingTextDiv.setAttribute('slot', 'supporting-text');
+    supportingTextDiv.innerHTML = text;
+    return supportingTextDiv;
 }
