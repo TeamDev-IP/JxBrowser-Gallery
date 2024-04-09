@@ -41,7 +41,7 @@ export function newTab() {
 
     const primaryTab = document.createElement('md-primary-tab');
     primaryTab.id = `tab-${tabCount}`;
-    primaryTab.innerText = `Dataset #${tabCount}`;
+    primaryTab.innerText = `Example #${tabCount}`;
     primaryTab.classList.add('md-typescale-title-medium');
     if (tabCount === 1) {
         primaryTab.active = true;
