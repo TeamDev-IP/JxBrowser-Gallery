@@ -113,7 +113,6 @@ export function switchToTab(tabId) {
 function datasetInfoPanel(datasetInfo) {
     const datasetInfoPanel = document.createElement('div');
     datasetInfoPanel.classList.add('dataset-info-panel');
-    datasetInfoPanel.classList.add('md-typescale-title-medium');
 
     const list = document.createElement('md-list');
 
@@ -146,6 +145,7 @@ function datasetInfoPanel(datasetInfo) {
 function createHeadlineDiv(title) {
     const titleDiv = document.createElement('div');
     titleDiv.setAttribute('slot', 'headline');
+    titleDiv.classList.add('md-typescale-title-small');
     titleDiv.innerText = title;
     return titleDiv;
 }
@@ -153,6 +153,7 @@ function createHeadlineDiv(title) {
 function createSupportingTextDiv(text) {
     const supportingTextDiv = document.createElement('div');
     supportingTextDiv.setAttribute('slot', 'supporting-text');
+    supportingTextDiv.classList.add('md-typescale-body-small');
     supportingTextDiv.innerHTML = text;
     return supportingTextDiv;
 }
