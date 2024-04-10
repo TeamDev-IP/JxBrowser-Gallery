@@ -20,8 +20,6 @@
 
 import Chart from 'chart.js/auto';
 
-Chart.defaults.font.family = "Lato"
-
 /**
  * Draws a chart that visualizes the share of primary energy consumption from
  * fossil fuels in Portugal.
@@ -41,11 +39,17 @@ export function drawFossilFuelsConsumptionChart(canvas, csvData) {
                     {
                         label: 'Share of primary energy consumption from fossil fuels, Portugal',
                         data: parsedData.map(row => row[1]),
+                        borderColor: '#C15065',
                     },
                 ],
             },
             options: {
                 animation: false,
+                legend: {
+                    labels: {
+                        fontFamily: 'Lato'
+                    }
+                },
                 scales: {
                     y: {
                         min: 0,
