@@ -104,3 +104,5 @@ function csvToArray(strData, strDelimiter) {
     }
     return (arrData);
 }
+
+window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;

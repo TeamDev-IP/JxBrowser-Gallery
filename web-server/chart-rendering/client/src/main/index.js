@@ -58,4 +58,3 @@ export function initFossilFuelsConsumptionChart() {
 }
 
 window.initFossilFuelsConsumptionChart = initFossilFuelsConsumptionChart;
-window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;

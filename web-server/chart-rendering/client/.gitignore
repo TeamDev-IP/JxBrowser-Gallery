@@ -1,2 +1,3 @@
-# The JavaScript bundle used for chart drawing.
+# The JavaScript bundles built by Vite.
+**/index.js
 **/charts.js

@@ -18,32 +18,38 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import gradle.web.BuildCustom
 import gradle.web.BuildWeb
+import gradle.web.buildCustom
 import gradle.web.buildWebProject
 
 tasks {
-    val buildWebProject = buildWebProject(projectDir, projectDir.resolve("app"))
+    val buildWebProject = buildWebProject(projectDir)
+    val buildServerJs = buildCustom("buildServerJs", "build-server-js", projectDir)
 
     val serverResources = projectDir.resolve("../server/src/main/resources/rendering")
-    val copyWebProjectOutput = copyWebProjectOutput(buildWebProject, serverResources)
+    val copyServerJs = copyServerJs(buildWebProject, buildServerJs, serverResources)
 
     val build by registering {
         dependsOn(buildWebProject)
-        dependsOn(copyWebProjectOutput)
+        dependsOn(buildServerJs)
+        dependsOn(copyServerJs)
     }
 }
 
 /**
- * Registers a tak to copy [buildWebProject] output to the given [destination].
+ * Registers a task to copy [buildServerJs] output to the given [destination].
  */
-fun TaskContainerScope.copyWebProjectOutput(
+fun TaskContainerScope.copyServerJs(
     buildWebProject: TaskProvider<BuildWeb>,
+    buildServerJs: TaskProvider<BuildCustom>,
     destination: File
 ): TaskProvider<Copy> {
-    val copyWebProjectOutput by registering(Copy::class) {
-        from(buildWebProject)
+    val copyServerJs by registering(Copy::class) {
+        from(buildServerJs)
         into(destination)
-        exclude("*.html", "*.css")
+        include("charts.js")
+        dependsOn(buildWebProject)
     }
-    return copyWebProjectOutput
+    return copyServerJs
 }

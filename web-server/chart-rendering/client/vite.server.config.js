@@ -25,9 +25,9 @@ export default defineConfig({
     build: {
         emptyOutDir: false,
         rollupOptions: {
-            input: './src/main/index.js',
+            input: './src/main/chart-drawing.js',
             output: {
-                entryFileNames: 'index.js',
+                entryFileNames: 'charts.js',
             }
         },
     },
