@@ -25,11 +25,16 @@
     <link rel="stylesheet" type="text/css" href="./index.css">
 </head>
 <body>
-<div id="datasets">
-    <div id="tabs"></div>
-    <div id="content"></div>
-</div>
-<script type="text/javascript" src="./charts.js"></script>
+<!--suppress HtmlUnknownTag A Material UI tag.-->
+<md-tabs id="tabs">
+</md-tabs>
+<div id="content"></div>
+<!--suppress HtmlUnknownTag A Material UI tag.-->
+<md-dialog id="file-download-dialog">
+    <div slot="headline">Your file is ready</div>
+    <div slot="content" id="file-download-message"></div>
+</md-dialog>
+<script type="text/javascript" src="../dist/index.js"></script>
 <script type="text/javascript">
     window.initFossilFuelsConsumptionChart();
 </script>

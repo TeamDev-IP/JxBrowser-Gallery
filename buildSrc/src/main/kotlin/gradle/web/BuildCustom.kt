@@ -22,20 +22,14 @@ package gradle.web
 
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileTree
-import org.gradle.api.tasks.InputFiles
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.TaskAction
-import org.gradle.api.tasks.TaskProvider
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.*
 import org.gradle.api.tasks.util.PatternSet
-import org.gradle.kotlin.dsl.TaskContainerScope
-import org.gradle.kotlin.dsl.assign
-import org.gradle.kotlin.dsl.getValue
-import org.gradle.kotlin.dsl.provideDelegate
-import org.gradle.kotlin.dsl.registering
+import org.gradle.kotlin.dsl.*
 import java.io.File
 
 /**
- * Builds the given web project using `npm run build` command.
+ * Executes the custom build via `npm run *build-custom*` command.
  *
  * Please make sure project's `package.json` has such a script declared.
  *
@@ -43,11 +37,17 @@ import java.io.File
  *
  * ```
  * "scripts": {
- *     "build": "vite build"
+ *     "build-custom": "vite build --config vite.custom.config.js"
  * }
  * ```
  */
-abstract class BuildWeb : NpmExec<BuildWeb>(BuildWeb::class) {
+abstract class BuildCustom : NpmExec<BuildCustom>(BuildCustom::class) {
+
+    /**
+     * The build command to execute.
+     */
+    @get:Input
+    abstract val command: Property<String>
 
     /**
      * Returns [webProjectDir] excluding the directories, which should not
@@ -81,26 +81,29 @@ abstract class BuildWeb : NpmExec<BuildWeb>(BuildWeb::class) {
 
     @TaskAction
     override fun exec() {
-        commandLine("run", "build", "--", "--outDir", outputDir.get())
+        commandLine("run", command.get(), "--", "--outDir", outputDir.get())
         super.exec()
     }
 }
 
 /**
- * Registers [InstallWebDependencies] and [BuildWeb] tasks
+ * Registers [InstallWebDependencies] and [BuildCustom] tasks
  * in this [TaskContainerScope].
  */
-fun TaskContainerScope.buildWebProject(
+fun TaskContainerScope.buildCustom(
+    taskName: String,
+    command: String,
     webProjectDir: File,
     outputDir: File = webProjectDir.resolve("dist")
-): TaskProvider<BuildWeb> {
-    val installWebDependencies by registering(InstallWebDependencies::class) {
+): TaskProvider<BuildCustom> {
+    val installWebDependencies by getting(InstallWebDependencies::class) {
         this.webProjectDir = webProjectDir
     }
-    val buildWeb by registering(BuildWeb::class) {
+    val buildCustom = register(taskName, BuildCustom::class) {
         this.webProjectDir = webProjectDir
         this.outputDir = outputDir
+        this.command = command
         dependsOn(installWebDependencies)
     }
-    return buildWeb
+    return buildCustom
 }

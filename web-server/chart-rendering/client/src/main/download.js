@@ -18,38 +18,19 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.web.BuildCustom
-import gradle.web.BuildWeb
-import gradle.web.buildCustom
-import gradle.web.buildWebProject
-
-tasks {
-    val buildWebProject = buildWebProject(projectDir)
-    val buildServerJs = buildCustom("buildServerJs", "build-server-js", projectDir)
-
-    val serverResources = projectDir.resolve("../server/src/main/resources/rendering")
-    val copyServerJs = copyServerJs(buildWebProject, buildServerJs, serverResources)
-
-    val build by registering {
-        dependsOn(buildWebProject)
-        dependsOn(buildServerJs)
-        dependsOn(copyServerJs)
-    }
-}
-
 /**
- * Registers a task to copy [buildServerJs] output to the given [destination].
+ * Opens the file download dialog with a link to the passed file.
+ *
+ * @param url the URL of the file to download
+ * @param filename the name under which the file should be saved
  */
-fun TaskContainerScope.copyServerJs(
-    buildWebProject: TaskProvider<BuildWeb>,
-    buildServerJs: TaskProvider<BuildCustom>,
-    destination: File
-): TaskProvider<Copy> {
-    val copyServerJs by registering(Copy::class) {
-        from(buildServerJs)
-        into(destination)
-        include("charts.js")
-        dependsOn(buildWebProject)
-    }
-    return copyServerJs
+export function openFileDownloadDialog(url, filename) {
+    const message = document.getElementById('file-download-message');
+    message.innerHTML =
+        `Download link: <a href="${url}" download="${filename}">${filename}</a>
+                <br><br>
+                Also, available on the server filesystem as
+                '<i>*project root*/server/chart-rendering/server/exported/${filename}</i>'.`
+    const dialog = document.getElementById('file-download-dialog');
+    dialog.show();
 }

@@ -18,10 +18,14 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import '@material/web/dialog/dialog.js';
+import '@material/web/tabs/primary-tab.js';
+import '@material/web/tabs/tabs.js';
+
 import {drawFossilFuelsConsumptionChart} from "./chart-drawing";
+import {openFileDownloadDialog} from "./download";
 import {httpGet} from "./http";
 import {newTab, populateTab} from "./page-content";
-import {openFileDownloadPopup} from "./popup";
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -43,9 +47,8 @@ export function initFossilFuelsConsumptionChart() {
             .then(r => r.blob());
         const url = window.URL.createObjectURL(data);
         const filename = 'fossil-fuels.png';
-        openFileDownloadPopup(url, filename);
+        openFileDownloadDialog(url, filename);
     }
 }
 
 window.initFossilFuelsConsumptionChart = initFossilFuelsConsumptionChart;
-window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;

@@ -39,11 +39,17 @@ export function drawFossilFuelsConsumptionChart(canvas, csvData) {
                     {
                         label: 'Share of primary energy consumption from fossil fuels, Portugal',
                         data: parsedData.map(row => row[1]),
+                        borderColor: '#C15065',
                     },
                 ],
             },
             options: {
                 animation: false,
+                legend: {
+                    labels: {
+                        fontFamily: 'Lato'
+                    }
+                },
                 scales: {
                     y: {
                         min: 0,
@@ -56,6 +62,7 @@ export function drawFossilFuelsConsumptionChart(canvas, csvData) {
                         },
                     },
                 },
+                devicePixelRatio: 3,
             },
         },
     );
@@ -97,3 +104,5 @@ function csvToArray(strData, strDelimiter) {
     }
     return (arrData);
 }
+
+window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;

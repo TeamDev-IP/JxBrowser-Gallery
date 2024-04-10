@@ -18,18 +18,46 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+:root {
+    --md-sys-color-primary: #4769a2;
+    --md-ref-typeface-brand: 'Lato';
+    --md-ref-typeface-plain: 'Lato';
+
+    --md-primary-tab-label-text-color: gray;
+    --md-primary-tab-container-color: #ffffff;
+
+    --md-list-container-color: #ffffff;
+    --md-list-item-label-text-color: #5b5b5b;
+    --md-list-item-supporting-text-color: #5b5b5b;
+}
+
+#tabs {
+    width: 30%;
+}
+
 #datasets {
     display: flex;
     flex-direction: column;
 }
 
 .tab-content {
-    width: 800px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .dataset-info-panel {
-    width: 800px;
-    border: 1px solid black;
-    padding: 10px;
-    margin-bottom: 10px;
+    flex: 1;
+}
+
+.canvas-container {
+    flex: 4;
+}
+
+.export-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }

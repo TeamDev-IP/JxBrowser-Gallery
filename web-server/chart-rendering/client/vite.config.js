@@ -27,7 +27,7 @@ export default defineConfig({
         rollupOptions: {
             input: './src/main/index.js',
             output: {
-                entryFileNames: 'charts.js',
+                entryFileNames: 'index.js',
             }
         },
     },
