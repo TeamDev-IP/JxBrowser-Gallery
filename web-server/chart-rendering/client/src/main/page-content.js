@@ -26,6 +26,7 @@ import '@material/web/tabs/tabs.js';
 import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
 
 document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+initTabSwitchListener();
 
 let tabCount = 0;
 
@@ -78,9 +79,6 @@ export function populateTab(tabId, datasetInfo, exportPng) {
     canvas.id = datasetInfo.id;
     canvasContainer.appendChild(canvas);
 
-    const br = document.createElement('br');
-    canvasContainer.appendChild(br);
-
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('export-button-container');
 
@@ -95,11 +93,23 @@ export function populateTab(tabId, datasetInfo, exportPng) {
 }
 
 /**
+ * Initializes a listener responsible for tab switching according to the user input.
+ */
+function initTabSwitchListener() {
+    document.getElementById('tabs').addEventListener('change', (event) => {
+        const tabIndex = event.target.activeTabIndex;
+        const tabId = `content-${tabIndex + 1}`;
+        switchToTab(tabId)
+    });
+
+}
+
+/**
  * Switches the displayed content to the tab with the specified ID.
  *
  * @param tabId the ID of the tab to switch to
  */
-export function switchToTab(tabId) {
+function switchToTab(tabId) {
     const tabContent = document.getElementsByClassName("tab-content");
     for (let i = 0; i < tabContent.length; i++) {
         tabContent[i].style.display = "none";
@@ -120,24 +130,24 @@ function datasetInfoPanel(datasetInfo) {
     const list = document.createElement('md-list');
 
     const title = document.createElement('md-list-item');
-    title.appendChild(createHeadlineDiv(`${datasetInfo.title}`));
+    title.appendChild(headline(`${datasetInfo.title}`));
     list.appendChild(title);
 
     const description = document.createElement('md-list-item');
-    description.appendChild(createHeadlineDiv('Description'));
-    description.appendChild(createSupportingTextDiv(`${datasetInfo.description}`));
+    description.appendChild(headline('Description'));
+    description.appendChild(supportingText(`${datasetInfo.description}`));
     list.appendChild(description);
 
     const rowCount = document.createElement('md-list-item');
-    rowCount.appendChild(createHeadlineDiv('Row count'));
-    rowCount.appendChild(createSupportingTextDiv(`${datasetInfo.rowCount}`));
+    rowCount.appendChild(headline('Row count'));
+    rowCount.appendChild(supportingText(`${datasetInfo.rowCount}`));
     list.appendChild(rowCount);
 
     const columns = document.createElement('md-list-item');
-    columns.appendChild(createHeadlineDiv(`Columns`));
+    columns.appendChild(headline(`Columns`));
     datasetInfo.columns.forEach(column => {
         const text = `<i>${column.title}</i> - ${column.description}`;
-        columns.appendChild(createSupportingTextDiv(text));
+        columns.appendChild(supportingText(text));
     });
     list.appendChild(columns);
 
@@ -145,7 +155,10 @@ function datasetInfoPanel(datasetInfo) {
     return datasetInfoPanel;
 }
 
-function createHeadlineDiv(title) {
+/**
+ * Creates a headline to be included into a list item.
+ */
+function headline(title) {
     const titleDiv = document.createElement('div');
     titleDiv.setAttribute('slot', 'headline');
     titleDiv.classList.add('md-typescale-title-small');
@@ -153,7 +166,10 @@ function createHeadlineDiv(title) {
     return titleDiv;
 }
 
-function createSupportingTextDiv(text) {
+/**
+ * Creates supporting text to be included into a list item.
+ */
+function supportingText(text) {
     const supportingTextDiv = document.createElement('div');
     supportingTextDiv.setAttribute('slot', 'supporting-text');
     supportingTextDiv.classList.add('md-typescale-body-small');

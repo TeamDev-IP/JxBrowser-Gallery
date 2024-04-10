@@ -19,7 +19,7 @@
  */
 
 /**
- * Opens the dialog with a download link to the passed file.
+ * Opens the file download dialog with a link to the passed file.
  *
  * @param url the URL of the file to download
  * @param filename the name under which the file should be saved

@@ -25,15 +25,9 @@ import '@material/web/tabs/tabs.js';
 import {drawFossilFuelsConsumptionChart} from "./chart-drawing";
 import {openFileDownloadDialog} from "./download";
 import {httpGet} from "./http";
-import {newTab, populateTab, switchToTab} from "./page-content";
+import {newTab, populateTab} from "./page-content";
 
 const SERVER_URL = 'http://localhost:8080';
-
-document.getElementById('tabs').addEventListener('change', (event) => {
-    const tabIndex = event.target.activeTabIndex;
-    const tabId = `content-${tabIndex + 1}`;
-    switchToTab(tabId)
-});
 
 /**
  * Initializes the tab containing the chart that visualizes the share of primary

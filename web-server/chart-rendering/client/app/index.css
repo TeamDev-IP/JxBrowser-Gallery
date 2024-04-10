@@ -21,12 +21,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 :root {
+    --md-sys-color-primary: #4769a2;
     --md-ref-typeface-brand: 'Lato';
     --md-ref-typeface-plain: 'Lato';
+
     --md-primary-tab-label-text-color: gray;
     --md-primary-tab-container-color: #ffffff;
 
-    --md-sys-color-primary: #4769a2;
     --md-list-container-color: #ffffff;
     --md-list-item-label-text-color: #5b5b5b;
     --md-list-item-supporting-text-color: #5b5b5b;
@@ -58,4 +59,5 @@
 .export-button-container {
     display: flex;
     justify-content: center;
+    margin-top: 15px;
 }
