@@ -69,8 +69,8 @@ export function newTab() {
 export function populateTab(tabId, datasetInfo, exportPng) {
     const content = document.getElementById(tabId);
 
-    const datasetInfoDiv = datasetInfoPanel(datasetInfo);
-    content.appendChild(datasetInfoDiv);
+    const datasetInfoContainer = datasetInfoPanel(datasetInfo, exportPng);
+    content.appendChild(datasetInfoContainer);
 
     const canvasContainer = document.createElement('div');
     canvasContainer.className = 'canvas-container';
@@ -78,16 +78,6 @@ export function populateTab(tabId, datasetInfo, exportPng) {
     const canvas = document.createElement('canvas');
     canvas.id = datasetInfo.id;
     canvasContainer.appendChild(canvas);
-
-    const buttonContainer = document.createElement('div');
-    buttonContainer.classList.add('export-button-container');
-
-    const button = document.createElement('md-outlined-button');
-    button.innerText = 'Export to PNG';
-    button.onclick = exportPng;
-    buttonContainer.appendChild(button);
-
-    canvasContainer.appendChild(buttonContainer);
 
     content.appendChild(canvasContainer);
 }
@@ -121,9 +111,10 @@ function switchToTab(tabId) {
  * Creates a panel that displays the specified dataset information.
  *
  * @param datasetInfo the dataset information to display
+ * @param exportPng the function to call when the user clicks the "Export to PNG" button
  * @return {HTMLDivElement} the panel with the dataset information
  */
-function datasetInfoPanel(datasetInfo) {
+function datasetInfoPanel(datasetInfo, exportPng) {
     const datasetInfoPanel = document.createElement('div');
     datasetInfoPanel.classList.add('dataset-info-panel');
 
@@ -152,6 +143,17 @@ function datasetInfoPanel(datasetInfo) {
     list.appendChild(columns);
 
     datasetInfoPanel.appendChild(list);
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('export-button-container');
+
+    const button = document.createElement('md-outlined-button');
+    button.innerText = 'Export to PNG';
+    button.onclick = exportPng;
+    buttonContainer.appendChild(button);
+
+    datasetInfoPanel.appendChild(buttonContainer);
+
     return datasetInfoPanel;
 }
 
