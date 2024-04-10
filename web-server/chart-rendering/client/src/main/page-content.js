@@ -84,8 +84,7 @@ export function populateTab(tabId, datasetInfo, exportPng) {
     canvasContainer.appendChild(br);
 
     const buttonContainer = document.createElement('div');
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.justifyContent = 'center';
+    buttonContainer.classList.add('export-button-container');
 
     const button = document.createElement('md-outlined-button');
     button.innerText = 'Export to PNG';

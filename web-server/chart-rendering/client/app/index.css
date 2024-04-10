@@ -54,3 +54,8 @@
 .canvas-container {
     flex: 4;
 }
+
+.export-button-container {
+    display: flex;
+    justify-content: center;
+}
