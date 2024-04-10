@@ -19,21 +19,18 @@
  */
 
 /**
- * Opens a new popup window with a link to download the file.
+ * Opens the dialog with a download link for the file.
  *
  * @param url the URL of the file to download
  * @param filename the name under which the file should be saved
  */
-export function openFileDownloadPopup(url, filename) {
-    const win = window.open(
-        "",
-        "",
-        `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,
-            menubar=no,width=600,height=300,left=100,top=100`
-    );
-    win.document.body.innerHTML =
-        `Your file: <a href="${url}" download="${filename}">${filename}</a>
+export function openFileDownloadDialog(url, filename) {
+    const message = document.getElementById('file-download-message');
+    message.innerHTML =
+        `Download link: <a href="${url}" download="${filename}">${filename}</a>
                 <br><br>
                 Also, available on the server filesystem as
                 '<i>{project root}/server/chart-rendering/server/exported/${filename}</i>'.`
+    const dialog = document.getElementById('file-download-dialog');
+    dialog.show();
 }
