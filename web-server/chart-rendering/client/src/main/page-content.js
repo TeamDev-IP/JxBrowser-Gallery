@@ -83,10 +83,16 @@ export function populateTab(tabId, datasetInfo, exportPng) {
     const br = document.createElement('br');
     canvasContainer.appendChild(br);
 
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.justifyContent = 'center';
+
     const button = document.createElement('md-outlined-button');
     button.innerText = 'Export to PNG';
     button.onclick = exportPng;
-    canvasContainer.appendChild(button);
+    buttonContainer.appendChild(button);
+
+    canvasContainer.appendChild(buttonContainer);
 
     content.appendChild(canvasContainer);
 }
