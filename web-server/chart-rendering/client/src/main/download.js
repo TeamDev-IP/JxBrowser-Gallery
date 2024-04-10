@@ -30,7 +30,7 @@ export function openFileDownloadDialog(url, filename) {
         `Download link: <a href="${url}" download="${filename}">${filename}</a>
                 <br><br>
                 Also, available on the server filesystem as
-                '<i>{project root}/server/chart-rendering/server/exported/${filename}</i>'.`
+                '<i>*project root*/server/chart-rendering/server/exported/${filename}</i>'.`
     const dialog = document.getElementById('file-download-dialog');
     dialog.show();
 }
