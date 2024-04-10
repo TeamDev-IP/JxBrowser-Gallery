@@ -18,7 +18,6 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import '@material/web/button/outlined-button.js';
 import '@material/web/dialog/dialog.js';
 import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';

@@ -19,13 +19,11 @@
  */
 
 import '@material/web/button/outlined-button.js';
+import '@material/web/list/list.js';
+import '@material/web/list/list-item.js';
 import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';
 import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
-// noinspection ES6UnusedImports Needed so the Material Web styles are picked up correctly.
-import { MdList } from '@material/web/list/list.js';
-// noinspection ES6UnusedImports Needed so the Material Web styles are picked up correctly.
-import { MdListItem } from '@material/web/list/list-item.js';
 
 document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
 
