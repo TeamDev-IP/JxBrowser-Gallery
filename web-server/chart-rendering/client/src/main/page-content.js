@@ -137,7 +137,7 @@ function datasetInfoPanel(datasetInfo) {
     list.appendChild(rowCount);
 
     const columns = document.createElement('md-list-item');
-    columns.appendChild(createHeadlineDiv(`Columns:`));
+    columns.appendChild(createHeadlineDiv(`Columns`));
     datasetInfo.columns.forEach(column => {
         const text = `<i>${column.title}</i> - ${column.description}`;
         columns.appendChild(createSupportingTextDiv(text));
