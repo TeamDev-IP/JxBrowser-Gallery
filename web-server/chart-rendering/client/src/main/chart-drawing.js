@@ -31,16 +31,20 @@ let currentlyDrawnChart;
  * @param canvas the ID of the canvas element to draw the chart on
  * @param csvData the CSV data to be visualized
  * @param type the type of the chart to draw
- * @param displayLabels whether to display the data labels on the chart
- * @param displayTrendline whether to display the trendline on the chart
+ * @param showLabels whether to display the data labels on the chart
+ * @param showTrendline whether to display the trendline on the chart
+ * @param xMin the minimum value of the x-axis
+ * @param xMax the maximum value of the x-axis
  * @param yMin the minimum value of the y-axis
  * @param yMax the maximum value of the y-axis
  */
 export function drawFossilFuelsConsumptionChart(canvas,
                                                 csvData,
                                                 type = 'line',
-                                                displayLabels = false,
-                                                displayTrendline = false,
+                                                showLabels = false,
+                                                showTrendline = false,
+                                                xMin = 1996,
+                                                xMax = 2022,
                                                 yMin = 0,
                                                 yMax = 100) {
     if (currentlyDrawnChart) {
@@ -48,7 +52,7 @@ export function drawFossilFuelsConsumptionChart(canvas,
     }
     const trendlineColor = type === 'line' ? '#0879ae80' : '#C15065';
     const parsedData = csvToArray(csvData);
-    const trendline = displayTrendline
+    const trendline = showTrendline
         ? {
             colorMin: trendlineColor,
             colorMax: trendlineColor,
@@ -62,11 +66,12 @@ export function drawFossilFuelsConsumptionChart(canvas,
             plugins: [ChartDataLabels, chartTrendline],
             type: type,
             data: {
-                labels: parsedData.map(row => row[0]),
                 datasets: [
                     {
                         label: 'Share of primary energy consumption from fossil fuels, Portugal',
-                        data: parsedData.map(row => row[1]),
+                        data: parsedData.map(row => {
+                            return {x: parseInt(row[0]), y: parseFloat(row[1])};
+                        }),
                         borderColor: '#C15065',
                         backgroundColor: '#0879ae80',
                         trendlineLinear: trendline
@@ -81,6 +86,16 @@ export function drawFossilFuelsConsumptionChart(canvas,
                     }
                 },
                 scales: {
+                    x: {
+                        type: 'linear',
+                        min: xMin,
+                        max: xMax,
+                        ticks: {
+                            callback: function (value) {
+                                return value + '';
+                            },
+                        },
+                    },
                     y: {
                         min: yMin,
                         max: yMax,
@@ -97,9 +112,9 @@ export function drawFossilFuelsConsumptionChart(canvas,
                     datalabels: {
                         align: 'top',
                         anchor: 'end',
-                        display: displayLabels,
+                        display: showLabels,
                         formatter: function (value) {
-                            return Math.round(value) + '%';
+                            return Math.round(value.y) + '%';
                         }
                     }
                 }

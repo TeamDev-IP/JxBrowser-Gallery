@@ -90,10 +90,13 @@ final class ChartExportController {
      * @return a {@link SystemFile} instance representing the exported PNG image
      * @throws IOException if an I/O error occurs during the operation
      */
+    @SuppressWarnings("MethodWithTooManyParameters" /* A lot of parameters for the printed chart. */)
     @Get("/fossil-fuels-consumption/png")
     SystemFile fossilFuelsConsumptionPng(@QueryValue String type,
                                          @QueryValue boolean labels,
                                          @QueryValue boolean trendline,
+                                         @QueryValue int xmin,
+                                         @QueryValue int xmax,
                                          @QueryValue int ymin,
                                          @QueryValue int ymax)
             throws IOException {
@@ -107,6 +110,8 @@ final class ChartExportController {
                 type,
                 labels,
                 trendline,
+                xmin,
+                xmax,
                 ymin,
                 ymax
         );
@@ -121,13 +126,15 @@ final class ChartExportController {
                                    String chartType,
                                    boolean showDataLabels,
                                    boolean showTrendline,
+                                   int xScaleMin,
+                                   int xScaleMax,
                                    int yScaleMin,
                                    int yScaleMax) {
         var mainFrame = browser.mainFrame()
                 .orElseThrow();
-        var javaScript = "const data = `%s`; %s('chart', data, '%s', %b, %b, %d, %d);"
+        var javaScript = "const data = `%s`; %s('chart', data, '%s', %b, %b, %d, %d, %d, %d);"
                 .formatted(
-                        data, chartDrawingFunction, chartType, showDataLabels, showTrendline, yScaleMin, yScaleMax
+                        data, chartDrawingFunction, chartType, showDataLabels, showTrendline, xScaleMin, xScaleMax, yScaleMin, yScaleMax
                 );
         mainFrame.executeJavaScript(javaScript);
     }

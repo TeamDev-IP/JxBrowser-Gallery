@@ -129,6 +129,23 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
 
     canvasContainer.appendChild(trendline);
 
+    const xScaleLabel = document.createElement('label');
+    xScaleLabel.textContent = 'x scale';
+
+    const xSlider = document.createElement('md-slider');
+    xSlider.id = 'x-slider';
+    xSlider.range = true;
+    xSlider.labeled = true;
+    xSlider.min = '1996';
+    xSlider.valueStart = '1996';
+    xSlider.max = '2022';
+    xSlider.valueEnd = '2022';
+    xSlider.step = '1';
+
+    xScaleLabel.prepend(xSlider);
+
+    canvasContainer.appendChild(xScaleLabel);
+
     const yScaleLabel = document.createElement('label');
     yScaleLabel.textContent = 'y scale';
 
@@ -148,52 +165,77 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
         const type = select.selectedOptions[0].value;
         const showDataLabels = dataLabelsCheckbox.checked;
         const showTrendline = trendlineCheckbox.checked;
+        const xMin = xSlider.valueStart;
+        const xMax = xSlider.valueEnd;
         const yMin = ySlider.valueStart;
         const yMax = ySlider.valueEnd;
 
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, yMin, yMax);
+        console.log(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
+
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
     });
 
     dataLabelsCheckbox.addEventListener('change', () => {
         const type = select.selectedOptions[0].value;
         const showDataLabels = dataLabelsCheckbox.checked;
         const showTrendline = trendlineCheckbox.checked;
+        const xMin = xSlider.valueStart;
+        const xMax = xSlider.valueEnd;
         const yMin = ySlider.valueStart;
         const yMax = ySlider.valueEnd;
 
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, yMin, yMax);
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
     });
 
     trendlineCheckbox.addEventListener('change', () => {
         const type = select.selectedOptions[0].value;
         const showDataLabels = dataLabelsCheckbox.checked;
         const showTrendline = trendlineCheckbox.checked;
+        const xMin = xSlider.valueStart;
+        const xMax = xSlider.valueEnd;
         const yMin = ySlider.valueStart;
         const yMax = ySlider.valueEnd;
 
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, yMin, yMax);
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
+    });
+
+    xSlider.addEventListener('change', () => {
+        const type = select.selectedOptions[0].value;
+        const showDataLabels = dataLabelsCheckbox.checked;
+        const showTrendline = trendlineCheckbox.checked;
+        const xMin = xSlider.valueStart;
+        const xMax = xSlider.valueEnd;
+        const yMin = ySlider.valueStart;
+        const yMax = ySlider.valueEnd;
+
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
     });
 
     ySlider.addEventListener('change', () => {
         const type = select.selectedOptions[0].value;
         const showDataLabels = dataLabelsCheckbox.checked;
         const showTrendline = trendlineCheckbox.checked;
+        const xMin = xSlider.valueStart;
+        const xMax = xSlider.valueEnd;
         const yMin = ySlider.valueStart;
         const yMax = ySlider.valueEnd;
 
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, yMin, yMax);
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
     });
 
     content.appendChild(canvasContainer);
