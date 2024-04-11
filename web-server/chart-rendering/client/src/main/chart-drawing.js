@@ -20,6 +20,7 @@
 
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import chartTrendline from 'chartjs-plugin-trendline';
 
 let currentlyDrawnChart;
 
@@ -31,19 +32,29 @@ let currentlyDrawnChart;
  * @param csvData the CSV data to be visualized
  * @param type the type of the chart to draw
  * @param displayLabels whether to display the data labels on the chart
+ * @param displayTrendline whether to display the trendline on the chart
  */
 export function drawFossilFuelsConsumptionChart(canvas,
                                                 csvData,
                                                 type = 'line',
-                                                displayLabels = false) {
+                                                displayLabels = false,
     if (currentlyDrawnChart) {
         currentlyDrawnChart.destroy();
     }
+    const trendlineColor = type === 'line' ? '#0879ae80' : '#C15065';
     const parsedData = csvToArray(csvData);
+    const trendline = displayTrendline
+        ? {
+            colorMin: trendlineColor,
+            colorMax: trendlineColor,
+            lineStyle: "dotted|solid",
+            width: 2
+        }
+        : null;
     currentlyDrawnChart = new Chart(
         document.getElementById(canvas),
         {
-            plugins: [ChartDataLabels],
+            plugins: [ChartDataLabels, chartTrendline],
             type: type,
             data: {
                 labels: parsedData.map(row => row[0]),
@@ -53,6 +64,7 @@ export function drawFossilFuelsConsumptionChart(canvas,
                         data: parsedData.map(row => row[1]),
                         borderColor: '#C15065',
                         backgroundColor: '#0879ae80',
+                        trendlineLinear: trendline
                     },
                 ],
             },

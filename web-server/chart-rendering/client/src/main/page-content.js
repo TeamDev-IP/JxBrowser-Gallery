@@ -110,35 +110,59 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
     // Append the md-outlined-select element to the canvasContainer
     canvasContainer.appendChild(select);
 
-    const label = document.createElement('label');
-    label.textContent = 'Enable data labels';
+    const dataLabels = document.createElement('label');
+    dataLabels.textContent = 'Show data labels';
 
-    const checkbox = document.createElement('md-checkbox');
-    checkbox.id = 'data-labels-checkbox';
-    checkbox.setAttribute('touch-target', 'wrapper');
+    const dataLabelsCheckbox = document.createElement('md-checkbox');
+    dataLabelsCheckbox.id = 'data-labels-checkbox';
+    dataLabelsCheckbox.setAttribute('touch-target', 'wrapper');
 
-    label.prepend(checkbox);
+    dataLabels.prepend(dataLabelsCheckbox);
 
-    canvasContainer.appendChild(label);
+    canvasContainer.appendChild(dataLabels);
+
+    const trendline = document.createElement('label');
+    trendline.textContent = 'Show trendline';
+
+    const trendlineCheckbox = document.createElement('md-checkbox');
+    trendlineCheckbox.id = 'trendline-checkbox';
+    trendlineCheckbox.setAttribute('touch-target', 'wrapper');
+
+    trendline.prepend(trendlineCheckbox);
+
+    canvasContainer.appendChild(trendline);
 
     select.addEventListener('change', () => {
         const type = select.selectedOptions[0].value;
-        const isChecked = checkbox.checked;
+        const showDataLabels = dataLabelsCheckbox.checked;
+        const showTrendline = trendlineCheckbox.checked;
 
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, isChecked);
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline);
     });
 
-    checkbox.addEventListener('change', () => {
+    dataLabelsCheckbox.addEventListener('change', () => {
         const type = select.selectedOptions[0].value;
-        const isChecked = checkbox.checked;
+        const showDataLabels = dataLabelsCheckbox.checked;
+        const showTrendline = trendlineCheckbox.checked;
 
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, isChecked);
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline);
+    });
+
+    trendlineCheckbox.addEventListener('change', () => {
+        const type = select.selectedOptions[0].value;
+        const showDataLabels = dataLabelsCheckbox.checked;
+        const showTrendline = trendlineCheckbox.checked;
+
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline);
     });
 
     content.appendChild(canvasContainer);
