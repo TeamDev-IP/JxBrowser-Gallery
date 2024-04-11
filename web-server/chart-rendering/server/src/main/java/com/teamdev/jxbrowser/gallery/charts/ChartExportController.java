@@ -26,6 +26,7 @@ import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.license.internal.LicenseProvider;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.http.server.types.files.SystemFile;
 
 import javax.imageio.ImageIO;
@@ -90,24 +91,30 @@ final class ChartExportController {
      * @throws IOException if an I/O error occurs during the operation
      */
     @Get("/fossil-fuels-consumption/png")
-    SystemFile fossilFuelsConsumptionPng() throws IOException {
+    SystemFile fossilFuelsConsumptionPng(@QueryValue String type)
+            throws IOException {
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
         var data = Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
-        runChartDrawingJs(data, "window.drawFossilFuelsConsumptionChart");
+        runChartDrawingJs(
+                data, "window.drawFossilFuelsConsumptionChart", type
+        );
 
         var image = saveBitmapPng("exported/fossil-fuels-consumption.png");
 
         return new SystemFile(image);
     }
 
-    private void runChartDrawingJs(String data, String chartDrawingFunction) {
+    private void runChartDrawingJs(String data,
+                                   String chartDrawingFunction,
+                                   String chartType) {
         var mainFrame = browser.mainFrame()
-                               .orElseThrow();
-        var javaScript = "const data = `%s`; %s('chart', data);".formatted(
-                data, chartDrawingFunction
-        );
+                .orElseThrow();
+        var javaScript = "const data = `%s`; %s('chart', data, '%s');"
+                .formatted(
+                        data, chartDrawingFunction, chartType
+                );
         mainFrame.executeJavaScript(javaScript);
     }
 

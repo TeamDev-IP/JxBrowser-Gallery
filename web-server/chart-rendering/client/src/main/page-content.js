@@ -85,6 +85,7 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
 
     // Create the md-outlined-select element
     const select = document.createElement('md-outlined-select');
+    select.id = 'chart-type-select';
 
     // Create the second md-select-option element
     const optionOne = document.createElement('md-select-option');

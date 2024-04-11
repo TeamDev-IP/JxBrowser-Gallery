@@ -43,7 +43,9 @@ export function initFossilFuelsConsumptionChart() {
     drawFossilFuelsConsumptionChart(datasetInfo.id, data);
 
     async function exportToPng() {
-        const data = await fetch(`${SERVER_URL}/export/fossil-fuels-consumption/png`)
+        const select = document.getElementById('chart-type-select');
+        const type = select.selectedOptions[0].value;
+        const data = await fetch(`${SERVER_URL}/export/fossil-fuels-consumption/png?type=${type}`)
             .then(r => r.blob());
         const url = window.URL.createObjectURL(data);
         const filename = 'fossil-fuels.png';
