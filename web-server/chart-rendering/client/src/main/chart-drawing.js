@@ -38,6 +38,7 @@ export function drawFossilFuelsConsumptionChart(canvas,
                                                 csvData,
                                                 type = 'line',
                                                 displayLabels = false,
+                                                displayTrendline = false) {
     if (currentlyDrawnChart) {
         currentlyDrawnChart.destroy();
     }

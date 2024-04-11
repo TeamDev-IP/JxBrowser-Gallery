@@ -84,11 +84,9 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
     canvas.id = datasetInfo.id;
     canvasContainer.appendChild(canvas);
 
-    // Create the md-outlined-select element
     const select = document.createElement('md-outlined-select');
     select.id = 'chart-type-select';
 
-    // Create the second md-select-option element
     const optionOne = document.createElement('md-select-option');
     optionOne.selected = true;
     optionOne.setAttribute('value', 'line');
@@ -98,7 +96,6 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
     optionOne.appendChild(divOne);
     select.appendChild(optionOne);
 
-    // Create the third md-select-option element
     const optionTwo = document.createElement('md-select-option');
     optionTwo.setAttribute('value', 'bar');
     const divTwo = document.createElement('div');
@@ -107,7 +104,6 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
     optionTwo.appendChild(divTwo);
     select.appendChild(optionTwo);
 
-    // Append the md-outlined-select element to the canvasContainer
     canvasContainer.appendChild(select);
 
     const dataLabels = document.createElement('label');
