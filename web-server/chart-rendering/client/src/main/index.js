@@ -37,9 +37,9 @@ export function initFossilFuelsConsumptionChart() {
     const info = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/info`);
     const datasetInfo = JSON.parse(info);
     const tabId = newTab();
-    populateTab(tabId, datasetInfo, exportToPng);
-
     const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
+
+    populateTab(tabId, datasetInfo, data, exportToPng);
     drawFossilFuelsConsumptionChart(datasetInfo.id, data);
 
     async function exportToPng() {

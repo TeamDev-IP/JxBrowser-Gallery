@@ -21,9 +21,12 @@
 import '@material/web/button/outlined-button.js';
 import '@material/web/list/list.js';
 import '@material/web/list/list-item.js';
+import '@material/web/select/outlined-select.js';
+import '@material/web/select/select-option.js';
 import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';
 import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+import {drawFossilFuelsConsumptionChart} from './chart-drawing.js';
 
 document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
 initTabSwitchListener();
@@ -64,9 +67,10 @@ export function newTab() {
  *
  * @param tabId the ID of the tab to populate
  * @param datasetInfo the dataset information to display
+ * @param data the data to visualize
  * @param exportPng the function to call when the user clicks the "Export to PNG" button
  */
-export function populateTab(tabId, datasetInfo, exportPng) {
+export function populateTab(tabId, datasetInfo, data, exportPng) {
     const content = document.getElementById(tabId);
 
     const datasetInfoContainer = datasetInfoPanel(datasetInfo, exportPng);
@@ -78,6 +82,44 @@ export function populateTab(tabId, datasetInfo, exportPng) {
     const canvas = document.createElement('canvas');
     canvas.id = datasetInfo.id;
     canvasContainer.appendChild(canvas);
+
+    // Create the md-outlined-select element
+    const select = document.createElement('md-outlined-select');
+
+    // Create the second md-select-option element
+    const optionOne = document.createElement('md-select-option');
+    optionOne.selected = true;
+    optionOne.setAttribute('value', 'line');
+    const divOne = document.createElement('div');
+    divOne.setAttribute('slot', 'headline');
+    divOne.textContent = 'Line';
+    optionOne.appendChild(divOne);
+    select.appendChild(optionOne);
+
+    // Create the third md-select-option element
+    const optionTwo = document.createElement('md-select-option');
+    optionTwo.setAttribute('value', 'bar');
+    const divTwo = document.createElement('div');
+    divTwo.setAttribute('slot', 'headline');
+    divTwo.textContent = 'Bar';
+    optionTwo.appendChild(divTwo);
+    select.appendChild(optionTwo);
+
+    // Append the md-outlined-select element to the canvasContainer
+    canvasContainer.appendChild(select);
+
+    // Add an event listener to the select element
+    select.addEventListener('change', () => {
+        // Get the selected option
+        const type = select.selectedOptions[0].value;
+
+        // Clear the existing chart
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Redraw the chart based on the selected option
+        drawFossilFuelsConsumptionChart(canvas.id, data, type);
+    });
 
     content.appendChild(canvasContainer);
 }

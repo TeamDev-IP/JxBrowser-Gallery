@@ -20,19 +20,25 @@
 
 import Chart from 'chart.js/auto';
 
+let currentlyDrawnChart;
+
 /**
  * Draws a chart that visualizes the share of primary energy consumption from
  * fossil fuels in Portugal.
  *
  * @param canvas the ID of the canvas element to draw the chart on
  * @param csvData the CSV data to be visualized
+ * @param type the type of the chart to draw
  */
-export function drawFossilFuelsConsumptionChart(canvas, csvData) {
+export function drawFossilFuelsConsumptionChart(canvas, csvData, type='line') {
+    if (currentlyDrawnChart) {
+        currentlyDrawnChart.destroy();
+    }
     const parsedData = csvToArray(csvData);
-    new Chart(
+    currentlyDrawnChart = new Chart(
         document.getElementById(canvas),
         {
-            type: 'line',
+            type: type,
             data: {
                 labels: parsedData.map(row => row[0]),
                 datasets: [
@@ -40,6 +46,7 @@ export function drawFossilFuelsConsumptionChart(canvas, csvData) {
                         label: 'Share of primary energy consumption from fossil fuels, Portugal',
                         data: parsedData.map(row => row[1]),
                         borderColor: '#C15065',
+                        backgroundColor: '#0879ae80',
                     },
                 ],
             },
