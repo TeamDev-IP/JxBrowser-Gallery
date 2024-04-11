@@ -49,8 +49,12 @@ export function initFossilFuelsConsumptionChart() {
         const showLabels = labelsCheckbox.checked;
         const trendlineCheckbox = document.getElementById('trendline-checkbox');
         const showTrendline = trendlineCheckbox.checked;
+        const yScaleSlider = document.getElementById('y-slider');
+        const yMin = yScaleSlider.valueStart;
+        const yMax = yScaleSlider.valueEnd;
+
         const data = await fetch(
-            `${SERVER_URL}/export/fossil-fuels-consumption/png?type=${type}&labels=${showLabels}&trendline=${showTrendline}`
+            `${SERVER_URL}/export/fossil-fuels-consumption/png?type=${type}&labels=${showLabels}&trendline=${showTrendline}&ymin=${yMin}&ymax=${yMax}`
         ).then(r => r.blob());
         const url = window.URL.createObjectURL(data);
         const filename = 'fossil-fuels.png';

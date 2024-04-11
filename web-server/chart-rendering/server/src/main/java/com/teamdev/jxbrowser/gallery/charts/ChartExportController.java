@@ -93,14 +93,22 @@ final class ChartExportController {
     @Get("/fossil-fuels-consumption/png")
     SystemFile fossilFuelsConsumptionPng(@QueryValue String type,
                                          @QueryValue boolean labels,
-                                         @QueryValue boolean trendline)
+                                         @QueryValue boolean trendline,
+                                         @QueryValue int ymin,
+                                         @QueryValue int ymax)
             throws IOException {
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
         var data = Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
         runChartDrawingJs(
-                data, "window.drawFossilFuelsConsumptionChart", type, labels, trendline
+                data,
+                "window.drawFossilFuelsConsumptionChart",
+                type,
+                labels,
+                trendline,
+                ymin,
+                ymax
         );
 
         var image = saveBitmapPng("exported/fossil-fuels-consumption.png");
@@ -112,12 +120,14 @@ final class ChartExportController {
                                    String chartDrawingFunction,
                                    String chartType,
                                    boolean showDataLabels,
-                                   boolean showTrendline) {
+                                   boolean showTrendline,
+                                   int yScaleMin,
+                                   int yScaleMax) {
         var mainFrame = browser.mainFrame()
                 .orElseThrow();
-        var javaScript = "const data = `%s`; %s('chart', data, '%s', %b, %b);"
+        var javaScript = "const data = `%s`; %s('chart', data, '%s', %b, %b, %d, %d);"
                 .formatted(
-                        data, chartDrawingFunction, chartType, showDataLabels, showTrendline
+                        data, chartDrawingFunction, chartType, showDataLabels, showTrendline, yScaleMin, yScaleMax
                 );
         mainFrame.executeJavaScript(javaScript);
     }

@@ -24,6 +24,7 @@ import '@material/web/list/list.js';
 import '@material/web/list/list-item.js';
 import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
+import '@material/web/slider/slider.js';
 import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';
 import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
@@ -128,37 +129,71 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
 
     canvasContainer.appendChild(trendline);
 
+    const yScaleLabel = document.createElement('label');
+    yScaleLabel.textContent = 'y scale';
+
+    const ySlider = document.createElement('md-slider');
+    ySlider.id = 'y-slider';
+    ySlider.range = true;
+    ySlider.labeled = true;
+    ySlider.valueStart = '0';
+    ySlider.valueEnd = '100';
+    ySlider.step = '1';
+
+    yScaleLabel.prepend(ySlider);
+
+    canvasContainer.appendChild(yScaleLabel);
+
     select.addEventListener('change', () => {
         const type = select.selectedOptions[0].value;
         const showDataLabels = dataLabelsCheckbox.checked;
         const showTrendline = trendlineCheckbox.checked;
+        const yMin = ySlider.valueStart;
+        const yMax = ySlider.valueEnd;
 
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline);
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, yMin, yMax);
     });
 
     dataLabelsCheckbox.addEventListener('change', () => {
         const type = select.selectedOptions[0].value;
         const showDataLabels = dataLabelsCheckbox.checked;
         const showTrendline = trendlineCheckbox.checked;
+        const yMin = ySlider.valueStart;
+        const yMax = ySlider.valueEnd;
 
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline);
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, yMin, yMax);
     });
 
     trendlineCheckbox.addEventListener('change', () => {
         const type = select.selectedOptions[0].value;
         const showDataLabels = dataLabelsCheckbox.checked;
         const showTrendline = trendlineCheckbox.checked;
+        const yMin = ySlider.valueStart;
+        const yMax = ySlider.valueEnd;
 
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline);
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, yMin, yMax);
+    });
+
+    ySlider.addEventListener('change', () => {
+        const type = select.selectedOptions[0].value;
+        const showDataLabels = dataLabelsCheckbox.checked;
+        const showTrendline = trendlineCheckbox.checked;
+        const yMin = ySlider.valueStart;
+        const yMax = ySlider.valueEnd;
+
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, yMin, yMax);
     });
 
     content.appendChild(canvasContainer);

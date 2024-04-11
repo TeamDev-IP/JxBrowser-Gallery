@@ -33,12 +33,16 @@ let currentlyDrawnChart;
  * @param type the type of the chart to draw
  * @param displayLabels whether to display the data labels on the chart
  * @param displayTrendline whether to display the trendline on the chart
+ * @param yMin the minimum value of the y-axis
+ * @param yMax the maximum value of the y-axis
  */
 export function drawFossilFuelsConsumptionChart(canvas,
                                                 csvData,
                                                 type = 'line',
                                                 displayLabels = false,
-                                                displayTrendline = false) {
+                                                displayTrendline = false,
+                                                yMin = 0,
+                                                yMax = 100) {
     if (currentlyDrawnChart) {
         currentlyDrawnChart.destroy();
     }
@@ -78,8 +82,8 @@ export function drawFossilFuelsConsumptionChart(canvas,
                 },
                 scales: {
                     y: {
-                        min: 0,
-                        max: 100,
+                        min: yMin,
+                        max: yMax,
                         ticks: {
                             stepSize: 20,
                             callback: function (value) {
