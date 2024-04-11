@@ -91,14 +91,14 @@ final class ChartExportController {
      * @throws IOException if an I/O error occurs during the operation
      */
     @Get("/fossil-fuels-consumption/png")
-    SystemFile fossilFuelsConsumptionPng(@QueryValue String type)
+    SystemFile fossilFuelsConsumptionPng(@QueryValue String type, @QueryValue boolean labels)
             throws IOException {
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
         var data = Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
         runChartDrawingJs(
-                data, "window.drawFossilFuelsConsumptionChart", type
+                data, "window.drawFossilFuelsConsumptionChart", type, labels
         );
 
         var image = saveBitmapPng("exported/fossil-fuels-consumption.png");
@@ -108,12 +108,13 @@ final class ChartExportController {
 
     private void runChartDrawingJs(String data,
                                    String chartDrawingFunction,
-                                   String chartType) {
+                                   String chartType,
+                                   boolean enableDataLabels) {
         var mainFrame = browser.mainFrame()
                 .orElseThrow();
-        var javaScript = "const data = `%s`; %s('chart', data, '%s');"
+        var javaScript = "const data = `%s`; %s('chart', data, '%s', %b);"
                 .formatted(
-                        data, chartDrawingFunction, chartType
+                        data, chartDrawingFunction, chartType, enableDataLabels
                 );
         mainFrame.executeJavaScript(javaScript);
     }

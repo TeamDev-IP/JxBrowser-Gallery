@@ -19,6 +19,7 @@
  */
 
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 let currentlyDrawnChart;
 
@@ -29,8 +30,12 @@ let currentlyDrawnChart;
  * @param canvas the ID of the canvas element to draw the chart on
  * @param csvData the CSV data to be visualized
  * @param type the type of the chart to draw
+ * @param displayLabels whether to display the data labels on the chart
  */
-export function drawFossilFuelsConsumptionChart(canvas, csvData, type='line') {
+export function drawFossilFuelsConsumptionChart(canvas,
+                                                csvData,
+                                                type = 'line',
+                                                displayLabels = false) {
     if (currentlyDrawnChart) {
         currentlyDrawnChart.destroy();
     }
@@ -38,6 +43,7 @@ export function drawFossilFuelsConsumptionChart(canvas, csvData, type='line') {
     currentlyDrawnChart = new Chart(
         document.getElementById(canvas),
         {
+            plugins: [ChartDataLabels],
             type: type,
             data: {
                 labels: parsedData.map(row => row[0]),
@@ -70,6 +76,16 @@ export function drawFossilFuelsConsumptionChart(canvas, csvData, type='line') {
                     },
                 },
                 devicePixelRatio: 3,
+                plugins: {
+                    datalabels: {
+                        align: 'top',
+                        anchor: 'end',
+                        display: displayLabels,
+                        formatter: function (value) {
+                            return Math.round(value) + '%';
+                        }
+                    }
+                }
             },
         },
     );

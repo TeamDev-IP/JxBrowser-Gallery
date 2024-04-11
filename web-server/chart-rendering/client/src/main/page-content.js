@@ -19,6 +19,7 @@
  */
 
 import '@material/web/button/outlined-button.js';
+import '@material/web/checkbox/checkbox.js';
 import '@material/web/list/list.js';
 import '@material/web/list/list-item.js';
 import '@material/web/select/outlined-select.js';
@@ -109,17 +110,35 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
     // Append the md-outlined-select element to the canvasContainer
     canvasContainer.appendChild(select);
 
-    // Add an event listener to the select element
-    select.addEventListener('change', () => {
-        // Get the selected option
-        const type = select.selectedOptions[0].value;
+    const label = document.createElement('label');
+    label.textContent = 'Enable data labels';
 
-        // Clear the existing chart
+    const checkbox = document.createElement('md-checkbox');
+    checkbox.id = 'data-labels-checkbox';
+    checkbox.setAttribute('touch-target', 'wrapper');
+
+    label.prepend(checkbox);
+
+    canvasContainer.appendChild(label);
+
+    select.addEventListener('change', () => {
+        const type = select.selectedOptions[0].value;
+        const isChecked = checkbox.checked;
+
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Redraw the chart based on the selected option
-        drawFossilFuelsConsumptionChart(canvas.id, data, type);
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, isChecked);
+    });
+
+    checkbox.addEventListener('change', () => {
+        const type = select.selectedOptions[0].value;
+        const isChecked = checkbox.checked;
+
+        const context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawFossilFuelsConsumptionChart(canvas.id, data, type, isChecked);
     });
 
     content.appendChild(canvasContainer);

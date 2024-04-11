@@ -43,10 +43,13 @@ export function initFossilFuelsConsumptionChart() {
     drawFossilFuelsConsumptionChart(datasetInfo.id, data);
 
     async function exportToPng() {
-        const select = document.getElementById('chart-type-select');
-        const type = select.selectedOptions[0].value;
-        const data = await fetch(`${SERVER_URL}/export/fossil-fuels-consumption/png?type=${type}`)
-            .then(r => r.blob());
+        const typeSelector = document.getElementById('chart-type-select');
+        const type = typeSelector.selectedOptions[0].value;
+        const labelsCheckbox = document.getElementById('data-labels-checkbox');
+        const enableLabels = labelsCheckbox.checked;
+        const data = await fetch(
+            `${SERVER_URL}/export/fossil-fuels-consumption/png?type=${type}&labels=${enableLabels}`
+        ).then(r => r.blob());
         const url = window.URL.createObjectURL(data);
         const filename = 'fossil-fuels.png';
         openFileDownloadDialog(url, filename);
