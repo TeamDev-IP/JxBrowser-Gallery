@@ -46,12 +46,7 @@ export function initFossilFuelsConsumptionChart() {
 
     const controls = addFossilFuelsConsumptionChartControls(datasetInfo.id);
     Object.values(controls)
-          .forEach(control => {
-                control.addEventListener('change', () => {
-                    const params = chartParams(controls);
-                    drawFossilFuelsConsumptionChart(datasetInfo.id, data, params);
-                });
-          });
+          .forEach(control => control.addEventListener('change', redrawChart));
 
     async function exportToPng() {
         const params = chartParams(controls);
@@ -62,6 +57,11 @@ export function initFossilFuelsConsumptionChart() {
         const url = window.URL.createObjectURL(data);
         const filename = 'fossil-fuels.png';
         openFileDownloadDialog(url, filename);
+    }
+
+    function redrawChart() {
+        const params = chartParams(controls);
+        drawFossilFuelsConsumptionChart(datasetInfo.id, data, params);
     }
 
     function chartParams(controls) {
