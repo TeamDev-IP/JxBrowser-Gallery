@@ -41,7 +41,9 @@ export function initFossilFuelsConsumptionChart() {
 
     const tabId = newTab();
     populateTab(tabId, datasetInfo, exportToPng);
+
     drawFossilFuelsConsumptionChart(datasetInfo.id, data);
+
     const controls = addFossilFuelsConsumptionChartControls(datasetInfo.id);
     Object.values(controls)
           .forEach(control => {

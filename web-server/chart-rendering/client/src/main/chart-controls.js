@@ -23,6 +23,12 @@ import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
 import '@material/web/slider/slider.js';
 
+/**
+ * Adds controls for modifying the "fossil fuels consumption" chart.
+ *
+ * @param canvasId the ID of the canvas element where the chart is rendered
+ * @returns an object containing references to the created controls
+ */
 export function addFossilFuelsConsumptionChartControls(canvasId) {
     const parentDiv = document.getElementById(canvasId).parentElement;
     const controlsContainer = document.createElement('div');

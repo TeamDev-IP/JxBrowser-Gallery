@@ -23,7 +23,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import chartTrendline from 'chartjs-plugin-trendline';
 
 /**
- * The chart instance of the "fossil fuels consumption" chart.
+ * The currently-drawn instance of the "fossil fuels consumption" chart.
  *
  * @type {Chart}
  */
