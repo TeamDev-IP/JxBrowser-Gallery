@@ -37,9 +37,9 @@ const SERVER_URL = 'http://localhost:8080';
 export function initFossilFuelsConsumptionChart() {
     const info = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/info`);
     const datasetInfo = JSON.parse(info);
-    const tabId = newTab();
     const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
 
+    const tabId = newTab();
     populateTab(tabId, datasetInfo, exportToPng);
     drawFossilFuelsConsumptionChart(datasetInfo.id, data);
     const controls = addFossilFuelsConsumptionChartControls(datasetInfo.id);

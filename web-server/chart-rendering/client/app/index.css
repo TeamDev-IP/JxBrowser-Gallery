@@ -33,6 +33,12 @@
     --md-list-item-supporting-text-color: #5b5b5b;
 }
 
+label {
+    font-family: var(--md-ref-typeface-plain);
+    font-size: 14px;
+    color: var(--md-list-item-label-text-color);
+}
+
 #tabs {
     width: 30%;
 }
@@ -75,12 +81,6 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 10px;
-}
-
-label {
-    font-family: var(--md-ref-typeface-plain);
-    font-size: 14px;
-    color: var(--md-list-item-label-text-color);
 }
 
 .controls-label {

@@ -24,7 +24,10 @@ import '@material/web/select/select-option.js';
 import '@material/web/slider/slider.js';
 
 export function addFossilFuelsConsumptionChartControls(canvasId) {
-    const parentDiv = document.getElementById(`${canvasId}-controls`);
+    const parentDiv = document.getElementById(canvasId).parentElement;
+    const controlsContainer = document.createElement('div');
+    controlsContainer.className = 'controls-container';
+    parentDiv.appendChild(controlsContainer);
 
     const selectsContainer = document.createElement('div');
     selectsContainer.className = 'controls-sub-container';
@@ -77,7 +80,7 @@ export function addFossilFuelsConsumptionChartControls(canvasId) {
 
     selectsContainer.appendChild(trendline);
 
-    parentDiv.appendChild(selectsContainer);
+    controlsContainer.appendChild(selectsContainer);
 
     const slidersContainer = document.createElement('div');
     slidersContainer.className = 'controls-sub-container';
@@ -116,7 +119,7 @@ export function addFossilFuelsConsumptionChartControls(canvasId) {
 
     slidersContainer.appendChild(yScaleLabel);
 
-    parentDiv.appendChild(slidersContainer);
+    controlsContainer.appendChild(slidersContainer);
 
     return {
         typeSelector: select,

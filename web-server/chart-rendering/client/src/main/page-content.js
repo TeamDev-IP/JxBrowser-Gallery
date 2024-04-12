@@ -79,11 +79,6 @@ export function populateTab(tabId, datasetInfo, exportPng) {
     canvas.id = datasetInfo.id;
     chartContainer.appendChild(canvas);
 
-    const controls = document.createElement('div');
-    controls.id = `${datasetInfo.id}-controls`;
-    controls.className = 'controls-container';
-    chartContainer.appendChild(controls);
-
     content.appendChild(chartContainer);
 }
 
