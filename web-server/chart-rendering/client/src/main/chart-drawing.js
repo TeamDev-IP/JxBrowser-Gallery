@@ -50,6 +50,7 @@ export function drawFossilFuelsConsumptionChart(canvas,
     if (currentlyDrawnChart) {
         currentlyDrawnChart.destroy();
     }
+    const chartColor = type === 'line' ? '#C15065' : '#0879ae80';
     const trendlineColor = type === 'line' ? '#0879ae80' : '#C15065';
     const parsedData = csvToArray(csvData);
     const trendline = showTrendline
@@ -72,8 +73,8 @@ export function drawFossilFuelsConsumptionChart(canvas,
                         data: parsedData.map(row => {
                             return {x: parseInt(row[0]), y: parseFloat(row[1])};
                         }),
-                        borderColor: '#C15065',
-                        backgroundColor: '#0879ae80',
+                        borderColor: chartColor,
+                        backgroundColor: chartColor,
                         trendlineLinear: trendline
                     },
                 ],
