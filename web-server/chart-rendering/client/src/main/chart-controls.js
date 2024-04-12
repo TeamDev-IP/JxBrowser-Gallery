@@ -32,100 +32,85 @@ export function addFossilFuelsConsumptionChartControls(canvasId) {
     const selectsContainer = document.createElement('div');
     selectsContainer.className = 'controls-sub-container';
 
-    const select = document.createElement('md-outlined-select');
-    select.id = 'chart-type-select';
+    const typeSelector = chartTypeSelector(['Line', 'Bar']);
+    selectsContainer.appendChild(typeSelector);
 
-    const optionOne = document.createElement('md-select-option');
-    optionOne.selected = true;
-    optionOne.setAttribute('value', 'line');
-    const divOne = document.createElement('div');
-    divOne.setAttribute('slot', 'headline');
-    divOne.textContent = 'Line';
-    optionOne.appendChild(divOne);
-    select.appendChild(optionOne);
+    const showLabelsCheckbox = checkboxWithLabel('Show labels');
+    selectsContainer.appendChild(showLabelsCheckbox.label);
 
-    const optionTwo = document.createElement('md-select-option');
-    optionTwo.setAttribute('value', 'bar');
-    const divTwo = document.createElement('div');
-    divTwo.setAttribute('slot', 'headline');
-    divTwo.textContent = 'Bar';
-    optionTwo.appendChild(divTwo);
-    select.appendChild(optionTwo);
-
-    selectsContainer.appendChild(select);
-
-    const dataLabels = document.createElement('label');
-    dataLabels.className = 'controls-label';
-    dataLabels.textContent = 'Show data labels';
-
-    const dataLabelsCheckbox = document.createElement('md-checkbox');
-    dataLabelsCheckbox.id = 'data-labels-checkbox';
-    dataLabelsCheckbox.className = 'controls-checkbox';
-    dataLabelsCheckbox.setAttribute('touch-target', 'wrapper');
-
-    dataLabels.prepend(dataLabelsCheckbox);
-
-    selectsContainer.appendChild(dataLabels);
-
-    const trendline = document.createElement('label');
-    trendline.className = 'controls-label';
-    trendline.textContent = 'Show trendline';
-
-    const trendlineCheckbox = document.createElement('md-checkbox');
-    trendlineCheckbox.id = 'trendline-checkbox';
-    trendlineCheckbox.className = 'controls-checkbox';
-    trendlineCheckbox.setAttribute('touch-target', 'wrapper');
-
-    trendline.prepend(trendlineCheckbox);
-
-    selectsContainer.appendChild(trendline);
+    const showTrendlineCheckbox = checkboxWithLabel('Show trendline');
+    selectsContainer.appendChild(showTrendlineCheckbox.label);
 
     controlsContainer.appendChild(selectsContainer);
 
     const slidersContainer = document.createElement('div');
     slidersContainer.className = 'controls-sub-container';
 
-    const xScaleLabel = document.createElement('label');
-    xScaleLabel.className = 'controls-label';
-    xScaleLabel.textContent = 'x scale';
+    const xAxisSlider = slider('x scale', 1996, 2022);
+    slidersContainer.appendChild(xAxisSlider.label);
 
-    const xSlider = document.createElement('md-slider');
-    xSlider.id = 'x-slider';
-    xSlider.range = true;
-    xSlider.labeled = true;
-    xSlider.min = '1996';
-    xSlider.valueStart = '1996';
-    xSlider.max = '2022';
-    xSlider.valueEnd = '2022';
-    xSlider.step = '1';
-
-    xScaleLabel.prepend(xSlider);
-
-    slidersContainer.appendChild(xScaleLabel);
-
-    const yScaleLabel = document.createElement('label');
-    yScaleLabel.className = 'controls-label';
-    yScaleLabel.textContent = 'y scale';
-
-    const ySlider = document.createElement('md-slider');
-    ySlider.id = 'y-slider';
-    ySlider.range = true;
-    ySlider.labeled = true;
-    ySlider.valueStart = '0';
-    ySlider.valueEnd = '100';
-    ySlider.step = '1';
-
-    yScaleLabel.prepend(ySlider);
-
-    slidersContainer.appendChild(yScaleLabel);
+    const yAxisSlider = slider('y scale', 0, 100);
+    slidersContainer.appendChild(yAxisSlider.label);
 
     controlsContainer.appendChild(slidersContainer);
 
     return {
-        typeSelector: select,
-        showLabelsCheckbox: dataLabelsCheckbox,
-        showTrendlineCheckbox: trendlineCheckbox,
-        xAxisSlider: xSlider,
-        yAxisSlider: ySlider
+        typeSelector: typeSelector,
+        showLabelsCheckbox: showLabelsCheckbox.checkbox,
+        showTrendlineCheckbox: showTrendlineCheckbox.checkbox,
+        xAxisSlider: xAxisSlider.slider,
+        yAxisSlider: yAxisSlider.slider
     };
+}
+
+function chartTypeSelector(types) {
+    const select = document.createElement('md-outlined-select');
+
+    types.forEach((option, index) => {
+        const element = document.createElement('md-select-option');
+        if (index === 0) {
+            element.selected = true;
+        }
+        element.setAttribute('value', option.toLowerCase());
+        const div = document.createElement('div');
+        div.setAttribute('slot', 'headline');
+        div.textContent = option;
+        element.appendChild(div);
+        select.appendChild(element);
+    });
+
+    return select;
+}
+
+function checkboxWithLabel(text) {
+    const label = document.createElement('label');
+    label.className = 'controls-label';
+    label.textContent = text;
+
+    const checkbox = document.createElement('md-checkbox');
+    checkbox.className = 'controls-checkbox';
+    checkbox.setAttribute('touch-target', 'wrapper');
+
+    label.prepend(checkbox);
+
+    return {label: label, checkbox: checkbox};
+}
+
+function slider(text, start, end, step = 1) {
+    const label = document.createElement('label');
+    label.className = 'controls-label';
+    label.textContent = text;
+
+    const slider = document.createElement('md-slider');
+    slider.range = true;
+    slider.labeled = true;
+    slider.min = start;
+    slider.valueStart = start;
+    slider.max = end;
+    slider.valueEnd = end;
+    slider.step = step;
+
+    label.prepend(slider);
+
+    return {label: label, slider: slider};
 }
