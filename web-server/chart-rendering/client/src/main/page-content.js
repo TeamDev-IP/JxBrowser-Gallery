@@ -85,6 +85,12 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
     canvas.id = datasetInfo.id;
     canvasContainer.appendChild(canvas);
 
+    const controlsContainer = document.createElement('div');
+    controlsContainer.className = 'controls-container';
+
+    const selectsContainer = document.createElement('div');
+    selectsContainer.className = 'controls-sub-container';
+
     const select = document.createElement('md-outlined-select');
     select.id = 'chart-type-select';
 
@@ -105,31 +111,39 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
     optionTwo.appendChild(divTwo);
     select.appendChild(optionTwo);
 
-    canvasContainer.appendChild(select);
+    selectsContainer.appendChild(select);
 
     const dataLabels = document.createElement('label');
+    dataLabels.className = 'controls-label';
     dataLabels.textContent = 'Show data labels';
 
     const dataLabelsCheckbox = document.createElement('md-checkbox');
     dataLabelsCheckbox.id = 'data-labels-checkbox';
+    dataLabelsCheckbox.className = 'controls-checkbox';
     dataLabelsCheckbox.setAttribute('touch-target', 'wrapper');
 
     dataLabels.prepend(dataLabelsCheckbox);
 
-    canvasContainer.appendChild(dataLabels);
+    selectsContainer.appendChild(dataLabels);
 
     const trendline = document.createElement('label');
+    trendline.className = 'controls-label';
     trendline.textContent = 'Show trendline';
 
     const trendlineCheckbox = document.createElement('md-checkbox');
     trendlineCheckbox.id = 'trendline-checkbox';
+    trendlineCheckbox.className = 'controls-checkbox';
     trendlineCheckbox.setAttribute('touch-target', 'wrapper');
 
     trendline.prepend(trendlineCheckbox);
 
-    canvasContainer.appendChild(trendline);
+    selectsContainer.appendChild(trendline);
+
+    const slidersContainer = document.createElement('div');
+    slidersContainer.className = 'controls-sub-container';
 
     const xScaleLabel = document.createElement('label');
+    xScaleLabel.className = 'controls-label';
     xScaleLabel.textContent = 'x scale';
 
     const xSlider = document.createElement('md-slider');
@@ -144,9 +158,10 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
 
     xScaleLabel.prepend(xSlider);
 
-    canvasContainer.appendChild(xScaleLabel);
+    slidersContainer.appendChild(xScaleLabel);
 
     const yScaleLabel = document.createElement('label');
+    yScaleLabel.className = 'controls-label';
     yScaleLabel.textContent = 'y scale';
 
     const ySlider = document.createElement('md-slider');
@@ -159,7 +174,12 @@ export function populateTab(tabId, datasetInfo, data, exportPng) {
 
     yScaleLabel.prepend(ySlider);
 
-    canvasContainer.appendChild(yScaleLabel);
+    slidersContainer.appendChild(yScaleLabel);
+
+    controlsContainer.appendChild(selectsContainer);
+    controlsContainer.appendChild(slidersContainer);
+
+    canvasContainer.appendChild(controlsContainer);
 
     select.addEventListener('change', () => {
         const type = select.selectedOptions[0].value;

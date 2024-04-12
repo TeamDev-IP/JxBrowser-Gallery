@@ -52,13 +52,28 @@
     flex: 1;
 }
 
+.export-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
 .canvas-container {
     flex: 4;
 }
 
-.export-button-container {
+.controls-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.controls-sub-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     margin-top: 10px;
 }
 
@@ -67,3 +82,13 @@ label {
     font-size: 14px;
     color: var(--md-list-item-label-text-color);
 }
+
+.controls-label {
+    display: flex;
+    align-items: center;
+}
+
+.controls-checkbox {
+    margin-right: 10px;
+}
+
