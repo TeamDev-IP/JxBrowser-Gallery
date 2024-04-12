@@ -26,6 +26,7 @@ import {drawFossilFuelsConsumptionChart} from "./chart-drawing";
 import {openFileDownloadDialog} from "./download";
 import {httpGet} from "./http";
 import {newTab, populateTab} from "./page-content";
+import {addFossilFuelsConsumptionChartControls} from "./chart-controls";
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -39,29 +40,38 @@ export function initFossilFuelsConsumptionChart() {
     const tabId = newTab();
     const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
 
-    populateTab(tabId, datasetInfo, data, exportToPng);
+    populateTab(tabId, datasetInfo, exportToPng);
     drawFossilFuelsConsumptionChart(datasetInfo.id, data);
+    const controls = addFossilFuelsConsumptionChartControls(datasetInfo.id);
+    Object.values(controls)
+          .forEach(control => {
+                control.addEventListener('change', () => {
+                    const params = chartParams(controls);
+                    drawFossilFuelsConsumptionChart(datasetInfo.id, data, params);
+                });
+          });
 
     async function exportToPng() {
-        const typeSelector = document.getElementById('chart-type-select');
-        const type = typeSelector.selectedOptions[0].value;
-        const labelsCheckbox = document.getElementById('data-labels-checkbox');
-        const showLabels = labelsCheckbox.checked;
-        const trendlineCheckbox = document.getElementById('trendline-checkbox');
-        const showTrendline = trendlineCheckbox.checked;
-        const xScaleSlider = document.getElementById('x-slider');
-        const xMin = xScaleSlider.valueStart;
-        const xMax = xScaleSlider.valueEnd;
-        const yScaleSlider = document.getElementById('y-slider');
-        const yMin = yScaleSlider.valueStart;
-        const yMax = yScaleSlider.valueEnd;
-
+        const params = chartParams(controls);
+        const encodedParams = encodeURIComponent(JSON.stringify(params));
         const data = await fetch(
-            `${SERVER_URL}/export/fossil-fuels-consumption/png?type=${type}&labels=${showLabels}&trendline=${showTrendline}&xmin=${xMin}&xmax=${xMax}&ymin=${yMin}&ymax=${yMax}`
+            `${SERVER_URL}/export/fossil-fuels-consumption/png?params=${encodedParams}`
         ).then(r => r.blob());
         const url = window.URL.createObjectURL(data);
         const filename = 'fossil-fuels.png';
         openFileDownloadDialog(url, filename);
+    }
+
+    function chartParams(controls) {
+        return {
+            type: controls.typeSelector.selectedOptions[0].value,
+            showLabels: controls.showLabelsCheckbox.checked,
+            showTrendline: controls.showTrendlineCheckbox.checked,
+            xMin: controls.xAxisSlider.valueStart,
+            xMax: controls.xAxisSlider.valueEnd,
+            yMin: controls.yAxisSlider.valueStart,
+            yMax: controls.yAxisSlider.valueEnd
+        };
     }
 }
 

@@ -90,31 +90,13 @@ final class ChartExportController {
      * @return a {@link SystemFile} instance representing the exported PNG image
      * @throws IOException if an I/O error occurs during the operation
      */
-    @SuppressWarnings("MethodWithTooManyParameters" /* A lot of parameters for the printed chart. */)
     @Get("/fossil-fuels-consumption/png")
-    SystemFile fossilFuelsConsumptionPng(@QueryValue String type,
-                                         @QueryValue boolean labels,
-                                         @QueryValue boolean trendline,
-                                         @QueryValue int xmin,
-                                         @QueryValue int xmax,
-                                         @QueryValue int ymin,
-                                         @QueryValue int ymax)
-            throws IOException {
+    SystemFile fossilFuelsConsumptionPng(@QueryValue String params) throws IOException {
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
         var data = Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
-        runChartDrawingJs(
-                data,
-                "window.drawFossilFuelsConsumptionChart",
-                type,
-                labels,
-                trendline,
-                xmin,
-                xmax,
-                ymin,
-                ymax
-        );
+        runChartDrawingJs(data, "window.drawFossilFuelsConsumptionChart", params);
 
         var image = saveBitmapPng("exported/fossil-fuels-consumption.png");
 
@@ -123,18 +105,12 @@ final class ChartExportController {
 
     private void runChartDrawingJs(String data,
                                    String chartDrawingFunction,
-                                   String chartType,
-                                   boolean showDataLabels,
-                                   boolean showTrendline,
-                                   int xScaleMin,
-                                   int xScaleMax,
-                                   int yScaleMin,
-                                   int yScaleMax) {
+                                   String params) {
         var mainFrame = browser.mainFrame()
                 .orElseThrow();
-        var javaScript = "const data = `%s`; %s('chart', data, '%s', %b, %b, %d, %d, %d, %d);"
+        var javaScript = "const data = `%s`; %s('chart', data, %s);"
                 .formatted(
-                        data, chartDrawingFunction, chartType, showDataLabels, showTrendline, xScaleMin, xScaleMax, yScaleMin, yScaleMax
+                        data, chartDrawingFunction, params
                 );
         mainFrame.executeJavaScript(javaScript);
     }

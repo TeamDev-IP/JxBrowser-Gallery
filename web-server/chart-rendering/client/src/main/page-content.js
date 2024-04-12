@@ -19,16 +19,11 @@
  */
 
 import '@material/web/button/outlined-button.js';
-import '@material/web/checkbox/checkbox.js';
 import '@material/web/list/list.js';
 import '@material/web/list/list-item.js';
-import '@material/web/select/outlined-select.js';
-import '@material/web/select/select-option.js';
-import '@material/web/slider/slider.js';
 import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';
 import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
-import {drawFossilFuelsConsumptionChart} from './chart-drawing.js';
 
 document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
 initTabSwitchListener();
@@ -69,196 +64,27 @@ export function newTab() {
  *
  * @param tabId the ID of the tab to populate
  * @param datasetInfo the dataset information to display
- * @param data the data to visualize
  * @param exportPng the function to call when the user clicks the "Export to PNG" button
  */
-export function populateTab(tabId, datasetInfo, data, exportPng) {
+export function populateTab(tabId, datasetInfo, exportPng) {
     const content = document.getElementById(tabId);
 
     const datasetInfoContainer = datasetInfoPanel(datasetInfo, exportPng);
     content.appendChild(datasetInfoContainer);
 
-    const canvasContainer = document.createElement('div');
-    canvasContainer.className = 'canvas-container';
+    const chartContainer = document.createElement('div');
+    chartContainer.className = 'canvas-container';
 
     const canvas = document.createElement('canvas');
     canvas.id = datasetInfo.id;
-    canvasContainer.appendChild(canvas);
+    chartContainer.appendChild(canvas);
 
-    const controlsContainer = document.createElement('div');
-    controlsContainer.className = 'controls-container';
+    const controls = document.createElement('div');
+    controls.id = `${datasetInfo.id}-controls`;
+    controls.className = 'controls-container';
+    chartContainer.appendChild(controls);
 
-    const selectsContainer = document.createElement('div');
-    selectsContainer.className = 'controls-sub-container';
-
-    const select = document.createElement('md-outlined-select');
-    select.id = 'chart-type-select';
-
-    const optionOne = document.createElement('md-select-option');
-    optionOne.selected = true;
-    optionOne.setAttribute('value', 'line');
-    const divOne = document.createElement('div');
-    divOne.setAttribute('slot', 'headline');
-    divOne.textContent = 'Line';
-    optionOne.appendChild(divOne);
-    select.appendChild(optionOne);
-
-    const optionTwo = document.createElement('md-select-option');
-    optionTwo.setAttribute('value', 'bar');
-    const divTwo = document.createElement('div');
-    divTwo.setAttribute('slot', 'headline');
-    divTwo.textContent = 'Bar';
-    optionTwo.appendChild(divTwo);
-    select.appendChild(optionTwo);
-
-    selectsContainer.appendChild(select);
-
-    const dataLabels = document.createElement('label');
-    dataLabels.className = 'controls-label';
-    dataLabels.textContent = 'Show data labels';
-
-    const dataLabelsCheckbox = document.createElement('md-checkbox');
-    dataLabelsCheckbox.id = 'data-labels-checkbox';
-    dataLabelsCheckbox.className = 'controls-checkbox';
-    dataLabelsCheckbox.setAttribute('touch-target', 'wrapper');
-
-    dataLabels.prepend(dataLabelsCheckbox);
-
-    selectsContainer.appendChild(dataLabels);
-
-    const trendline = document.createElement('label');
-    trendline.className = 'controls-label';
-    trendline.textContent = 'Show trendline';
-
-    const trendlineCheckbox = document.createElement('md-checkbox');
-    trendlineCheckbox.id = 'trendline-checkbox';
-    trendlineCheckbox.className = 'controls-checkbox';
-    trendlineCheckbox.setAttribute('touch-target', 'wrapper');
-
-    trendline.prepend(trendlineCheckbox);
-
-    selectsContainer.appendChild(trendline);
-
-    const slidersContainer = document.createElement('div');
-    slidersContainer.className = 'controls-sub-container';
-
-    const xScaleLabel = document.createElement('label');
-    xScaleLabel.className = 'controls-label';
-    xScaleLabel.textContent = 'x scale';
-
-    const xSlider = document.createElement('md-slider');
-    xSlider.id = 'x-slider';
-    xSlider.range = true;
-    xSlider.labeled = true;
-    xSlider.min = '1996';
-    xSlider.valueStart = '1996';
-    xSlider.max = '2022';
-    xSlider.valueEnd = '2022';
-    xSlider.step = '1';
-
-    xScaleLabel.prepend(xSlider);
-
-    slidersContainer.appendChild(xScaleLabel);
-
-    const yScaleLabel = document.createElement('label');
-    yScaleLabel.className = 'controls-label';
-    yScaleLabel.textContent = 'y scale';
-
-    const ySlider = document.createElement('md-slider');
-    ySlider.id = 'y-slider';
-    ySlider.range = true;
-    ySlider.labeled = true;
-    ySlider.valueStart = '0';
-    ySlider.valueEnd = '100';
-    ySlider.step = '1';
-
-    yScaleLabel.prepend(ySlider);
-
-    slidersContainer.appendChild(yScaleLabel);
-
-    controlsContainer.appendChild(selectsContainer);
-    controlsContainer.appendChild(slidersContainer);
-
-    canvasContainer.appendChild(controlsContainer);
-
-    select.addEventListener('change', () => {
-        const type = select.selectedOptions[0].value;
-        const showDataLabels = dataLabelsCheckbox.checked;
-        const showTrendline = trendlineCheckbox.checked;
-        const xMin = xSlider.valueStart;
-        const xMax = xSlider.valueEnd;
-        const yMin = ySlider.valueStart;
-        const yMax = ySlider.valueEnd;
-
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        console.log(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
-
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
-    });
-
-    dataLabelsCheckbox.addEventListener('change', () => {
-        const type = select.selectedOptions[0].value;
-        const showDataLabels = dataLabelsCheckbox.checked;
-        const showTrendline = trendlineCheckbox.checked;
-        const xMin = xSlider.valueStart;
-        const xMax = xSlider.valueEnd;
-        const yMin = ySlider.valueStart;
-        const yMax = ySlider.valueEnd;
-
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
-    });
-
-    trendlineCheckbox.addEventListener('change', () => {
-        const type = select.selectedOptions[0].value;
-        const showDataLabels = dataLabelsCheckbox.checked;
-        const showTrendline = trendlineCheckbox.checked;
-        const xMin = xSlider.valueStart;
-        const xMax = xSlider.valueEnd;
-        const yMin = ySlider.valueStart;
-        const yMax = ySlider.valueEnd;
-
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
-    });
-
-    xSlider.addEventListener('change', () => {
-        const type = select.selectedOptions[0].value;
-        const showDataLabels = dataLabelsCheckbox.checked;
-        const showTrendline = trendlineCheckbox.checked;
-        const xMin = xSlider.valueStart;
-        const xMax = xSlider.valueEnd;
-        const yMin = ySlider.valueStart;
-        const yMax = ySlider.valueEnd;
-
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
-    });
-
-    ySlider.addEventListener('change', () => {
-        const type = select.selectedOptions[0].value;
-        const showDataLabels = dataLabelsCheckbox.checked;
-        const showTrendline = trendlineCheckbox.checked;
-        const xMin = xSlider.valueStart;
-        const xMax = xSlider.valueEnd;
-        const yMin = ySlider.valueStart;
-        const yMax = ySlider.valueEnd;
-
-        const context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        drawFossilFuelsConsumptionChart(canvas.id, data, type, showDataLabels, showTrendline, xMin, xMax, yMin, yMax);
-    });
-
-    content.appendChild(canvasContainer);
+    content.appendChild(chartContainer);
 }
 
 /**

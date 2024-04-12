@@ -22,7 +22,35 @@ import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import chartTrendline from 'chartjs-plugin-trendline';
 
-let currentlyDrawnChart;
+/**
+ * The chart instance of the "fossil fuels consumption" chart.
+ *
+ * @type {Chart}
+ */
+let fossilFuelsConsumptionChart;
+
+/**
+ * Default parameters for the "fossil fuels consumption" chart.
+ *
+ * @type {{
+ *     type: string, // 'line' or 'bar'
+ *     showLabels: boolean, // whether to show data labels
+ *     showTrendline: boolean, // whether to show a trendline
+ *     xMin: number, // the minimum value for the x-axis
+ *     xMax: number, // the maximum value for the x-axis
+ *     yMin: number, // the minimum value for the y-axis
+ *     yMax: number, // the maximum value for the y-axis
+ * }}
+ */
+const fossilFuelConsumptionChartDefaults = {
+    type: 'line',
+    showLabels: false,
+    showTrendline: false,
+    xMin: 1996,
+    xMax: 2022,
+    yMin: 0,
+    yMax: 100
+};
 
 /**
  * Draws a chart that visualizes the share of primary energy consumption from
@@ -30,42 +58,29 @@ let currentlyDrawnChart;
  *
  * @param canvas the ID of the canvas element to draw the chart on
  * @param csvData the CSV data to be visualized
- * @param type the type of the chart to draw
- * @param showLabels whether to display the data labels on the chart
- * @param showTrendline whether to display the trendline on the chart
- * @param xMin the minimum value of the x-axis
- * @param xMax the maximum value of the x-axis
- * @param yMin the minimum value of the y-axis
- * @param yMax the maximum value of the y-axis
+ * @param params the parameters for the chart. See {@link fossilFuelConsumptionChartDefaults}
  */
 export function drawFossilFuelsConsumptionChart(canvas,
                                                 csvData,
-                                                type = 'line',
-                                                showLabels = false,
-                                                showTrendline = false,
-                                                xMin = 1996,
-                                                xMax = 2022,
-                                                yMin = 0,
-                                                yMax = 100) {
-    if (currentlyDrawnChart) {
-        currentlyDrawnChart.destroy();
+                                                params = fossilFuelConsumptionChartDefaults) {
+    if (fossilFuelsConsumptionChart) {
+        fossilFuelsConsumptionChart.destroy();
     }
-    const chartColor = type === 'line' ? '#C15065' : '#0879ae80';
-    const trendlineColor = type === 'line' ? '#0879ae80' : '#C15065';
+    const colors = colorScheme(params.type);
     const parsedData = csvToArray(csvData);
-    const trendline = showTrendline
+    const trendline = params.showTrendline
         ? {
-            colorMin: trendlineColor,
-            colorMax: trendlineColor,
+            colorMin: colors.trendline,
+            colorMax: colors.trendline,
             lineStyle: "dotted|solid",
             width: 2
         }
         : null;
-    currentlyDrawnChart = new Chart(
+    fossilFuelsConsumptionChart = new Chart(
         document.getElementById(canvas),
         {
             plugins: [ChartDataLabels, chartTrendline],
-            type: type,
+            type: params.type,
             data: {
                 datasets: [
                     {
@@ -73,8 +88,8 @@ export function drawFossilFuelsConsumptionChart(canvas,
                         data: parsedData.map(row => {
                             return {x: parseInt(row[0]), y: parseFloat(row[1])};
                         }),
-                        borderColor: chartColor,
-                        backgroundColor: chartColor,
+                        borderColor: colors.chart,
+                        backgroundColor: colors.chart,
                         trendlineLinear: trendline
                     },
                 ],
@@ -89,8 +104,8 @@ export function drawFossilFuelsConsumptionChart(canvas,
                 scales: {
                     x: {
                         type: 'linear',
-                        min: xMin,
-                        max: xMax,
+                        min: params.xMin,
+                        max: params.xMax,
                         ticks: {
                             callback: function (value) {
                                 return value + '';
@@ -98,8 +113,8 @@ export function drawFossilFuelsConsumptionChart(canvas,
                         },
                     },
                     y: {
-                        min: yMin,
-                        max: yMax,
+                        min: params.yMin,
+                        max: params.yMax,
                         ticks: {
                             stepSize: 20,
                             callback: function (value) {
@@ -113,7 +128,7 @@ export function drawFossilFuelsConsumptionChart(canvas,
                     datalabels: {
                         align: 'top',
                         anchor: 'end',
-                        display: showLabels,
+                        display: params.showLabels,
                         formatter: function (value) {
                             return Math.round(value.y) + '%';
                         }
@@ -122,6 +137,22 @@ export function drawFossilFuelsConsumptionChart(canvas,
             },
         },
     );
+
+    function colorScheme(type) {
+        if (type === 'line') {
+            return {
+                chart: '#c15065',
+                trendline: '#0879ae80'
+            };
+        }
+        if (type === 'bar') {
+            return {
+                chart: '#0879ae80',
+                trendline: '#c15065'
+            };
+        }
+        throw new Error(`Unknown chart type: '${type}'.`);
+    }
 }
 
 /**
