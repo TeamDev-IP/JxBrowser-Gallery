@@ -32,9 +32,9 @@ import '@material/web/slider/slider.js';
 export function addFossilFuelsConsumptionChartControls(canvasId) {
     const controls = addControlsContainer(canvasId);
 
-    const typeSelector = chartTypeSelector(['Line', 'Bar']);
-    const showLabelsCheckbox = checkboxWithLabel('Show labels');
-    const showTrendlineCheckbox = checkboxWithLabel('Show trendline');
+    const typeSelector = selector(['Line', 'Bar']);
+    const showLabelsCheckbox = checkbox('Show labels');
+    const showTrendlineCheckbox = checkbox('Show trendline');
     const xAxisSlider = slider('x scale', 1996, 2022);
     const yAxisSlider = slider('y scale', 0, 100);
 
@@ -55,6 +55,9 @@ export function addFossilFuelsConsumptionChartControls(canvasId) {
     };
 }
 
+/**
+ * Adds a container that holds the chart controls.
+ */
 function addControlsContainer(canvasId) {
     const parentDiv = document.getElementById(canvasId).parentElement;
     const controlsContainer = document.createElement('div');
@@ -63,10 +66,13 @@ function addControlsContainer(canvasId) {
     return controlsContainer;
 }
 
-function chartTypeSelector(types) {
+/**
+ * Creates a selector for the chart type.
+ */
+function selector(options) {
     const select = document.createElement('md-outlined-select');
 
-    types.forEach((option, index) => {
+    options.forEach((option, index) => {
         const element = document.createElement('md-select-option');
         if (index === 0) {
             element.selected = true;
@@ -82,7 +88,10 @@ function chartTypeSelector(types) {
     return select;
 }
 
-function checkboxWithLabel(text) {
+/**
+ * Creates a checkbox control element with a label.
+ */
+function checkbox(text) {
     const label = document.createElement('label');
     label.className = 'controls-label';
     label.textContent = text;
@@ -96,10 +105,12 @@ function checkboxWithLabel(text) {
     return {label: label, checkbox: checkbox};
 }
 
+/**
+ * Creates a slider control element with a label.
+ */
 function slider(text, start, end, step = 1) {
     const label = document.createElement('label');
-    label.classList.add('controls-label');
-    label.classList.add('controls-slider')
+    label.classList.add('controls-label', 'controls-slider');
     label.textContent = text;
 
     const slider = document.createElement('md-slider');
