@@ -30,27 +30,21 @@ import '@material/web/slider/slider.js';
  * @returns an object containing references to the created controls
  */
 export function addFossilFuelsConsumptionChartControls(canvasId) {
-    const parentDiv = document.getElementById(canvasId).parentElement;
-    const controlsContainer = document.createElement('div');
-    controlsContainer.className = 'controls-container';
-    parentDiv.appendChild(controlsContainer);
+    const controls = addControlsContainer(canvasId);
 
     const typeSelector = chartTypeSelector(['Line', 'Bar']);
-    controlsContainer.appendChild(typeSelector);
-
     const showLabelsCheckbox = checkboxWithLabel('Show labels');
-    controlsContainer.appendChild(showLabelsCheckbox.label);
-
     const showTrendlineCheckbox = checkboxWithLabel('Show trendline');
-    controlsContainer.appendChild(showTrendlineCheckbox.label);
-
     const xAxisSlider = slider('x scale', 1996, 2022);
-    xAxisSlider.label.className = 'controls-slider';
-    controlsContainer.appendChild(xAxisSlider.label);
-
     const yAxisSlider = slider('y scale', 0, 100);
-    yAxisSlider.label.className = 'controls-slider';
-    controlsContainer.appendChild(yAxisSlider.label);
+
+    controls.append(
+        typeSelector,
+        showLabelsCheckbox.label,
+        showTrendlineCheckbox.label,
+        xAxisSlider.label,
+        yAxisSlider.label
+    );
 
     return {
         typeSelector: typeSelector,
@@ -59,6 +53,14 @@ export function addFossilFuelsConsumptionChartControls(canvasId) {
         xAxisSlider: xAxisSlider.slider,
         yAxisSlider: yAxisSlider.slider
     };
+}
+
+function addControlsContainer(canvasId) {
+    const parentDiv = document.getElementById(canvasId).parentElement;
+    const controlsContainer = document.createElement('div');
+    controlsContainer.className = 'controls-container';
+    parentDiv.appendChild(controlsContainer);
+    return controlsContainer;
 }
 
 function chartTypeSelector(types) {
@@ -96,7 +98,8 @@ function checkboxWithLabel(text) {
 
 function slider(text, start, end, step = 1) {
     const label = document.createElement('label');
-    label.className = 'controls-label';
+    label.classList.add('controls-label');
+    label.classList.add('controls-slider')
     label.textContent = text;
 
     const slider = document.createElement('md-slider');
