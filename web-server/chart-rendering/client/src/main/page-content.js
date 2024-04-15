@@ -91,7 +91,6 @@ function initTabSwitchListener() {
         const tabId = `content-${tabIndex + 1}`;
         switchToTab(tabId)
     });
-
 }
 
 /**
