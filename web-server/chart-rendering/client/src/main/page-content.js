@@ -77,6 +77,7 @@ export function populateTab(tabId, datasetInfo, exportPng) {
 
     const canvas = document.createElement('canvas');
     canvas.id = datasetInfo.id;
+    canvas.className = 'chart-canvas';
     chartContainer.appendChild(canvas);
 
     content.appendChild(chartContainer);
