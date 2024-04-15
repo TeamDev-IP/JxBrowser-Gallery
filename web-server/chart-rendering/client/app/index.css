@@ -85,15 +85,7 @@ label {
     display: flex;
     flex-direction: column;
     align-items: start;
-    margin-top: 10px;
-}
-
-.controls-sub-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 .controls-label {
@@ -103,9 +95,9 @@ label {
 
 .controls-checkbox {
     margin-right: 10px;
-    margin-left: 5px;
+    margin-left: 0;
 }
 
 .controls-slider {
-    margin-left: -6px;
+    margin-left: -11px;
 }

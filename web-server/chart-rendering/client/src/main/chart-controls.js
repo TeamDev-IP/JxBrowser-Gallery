@@ -35,40 +35,22 @@ export function addFossilFuelsConsumptionChartControls(canvasId) {
     controlsContainer.className = 'controls-container';
     parentDiv.appendChild(controlsContainer);
 
-    const typeSelectorContainer = document.createElement('div');
-    typeSelectorContainer.className = 'controls-sub-container';
-
     const typeSelector = chartTypeSelector(['Line', 'Bar']);
-    typeSelectorContainer.appendChild(typeSelector);
-
-    const showLabelsContainer = document.createElement('div');
-    showLabelsContainer.className = 'controls-sub-container';
+    controlsContainer.appendChild(typeSelector);
 
     const showLabelsCheckbox = checkboxWithLabel('Show labels');
-    showLabelsContainer.appendChild(showLabelsCheckbox.label);
-
-    const showTrendlineContainer = document.createElement('div');
-    showTrendlineContainer.className = 'controls-sub-container';
+    controlsContainer.appendChild(showLabelsCheckbox.label);
 
     const showTrendlineCheckbox = checkboxWithLabel('Show trendline');
-    showTrendlineContainer.appendChild(showTrendlineCheckbox.label);
-
-    controlsContainer.appendChild(typeSelectorContainer);
-    controlsContainer.appendChild(showLabelsContainer);
-    controlsContainer.appendChild(showTrendlineContainer);
-
-    const slidersContainer = document.createElement('div');
-    slidersContainer.className = 'controls-sub-container';
+    controlsContainer.appendChild(showTrendlineCheckbox.label);
 
     const xAxisSlider = slider('x scale', 1996, 2022);
     xAxisSlider.label.className = 'controls-slider';
-    slidersContainer.appendChild(xAxisSlider.label);
+    controlsContainer.appendChild(xAxisSlider.label);
 
     const yAxisSlider = slider('y scale', 0, 100);
     yAxisSlider.label.className = 'controls-slider';
-    slidersContainer.appendChild(yAxisSlider.label);
-
-    controlsContainer.appendChild(slidersContainer);
+    controlsContainer.appendChild(yAxisSlider.label);
 
     return {
         typeSelector: typeSelector,
