@@ -19,6 +19,38 @@
  */
 
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import chartTrendline from 'chartjs-plugin-trendline';
+
+/**
+ * The currently-drawn instance of the "fossil fuels consumption" chart.
+ *
+ * @type {Chart}
+ */
+let fossilFuelsConsumptionChart;
+
+/**
+ * Default parameters for the "fossil fuels consumption" chart.
+ *
+ * @type {{
+ *     type: string, // 'line' or 'bar'
+ *     showLabels: boolean, // whether to show data labels
+ *     showTrendline: boolean, // whether to show a trendline
+ *     xMin: number, // the minimum value for the x-axis
+ *     xMax: number, // the maximum value for the x-axis
+ *     yMin: number, // the minimum value for the y-axis
+ *     yMax: number, // the maximum value for the y-axis
+ * }}
+ */
+const fossilFuelConsumptionChartDefaults = {
+    type: 'line',
+    showLabels: false,
+    showTrendline: false,
+    xMin: 1996,
+    xMax: 2022,
+    yMin: 0,
+    yMax: 100
+};
 
 /**
  * Draws a chart that visualizes the share of primary energy consumption from
@@ -26,20 +58,39 @@ import Chart from 'chart.js/auto';
  *
  * @param canvas the ID of the canvas element to draw the chart on
  * @param csvData the CSV data to be visualized
+ * @param params the parameters for the chart. See {@link fossilFuelConsumptionChartDefaults}
  */
-export function drawFossilFuelsConsumptionChart(canvas, csvData) {
+export function drawFossilFuelsConsumptionChart(canvas,
+                                                csvData,
+                                                params = fossilFuelConsumptionChartDefaults) {
+    if (fossilFuelsConsumptionChart) {
+        fossilFuelsConsumptionChart.destroy();
+    }
+    const colors = colorScheme(params.type);
     const parsedData = csvToArray(csvData);
-    new Chart(
+    const trendline = params.showTrendline
+        ? {
+            colorMin: colors.trendline,
+            colorMax: colors.trendline,
+            lineStyle: "dotted|solid",
+            width: 2
+        }
+        : null;
+    fossilFuelsConsumptionChart = new Chart(
         document.getElementById(canvas),
         {
-            type: 'line',
+            plugins: [ChartDataLabels, chartTrendline],
+            type: params.type,
             data: {
-                labels: parsedData.map(row => row[0]),
                 datasets: [
                     {
                         label: 'Share of primary energy consumption from fossil fuels, Portugal',
-                        data: parsedData.map(row => row[1]),
-                        borderColor: '#C15065',
+                        data: parsedData.map(row => {
+                            return {x: parseInt(row[0]), y: parseFloat(row[1])};
+                        }),
+                        borderColor: colors.chart,
+                        backgroundColor: colors.chart,
+                        trendlineLinear: trendline
                     },
                 ],
             },
@@ -51,9 +102,19 @@ export function drawFossilFuelsConsumptionChart(canvas, csvData) {
                     }
                 },
                 scales: {
+                    x: {
+                        type: 'linear',
+                        min: params.xMin,
+                        max: params.xMax,
+                        ticks: {
+                            callback: function (value) {
+                                return value + '';
+                            },
+                        },
+                    },
                     y: {
-                        min: 0,
-                        max: 100,
+                        min: params.yMin,
+                        max: params.yMax,
                         ticks: {
                             stepSize: 20,
                             callback: function (value) {
@@ -63,9 +124,35 @@ export function drawFossilFuelsConsumptionChart(canvas, csvData) {
                     },
                 },
                 devicePixelRatio: 3,
+                plugins: {
+                    datalabels: {
+                        align: 'top',
+                        anchor: 'end',
+                        display: params.showLabels,
+                        formatter: function (value) {
+                            return Math.round(value.y) + '%';
+                        }
+                    }
+                }
             },
         },
     );
+
+    function colorScheme(type) {
+        if (type === 'line') {
+            return {
+                chart: '#c15065',
+                trendline: '#0879ae80'
+            };
+        }
+        if (type === 'bar') {
+            return {
+                chart: '#0879ae80',
+                trendline: '#c15065'
+            };
+        }
+        throw new Error(`Unknown chart type: '${type}'.`);
+    }
 }
 
 /**

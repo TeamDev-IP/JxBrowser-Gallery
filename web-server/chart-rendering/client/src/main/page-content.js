@@ -72,14 +72,15 @@ export function populateTab(tabId, datasetInfo, exportPng) {
     const datasetInfoContainer = datasetInfoPanel(datasetInfo, exportPng);
     content.appendChild(datasetInfoContainer);
 
-    const canvasContainer = document.createElement('div');
-    canvasContainer.className = 'canvas-container';
+    const chartContainer = document.createElement('div');
+    chartContainer.className = 'canvas-container';
 
     const canvas = document.createElement('canvas');
     canvas.id = datasetInfo.id;
-    canvasContainer.appendChild(canvas);
+    canvas.className = 'chart-canvas';
+    chartContainer.appendChild(canvas);
 
-    content.appendChild(canvasContainer);
+    content.appendChild(chartContainer);
 }
 
 /**
@@ -91,7 +92,6 @@ function initTabSwitchListener() {
         const tabId = `content-${tabIndex + 1}`;
         switchToTab(tabId)
     });
-
 }
 
 /**

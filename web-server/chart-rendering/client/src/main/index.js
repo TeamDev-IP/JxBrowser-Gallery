@@ -26,6 +26,7 @@ import {drawFossilFuelsConsumptionChart} from "./chart-drawing";
 import {openFileDownloadDialog} from "./download";
 import {httpGet} from "./http";
 import {newTab, populateTab} from "./page-content";
+import {addFossilFuelsConsumptionChartControls} from "./chart-controls";
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -36,18 +37,43 @@ const SERVER_URL = 'http://localhost:8080';
 export function initFossilFuelsConsumptionChart() {
     const info = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/info`);
     const datasetInfo = JSON.parse(info);
+    const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
+
     const tabId = newTab();
     populateTab(tabId, datasetInfo, exportToPng);
 
-    const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
     drawFossilFuelsConsumptionChart(datasetInfo.id, data);
 
+    const controls = addFossilFuelsConsumptionChartControls(datasetInfo.id);
+    Object.values(controls)
+          .forEach(control => control.addEventListener('change', redrawChart));
+
     async function exportToPng() {
-        const data = await fetch(`${SERVER_URL}/export/fossil-fuels-consumption/png`)
-            .then(r => r.blob());
+        const params = chartParams(controls);
+        const encodedParams = encodeURIComponent(JSON.stringify(params));
+        const data = await fetch(
+            `${SERVER_URL}/export/fossil-fuels-consumption/png?params=${encodedParams}`
+        ).then(r => r.blob());
         const url = window.URL.createObjectURL(data);
         const filename = 'fossil-fuels.png';
         openFileDownloadDialog(url, filename);
+    }
+
+    function redrawChart() {
+        const params = chartParams(controls);
+        drawFossilFuelsConsumptionChart(datasetInfo.id, data, params);
+    }
+
+    function chartParams(controls) {
+        return {
+            type: controls.typeSelector.selectedOptions[0].value,
+            showLabels: controls.showLabelsCheckbox.checked,
+            showTrendline: controls.showTrendlineCheckbox.checked,
+            xMin: controls.xAxisSlider.valueStart,
+            xMax: controls.xAxisSlider.valueEnd,
+            yMin: controls.yAxisSlider.valueStart,
+            yMax: controls.yAxisSlider.valueEnd
+        };
     }
 }
 
