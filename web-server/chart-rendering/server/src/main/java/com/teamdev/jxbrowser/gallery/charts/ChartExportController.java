@@ -112,6 +112,26 @@ final class ChartExportController {
         return new SystemFile(image);
     }
 
+    /**
+     * Exports the "Life expectancy" chart to a PNG image.
+     *
+     * @param params the parameters to pass to the chart drawing function
+     * @return a {@link SystemFile} instance representing the exported PNG image
+     * @throws IOException if an I/O error occurs during the operation
+     */
+    @Get("/life-expectancy/png")
+    SystemFile lifeExpectancyPng(@QueryValue String params)
+            throws IOException, URISyntaxException {
+        var data = Dataset.LIFE_EXPECTANCY.dataAsString();
+        writeChartDrawingJsToFile(data, "window.drawLifeExpectancyChart", params);
+
+        browser.navigation()
+               .loadUrlAndWait(canvasUrl.toString());
+
+        var image = saveBitmapPng("exported/life-expectancy.png");
+        return new SystemFile(image);
+    }
+
     private void writeChartDrawingJsToFile(String data,
                                            String chartDrawingFunction,
                                            String params)

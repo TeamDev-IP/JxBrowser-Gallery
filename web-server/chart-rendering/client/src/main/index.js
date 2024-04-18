@@ -22,11 +22,14 @@ import '@material/web/dialog/dialog.js';
 import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';
 
-import {drawFossilFuelsConsumptionChart} from "./chart-drawing";
+import {drawFossilFuelsConsumptionChart, drawLifeExpectancyChart} from "./chart-drawing";
 import {openFileDownloadDialog} from "./download";
 import {httpGet} from "./http";
 import {newTab, populateTab} from "./page-content";
-import {addFossilFuelsConsumptionChartControls} from "./chart-controls";
+import {
+    addFossilFuelsConsumptionChartControls,
+    addLifeExpectancyChartControls
+} from "./chart-controls";
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -77,4 +80,52 @@ export function initFossilFuelsConsumptionChart() {
     }
 }
 
+/**
+ * Initializes the tab containing the chart that visualizes the life expectancy
+ * in Portugal.
+ */
+export function initLifeExpectancyChart() {
+    const info = httpGet(`${SERVER_URL}/dataset/life-expectancy/info`);
+    const datasetInfo = JSON.parse(info);
+    const data = httpGet(`${SERVER_URL}/dataset/life-expectancy/data`);
+
+    const tabId = newTab();
+    populateTab(tabId, datasetInfo, exportToPng);
+
+    drawLifeExpectancyChart(datasetInfo.id, data);
+
+    const controls = addLifeExpectancyChartControls(datasetInfo.id);
+    Object.values(controls)
+          .forEach(control => control.addEventListener('change', redrawChart));
+
+    async function exportToPng() {
+        const params = chartParams(controls);
+        const encodedParams = encodeURIComponent(JSON.stringify(params));
+        const data = await fetch(
+            `${SERVER_URL}/export/life-expectancy/png?params=${encodedParams}`
+        ).then(r => r.blob());
+        const url = window.URL.createObjectURL(data);
+        const filename = 'life-expectancy.png';
+        openFileDownloadDialog(url, filename);
+    }
+
+    function redrawChart() {
+        const params = chartParams(controls);
+        drawLifeExpectancyChart(datasetInfo.id, data, params);
+    }
+
+    function chartParams(controls) {
+        return {
+            type: controls.typeSelector.selectedOptions[0].value,
+            showLabels: controls.showLabelsCheckbox.checked,
+            showTrendline: controls.showTrendlineCheckbox.checked,
+            xMin: controls.xAxisSlider.valueStart,
+            xMax: controls.xAxisSlider.valueEnd,
+            yMin: controls.yAxisSlider.valueStart,
+            yMax: controls.yAxisSlider.valueEnd
+        };
+    }
+}
+
 window.initFossilFuelsConsumptionChart = initFossilFuelsConsumptionChart;
+window.initLifeExpectancyChart = initLifeExpectancyChart;

@@ -30,6 +30,11 @@ import chartTrendline from 'chartjs-plugin-trendline';
 let fossilFuelsConsumptionChart;
 
 /**
+ * The currently-drawn instance of the "life expectancy" chart.
+ */
+let lifeExpectancyChart;
+
+/**
  * Default parameters for the "fossil fuels consumption" chart.
  *
  * @type {{
@@ -43,6 +48,29 @@ let fossilFuelsConsumptionChart;
  * }}
  */
 const fossilFuelConsumptionChartDefaults = {
+    type: 'line',
+    showLabels: false,
+    showTrendline: false,
+    xMin: 1996,
+    xMax: 2022,
+    yMin: 0,
+    yMax: 100
+};
+
+/**
+ * Default parameters for the "life expectancy" chart.
+ *
+ * @type {{
+ *     type: string, // 'line' or 'bar'
+ *     showLabels: boolean, // whether to show data labels
+ *     showTrendline: boolean, // whether to show a trendline
+ *     xMin: number, // the minimum value for the x-axis
+ *     xMax: number, // the maximum value for the x-axis
+ *     yMin: number, // the minimum value for the y-axis
+ *     yMax: number, // the maximum value for the y-axis
+ * }}
+ */
+const lifeExpectancyChartDefaults = {
     type: 'line',
     showLabels: false,
     showTrendline: false,
@@ -156,6 +184,108 @@ export function drawFossilFuelsConsumptionChart(canvas,
 }
 
 /**
+ * Draws a chart that visualizes the life expectancy at birth in Portugal.
+ *
+ * @param canvas the ID of the canvas element to draw the chart on
+ * @param csvData the CSV data to be visualized
+ * @param params the parameters for the chart. See {@link lifeExpectancyChartDefaults}
+ */
+export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancyChartDefaults) {
+    if (lifeExpectancyChart) {
+        lifeExpectancyChart.destroy();
+    }
+    const parsedData = csvToArray(csvData);
+    const colors = colorScheme(params.type);
+    const trendline = params.showTrendline
+        ? {
+            colorMin: colors.trendline,
+            colorMax: colors.trendline,
+            lineStyle: "dotted|solid",
+            width: 2
+        }
+        : null;
+    lifeExpectancyChart = new Chart(
+        document.getElementById(canvas),
+        {
+            plugins: [ChartDataLabels, chartTrendline],
+            type: params.type,
+            data: {
+                datasets: [
+                    {
+                        label: 'Life expectancy at birth, Portugal',
+                        data: parsedData
+                            .filter(row => row[0] === 'Portugal')
+                            .map(row => {
+                                return {x: parseInt(row[2]), y: parseFloat(row[3])};
+                            }),
+                        borderColor: colors.chart,
+                        backgroundColor: colors.chart,
+                        trendlineLinear: trendline
+                    },
+                ],
+            },
+            options: {
+                animation: false,
+                legend: {
+                    labels: {
+                        fontFamily: 'Lato'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        min: params.xMin,
+                        max: params.xMax,
+                        ticks: {
+                            callback: function (value) {
+                                return value + '';
+                            },
+                        },
+                    },
+                    y: {
+                        min: params.yMin,
+                        max: params.yMax,
+                        ticks: {
+                            stepSize: 10,
+                            callback: function (value) {
+                                return value + ' years';
+                            },
+                        },
+                    },
+                },
+                devicePixelRatio: 3,
+                plugins: {
+                    datalabels: {
+                        align: 'top',
+                        anchor: 'end',
+                        display: params.showLabels,
+                        formatter: function (value) {
+                            return Math.round(value.y) + ' years';
+                        }
+                    }
+                }
+            },
+        },
+    );
+
+    function colorScheme(type) {
+        if (type === 'line') {
+            return {
+                chart: '#c15065',
+                trendline: '#0879ae80'
+            };
+        }
+        if (type === 'bar') {
+            return {
+                chart: '#0879ae80',
+                trendline: '#c15065'
+            };
+        }
+        throw new Error(`Unknown chart type: '${type}'.`);
+    }
+}
+
+/**
  * Parses the CSV data from a string into a JS array.
  */
 function csvToArray(strData, strDelimiter) {
@@ -193,3 +323,4 @@ function csvToArray(strData, strDelimiter) {
 }
 
 window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;
+window.drawLifeExpectancyChart = drawLifeExpectancyChart;

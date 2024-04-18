@@ -54,4 +54,26 @@ final class DataController {
     String fossilFuelsConsumptionData() {
         return Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
     }
+
+    /**
+     * Returns the info about the "Life expectancy" dataset.
+     *
+     * @return the dataset info in the JSON format
+     */
+    @Get("/life-expectancy/info")
+    @Produces(TEXT_JSON)
+    String lifeExpectancyInfo() {
+        return Dataset.LIFE_EXPECTANCY.infoAsString();
+    }
+
+    /**
+     * Returns the content of the "Life expectancy" dataset.
+     *
+     * @return the dataset content in the CSV format
+     */
+    @Get("/life-expectancy/data")
+    @Produces(TEXT_CSV)
+    String lifeExpectancyData() {
+        return Dataset.LIFE_EXPECTANCY.dataAsString();
+    }
 }

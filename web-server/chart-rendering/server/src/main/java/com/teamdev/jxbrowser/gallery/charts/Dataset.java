@@ -27,7 +27,8 @@ import com.google.gson.JsonParser;
  */
 @SuppressWarnings("NonSerializableFieldInSerializableClass" /* OK for this enum. */)
 enum Dataset {
-    FOSSIL_FUELS_CONSUMPTION("fossil-fuels-consumption.info.json");
+    FOSSIL_FUELS_CONSUMPTION("fossil-fuels-consumption.info.json"),
+    LIFE_EXPECTANCY("life-expectancy.info.json");
 
     /**
      * The resource containing the dataset info.

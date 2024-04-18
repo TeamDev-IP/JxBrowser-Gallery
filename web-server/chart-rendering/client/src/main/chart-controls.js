@@ -56,6 +56,38 @@ export function addFossilFuelsConsumptionChartControls(canvasId) {
 }
 
 /**
+ * Adds controls for modifying the "life expectancy" chart.
+ *
+ * @param canvasId the ID of the canvas element where the chart is rendered
+ * @returns an object containing references to the created controls
+ */
+export function addLifeExpectancyChartControls(canvasId) {
+    const controls = addControlsContainer(canvasId);
+
+    const typeSelector = selector(['Line', 'Bar']);
+    const showLabelsCheckbox = checkbox('Show labels');
+    const showTrendlineCheckbox = checkbox('Show trendline');
+    const xAxisSlider = slider('x scale', 1996, 2022);
+    const yAxisSlider = slider('y scale', 0, 100);
+
+    controls.append(
+        typeSelector,
+        showLabelsCheckbox.label,
+        showTrendlineCheckbox.label,
+        xAxisSlider.label,
+        yAxisSlider.label
+    );
+
+    return {
+        typeSelector: typeSelector,
+        showLabelsCheckbox: showLabelsCheckbox.checkbox,
+        showTrendlineCheckbox: showTrendlineCheckbox.checkbox,
+        xAxisSlider: xAxisSlider.slider,
+        yAxisSlider: yAxisSlider.slider
+    };
+}
+
+/**
  * Adds a container that holds the chart controls.
  */
 function addControlsContainer(canvasId) {
