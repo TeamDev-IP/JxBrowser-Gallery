@@ -32,7 +32,10 @@ import '@material/web/slider/slider.js';
 export function addFossilFuelsConsumptionChartControls(canvasId) {
     const controls = addControlsContainer(canvasId);
 
-    const typeSelector = selector(['Line', 'Bar']);
+    const typeSelector = selector([
+        {display: 'Line', value: 'line'},
+        {display: 'Bar', value: 'bar'}
+    ], 'line');
     const showLabelsCheckbox = checkbox('Show labels');
     const showTrendlineCheckbox = checkbox('Show trendline');
     const xAxisSlider = slider('x scale', 1996, 2022);
@@ -59,18 +62,23 @@ export function addFossilFuelsConsumptionChartControls(canvasId) {
  * Adds controls for modifying the "life expectancy" chart.
  *
  * @param canvasId the ID of the canvas element where the chart is rendered
+ * @param data the data used to render the chart
  * @returns an object containing references to the created controls
  */
-export function addLifeExpectancyChartControls(canvasId) {
+export function addLifeExpectancyChartControls(canvasId, data) {
     const controls = addControlsContainer(canvasId);
 
-    const typeSelector = selector(['Line', 'Bar']);
+    const uniqueCountries = [...new Map(data.map(row => ({display: row[0], value: row[0]})).map(c => [c.value, c])).values()];
+    console.log(uniqueCountries);
+    const countrySelector = selector(uniqueCountries, 'Portugal');
+    const typeSelector = selector([{display: 'Line', value: 'line'}], 'line');
     const showLabelsCheckbox = checkbox('Show labels');
     const showTrendlineCheckbox = checkbox('Show trendline');
-    const xAxisSlider = slider('x scale', 1996, 2022);
+    const xAxisSlider = slider('x scale', 1800, 2022);
     const yAxisSlider = slider('y scale', 0, 100);
 
     controls.append(
+        countrySelector,
         typeSelector,
         showLabelsCheckbox.label,
         showTrendlineCheckbox.label,
@@ -79,6 +87,7 @@ export function addLifeExpectancyChartControls(canvasId) {
     );
 
     return {
+        countrySelector: countrySelector,
         typeSelector: typeSelector,
         showLabelsCheckbox: showLabelsCheckbox.checkbox,
         showTrendlineCheckbox: showTrendlineCheckbox.checkbox,
@@ -101,18 +110,19 @@ function addControlsContainer(canvasId) {
 /**
  * Creates a selector for the chart type.
  */
-function selector(options) {
+function selector(options, selected) {
     const select = document.createElement('md-outlined-select');
+    select.className = 'controls-select';
 
-    options.forEach((option, index) => {
+    options.forEach((option) => {
         const element = document.createElement('md-select-option');
-        if (index === 0) {
+        if (option.value === selected) {
             element.selected = true;
         }
-        element.setAttribute('value', option.toLowerCase());
+        element.setAttribute('value', option.value);
         const div = document.createElement('div');
         div.setAttribute('slot', 'headline');
-        div.textContent = option;
+        div.textContent = option.display;
         element.appendChild(div);
         select.appendChild(element);
     });

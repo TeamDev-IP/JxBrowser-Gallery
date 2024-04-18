@@ -88,6 +88,10 @@ label {
     margin-top: 30px;
 }
 
+.controls-selector {
+    margin-bottom: 10px;
+}
+
 .controls-label {
     display: flex;
     align-items: center;

@@ -41,18 +41,16 @@ let lifeExpectancyChart;
  *     type: string, // 'line' or 'bar'
  *     showLabels: boolean, // whether to show data labels
  *     showTrendline: boolean, // whether to show a trendline
- *     xMin: number, // the minimum value for the x-axis
- *     xMax: number, // the maximum value for the x-axis
- *     yMin: number, // the minimum value for the y-axis
- *     yMax: number, // the maximum value for the y-axis
+ *     xMin?: number, // the minimum value for the x-axis
+ *     xMax?: number, // the maximum value for the x-axis
+ *     yMin?: number, // the minimum value for the y-axis
+ *     yMax?: number, // the maximum value for the y-axis
  * }}
  */
 const fossilFuelConsumptionChartDefaults = {
     type: 'line',
     showLabels: false,
     showTrendline: false,
-    xMin: 1996,
-    xMax: 2022,
     yMin: 0,
     yMax: 100
 };
@@ -64,20 +62,17 @@ const fossilFuelConsumptionChartDefaults = {
  *     type: string, // 'line' or 'bar'
  *     showLabels: boolean, // whether to show data labels
  *     showTrendline: boolean, // whether to show a trendline
- *     xMin: number, // the minimum value for the x-axis
- *     xMax: number, // the maximum value for the x-axis
- *     yMin: number, // the minimum value for the y-axis
- *     yMax: number, // the maximum value for the y-axis
+ *     xMin?: number, // the minimum value for the x-axis
+ *     xMax?: number, // the maximum value for the x-axis
+ *     yMin?: number, // the minimum value for the y-axis
+ *     yMax?: number, // the maximum value for the y-axis
  * }}
  */
 const lifeExpectancyChartDefaults = {
     type: 'line',
+    country: 'Portugal',
     showLabels: false,
     showTrendline: false,
-    xMin: 1996,
-    xMax: 2022,
-    yMin: 0,
-    yMax: 100
 };
 
 /**
@@ -204,6 +199,7 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
             width: 2
         }
         : null;
+    const data = parsedData.filter(row => row[0] === params.country);
     lifeExpectancyChart = new Chart(
         document.getElementById(canvas),
         {
@@ -212,9 +208,8 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
             data: {
                 datasets: [
                     {
-                        label: 'Life expectancy at birth, Portugal',
-                        data: parsedData
-                            .filter(row => row[0] === 'Portugal')
+                        label: `Life expectancy at birth, ${params.country}`,
+                        data: data
                             .map(row => {
                                 return {x: parseInt(row[2]), y: parseFloat(row[3])};
                             }),
@@ -275,12 +270,6 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
                 trendline: '#0879ae80'
             };
         }
-        if (type === 'bar') {
-            return {
-                chart: '#0879ae80',
-                trendline: '#c1bf50'
-            };
-        }
         throw new Error(`Unknown chart type: '${type}'.`);
     }
 }
@@ -288,7 +277,7 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
 /**
  * Parses the CSV data from a string into a JS array.
  */
-function csvToArray(strData, strDelimiter) {
+export function csvToArray(strData, strDelimiter) {
     strDelimiter = (strDelimiter || ',');
     const objPattern = new RegExp(
         (

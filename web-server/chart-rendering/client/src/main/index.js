@@ -22,7 +22,11 @@ import '@material/web/dialog/dialog.js';
 import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';
 
-import {drawFossilFuelsConsumptionChart, drawLifeExpectancyChart} from "./chart-drawing";
+import {
+    csvToArray,
+    drawFossilFuelsConsumptionChart,
+    drawLifeExpectancyChart
+} from "./chart-drawing";
 import {openFileDownloadDialog} from "./download";
 import {httpGet} from "./http";
 import {newTab, populateTab} from "./page-content";
@@ -94,7 +98,7 @@ export function initLifeExpectancyChart() {
 
     drawLifeExpectancyChart(datasetInfo.id, data);
 
-    const controls = addLifeExpectancyChartControls(datasetInfo.id);
+    const controls = addLifeExpectancyChartControls(datasetInfo.id, csvToArray(data));
     Object.values(controls)
           .forEach(control => control.addEventListener('change', redrawChart));
 
@@ -116,6 +120,7 @@ export function initLifeExpectancyChart() {
 
     function chartParams(controls) {
         return {
+            country: controls.countrySelector.selectedOptions[0].value,
             type: controls.typeSelector.selectedOptions[0].value,
             showLabels: controls.showLabelsCheckbox.checked,
             showTrendline: controls.showTrendlineCheckbox.checked,
