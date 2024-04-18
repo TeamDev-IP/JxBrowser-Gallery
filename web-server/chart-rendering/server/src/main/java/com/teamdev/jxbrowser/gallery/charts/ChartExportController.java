@@ -32,9 +32,12 @@ import io.micronaut.http.server.types.files.SystemFile;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
+import static java.nio.file.Files.writeString;
 
 /**
  * A controller that exports charts to various image and non-image formats.
@@ -92,28 +95,30 @@ final class ChartExportController {
      * @throws IOException if an I/O error occurs during the operation
      */
     @Get("/fossil-fuels-consumption/png")
-    SystemFile fossilFuelsConsumptionPng(@QueryValue String params) throws IOException {
+    SystemFile fossilFuelsConsumptionPng(@QueryValue String params)
+            throws IOException, URISyntaxException {
+        var data = Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
+        writeChartDrawingJsToFile(data, "window.drawFossilFuelsConsumptionChart", params);
+
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
 
-        var data = Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
-        runChartDrawingJs(data, "window.drawFossilFuelsConsumptionChart", params);
-
         var image = saveBitmapPng("exported/fossil-fuels-consumption.png");
-
         return new SystemFile(image);
     }
 
-    private void runChartDrawingJs(String data,
-                                   String chartDrawingFunction,
-                                   String params) {
-        var mainFrame = browser.mainFrame()
-                .orElseThrow();
-        var javaScript = "const data = `%s`; %s('chart', data, %s);"
-                .formatted(
-                        data, chartDrawingFunction, params
-                );
-        mainFrame.executeJavaScript(javaScript);
+    private void writeChartDrawingJsToFile(String data,
+                                           String chartDrawingFunction,
+                                           String params)
+            throws IOException, URISyntaxException {
+        var javaScript = "const data = `%s`; %s('chart', data, %s);".formatted(
+                data, chartDrawingFunction, params
+        );
+        var uri = canvasUrl.toURI();
+        var htmlPath = Path.of(uri);
+        var path = htmlPath.getParent().resolve("draw-with-data.js");
+
+        writeString(path, javaScript);
     }
 
     private File saveBitmapPng(String fileName) throws IOException {
