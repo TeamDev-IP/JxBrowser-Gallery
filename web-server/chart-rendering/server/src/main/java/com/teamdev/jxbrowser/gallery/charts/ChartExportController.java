@@ -38,6 +38,10 @@ import java.net.URL;
 import java.nio.file.Path;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
+import static j2html.TagCreator.body;
+import static j2html.TagCreator.canvas;
+import static j2html.TagCreator.html;
+import static j2html.TagCreator.script;
 import static java.nio.file.Files.writeString;
 
 /**
@@ -57,7 +61,7 @@ import static java.nio.file.Files.writeString;
  * </ol>
  *
  * @implNote Is assigned the {@link Context} scope to avoid the cold start upon
- *         receiving the first request.
+ * receiving the first request.
  */
 @Controller("/export")
 @Context
@@ -85,8 +89,8 @@ final class ChartExportController {
     @SuppressWarnings("resource" /* The engine has the same lifetime as the application. */)
     ChartExportController() {
         var options = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
-                .licenseKey(LicenseProvider.INSTANCE.getKey())
-                .build();
+                                   .licenseKey(LicenseProvider.INSTANCE.getKey())
+                                   .build();
         var engine = Engine.newInstance(options);
         browser = engine.newBrowser();
         canvasUrl = new Resource("rendering/canvas.html").url();
@@ -103,7 +107,12 @@ final class ChartExportController {
     SystemFile fossilFuelsConsumptionPng(@QueryValue String params)
             throws IOException, URISyntaxException {
         var data = Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
-        writeChartDrawingJsToFile(data, "window.drawFossilFuelsConsumptionChart", params);
+        var js = chartDrawingJs(data, "window.drawFossilFuelsConsumptionChart", params);
+        var html = chartRenderingHtml(js);
+        var uri = canvasUrl.toURI();
+        var htmlPath = Path.of(uri);
+
+        writeString(htmlPath, html);
 
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
@@ -123,7 +132,12 @@ final class ChartExportController {
     SystemFile lifeExpectancyPng(@QueryValue String params)
             throws IOException, URISyntaxException {
         var data = Dataset.LIFE_EXPECTANCY.dataAsString();
-        writeChartDrawingJsToFile(data, "window.drawLifeExpectancyChart", params);
+        var js = chartDrawingJs(data, "window.drawLifeExpectancyChart", params);
+        var html = chartRenderingHtml(js);
+        var uri = canvasUrl.toURI();
+        var htmlPath = Path.of(uri);
+
+        writeString(htmlPath, html);
 
         browser.navigation()
                .loadUrlAndWait(canvasUrl.toString());
@@ -132,18 +146,24 @@ final class ChartExportController {
         return new SystemFile(image);
     }
 
-    private void writeChartDrawingJsToFile(String data,
-                                           String chartDrawingFunction,
-                                           String params)
-            throws IOException, URISyntaxException {
-        var javaScript = "const data = `%s`; %s('chart', data, %s);".formatted(
-                data, chartDrawingFunction, params
-        );
-        var uri = canvasUrl.toURI();
-        var htmlPath = Path.of(uri);
-        var path = htmlPath.getParent().resolve("draw-with-data.js");
+    private static String chartRenderingHtml(String javaScript) {
+        var contentType = "text/javascript";
+        var html = html(
+                body(
+                        canvas().withId("chart"),
+                        script().withType(contentType)
+                                .withSrc("charts.js"),
+                        script(javaScript).withType(contentType)
+                )
+        ).render();
+        return html;
+    }
 
-        writeString(path, javaScript);
+    private static String chartDrawingJs(String data, String chartDrawingFunction, String params) {
+        return """
+                const data = `%s`;
+                %s('chart', data, %s);
+                """.formatted(data, chartDrawingFunction, params);
     }
 
     private File saveBitmapPng(String fileName) throws IOException {
