@@ -260,7 +260,7 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
                         anchor: 'end',
                         display: params.showLabels,
                         formatter: function (value) {
-                            return Math.round(value.y) + ' years';
+                            return Math.round(value.y);
                         }
                     }
                 }
@@ -271,14 +271,14 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
     function colorScheme(type) {
         if (type === 'line') {
             return {
-                chart: '#c15065',
+                chart: '#c1bf50',
                 trendline: '#0879ae80'
             };
         }
         if (type === 'bar') {
             return {
                 chart: '#0879ae80',
-                trendline: '#c15065'
+                trendline: '#c1bf50'
             };
         }
         throw new Error(`Unknown chart type: '${type}'.`);
