@@ -20,7 +20,7 @@
       "description": "the year of the data"
     },
     {
-      "title": "life_expectancy",
+      "title": "expectancy",
       "type": "float",
       "description": "the life expectancy at birth, years"
     }
