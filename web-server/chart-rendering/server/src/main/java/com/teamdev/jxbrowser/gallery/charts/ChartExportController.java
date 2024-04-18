@@ -24,6 +24,7 @@ import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.license.internal.LicenseProvider;
+import io.micronaut.context.annotation.Context;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.QueryValue;
@@ -54,8 +55,12 @@ import static java.nio.file.Files.writeString;
  *       in the desired image format.
  *   <li>The saved file bytes are streamed back to the client as {@link SystemFile}.
  * </ol>
+ *
+ * @implNote Is assigned the {@link Context} scope to avoid the cold start upon
+ *         receiving the first request.
  */
 @Controller("/export")
+@Context
 final class ChartExportController {
 
     /**
