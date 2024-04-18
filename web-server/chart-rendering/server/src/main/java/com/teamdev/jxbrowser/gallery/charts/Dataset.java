@@ -20,6 +20,7 @@
 
 package com.teamdev.jxbrowser.gallery.charts;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 /**
@@ -31,9 +32,9 @@ enum Dataset {
     LIFE_EXPECTANCY("life-expectancy.info.json");
 
     /**
-     * The resource containing the dataset info.
+     * The parsed dataset info.
      */
-    private final Resource info;
+    private final JsonObject info;
 
     /**
      * The resource containing the dataset data.
@@ -41,31 +42,37 @@ enum Dataset {
     private final Resource data;
 
     /**
-     * Initializes a new enum instance for the dataset denoted by the passed resource name.
+     * Initializes a new enum instance for the dataset denoted by the resource
+     * with the passed name.
      */
     Dataset(String resourceName) {
-        this.info = new Resource(resourceName);
-        this.data = new Resource(dataRef(info.contentAsString()));
+        var infoResource = new Resource(resourceName);
+        var infoContent = infoResource.contentAsString();
+        this.info = JsonParser.parseString(infoContent)
+                              .getAsJsonObject();
+        var dataRef = info.get("dataRef")
+                          .getAsString();
+        this.data = new Resource(dataRef);
+    }
+
+    /**
+     * Returns the ID of the dataset.
+     */
+    String id() {
+        return info.get("id").getAsString();
     }
 
     /**
      * Returns the description of the dataset as a JSON string.
      */
-    String infoAsString() {
-        return info.contentAsString();
+    String info() {
+        return info.toString();
     }
 
     /**
-     * Returns the content of the dataset as a string.
+     * Returns the content of the dataset in a form of a string.
      */
-    String dataAsString() {
+    String data() {
         return data.contentAsString();
-    }
-
-    private static String dataRef(String json) {
-        var jsonElement = JsonParser.parseString(json);
-        var jsonObject = jsonElement.getAsJsonObject();
-        var result = jsonObject.get("dataRef").getAsString();
-        return result;
     }
 }

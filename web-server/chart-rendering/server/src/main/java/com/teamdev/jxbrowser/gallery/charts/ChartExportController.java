@@ -33,35 +33,26 @@ import io.micronaut.http.server.types.files.SystemFile;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
-import static j2html.TagCreator.body;
-import static j2html.TagCreator.canvas;
-import static j2html.TagCreator.html;
-import static j2html.TagCreator.script;
-import static java.nio.file.Files.writeString;
 
 /**
  * A controller that exports charts to various image and non-image formats.
  *
  * <p>The process of rendering and exporting a chart is roughly the following:
  * <ol>
- *   <li>A pre-created {@link Browser} instance navigates to the local URL denoting
- *       the HTML canvas where the chart will be drawn.
- *   <li>The chart data is loaded and passed to the chart-drawing script via
- *       {@code frame.executeJavaScript(...)}.
- *   <li>A JavaScript function is called to draw the chart on the canvas.
+ *   <li>A {@link ChartWidget} instance with the passed chart parameters is created
+ *       and saved as an HTML file.
+ *   <li>A pre-created {@link Browser} instance loads the local URL denoting
+ *       the saved HTML file.
  *   <li>In case of an export to an image, the browser's bitmap, which now contains
  *       the rendered chart, is converted to {@code BufferedImage} and saved
  *       in the desired image format.
  *   <li>The saved file bytes are streamed back to the client as {@link SystemFile}.
  * </ol>
  *
- * @implNote Is assigned the {@link Context} scope to avoid the cold start upon
- * receiving the first request.
+ * @implNote This controller is of {@link Context} scope to avoid increased latency
+ *         upon receiving the first request.
  */
 @Controller("/export")
 @Context
@@ -71,11 +62,6 @@ final class ChartExportController {
      * A browser instance that is re-used for server-side rendering of the charts.
      */
     private final Browser browser;
-
-    /**
-     * The URL of the local HTML representing the canvas where the charts are drawn.
-     */
-    private final URL canvasUrl;
 
     /**
      * Creates a new controller instance.
@@ -93,7 +79,6 @@ final class ChartExportController {
                                    .build();
         var engine = Engine.newInstance(options);
         browser = engine.newBrowser();
-        canvasUrl = new Resource("rendering/canvas.html").url();
     }
 
     /**
@@ -104,20 +89,15 @@ final class ChartExportController {
      * @throws IOException if an I/O error occurs during the operation
      */
     @Get("/fossil-fuels-consumption/png")
-    SystemFile fossilFuelsConsumptionPng(@QueryValue String params)
-            throws IOException, URISyntaxException {
-        var data = Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
-        var js = chartDrawingJs(data, "window.drawFossilFuelsConsumptionChart", params);
-        var html = chartRenderingHtml(js);
-        var uri = canvasUrl.toURI();
-        var htmlPath = Path.of(uri);
-
-        writeString(htmlPath, html);
-
+    SystemFile fossilFuelsConsumptionPng(@QueryValue String params) throws IOException {
+        var widget = ChartWidget.createAndWriteToFile(
+                Dataset.FOSSIL_FUELS_CONSUMPTION, "window.drawFossilFuelsConsumptionChart", params
+        );
+        var widgetUrl = widget.url();
         browser.navigation()
-               .loadUrlAndWait(canvasUrl.toString());
+               .loadUrlAndWait(widgetUrl.toString());
 
-        var image = saveBitmapPng("exported/fossil-fuels-consumption.png");
+        var image = saveBitmapPng("images/fossil-fuels-consumption.png");
         return new SystemFile(image);
     }
 
@@ -129,39 +109,16 @@ final class ChartExportController {
      * @throws IOException if an I/O error occurs during the operation
      */
     @Get("/life-expectancy/png")
-    SystemFile lifeExpectancyPng(@QueryValue String params)
-            throws IOException, URISyntaxException {
-        var data = Dataset.LIFE_EXPECTANCY.dataAsString();
-        var js = chartDrawingJs(data, "window.drawLifeExpectancyChart", params);
-        var html = chartRenderingHtml(js);
-        var uri = canvasUrl.toURI();
-        var htmlPath = Path.of(uri);
-
-        writeString(htmlPath, html);
-
+    SystemFile lifeExpectancyPng(@QueryValue String params) throws IOException {
+        var widget = ChartWidget.createAndWriteToFile(
+                Dataset.LIFE_EXPECTANCY, "window.drawLifeExpectancyChart", params
+        );
+        var widgetUrl = widget.url();
         browser.navigation()
-               .loadUrlAndWait(canvasUrl.toString());
+               .loadUrlAndWait(widgetUrl.toString());
 
-        var image = saveBitmapPng("exported/life-expectancy.png");
+        var image = saveBitmapPng("images/life-expectancy.png");
         return new SystemFile(image);
-    }
-
-    private static String chartRenderingHtml(String javaScript) {
-        var contentType = "text/javascript";
-        var html = body(
-                canvas().withId("chart"),
-                script().withType(contentType)
-                        .withSrc("charts.js"),
-                script(javaScript).withType(contentType)
-        ).render();
-        return html;
-    }
-
-    private static String chartDrawingJs(String data, String chartDrawingFunction, String params) {
-        return """
-                const data = `%s`;
-                %s('chart', data, %s);
-                """.formatted(data, chartDrawingFunction, params);
     }
 
     private File saveBitmapPng(String fileName) throws IOException {

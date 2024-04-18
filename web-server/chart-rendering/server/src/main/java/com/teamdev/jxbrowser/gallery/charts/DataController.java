@@ -41,7 +41,7 @@ final class DataController {
     @Get("/fossil-fuels-consumption/info")
     @Produces(TEXT_JSON)
     String fossilFuelsConsumptionInfo() {
-        return Dataset.FOSSIL_FUELS_CONSUMPTION.infoAsString();
+        return Dataset.FOSSIL_FUELS_CONSUMPTION.info();
     }
 
     /**
@@ -52,7 +52,7 @@ final class DataController {
     @Get("/fossil-fuels-consumption/data")
     @Produces(TEXT_CSV)
     String fossilFuelsConsumptionData() {
-        return Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
+        return Dataset.FOSSIL_FUELS_CONSUMPTION.data();
     }
 
     /**
@@ -63,7 +63,7 @@ final class DataController {
     @Get("/life-expectancy/info")
     @Produces(TEXT_JSON)
     String lifeExpectancyInfo() {
-        return Dataset.LIFE_EXPECTANCY.infoAsString();
+        return Dataset.LIFE_EXPECTANCY.info();
     }
 
     /**
@@ -74,6 +74,6 @@ final class DataController {
     @Get("/life-expectancy/data")
     @Produces(TEXT_CSV)
     String lifeExpectancyData() {
-        return Dataset.LIFE_EXPECTANCY.dataAsString();
+        return Dataset.LIFE_EXPECTANCY.data();
     }
 }

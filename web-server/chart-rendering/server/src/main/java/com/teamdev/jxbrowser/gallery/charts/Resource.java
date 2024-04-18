@@ -47,15 +47,6 @@ final class Resource {
     }
 
     /**
-     * Returns the URL of the resource file.
-     *
-     * @return the resource URL
-     */
-    URL url() {
-        return url;
-    }
-
-    /**
      * Reads the content of the resource file as a single string.
      *
      * @return the resource content
