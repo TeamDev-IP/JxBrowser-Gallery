@@ -148,13 +148,11 @@ final class ChartExportController {
 
     private static String chartRenderingHtml(String javaScript) {
         var contentType = "text/javascript";
-        var html = html(
-                body(
-                        canvas().withId("chart"),
-                        script().withType(contentType)
-                                .withSrc("charts.js"),
-                        script(javaScript).withType(contentType)
-                )
+        var html = body(
+                canvas().withId("chart"),
+                script().withType(contentType)
+                        .withSrc("charts.js"),
+                script(javaScript).withType(contentType)
         ).render();
         return html;
     }
