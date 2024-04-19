@@ -68,9 +68,11 @@ export function addFossilFuelsConsumptionChartControls(canvasId) {
 export function addLifeExpectancyChartControls(canvasId, data) {
     const controls = addControlsContainer(canvasId);
 
-    const uniqueCountries = [...new Map(data.map(row => ({display: row[0], value: row[0]})).map(c => [c.value, c])).values()];
-    console.log(uniqueCountries);
-    const countrySelector = selector(uniqueCountries, 'Portugal');
+    const uniqueCountries = [...new Map(
+        data.map(row => ({display: row[0], value: row[0]}))
+            .map(c => [c.value, c])
+    ).values()];
+    const countrySelector = selector(uniqueCountries, 'World');
     const typeSelector = selector([{display: 'Line', value: 'line'}], 'line');
     const showLabelsCheckbox = checkbox('Show labels');
     const showTrendlineCheckbox = checkbox('Show trendline');

@@ -72,7 +72,7 @@ const fossilFuelConsumptionChartDefaults = {
  * }}
  */
 const lifeExpectancyChartDefaults = {
-    country: 'Portugal',
+    country: 'World',
     type: 'line',
     showLabels: false,
     showTrendline: false,
