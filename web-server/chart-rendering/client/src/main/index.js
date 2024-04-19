@@ -46,7 +46,7 @@ export function initFossilFuelsConsumptionChart() {
     const datasetInfo = JSON.parse(info);
     const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
 
-    const tabId = newTab();
+    const tabId = newTab("Fossil Fuels Consumption", true);
     populateTab(tabId, datasetInfo, exportToPng);
 
     drawFossilFuelsConsumptionChart(datasetInfo.id, data);
@@ -93,7 +93,7 @@ export function initLifeExpectancyChart() {
     const datasetInfo = JSON.parse(info);
     const data = httpGet(`${SERVER_URL}/dataset/life-expectancy/data`);
 
-    const tabId = newTab();
+    const tabId = newTab("Life Expectancy", false);
     populateTab(tabId, datasetInfo, exportToPng);
 
     drawLifeExpectancyChart(datasetInfo.id, data);

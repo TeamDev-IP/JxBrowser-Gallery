@@ -33,23 +33,25 @@ let tabCount = 0;
 /**
  * Creates a new content tab and returns the corresponding DOM element ID.
  *
+ * @param displayName the display name of the new tab
+ * @param active whether the new tab should be active by default
  * @return {string} the ID of the DOM element representing the new tab
  */
-export function newTab() {
+export function newTab(displayName, active) {
     tabCount++;
 
     const primaryTab = document.createElement('md-primary-tab');
     primaryTab.id = `tab-${tabCount}`;
-    primaryTab.innerText = `Dataset ${tabCount}`;
+    primaryTab.innerText = `${displayName}`;
     primaryTab.classList.add('md-typescale-title-medium');
-    if (tabCount === 1) {
+    if (active) {
         primaryTab.active = true;
     }
 
     const contentDiv = document.createElement('div');
     contentDiv.id = `content-${tabCount}`;
     contentDiv.className = 'tab-content';
-    if (tabCount > 1) {
+    if (!active) {
         contentDiv.style.display = 'none';
     }
 
