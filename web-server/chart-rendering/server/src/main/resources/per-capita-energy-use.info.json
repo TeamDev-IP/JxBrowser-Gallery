@@ -5,9 +5,9 @@
   "rowCount": 10604,
   "columns": [
     {
-      "title": "country",
+      "title": "entity",
       "type": "string",
-      "description": "the name of the country"
+      "description": "the name of the country or region"
     },
     {
       "title": "code",
