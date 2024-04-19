@@ -162,6 +162,17 @@ export function drawFossilFuelsConsumptionChart(canvas,
                         formatter: function (value) {
                             return Math.round(value.y) + '%';
                         }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.parsed.y}%`;
+                            },
+                            title: function(context){
+                                console.log(context);
+                                return context[0].label.replace(/\s/g, '');
+                            }
+                        }
                     }
                 }
             },
@@ -263,6 +274,17 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
                         display: params.showLabels,
                         formatter: function (value) {
                             return Math.round(value.y);
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.parsed.y} years`;
+                            },
+                            title: function(context){
+                                console.log(context);
+                                return context[0].label.replace(/\s/g, '');
+                            }
                         }
                     }
                 }
