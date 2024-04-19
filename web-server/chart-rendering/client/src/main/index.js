@@ -24,6 +24,7 @@ import '@material/web/tabs/tabs.js';
 
 import {
     csvToArray,
+    drawEnergyConsumptionBySourceChart,
     drawFossilFuelsConsumptionChart,
     drawPerCapitaEnergyUseChart
 } from "./chart-drawing";
@@ -31,11 +32,51 @@ import {openFileDownloadDialog} from "./download";
 import {httpGet} from "./http";
 import {newTab, populateTab} from "./page-content";
 import {
+    addEnergyConsumptionBySourceChartControls,
     addFossilFuelsConsumptionChartControls,
     addPerCapitaEnergyUseChartControls
 } from "./chart-controls";
 
 const SERVER_URL = 'http://localhost:8080';
+
+export function initEnergyConsumptionBySourceChart() {
+    const info = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/info`);
+    const datasetInfo = JSON.parse(info);
+    const data = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/data`);
+
+    const tabId = newTab("Energy consumption by source", true);
+    populateTab(tabId, datasetInfo, exportToPng);
+
+    drawEnergyConsumptionBySourceChart(datasetInfo.id, data);
+
+    const controls = addEnergyConsumptionBySourceChartControls(datasetInfo.id, csvToArray(data));
+    Object.values(controls)
+          .forEach(control => control.addEventListener('change', redrawChart));
+
+    async function exportToPng() {
+        const params = chartParams(controls);
+        const encodedParams = encodeURIComponent(JSON.stringify(params));
+        const data = await fetch(
+            `${SERVER_URL}/export/energy-consumption-by-source/png?params=${encodedParams}`
+        ).then(r => r.blob());
+        const url = window.URL.createObjectURL(data);
+        const filename = 'energy-consumption-by-source.png';
+        openFileDownloadDialog(url, filename);
+    }
+
+    function redrawChart() {
+        const params = chartParams(controls);
+        drawEnergyConsumptionBySourceChart(datasetInfo.id, data, params);
+    }
+
+    function chartParams(controls) {
+        return {
+            entity: controls.entitySelector.selectedOptions[0].value,
+            xMin: controls.xAxisSlider.valueStart,
+            xMax: controls.xAxisSlider.valueEnd
+        };
+    }
+}
 
 /**
  * Initializes the tab containing the chart that visualizes the share of primary
@@ -46,7 +87,7 @@ export function initFossilFuelsConsumptionChart() {
     const datasetInfo = JSON.parse(info);
     const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
 
-    const tabId = newTab("Fossil Fuels Consumption", true);
+    const tabId = newTab("Fossil Fuels Consumption", false);
     populateTab(tabId, datasetInfo, exportToPng);
 
     drawFossilFuelsConsumptionChart(datasetInfo.id, data);
@@ -132,5 +173,6 @@ export function initPerCapitaEnergyUseChart() {
     }
 }
 
+window.initEnergyConsumptionBySourceChart = initEnergyConsumptionBySourceChart;
 window.initFossilFuelsConsumptionChart = initFossilFuelsConsumptionChart;
 window.initPerCapitaEnergyUseChart = initPerCapitaEnergyUseChart;

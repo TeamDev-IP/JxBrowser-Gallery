@@ -24,6 +24,34 @@ import '@material/web/select/select-option.js';
 import '@material/web/slider/slider.js';
 
 /**
+ * Adds controls for modifying the "Energy consumption by source" chart.
+ *
+ * @param canvasId the ID of the canvas element where the chart is rendered
+ * @param data the data used to render the chart
+ * @returns an object containing references to the created controls
+ */
+export function addEnergyConsumptionBySourceChartControls(canvasId, data) {
+    const controls = addControlsContainer(canvasId);
+
+    const entities = [...new Map(
+        data.map(row => ({display: row[0], value: row[0]}))
+            .map(c => [c.value, c])
+    ).values()];
+    const entitySelector = selector(entities, 'World');
+    const xAxisSlider = slider('time span', 1970, 2022);
+
+    controls.append(
+        entitySelector,
+        xAxisSlider.label
+    );
+
+    return {
+        entitySelector: entitySelector,
+        xAxisSlider: xAxisSlider.slider
+    };
+}
+
+/**
  * Adds controls for modifying the "Fossil fuels consumption" chart.
  *
  * @param canvasId the ID of the canvas element where the chart is rendered

@@ -28,6 +28,7 @@ import com.google.gson.JsonParser;
  */
 @SuppressWarnings("NonSerializableFieldInSerializableClass" /* OK for this enum. */)
 enum Dataset {
+    ENERGY_CONSUMPTION_BY_SOURCE("energy-consumption-by-source.info.json"),
     FOSSIL_FUELS_CONSUMPTION("fossil-fuels-consumption.info.json"),
     PER_CAPITA_ENERGY_USE("per-capita-energy-use.info.json");
 

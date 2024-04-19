@@ -82,6 +82,28 @@ final class ChartExportController {
     }
 
     /**
+     * Exports the "Energy Consumption by Source" chart to a PNG image.
+     *
+     * @param params the parameters to pass to the chart drawing function
+     * @return a {@link SystemFile} instance representing the exported PNG image
+     * @throws IOException if an I/O error occurs during the operation
+     */
+    @Get("/energy-consumption-by-source/png")
+    SystemFile energyConsumptionBySourcePng(@QueryValue String params) throws IOException {
+        var widget = ChartWidget.createAndWriteToFile(
+                Dataset.ENERGY_CONSUMPTION_BY_SOURCE,
+                "window.drawEnergyConsumptionBySourceChart",
+                params
+        );
+        var widgetUrl = widget.url();
+        browser.navigation()
+               .loadUrlAndWait(widgetUrl.toString());
+
+        var image = saveBitmapPng("images/energy-consumption-by-source.png");
+        return new SystemFile(image);
+    }
+
+    /**
      * Exports the "Fossil Fuels Consumption" chart to a PNG image.
      *
      * @param params the parameters to pass to the chart drawing function

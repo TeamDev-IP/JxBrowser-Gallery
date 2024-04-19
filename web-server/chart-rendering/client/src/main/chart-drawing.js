@@ -23,6 +23,13 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import chartTrendline from 'chartjs-plugin-trendline';
 
 /**
+ * The currently-drawn instance of the "Energy consumption by source" chart.
+ *
+ * @type {Chart}
+ */
+let energyConsumptionBySourceChart;
+
+/**
  * The currently-drawn instance of the "Fossil fuels consumption" chart.
  *
  * @type {Chart}
@@ -31,8 +38,26 @@ let fossilFuelsConsumptionChart;
 
 /**
  * The currently-drawn instance of the "Per capita energy use" chart.
+ *
+ * @type {Chart}
  */
 let perCapitaEnergyUseChart;
+
+
+/**
+ * Default parameters for the "Per capita energy use" chart.
+ *
+ * @type {{
+ *     entity: string, // the country or region to visualize data for
+ *     xMin: number, // the minimum value for the x-axis
+ *     xMax: number, // the maximum value for the x-axis
+ * }}
+ */
+const energyConsumptionBySourceChartDefaults = {
+    entity: 'World',
+    xMin: 1970,
+    xMax: 2022,
+};
 
 /**
  * Default parameters for the "Fossil fuels consumption" chart.
@@ -76,11 +101,161 @@ const perCapitaEnergyUseChartDefaults = {
     type: 'line',
     showLabels: false,
     showTrendline: false,
-    xMin: 1960,
+    xMin: 1970,
     xMax: 2022,
     yMin: 0,
     yMax: 150_000
 };
+
+export function drawEnergyConsumptionBySourceChart(
+    canvas,
+    csvData,
+    params = energyConsumptionBySourceChartDefaults
+) {
+    if (energyConsumptionBySourceChart) {
+        energyConsumptionBySourceChart.destroy();
+    }
+    const parsedData = csvToArray(csvData);
+    const colors = colorScheme();
+    const data = parsedData.filter(row => row[0] === params.entity)
+        .sort((a, b) => parseInt(a[2]) - parseInt(b[2]));
+    const labels = data.map(row => row[2]);
+    energyConsumptionBySourceChart = new Chart(
+        document.getElementById(canvas),
+        {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Oil, TWh',
+                        data: data.map(row => parseFloat(row[11])),
+                        borderColor: colors[8],
+                        backgroundColor: colors[8],
+                        fill: true,
+                        pointStyle: false
+                    },
+                    {
+                        label: 'Coal, TWh',
+                        data: data.map(row => parseFloat(row[10])),
+                        borderColor: colors[7],
+                        backgroundColor: colors[7],
+                        fill: true,
+                        pointStyle: false
+                    },
+                    {
+                        label: 'Gas, TWh',
+                        data: data.map(row => parseFloat(row[9])),
+                        borderColor: colors[6],
+                        backgroundColor: colors[6],
+                        fill: true,
+                        pointStyle: false
+                    },
+                    {
+                        label: 'Nuclear, TWh',
+                        data: data.map(row => parseFloat(row[8])),
+                        borderColor: colors[5],
+                        backgroundColor: colors[5],
+                        fill: true,
+                        pointStyle: false
+                    },
+                    {
+                        label: 'Hydropower, TWh',
+                        data: data.map(row => parseFloat(row[7])),
+                        borderColor: colors[4],
+                        backgroundColor: colors[4],
+                        fill: true,
+                        pointStyle: false
+                    },
+                    {
+                        label: 'Wind, TWh',
+                        data: data.map(row => parseFloat(row[6])),
+                        borderColor: colors[3],
+                        backgroundColor: colors[3],
+                        fill: true,
+                        pointStyle: false
+                    },
+                    {
+                        label: 'Solar, TWh',
+                        data: data.map(row => parseFloat(row[5])),
+                        borderColor: colors[2],
+                        backgroundColor: colors[2],
+                        fill: true,
+                        pointStyle: false
+                    },
+                    {
+                        label: 'Biofuels, TWh',
+                        data: data.map(row => parseFloat(row[4])),
+                        borderColor: colors[1],
+                        backgroundColor: colors[1],
+                        fill: true,
+                        pointStyle: false
+                    },
+                    {
+                        label: 'Other renewables (including geothermal and biomass), TWh',
+                        data: data.map(row => parseFloat(row[3])),
+                        borderColor: colors[0],
+                        backgroundColor: colors[0],
+                        fill: true,
+                        pointStyle: false
+                    }
+                ],
+            },
+            options: {
+                animation: false,
+                legend: {
+                    labels: {
+                        fontFamily: 'Lato',
+                    }
+                },
+                scales: {
+                    x: {
+                        min: params.xMin,
+                        max: params.xMax,
+                        type: 'linear',
+                        ticks: {
+                            callback: function (value) {
+                                return value + '';
+                            },
+                        },
+                    },
+                    y: {
+                        stacked: true,
+                        ticks: {
+                            callback: function (value) {
+                                return value + ' TWh';
+                            },
+                        },
+                    },
+                },
+                devicePixelRatio: 3,
+                plugins: {
+                    legend: {
+                        onClick: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + `${context.parsed.y}`;
+                            },
+                            title: function (context) {
+                                return context[0].label.replace(/\s/g, '');
+                            }
+                        }
+                    }
+                }
+            },
+        },
+    );
+
+    function colorScheme() {
+        return [
+            '#153d5a', '#C43C4DFF', '#bc1058', '#bf8b2e', '#E18055FF',
+            '#5CBE5EFF', '#0879ae', '#8a1538', '#005885'
+        ];
+    }
+}
 
 /**
  * Draws a chart that visualizes the share of primary energy consumption from
@@ -168,7 +343,7 @@ export function drawFossilFuelsConsumptionChart(canvas,
                             label: function (context) {
                                 return `${context.parsed.y}%`;
                             },
-                            title: function(context){
+                            title: function (context) {
                                 console.log(context);
                                 return context[0].label.replace(/\s/g, '');
                             }
@@ -279,12 +454,15 @@ export function drawPerCapitaEnergyUseChart(canvas,
                             return Math.round(value.y) + ' kWh';
                         }
                     },
+                    legend: {
+                        onClick: false
+                    },
                     tooltip: {
                         callbacks: {
                             label: function (context) {
                                 return `${context.parsed.y} kWh`;
                             },
-                            title: function(context){
+                            title: function (context) {
                                 console.log(context);
                                 return context[0].label.replace(/\s/g, '');
                             }
@@ -343,5 +521,6 @@ export function csvToArray(strData, strDelimiter) {
     return (arrData);
 }
 
+window.drawEnergyConsumptionBySourceChart = drawEnergyConsumptionBySourceChart;
 window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;
 window.drawPerCapitaEnergyUseChart = drawPerCapitaEnergyUseChart;
