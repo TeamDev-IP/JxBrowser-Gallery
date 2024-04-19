@@ -50,18 +50,37 @@ label {
 
 .tab-content {
     width: 90%;
+    max-height: 75vh;
     display: flex;
     justify-content: space-between;
 }
 
 .dataset-info-panel {
     flex: 1;
+    overflow: auto;
+}
+
+.dataset-info-panel::-webkit-scrollbar {
+    width: 4px;
+    visibility: hidden;
+}
+
+.dataset-info-panel:hover::-webkit-scrollbar {
+    visibility: visible;
+}
+
+.dataset-info-panel:hover::-webkit-scrollbar-thumb {
+    background: gray;
+}
+
+.dataset-info-panel:hover::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .export-button-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .canvas-container {
