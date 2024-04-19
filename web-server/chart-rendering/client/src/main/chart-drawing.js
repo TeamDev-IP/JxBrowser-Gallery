@@ -272,9 +272,9 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
                     datalabels: {
                         align: 'top',
                         anchor: 'end',
-                        display: params.showLabels,
+                        display: params.showLabels ? 'auto' : false,
                         formatter: function (value) {
-                            return Math.round(value.y);
+                            return Math.round(value.y) + ' years';
                         }
                     },
                     tooltip: {
