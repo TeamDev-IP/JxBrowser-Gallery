@@ -34,50 +34,6 @@ import static io.micronaut.http.MediaType.TEXT_JSON;
 final class DataController {
 
     /**
-     * Returns the info about the "Energy consumption by source" dataset.
-     *
-     * @return the dataset info in the JSON format
-     */
-    @Get("/energy-consumption-by-source/info")
-    @Produces(TEXT_JSON)
-    String energyConsumptionBySourceInfo() {
-        return Dataset.ENERGY_CONSUMPTION_BY_SOURCE.info();
-    }
-
-    /**
-     * Returns the content of the "Energy consumption by source" dataset.
-     *
-     * @return the dataset content in the CSV format
-     */
-    @Get("/energy-consumption-by-source/data")
-    @Produces(TEXT_CSV)
-    String energyConsumptionBySourceData() {
-        return Dataset.ENERGY_CONSUMPTION_BY_SOURCE.data();
-    }
-
-    /**
-     * Returns the info about the "Fossil fuels consumption" dataset.
-     *
-     * @return the dataset info in the JSON format
-     */
-    @Get("/fossil-fuels-consumption/info")
-    @Produces(TEXT_JSON)
-    String fossilFuelsConsumptionInfo() {
-        return Dataset.FOSSIL_FUELS_CONSUMPTION.info();
-    }
-
-    /**
-     * Returns the content of the "Fossil fuels consumption" dataset.
-     *
-     * @return the dataset content in the CSV format
-     */
-    @Get("/fossil-fuels-consumption/data")
-    @Produces(TEXT_CSV)
-    String fossilFuelsConsumptionData() {
-        return Dataset.FOSSIL_FUELS_CONSUMPTION.data();
-    }
-
-    /**
      * Returns the info about the "Per capita energy use" dataset.
      *
      * @return the dataset info in the JSON format
@@ -97,5 +53,27 @@ final class DataController {
     @Produces(TEXT_CSV)
     String perCapitaEnergyUseData() {
         return Dataset.PER_CAPITA_ENERGY_USE.data();
+    }
+
+    /**
+     * Returns the info about the "Energy consumption by source" dataset.
+     *
+     * @return the dataset info in the JSON format
+     */
+    @Get("/energy-consumption-by-source/info")
+    @Produces(TEXT_JSON)
+    String energyConsumptionBySourceInfo() {
+        return Dataset.ENERGY_CONSUMPTION_BY_SOURCE.info();
+    }
+
+    /**
+     * Returns the content of the "Energy consumption by source" dataset.
+     *
+     * @return the dataset content in the CSV format
+     */
+    @Get("/energy-consumption-by-source/data")
+    @Produces(TEXT_CSV)
+    String energyConsumptionBySourceData() {
+        return Dataset.ENERGY_CONSUMPTION_BY_SOURCE.data();
     }
 }

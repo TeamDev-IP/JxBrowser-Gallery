@@ -1,6 +1,6 @@
 {
   "id": "energy-consumption-by-source",
-  "title": "Energy consumption by source",
+  "title": "Energy consumption by source, by country",
   "description": "Energy consumption by source per country, per year, in terawatt-hours.",
   "rowCount": 6979,
   "columns": [

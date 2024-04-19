@@ -24,6 +24,46 @@ import '@material/web/select/select-option.js';
 import '@material/web/slider/slider.js';
 
 /**
+ * Adds controls for modifying the "Per capita energy use" chart.
+ *
+ * @param canvasId the ID of the canvas element where the chart is rendered
+ * @param data the data used to render the chart
+ * @returns an object containing references to the created controls
+ */
+export function addPerCapitaEnergyUseChartControls(canvasId, data) {
+    const controls = addControlsContainer(canvasId);
+
+    const entities = [...new Map(
+        data.map(row => ({display: row[0], value: row[0]}))
+            .map(c => [c.value, c])
+    ).values()];
+    const entitySelector = selector(entities, 'World');
+    const typeSelector = selector([
+        {display: 'Line', value: 'line'},
+        {display: 'Bar', value: 'bar'}
+    ], 'line');
+    const showLabelsCheckbox = checkbox('Show labels');
+    const showTrendlineCheckbox = checkbox('Show trendline');
+    const xAxisSlider = slider('time span', 1970, 2022);
+
+    controls.append(
+        entitySelector,
+        typeSelector,
+        showLabelsCheckbox.label,
+        showTrendlineCheckbox.label,
+        xAxisSlider.label,
+    );
+
+    return {
+        entitySelector: entitySelector,
+        typeSelector: typeSelector,
+        showLabelsCheckbox: showLabelsCheckbox.checkbox,
+        showTrendlineCheckbox: showTrendlineCheckbox.checkbox,
+        xAxisSlider: xAxisSlider.slider
+    };
+}
+
+/**
  * Adds controls for modifying the "Energy consumption by source" chart.
  *
  * @param canvasId the ID of the canvas element where the chart is rendered
@@ -48,81 +88,6 @@ export function addEnergyConsumptionBySourceChartControls(canvasId, data) {
     return {
         entitySelector: entitySelector,
         xAxisSlider: xAxisSlider.slider
-    };
-}
-
-/**
- * Adds controls for modifying the "Fossil fuels consumption" chart.
- *
- * @param canvasId the ID of the canvas element where the chart is rendered
- * @returns an object containing references to the created controls
- */
-export function addFossilFuelsConsumptionChartControls(canvasId) {
-    const controls = addControlsContainer(canvasId);
-
-    const typeSelector = selector([
-        {display: 'Line', value: 'line'},
-        {display: 'Bar', value: 'bar'}
-    ], 'line');
-    const showLabelsCheckbox = checkbox('Show labels');
-    const showTrendlineCheckbox = checkbox('Show trendline');
-    const xAxisSlider = slider('x scale', 1996, 2022);
-    const yAxisSlider = slider('y scale', 0, 100);
-
-    controls.append(
-        typeSelector,
-        showLabelsCheckbox.label,
-        showTrendlineCheckbox.label,
-        xAxisSlider.label,
-        yAxisSlider.label
-    );
-
-    return {
-        typeSelector: typeSelector,
-        showLabelsCheckbox: showLabelsCheckbox.checkbox,
-        showTrendlineCheckbox: showTrendlineCheckbox.checkbox,
-        xAxisSlider: xAxisSlider.slider,
-        yAxisSlider: yAxisSlider.slider
-    };
-}
-
-/**
- * Adds controls for modifying the "Per capita energy use" chart.
- *
- * @param canvasId the ID of the canvas element where the chart is rendered
- * @param data the data used to render the chart
- * @returns an object containing references to the created controls
- */
-export function addPerCapitaEnergyUseChartControls(canvasId, data) {
-    const controls = addControlsContainer(canvasId);
-
-    const countries = [...new Map(
-        data.map(row => ({display: row[0], value: row[0]}))
-            .map(c => [c.value, c])
-    ).values()];
-    const countrySelector = selector(countries, 'World');
-    const typeSelector = selector([{display: 'Line', value: 'line'}], 'line');
-    const showLabelsCheckbox = checkbox('Show labels');
-    const showTrendlineCheckbox = checkbox('Show trendline');
-    const xAxisSlider = slider('x scale', 1960, 2022);
-    const yAxisSlider = slider('y scale', 0, 150_000);
-
-    controls.append(
-        countrySelector,
-        typeSelector,
-        showLabelsCheckbox.label,
-        showTrendlineCheckbox.label,
-        xAxisSlider.label,
-        yAxisSlider.label
-    );
-
-    return {
-        countrySelector: countrySelector,
-        typeSelector: typeSelector,
-        showLabelsCheckbox: showLabelsCheckbox.checkbox,
-        showTrendlineCheckbox: showTrendlineCheckbox.checkbox,
-        xAxisSlider: xAxisSlider.slider,
-        yAxisSlider: yAxisSlider.slider
     };
 }
 

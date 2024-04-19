@@ -49,7 +49,7 @@ label {
 }
 
 .tab-content {
-    width: 80%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
 }
@@ -104,4 +104,5 @@ label {
 
 .controls-slider {
     margin-left: -10px;
+    z-index: 1;
 }

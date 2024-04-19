@@ -23,6 +23,13 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import chartTrendline from 'chartjs-plugin-trendline';
 
 /**
+ * The currently-drawn instance of the "Per capita energy use" chart.
+ *
+ * @type {Chart}
+ */
+let perCapitaEnergyUseChart;
+
+/**
  * The currently-drawn instance of the "Energy consumption by source" chart.
  *
  * @type {Chart}
@@ -30,25 +37,31 @@ import chartTrendline from 'chartjs-plugin-trendline';
 let energyConsumptionBySourceChart;
 
 /**
- * The currently-drawn instance of the "Fossil fuels consumption" chart.
- *
- * @type {Chart}
- */
-let fossilFuelsConsumptionChart;
-
-/**
- * The currently-drawn instance of the "Per capita energy use" chart.
- *
- * @type {Chart}
- */
-let perCapitaEnergyUseChart;
-
-
-/**
  * Default parameters for the "Per capita energy use" chart.
  *
  * @type {{
- *     entity: string, // the country or region to visualize data for
+ *     entity: string, // the country or region to visualize the data for
+ *     type: string, // 'line'
+ *     showLabels: boolean, // whether to show data labels
+ *     showTrendline: boolean, // whether to show a trendline
+ *     xMin: number, // the minimum value for the x-axis
+ *     xMax: number, // the maximum value for the x-axis
+ * }}
+ */
+const perCapitaEnergyUseChartDefaults = {
+    entity: 'World',
+    type: 'line',
+    showLabels: false,
+    showTrendline: false,
+    xMin: 1970,
+    xMax: 2022
+};
+
+/**
+ * Default parameters for the "Energy consumption by source" chart.
+ *
+ * @type {{
+ *     entity: string, // the country or region to visualize the data for
  *     xMin: number, // the minimum value for the x-axis
  *     xMax: number, // the maximum value for the x-axis
  * }}
@@ -60,53 +73,131 @@ const energyConsumptionBySourceChartDefaults = {
 };
 
 /**
- * Default parameters for the "Fossil fuels consumption" chart.
+ * Draws a chart that visualizes the per capita energy use in a given country or region.
  *
- * @type {{
- *     type: string, // 'line' or 'bar'
- *     showLabels: boolean, // whether to show data labels
- *     showTrendline: boolean, // whether to show a trendline
- *     xMin: number, // the minimum value for the x-axis
- *     xMax: number, // the maximum value for the x-axis
- *     yMin: number, // the minimum value for the y-axis
- *     yMax: number, // the maximum value for the y-axis
- * }}
+ * @param canvas the ID of the canvas element to draw the chart on
+ * @param csvData the CSV data to be visualized
+ * @param params the parameters for the chart. See {@link perCapitaEnergyUseChartDefaults}
  */
-const fossilFuelConsumptionChartDefaults = {
-    type: 'line',
-    showLabels: false,
-    showTrendline: false,
-    xMin: 1996,
-    xMax: 2022,
-    yMin: 0,
-    yMax: 100
-};
+export function drawPerCapitaEnergyUseChart(
+    canvas,
+    csvData,
+    params = perCapitaEnergyUseChartDefaults
+) {
+    if (perCapitaEnergyUseChart) {
+        perCapitaEnergyUseChart.destroy();
+    }
+    const parsedData = csvToArray(csvData);
+    const colors = colorScheme(params.type);
+    const trendline = params.showTrendline
+        ? {
+            colorMin: colors.trendline,
+            colorMax: colors.trendline,
+            lineStyle: "dotted|solid",
+            width: 2
+        }
+        : null;
+    const data = parsedData.filter(row => row[0] === params.entity);
+    perCapitaEnergyUseChart = new Chart(
+        document.getElementById(canvas),
+        {
+            plugins: [ChartDataLabels, chartTrendline],
+            type: params.type,
+            data: {
+                datasets: [
+                    {
+                        label: `Per capita energy use, kilowatt hours, ${params.entity}`,
+                        data: data
+                            .map(row => {
+                                return {x: parseInt(row[2]), y: parseFloat(row[3])};
+                            }),
+                        pointStyle: false,
+                        borderColor: colors.chart,
+                        backgroundColor: colors.chart,
+                        trendlineLinear: trendline
+                    },
+                ],
+            },
+            options: {
+                animation: false,
+                legend: {
+                    labels: {
+                        fontFamily: 'Lato'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        min: params.xMin,
+                        max: params.xMax,
+                        ticks: {
+                            callback: function (value) {
+                                return value + '';
+                            },
+                        },
+                    },
+                    y: {
+                        ticks: {
+                            stepSize: 10,
+                            callback: function (value) {
+                                return value + ' kWh';
+                            },
+                        },
+                    },
+                },
+                devicePixelRatio: 3,
+                plugins: {
+                    datalabels: {
+                        align: 'top',
+                        anchor: 'end',
+                        display: params.showLabels ? 'auto' : false,
+                        formatter: function (value) {
+                            return Math.round(value.y) + ' kWh';
+                        }
+                    },
+                    legend: {
+                        onClick: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.parsed.y} kWh`;
+                            },
+                            title: function (context) {
+                                console.log(context);
+                                return context[0].label.replace(/\s/g, '');
+                            }
+                        }
+                    }
+                }
+            },
+        },
+    );
+
+    function colorScheme(type) {
+        if (type === 'line') {
+            return {
+                chart: '#c15065',
+                trendline: '#0879ae80'
+            };
+        }
+        if (type === 'bar') {
+            return {
+                chart: '#0879ae80',
+                trendline: '#c15065'
+            };
+        }
+        throw new Error(`Unknown chart type: '${type}'.`);
+    }
+}
 
 /**
- * Default parameters for the "Per capita energy use" chart.
+ * Draws a chart that visualizes the energy consumption by source in a given country or region.
  *
- * @type {{
- *     country: string, // the country to visualize data for
- *     type: string, // 'line'
- *     showLabels: boolean, // whether to show data labels
- *     showTrendline: boolean, // whether to show a trendline
- *     xMin: number, // the minimum value for the x-axis
- *     xMax: number, // the maximum value for the x-axis
- *     yMin: number, // the minimum value for the y-axis
- *     yMax: number, // the maximum value for the y-axis
- * }}
+ * @param canvas the ID of the canvas element to draw the chart on
+ * @param csvData the CSV data to be visualized
+ * @param params the parameters for the chart. See {@link energyConsumptionBySourceChartDefaults}
  */
-const perCapitaEnergyUseChartDefaults = {
-    country: 'World',
-    type: 'line',
-    showLabels: false,
-    showTrendline: false,
-    xMin: 1970,
-    xMax: 2022,
-    yMin: 0,
-    yMax: 150_000
-};
-
 export function drawEnergyConsumptionBySourceChart(
     canvas,
     csvData,
@@ -258,233 +349,6 @@ export function drawEnergyConsumptionBySourceChart(
 }
 
 /**
- * Draws a chart that visualizes the share of primary energy consumption from
- * fossil fuels in Portugal.
- *
- * @param canvas the ID of the canvas element to draw the chart on
- * @param csvData the CSV data to be visualized
- * @param params the parameters for the chart. See {@link fossilFuelConsumptionChartDefaults}
- */
-export function drawFossilFuelsConsumptionChart(canvas,
-                                                csvData,
-                                                params = fossilFuelConsumptionChartDefaults) {
-    if (fossilFuelsConsumptionChart) {
-        fossilFuelsConsumptionChart.destroy();
-    }
-    const colors = colorScheme(params.type);
-    const parsedData = csvToArray(csvData);
-    const trendline = params.showTrendline
-        ? {
-            colorMin: colors.trendline,
-            colorMax: colors.trendline,
-            lineStyle: "dotted|solid",
-            width: 2
-        }
-        : null;
-    fossilFuelsConsumptionChart = new Chart(
-        document.getElementById(canvas),
-        {
-            plugins: [ChartDataLabels, chartTrendline],
-            type: params.type,
-            data: {
-                datasets: [
-                    {
-                        label: 'Share of primary energy consumption from fossil fuels, Portugal',
-                        data: parsedData.map(row => {
-                            return {x: parseInt(row[0]), y: parseFloat(row[1])};
-                        }),
-                        borderColor: colors.chart,
-                        backgroundColor: colors.chart,
-                        trendlineLinear: trendline
-                    },
-                ],
-            },
-            options: {
-                animation: false,
-                legend: {
-                    labels: {
-                        fontFamily: 'Lato'
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'linear',
-                        min: params.xMin,
-                        max: params.xMax,
-                        ticks: {
-                            callback: function (value) {
-                                return value + '';
-                            },
-                        },
-                    },
-                    y: {
-                        min: params.yMin,
-                        max: params.yMax,
-                        ticks: {
-                            stepSize: 20,
-                            callback: function (value) {
-                                return value + '%';
-                            },
-                        },
-                    },
-                },
-                devicePixelRatio: 3,
-                plugins: {
-                    datalabels: {
-                        align: 'top',
-                        anchor: 'end',
-                        display: params.showLabels,
-                        formatter: function (value) {
-                            return Math.round(value.y) + '%';
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                return `${context.parsed.y}%`;
-                            },
-                            title: function (context) {
-                                console.log(context);
-                                return context[0].label.replace(/\s/g, '');
-                            }
-                        }
-                    }
-                }
-            },
-        },
-    );
-
-    function colorScheme(type) {
-        if (type === 'line') {
-            return {
-                chart: '#c15065',
-                trendline: '#0879ae80'
-            };
-        }
-        if (type === 'bar') {
-            return {
-                chart: '#0879ae80',
-                trendline: '#c15065'
-            };
-        }
-        throw new Error(`Unknown chart type: '${type}'.`);
-    }
-}
-
-/**
- * Draws a chart that visualizes the per capita energy use in a given country.
- *
- * @param canvas the ID of the canvas element to draw the chart on
- * @param csvData the CSV data to be visualized
- * @param params the parameters for the chart. See {@link perCapitaEnergyUseChartDefaults}
- */
-export function drawPerCapitaEnergyUseChart(canvas,
-                                            csvData,
-                                            params = perCapitaEnergyUseChartDefaults) {
-    if (perCapitaEnergyUseChart) {
-        perCapitaEnergyUseChart.destroy();
-    }
-    const parsedData = csvToArray(csvData);
-    const colors = colorScheme(params.type);
-    const trendline = params.showTrendline
-        ? {
-            colorMin: colors.trendline,
-            colorMax: colors.trendline,
-            lineStyle: "dotted|solid",
-            width: 2
-        }
-        : null;
-    const data = parsedData.filter(row => row[0] === params.country);
-    perCapitaEnergyUseChart = new Chart(
-        document.getElementById(canvas),
-        {
-            plugins: [ChartDataLabels, chartTrendline],
-            type: params.type,
-            data: {
-                datasets: [
-                    {
-                        label: `Per capita energy use, kilowatt hours, ${params.country}`,
-                        data: data
-                            .map(row => {
-                                return {x: parseInt(row[2]), y: parseFloat(row[3])};
-                            }),
-                        pointStyle: false,
-                        borderColor: colors.chart,
-                        backgroundColor: colors.chart,
-                        trendlineLinear: trendline
-                    },
-                ],
-            },
-            options: {
-                animation: false,
-                legend: {
-                    labels: {
-                        fontFamily: 'Lato'
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'linear',
-                        min: params.xMin,
-                        max: params.xMax,
-                        ticks: {
-                            callback: function (value) {
-                                return value + '';
-                            },
-                        },
-                    },
-                    y: {
-                        min: params.yMin,
-                        max: params.yMax,
-                        ticks: {
-                            stepSize: 10,
-                            callback: function (value) {
-                                return value + ' kWh';
-                            },
-                        },
-                    },
-                },
-                devicePixelRatio: 3,
-                plugins: {
-                    datalabels: {
-                        align: 'top',
-                        anchor: 'end',
-                        display: params.showLabels ? 'auto' : false,
-                        formatter: function (value) {
-                            return Math.round(value.y) + ' kWh';
-                        }
-                    },
-                    legend: {
-                        onClick: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                return `${context.parsed.y} kWh`;
-                            },
-                            title: function (context) {
-                                console.log(context);
-                                return context[0].label.replace(/\s/g, '');
-                            }
-                        }
-                    }
-                }
-            },
-        },
-    );
-
-    function colorScheme(type) {
-        if (type === 'line') {
-            return {
-                chart: '#c1bf50',
-                trendline: '#0879ae80'
-            };
-        }
-        throw new Error(`Unknown chart type: '${type}'.`);
-    }
-}
-
-/**
  * Parses the CSV data from a string into a JS array.
  */
 export function csvToArray(strData, strDelimiter) {
@@ -521,6 +385,5 @@ export function csvToArray(strData, strDelimiter) {
     return (arrData);
 }
 
-window.drawEnergyConsumptionBySourceChart = drawEnergyConsumptionBySourceChart;
-window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;
 window.drawPerCapitaEnergyUseChart = drawPerCapitaEnergyUseChart;
+window.drawEnergyConsumptionBySourceChart = drawEnergyConsumptionBySourceChart;

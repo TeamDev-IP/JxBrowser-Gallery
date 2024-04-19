@@ -82,6 +82,26 @@ final class ChartExportController {
     }
 
     /**
+     * Exports the "Per Capita Energy Use" chart to a PNG image.
+     *
+     * @param params the parameters to pass to the chart drawing function
+     * @return a {@link SystemFile} instance representing the exported PNG image
+     * @throws IOException if an I/O error occurs during the operation
+     */
+    @Get("/per-capita-energy-use/png")
+    SystemFile perCapitaEnergyUsePng(@QueryValue String params) throws IOException {
+        var widget = ChartWidget.createAndWriteToFile(
+                Dataset.PER_CAPITA_ENERGY_USE, "window.drawPerCapitaEnergyUseChart", params
+        );
+        var widgetUrl = widget.url();
+        browser.navigation()
+               .loadUrlAndWait(widgetUrl.toString());
+
+        var image = saveBitmapPng("images/per-capita-energy-use.png");
+        return new SystemFile(image);
+    }
+
+    /**
      * Exports the "Energy Consumption by Source" chart to a PNG image.
      *
      * @param params the parameters to pass to the chart drawing function
@@ -100,46 +120,6 @@ final class ChartExportController {
                .loadUrlAndWait(widgetUrl.toString());
 
         var image = saveBitmapPng("images/energy-consumption-by-source.png");
-        return new SystemFile(image);
-    }
-
-    /**
-     * Exports the "Fossil Fuels Consumption" chart to a PNG image.
-     *
-     * @param params the parameters to pass to the chart drawing function
-     * @return a {@link SystemFile} instance representing the exported PNG image
-     * @throws IOException if an I/O error occurs during the operation
-     */
-    @Get("/fossil-fuels-consumption/png")
-    SystemFile fossilFuelsConsumptionPng(@QueryValue String params) throws IOException {
-        var widget = ChartWidget.createAndWriteToFile(
-                Dataset.FOSSIL_FUELS_CONSUMPTION, "window.drawFossilFuelsConsumptionChart", params
-        );
-        var widgetUrl = widget.url();
-        browser.navigation()
-               .loadUrlAndWait(widgetUrl.toString());
-
-        var image = saveBitmapPng("images/fossil-fuels-consumption.png");
-        return new SystemFile(image);
-    }
-
-    /**
-     * Exports the "Per Capita Energy Use" chart to a PNG image.
-     *
-     * @param params the parameters to pass to the chart drawing function
-     * @return a {@link SystemFile} instance representing the exported PNG image
-     * @throws IOException if an I/O error occurs during the operation
-     */
-    @Get("/per-capita-energy-use/png")
-    SystemFile perCapitaEnergyUsePng(@QueryValue String params) throws IOException {
-        var widget = ChartWidget.createAndWriteToFile(
-                Dataset.PER_CAPITA_ENERGY_USE, "window.drawPerCapitaEnergyUseChart", params
-        );
-        var widgetUrl = widget.url();
-        browser.navigation()
-               .loadUrlAndWait(widgetUrl.toString());
-
-        var image = saveBitmapPng("images/per-capita-energy-use.png");
         return new SystemFile(image);
     }
 
