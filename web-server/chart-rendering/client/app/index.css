@@ -55,25 +55,29 @@ label {
     justify-content: space-between;
 }
 
-.dataset-info-panel {
+.left-panel {
     flex: 1;
+}
+
+.info-container {
+    max-height: 90%;
     overflow: auto;
 }
 
-.dataset-info-panel::-webkit-scrollbar {
+.info-container::-webkit-scrollbar {
     width: 4px;
     visibility: hidden;
 }
 
-.dataset-info-panel:hover::-webkit-scrollbar {
+.info-container:hover::-webkit-scrollbar {
     visibility: visible;
 }
 
-.dataset-info-panel:hover::-webkit-scrollbar-thumb {
+.info-container:hover::-webkit-scrollbar-thumb {
     background: gray;
 }
 
-.dataset-info-panel:hover::-webkit-scrollbar-thumb:hover {
+.info-container:hover::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
 
