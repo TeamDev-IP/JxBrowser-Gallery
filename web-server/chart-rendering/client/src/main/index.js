@@ -47,13 +47,14 @@ export function initPerCapitaEnergyUseChart() {
     const data = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/data`);
 
     const tabId = newTab("Per capita energy use", true);
-    populateTab(tabId, datasetInfo, exportToPng);
+    populateTab(tabId, datasetInfo);
 
     drawPerCapitaEnergyUseChart(datasetInfo.id, data);
 
     const controls = addPerCapitaEnergyUseChartControls(datasetInfo.id, csvToArray(data));
     Object.values(controls)
           .forEach(control => control.addEventListener('change', redrawChart));
+    controls.exportPng.onclick = exportToPng;
 
     async function exportToPng() {
         const params = chartParams(controls);
@@ -89,13 +90,14 @@ export function initEnergyConsumptionBySourceChart() {
     const data = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/data`);
 
     const tabId = newTab("Energy consumption by source", false);
-    populateTab(tabId, datasetInfo, exportToPng);
+    populateTab(tabId, datasetInfo);
 
     drawEnergyConsumptionBySourceChart(datasetInfo.id, data);
 
     const controls = addEnergyConsumptionBySourceChartControls(datasetInfo.id, csvToArray(data));
     Object.values(controls)
           .forEach(control => control.addEventListener('change', redrawChart));
+    controls.exportPng.onclick = exportToPng;
 
     async function exportToPng() {
         const params = chartParams(controls);

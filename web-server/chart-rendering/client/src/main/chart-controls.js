@@ -45,6 +45,7 @@ export function addPerCapitaEnergyUseChartControls(canvasId, data) {
     const showLabelsCheckbox = checkbox('Show labels');
     const showTrendlineCheckbox = checkbox('Show trendline');
     const xAxisSlider = slider('time span', 1970, 2022);
+    const exportPng = exportPngButton();
 
     controls.append(
         entitySelector,
@@ -52,6 +53,7 @@ export function addPerCapitaEnergyUseChartControls(canvasId, data) {
         showLabelsCheckbox.label,
         showTrendlineCheckbox.label,
         xAxisSlider.label,
+        exportPng.container
     );
 
     return {
@@ -59,7 +61,8 @@ export function addPerCapitaEnergyUseChartControls(canvasId, data) {
         typeSelector: typeSelector,
         showLabelsCheckbox: showLabelsCheckbox.checkbox,
         showTrendlineCheckbox: showTrendlineCheckbox.checkbox,
-        xAxisSlider: xAxisSlider.slider
+        xAxisSlider: xAxisSlider.slider,
+        exportPng: exportPng.button
     };
 }
 
@@ -79,15 +82,18 @@ export function addEnergyConsumptionBySourceChartControls(canvasId, data) {
     ).values()];
     const entitySelector = selector(entities, 'World');
     const xAxisSlider = slider('time span', 1970, 2022);
+    const exportPng = exportPngButton();
 
     controls.append(
         entitySelector,
-        xAxisSlider.label
+        xAxisSlider.label,
+        exportPng.container
     );
 
     return {
         entitySelector: entitySelector,
-        xAxisSlider: xAxisSlider.slider
+        xAxisSlider: xAxisSlider.slider,
+        exportPng: exportPng.button
     };
 }
 
@@ -162,4 +168,17 @@ function slider(text, start, end, step = 1) {
     label.prepend(slider);
 
     return {label: label, slider: slider};
+}
+
+/**
+ * Creates a button for exporting the chart to a PNG file.
+ */
+function exportPngButton() {
+    const container = document.createElement('div');
+    container.classList.add('export-button-container');
+
+    const button = document.createElement('md-outlined-button');
+    button.innerText = 'Export to PNG';
+    container.appendChild(button);
+    return {container: container, button: button};
 }
