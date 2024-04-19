@@ -41,16 +41,18 @@ let lifeExpectancyChart;
  *     type: string, // 'line' or 'bar'
  *     showLabels: boolean, // whether to show data labels
  *     showTrendline: boolean, // whether to show a trendline
- *     xMin?: number, // the minimum value for the x-axis
- *     xMax?: number, // the maximum value for the x-axis
- *     yMin?: number, // the minimum value for the y-axis
- *     yMax?: number, // the maximum value for the y-axis
+ *     xMin: number, // the minimum value for the x-axis
+ *     xMax: number, // the maximum value for the x-axis
+ *     yMin: number, // the minimum value for the y-axis
+ *     yMax: number, // the maximum value for the y-axis
  * }}
  */
 const fossilFuelConsumptionChartDefaults = {
     type: 'line',
     showLabels: false,
     showTrendline: false,
+    xMin: 1996,
+    xMax: 2022,
     yMin: 0,
     yMax: 100
 };
@@ -59,20 +61,25 @@ const fossilFuelConsumptionChartDefaults = {
  * Default parameters for the "life expectancy" chart.
  *
  * @type {{
- *     type: string, // 'line' or 'bar'
+ *     country: string, // the country to visualize data for
+ *     type: string, // 'line'
  *     showLabels: boolean, // whether to show data labels
  *     showTrendline: boolean, // whether to show a trendline
- *     xMin?: number, // the minimum value for the x-axis
- *     xMax?: number, // the maximum value for the x-axis
- *     yMin?: number, // the minimum value for the y-axis
- *     yMax?: number, // the maximum value for the y-axis
+ *     xMin: number, // the minimum value for the x-axis
+ *     xMax: number, // the maximum value for the x-axis
+ *     yMin: number, // the minimum value for the y-axis
+ *     yMax: number, // the maximum value for the y-axis
  * }}
  */
 const lifeExpectancyChartDefaults = {
-    type: 'line',
     country: 'Portugal',
+    type: 'line',
     showLabels: false,
     showTrendline: false,
+    xMin: 1900,
+    xMax: 2022,
+    yMin: 0,
+    yMax: 100
 };
 
 /**

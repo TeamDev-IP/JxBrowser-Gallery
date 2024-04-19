@@ -74,7 +74,7 @@ export function addLifeExpectancyChartControls(canvasId, data) {
     const typeSelector = selector([{display: 'Line', value: 'line'}], 'line');
     const showLabelsCheckbox = checkbox('Show labels');
     const showTrendlineCheckbox = checkbox('Show trendline');
-    const xAxisSlider = slider('x scale', 1800, 2022);
+    const xAxisSlider = slider('x scale', 1900, 2022);
     const yAxisSlider = slider('y scale', 0, 100);
 
     controls.append(
