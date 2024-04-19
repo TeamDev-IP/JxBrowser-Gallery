@@ -25,14 +25,14 @@ import '@material/web/tabs/tabs.js';
 import {
     csvToArray,
     drawFossilFuelsConsumptionChart,
-    drawLifeExpectancyChart
+    drawPerCapitaEnergyUseChart
 } from "./chart-drawing";
 import {openFileDownloadDialog} from "./download";
 import {httpGet} from "./http";
 import {newTab, populateTab} from "./page-content";
 import {
     addFossilFuelsConsumptionChartControls,
-    addLifeExpectancyChartControls
+    addPerCapitaEnergyUseChartControls
 } from "./chart-controls";
 
 const SERVER_URL = 'http://localhost:8080';
@@ -85,20 +85,20 @@ export function initFossilFuelsConsumptionChart() {
 }
 
 /**
- * Initializes the tab containing the chart that visualizes the life expectancy
- * in Portugal.
+ * Initializes the tab containing the chart that visualizes the per capita energy use
+ * in the selected country.
  */
-export function initLifeExpectancyChart() {
-    const info = httpGet(`${SERVER_URL}/dataset/life-expectancy/info`);
+export function initPerCapitaEnergyUseChart() {
+    const info = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/info`);
     const datasetInfo = JSON.parse(info);
-    const data = httpGet(`${SERVER_URL}/dataset/life-expectancy/data`);
+    const data = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/data`);
 
-    const tabId = newTab("Life Expectancy", false);
+    const tabId = newTab("Per capita energy use", false);
     populateTab(tabId, datasetInfo, exportToPng);
 
-    drawLifeExpectancyChart(datasetInfo.id, data);
+    drawPerCapitaEnergyUseChart(datasetInfo.id, data);
 
-    const controls = addLifeExpectancyChartControls(datasetInfo.id, csvToArray(data));
+    const controls = addPerCapitaEnergyUseChartControls(datasetInfo.id, csvToArray(data));
     Object.values(controls)
           .forEach(control => control.addEventListener('change', redrawChart));
 
@@ -106,16 +106,16 @@ export function initLifeExpectancyChart() {
         const params = chartParams(controls);
         const encodedParams = encodeURIComponent(JSON.stringify(params));
         const data = await fetch(
-            `${SERVER_URL}/export/life-expectancy/png?params=${encodedParams}`
+            `${SERVER_URL}/export/per-capita-energy-use/png?params=${encodedParams}`
         ).then(r => r.blob());
         const url = window.URL.createObjectURL(data);
-        const filename = 'life-expectancy.png';
+        const filename = 'per-capita-energy-use.png';
         openFileDownloadDialog(url, filename);
     }
 
     function redrawChart() {
         const params = chartParams(controls);
-        drawLifeExpectancyChart(datasetInfo.id, data, params);
+        drawPerCapitaEnergyUseChart(datasetInfo.id, data, params);
     }
 
     function chartParams(controls) {
@@ -133,4 +133,4 @@ export function initLifeExpectancyChart() {
 }
 
 window.initFossilFuelsConsumptionChart = initFossilFuelsConsumptionChart;
-window.initLifeExpectancyChart = initLifeExpectancyChart;
+window.initPerCapitaEnergyUseChart = initPerCapitaEnergyUseChart;

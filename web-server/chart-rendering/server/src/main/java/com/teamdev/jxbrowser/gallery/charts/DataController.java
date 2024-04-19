@@ -56,24 +56,24 @@ final class DataController {
     }
 
     /**
-     * Returns the info about the "Life expectancy" dataset.
+     * Returns the info about the "Per capita energy use" dataset.
      *
      * @return the dataset info in the JSON format
      */
-    @Get("/life-expectancy/info")
+    @Get("/per-capita-energy-use/info")
     @Produces(TEXT_JSON)
-    String lifeExpectancyInfo() {
-        return Dataset.LIFE_EXPECTANCY.info();
+    String perCapitaEnergyUseInfo() {
+        return Dataset.PER_CAPITA_ENERGY_USE.info();
     }
 
     /**
-     * Returns the content of the "Life expectancy" dataset.
+     * Returns the content of the "Per capita energy use" dataset.
      *
      * @return the dataset content in the CSV format
      */
-    @Get("/life-expectancy/data")
+    @Get("/per-capita-energy-use/data")
     @Produces(TEXT_CSV)
-    String lifeExpectancyData() {
-        return Dataset.LIFE_EXPECTANCY.data();
+    String perCapitaEnergyUseData() {
+        return Dataset.PER_CAPITA_ENERGY_USE.data();
     }
 }

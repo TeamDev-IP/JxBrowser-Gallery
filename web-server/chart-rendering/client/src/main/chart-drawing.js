@@ -23,19 +23,19 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import chartTrendline from 'chartjs-plugin-trendline';
 
 /**
- * The currently-drawn instance of the "fossil fuels consumption" chart.
+ * The currently-drawn instance of the "Fossil fuels consumption" chart.
  *
  * @type {Chart}
  */
 let fossilFuelsConsumptionChart;
 
 /**
- * The currently-drawn instance of the "life expectancy" chart.
+ * The currently-drawn instance of the "Per capita energy use" chart.
  */
-let lifeExpectancyChart;
+let perCapitaEnergyUseChart;
 
 /**
- * Default parameters for the "fossil fuels consumption" chart.
+ * Default parameters for the "Fossil fuels consumption" chart.
  *
  * @type {{
  *     type: string, // 'line' or 'bar'
@@ -58,7 +58,7 @@ const fossilFuelConsumptionChartDefaults = {
 };
 
 /**
- * Default parameters for the "life expectancy" chart.
+ * Default parameters for the "Per capita energy use" chart.
  *
  * @type {{
  *     country: string, // the country to visualize data for
@@ -71,15 +71,15 @@ const fossilFuelConsumptionChartDefaults = {
  *     yMax: number, // the maximum value for the y-axis
  * }}
  */
-const lifeExpectancyChartDefaults = {
+const perCapitaEnergyUseChartDefaults = {
     country: 'World',
     type: 'line',
     showLabels: false,
     showTrendline: false,
-    xMin: 1900,
+    xMin: 1960,
     xMax: 2022,
     yMin: 0,
-    yMax: 100
+    yMax: 150_000
 };
 
 /**
@@ -197,15 +197,17 @@ export function drawFossilFuelsConsumptionChart(canvas,
 }
 
 /**
- * Draws a chart that visualizes the life expectancy at birth in Portugal.
+ * Draws a chart that visualizes the per capita energy use in a given country.
  *
  * @param canvas the ID of the canvas element to draw the chart on
  * @param csvData the CSV data to be visualized
- * @param params the parameters for the chart. See {@link lifeExpectancyChartDefaults}
+ * @param params the parameters for the chart. See {@link perCapitaEnergyUseChartDefaults}
  */
-export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancyChartDefaults) {
-    if (lifeExpectancyChart) {
-        lifeExpectancyChart.destroy();
+export function drawPerCapitaEnergyUseChart(canvas,
+                                            csvData,
+                                            params = perCapitaEnergyUseChartDefaults) {
+    if (perCapitaEnergyUseChart) {
+        perCapitaEnergyUseChart.destroy();
     }
     const parsedData = csvToArray(csvData);
     const colors = colorScheme(params.type);
@@ -218,7 +220,7 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
         }
         : null;
     const data = parsedData.filter(row => row[0] === params.country);
-    lifeExpectancyChart = new Chart(
+    perCapitaEnergyUseChart = new Chart(
         document.getElementById(canvas),
         {
             plugins: [ChartDataLabels, chartTrendline],
@@ -226,7 +228,7 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
             data: {
                 datasets: [
                     {
-                        label: `Life expectancy at birth, ${params.country}`,
+                        label: `Per capita energy use, kilowatt hours, ${params.country}`,
                         data: data
                             .map(row => {
                                 return {x: parseInt(row[2]), y: parseFloat(row[3])};
@@ -262,7 +264,7 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
                         ticks: {
                             stepSize: 10,
                             callback: function (value) {
-                                return value + ' years';
+                                return value + ' kWh';
                             },
                         },
                     },
@@ -274,13 +276,13 @@ export function drawLifeExpectancyChart(canvas, csvData, params = lifeExpectancy
                         anchor: 'end',
                         display: params.showLabels ? 'auto' : false,
                         formatter: function (value) {
-                            return Math.round(value.y) + ' years';
+                            return Math.round(value.y) + ' kWh';
                         }
                     },
                     tooltip: {
                         callbacks: {
                             label: function (context) {
-                                return `${context.parsed.y} years`;
+                                return `${context.parsed.y} kWh`;
                             },
                             title: function(context){
                                 console.log(context);
@@ -342,4 +344,4 @@ export function csvToArray(strData, strDelimiter) {
 }
 
 window.drawFossilFuelsConsumptionChart = drawFossilFuelsConsumptionChart;
-window.drawLifeExpectancyChart = drawLifeExpectancyChart;
+window.drawPerCapitaEnergyUseChart = drawPerCapitaEnergyUseChart;

@@ -24,7 +24,7 @@ import '@material/web/select/select-option.js';
 import '@material/web/slider/slider.js';
 
 /**
- * Adds controls for modifying the "fossil fuels consumption" chart.
+ * Adds controls for modifying the "Fossil fuels consumption" chart.
  *
  * @param canvasId the ID of the canvas element where the chart is rendered
  * @returns an object containing references to the created controls
@@ -59,25 +59,25 @@ export function addFossilFuelsConsumptionChartControls(canvasId) {
 }
 
 /**
- * Adds controls for modifying the "life expectancy" chart.
+ * Adds controls for modifying the "Per capita energy use" chart.
  *
  * @param canvasId the ID of the canvas element where the chart is rendered
  * @param data the data used to render the chart
  * @returns an object containing references to the created controls
  */
-export function addLifeExpectancyChartControls(canvasId, data) {
+export function addPerCapitaEnergyUseChartControls(canvasId, data) {
     const controls = addControlsContainer(canvasId);
 
-    const uniqueCountries = [...new Map(
+    const countries = [...new Map(
         data.map(row => ({display: row[0], value: row[0]}))
             .map(c => [c.value, c])
     ).values()];
-    const countrySelector = selector(uniqueCountries, 'World');
+    const countrySelector = selector(countries, 'World');
     const typeSelector = selector([{display: 'Line', value: 'line'}], 'line');
     const showLabelsCheckbox = checkbox('Show labels');
     const showTrendlineCheckbox = checkbox('Show trendline');
-    const xAxisSlider = slider('x scale', 1900, 2022);
-    const yAxisSlider = slider('y scale', 0, 100);
+    const xAxisSlider = slider('x scale', 1960, 2022);
+    const yAxisSlider = slider('y scale', 0, 150_000);
 
     controls.append(
         countrySelector,
