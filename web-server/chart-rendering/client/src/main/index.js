@@ -47,7 +47,7 @@ export function initPerCapitaEnergyUseChart() {
     const data = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/data`);
 
     const tabId = newTab("Per capita energy use", true);
-    populateTab(tabId, datasetInfo, exportToPng);
+    populateTab(tabId, datasetInfo, exportPng);
 
     drawPerCapitaEnergyUseChart(datasetInfo.id, data);
 
@@ -55,7 +55,7 @@ export function initPerCapitaEnergyUseChart() {
     Object.values(controls)
           .forEach(control => control.addEventListener('change', redrawChart));
 
-    async function exportToPng() {
+    async function exportPng() {
         const params = chartParams(controls);
         const encodedParams = encodeURIComponent(JSON.stringify(params));
         const data = await fetch(
@@ -89,7 +89,7 @@ export function initEnergyConsumptionBySourceChart() {
     const data = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/data`);
 
     const tabId = newTab("Energy consumption by source", false);
-    populateTab(tabId, datasetInfo, exportToPng);
+    populateTab(tabId, datasetInfo, exportPng);
 
     drawEnergyConsumptionBySourceChart(datasetInfo.id, data);
 
@@ -97,7 +97,7 @@ export function initEnergyConsumptionBySourceChart() {
     Object.values(controls)
           .forEach(control => control.addEventListener('change', redrawChart));
 
-    async function exportToPng() {
+    async function exportPng() {
         const params = chartParams(controls);
         const encodedParams = encodeURIComponent(JSON.stringify(params));
         const data = await fetch(
