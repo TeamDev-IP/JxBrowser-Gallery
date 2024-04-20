@@ -87,89 +87,18 @@ export function drawPerCapitaEnergyUseChart(
     if (perCapitaEnergyUseChart) {
         perCapitaEnergyUseChart.destroy();
     }
-    const parsedData = csvToArray(csvData);
+    const chartData = csvToArray(csvData);
     const colors = colorScheme(params.type);
-    const trendline = params.showTrendline
-        ? {
-            colorMin: colors.trendline,
-            colorMax: colors.trendline,
-            lineStyle: "dotted|solid",
-            width: 2
-        }
-        : null;
-    const data = parsedData.filter(row => row[0] === params.entity);
+
     perCapitaEnergyUseChart = new Chart(
         document.getElementById(canvas),
         {
             plugins: [ChartDataLabels, chartTrendline],
             type: params.type,
             data: {
-                datasets: [
-                    {
-                        label: `Per capita energy use, kilowatt hours, ${params.entity}`,
-                        data: data
-                            .map(row => {
-                                return {x: parseInt(row[2]), y: parseFloat(row[3])};
-                            }),
-                        pointStyle: false,
-                        borderColor: colors.chart,
-                        backgroundColor: colors.chart,
-                        trendlineLinear: trendline
-                    },
-                ],
+                datasets: datasets(),
             },
-            options: {
-                animation: false,
-                legend: {
-                    labels: {
-                        fontFamily: 'Lato'
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'linear',
-                        min: params.xMin,
-                        max: params.xMax,
-                        ticks: {
-                            callback: function (value) {
-                                return value + '';
-                            },
-                        },
-                    },
-                    y: {
-                        ticks: {
-                            stepSize: 10,
-                            callback: function (value) {
-                                return value + ' kWh';
-                            },
-                        },
-                    },
-                },
-                devicePixelRatio: 3,
-                plugins: {
-                    datalabels: {
-                        align: 'top',
-                        anchor: 'end',
-                        display: params.showLabels ? 'auto' : false,
-                        formatter: function (value) {
-                            return Math.round(value.y) + ' kWh';
-                        }
-                    },
-                    legend: {
-                        onClick: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                return `${context.parsed.y} kWh`;
-                            },
-                            title: function (context) {
-                                return context[0].label.replace(/\s/g, '');
-                            }
-                        }
-                    }
-                }
-            },
+            options: options(),
         },
     );
 
@@ -187,6 +116,89 @@ export function drawPerCapitaEnergyUseChart(
             };
         }
         throw new Error(`Unknown chart type: '${type}'.`);
+    }
+
+    function datasets() {
+        return [
+            {
+                label: `Per capita energy use, kilowatt hours, ${params.entity}`,
+                data: chartData
+                    .filter(row => row[0] === params.entity)
+                    .map(row => {
+                        return {x: parseInt(row[2]), y: parseFloat(row[3])};
+                    }),
+                pointStyle: false,
+                borderColor: colors.chart,
+                backgroundColor: colors.chart,
+                trendlineLinear: trendline()
+            },
+        ];
+    }
+
+    function trendline() {
+        return params.showTrendline
+            ? {
+                colorMin: colors.trendline,
+                colorMax: colors.trendline,
+                lineStyle: "dotted|solid",
+                width: 2
+            }
+            : null;
+    }
+
+    function options() {
+        return {
+            animation: false,
+            legend: {
+                labels: {
+                    fontFamily: 'Lato'
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    min: params.xMin,
+                    max: params.xMax,
+                    ticks: {
+                        callback: function (value) {
+                            return value + '';
+                        },
+                    },
+                },
+                y: {
+                    ticks: {
+                        stepSize: 10,
+                        callback: function (value) {
+                            return value + ' kWh';
+                        },
+                    },
+                },
+            },
+            devicePixelRatio: 3,
+            plugins: {
+                datalabels: {
+                    align: 'top',
+                    anchor: 'end',
+                    display: params.showLabels ? 'auto' : false,
+                    formatter: function (value) {
+                        return Math.round(value.y) + ' kWh';
+                    }
+                },
+                legend: {
+                    onClick: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.parsed.y} kWh`;
+                        },
+                        title: function (context) {
+                            return context[0].label.replace(/\s/g, '');
+                        }
+                    }
+                }
+            }
+        };
     }
 }
 
@@ -206,136 +218,21 @@ export function drawEnergyConsumptionBySourceChart(
         energyConsumptionBySourceChart.destroy();
     }
     const parsedData = csvToArray(csvData);
-    const colors = colorScheme();
-    const data = parsedData.filter(row => row[0] === params.entity)
+    const chartData = parsedData
+        .filter(row => row[0] === params.entity)
         .sort((a, b) => parseInt(a[2]) - parseInt(b[2]));
-    const labels = data.map(row => row[2]);
+    const labels = chartData.map(row => row[2]);
+    const colors = colorScheme();
+
     energyConsumptionBySourceChart = new Chart(
         document.getElementById(canvas),
         {
             type: 'line',
             data: {
                 labels: labels,
-                datasets: [
-                    {
-                        label: 'Oil, TWh',
-                        data: data.map(row => parseFloat(row[11])),
-                        borderColor: colors[8],
-                        backgroundColor: colors[8],
-                        fill: true,
-                        pointStyle: false
-                    },
-                    {
-                        label: 'Coal, TWh',
-                        data: data.map(row => parseFloat(row[10])),
-                        borderColor: colors[7],
-                        backgroundColor: colors[7],
-                        fill: true,
-                        pointStyle: false
-                    },
-                    {
-                        label: 'Gas, TWh',
-                        data: data.map(row => parseFloat(row[9])),
-                        borderColor: colors[6],
-                        backgroundColor: colors[6],
-                        fill: true,
-                        pointStyle: false
-                    },
-                    {
-                        label: 'Nuclear, TWh',
-                        data: data.map(row => parseFloat(row[8])),
-                        borderColor: colors[5],
-                        backgroundColor: colors[5],
-                        fill: true,
-                        pointStyle: false
-                    },
-                    {
-                        label: 'Hydropower, TWh',
-                        data: data.map(row => parseFloat(row[7])),
-                        borderColor: colors[4],
-                        backgroundColor: colors[4],
-                        fill: true,
-                        pointStyle: false
-                    },
-                    {
-                        label: 'Wind, TWh',
-                        data: data.map(row => parseFloat(row[6])),
-                        borderColor: colors[3],
-                        backgroundColor: colors[3],
-                        fill: true,
-                        pointStyle: false
-                    },
-                    {
-                        label: 'Solar, TWh',
-                        data: data.map(row => parseFloat(row[5])),
-                        borderColor: colors[2],
-                        backgroundColor: colors[2],
-                        fill: true,
-                        pointStyle: false
-                    },
-                    {
-                        label: 'Biofuels, TWh',
-                        data: data.map(row => parseFloat(row[4])),
-                        borderColor: colors[1],
-                        backgroundColor: colors[1],
-                        fill: true,
-                        pointStyle: false
-                    },
-                    {
-                        label: 'Other renewables (including geothermal and biomass), TWh',
-                        data: data.map(row => parseFloat(row[3])),
-                        borderColor: colors[0],
-                        backgroundColor: colors[0],
-                        fill: true,
-                        pointStyle: false
-                    }
-                ],
+                datasets: datasets(),
             },
-            options: {
-                animation: false,
-                legend: {
-                    labels: {
-                        fontFamily: 'Lato',
-                    }
-                },
-                scales: {
-                    x: {
-                        min: params.xMin,
-                        max: params.xMax,
-                        type: 'linear',
-                        ticks: {
-                            callback: function (value) {
-                                return value + '';
-                            },
-                        },
-                    },
-                    y: {
-                        stacked: true,
-                        ticks: {
-                            callback: function (value) {
-                                return value + ' TWh';
-                            },
-                        },
-                    },
-                },
-                devicePixelRatio: 3,
-                plugins: {
-                    legend: {
-                        onClick: false
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        callbacks: {
-                            label: function (context) {
-                                return context.dataset.label + ': ' + `${context.parsed.y}`;
-                            },
-                            title: function (context) {
-                                return context[0].label.replace(/\s/g, '');
-                            }
-                        }
-                    }
-                }
-            },
+            options: options(),
         },
     );
 
@@ -344,6 +241,131 @@ export function drawEnergyConsumptionBySourceChart(
             '#153d5a', '#C43C4DFF', '#bc1058', '#bf8b2e', '#E18055FF',
             '#5CBE5EFF', '#0879ae', '#8a1538', '#005885'
         ];
+    }
+
+    function datasets() {
+        return [
+            {
+                label: 'Oil, TWh',
+                data: chartData.map(row => parseFloat(row[11])),
+                borderColor: colors[8],
+                backgroundColor: colors[8],
+                fill: true,
+                pointStyle: false
+            },
+            {
+                label: 'Coal, TWh',
+                data: chartData.map(row => parseFloat(row[10])),
+                borderColor: colors[7],
+                backgroundColor: colors[7],
+                fill: true,
+                pointStyle: false
+            },
+            {
+                label: 'Gas, TWh',
+                data: chartData.map(row => parseFloat(row[9])),
+                borderColor: colors[6],
+                backgroundColor: colors[6],
+                fill: true,
+                pointStyle: false
+            },
+            {
+                label: 'Nuclear, TWh',
+                data: chartData.map(row => parseFloat(row[8])),
+                borderColor: colors[5],
+                backgroundColor: colors[5],
+                fill: true,
+                pointStyle: false
+            },
+            {
+                label: 'Hydropower, TWh',
+                data: chartData.map(row => parseFloat(row[7])),
+                borderColor: colors[4],
+                backgroundColor: colors[4],
+                fill: true,
+                pointStyle: false
+            },
+            {
+                label: 'Wind, TWh',
+                data: chartData.map(row => parseFloat(row[6])),
+                borderColor: colors[3],
+                backgroundColor: colors[3],
+                fill: true,
+                pointStyle: false
+            },
+            {
+                label: 'Solar, TWh',
+                data: chartData.map(row => parseFloat(row[5])),
+                borderColor: colors[2],
+                backgroundColor: colors[2],
+                fill: true,
+                pointStyle: false
+            },
+            {
+                label: 'Biofuels, TWh',
+                data: chartData.map(row => parseFloat(row[4])),
+                borderColor: colors[1],
+                backgroundColor: colors[1],
+                fill: true,
+                pointStyle: false
+            },
+            {
+                label: 'Other renewables (including geothermal and biomass), TWh',
+                data: chartData.map(row => parseFloat(row[3])),
+                borderColor: colors[0],
+                backgroundColor: colors[0],
+                fill: true,
+                pointStyle: false
+            }
+        ];
+    }
+
+    function options() {
+        return {
+            animation: false,
+            legend: {
+                labels: {
+                    fontFamily: 'Lato',
+                }
+            },
+            scales: {
+                x: {
+                    min: params.xMin,
+                    max: params.xMax,
+                    type: 'linear',
+                    ticks: {
+                        callback: function (value) {
+                            return value + '';
+                        },
+                    },
+                },
+                y: {
+                    stacked: true,
+                    ticks: {
+                        callback: function (value) {
+                            return value + ' TWh';
+                        },
+                    },
+                },
+            },
+            devicePixelRatio: 3,
+            plugins: {
+                legend: {
+                    onClick: false
+                },
+                tooltip: {
+                    mode: 'index',
+                    callbacks: {
+                        label: function (context) {
+                            return context.dataset.label + ': ' + `${context.parsed.y}`;
+                        },
+                        title: function (context) {
+                            return context[0].label.replace(/\s/g, '');
+                        }
+                    }
+                }
+            }
+        };
     }
 }
 
