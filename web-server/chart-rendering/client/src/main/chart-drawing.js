@@ -128,7 +128,6 @@ export function drawPerCapitaEnergyUseChart(
                     .map(row => {
                         return {x: parseInt(row[2]), y: parseFloat(row[3])};
                     }),
-                pointStyle: false,
                 borderColor: colors.chart,
                 backgroundColor: colors.chart,
                 trendlineLinear: trendline()
