@@ -164,7 +164,6 @@ export function drawPerCapitaEnergyUseChart(
                                 return `${context.parsed.y} kWh`;
                             },
                             title: function (context) {
-                                console.log(context);
                                 return context[0].label.replace(/\s/g, '');
                             }
                         }
