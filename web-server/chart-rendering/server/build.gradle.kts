@@ -30,7 +30,7 @@ application {
 
 dependencies {
     implementation(libs.gson)
-    implementation("com.j2html:j2html:1.6.0")
+    implementation(libs.j2html)
 }
 
 val dependentTasks = listOf("processResources", "inspectRuntimeClasspath")
