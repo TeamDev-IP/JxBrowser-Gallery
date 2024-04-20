@@ -44,7 +44,7 @@ export function addPerCapitaEnergyUseChartControls(canvasId, data) {
     ], 'line');
     const showLabelsCheckbox = checkbox('Show labels');
     const showTrendlineCheckbox = checkbox('Show trendline');
-    const xAxisSlider = slider('time span', 1970, 2022);
+    const xAxisSlider = slider('Time span', 1970, 2022);
 
     controls.append(
         entitySelector,
@@ -78,7 +78,7 @@ export function addEnergyConsumptionBySourceChartControls(canvasId, data) {
             .map(c => [c.value, c])
     ).values()];
     const entitySelector = selector(entities, 'World');
-    const xAxisSlider = slider('time span', 1970, 2022);
+    const xAxisSlider = slider('Time span', 1970, 2022);
 
     controls.append(
         entitySelector,
