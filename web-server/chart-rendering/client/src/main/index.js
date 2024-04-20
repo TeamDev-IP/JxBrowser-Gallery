@@ -23,17 +23,14 @@ import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';
 
 import {
-    csvToArray,
-    drawEnergyConsumptionBySourceChart,
-    drawPerCapitaEnergyUseChart
-} from "./chart-drawing";
-import {openFileDownloadDialog} from "./download";
-import {httpGet} from "./http";
-import {newTab, populateTab} from "./page-content";
-import {
     addEnergyConsumptionBySourceChartControls,
     addPerCapitaEnergyUseChartControls
 } from "./chart-controls";
+import {drawEnergyConsumptionBySourceChart, drawPerCapitaEnergyUseChart} from "./chart-drawing";
+import {openFileDownloadDialog} from "./download";
+import {httpGet} from "./http";
+import {newTab, populateTab} from "./page-content";
+import {csvToArray} from "./parsing";
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -44,14 +41,15 @@ const SERVER_URL = 'http://localhost:8080';
 export function initPerCapitaEnergyUseChart() {
     const info = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/info`);
     const datasetInfo = JSON.parse(info);
-    const data = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/data`);
+    const csvData = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/data`);
+    const data = csvToArray(csvData);
 
     const tabId = newTab("Per capita energy use", true);
     populateTab(tabId, datasetInfo, exportPng);
 
     drawPerCapitaEnergyUseChart(datasetInfo.id, data);
 
-    const controls = addPerCapitaEnergyUseChartControls(datasetInfo.id, csvToArray(data));
+    const controls = addPerCapitaEnergyUseChartControls(datasetInfo.id, data);
     Object.values(controls)
           .forEach(control => control.addEventListener('change', redrawChart));
 
@@ -86,14 +84,15 @@ export function initPerCapitaEnergyUseChart() {
 export function initEnergyConsumptionBySourceChart() {
     const info = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/info`);
     const datasetInfo = JSON.parse(info);
-    const data = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/data`);
+    const csvData = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/data`);
+    const data = csvToArray(csvData);
 
     const tabId = newTab("Energy consumption by source", false);
     populateTab(tabId, datasetInfo, exportPng);
 
     drawEnergyConsumptionBySourceChart(datasetInfo.id, data);
 
-    const controls = addEnergyConsumptionBySourceChartControls(datasetInfo.id, csvToArray(data));
+    const controls = addEnergyConsumptionBySourceChartControls(datasetInfo.id, data);
     Object.values(controls)
           .forEach(control => control.addEventListener('change', redrawChart));
 

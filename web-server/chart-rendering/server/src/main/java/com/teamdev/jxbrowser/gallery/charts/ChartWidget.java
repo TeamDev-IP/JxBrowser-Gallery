@@ -111,7 +111,8 @@ final class ChartWidget {
     private String js() {
         return """
                 const data = `%s`;
-                %s('%s', data, %s);
+                const parsedData = window.csvToArray(data);
+                %s('%s', parsedData, %s);
                 """.formatted(dataset.data(), drawFunction, dataset.id(), drawParams);
     }
 

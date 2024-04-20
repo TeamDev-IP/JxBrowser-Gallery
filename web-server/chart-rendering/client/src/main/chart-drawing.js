@@ -21,6 +21,7 @@
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import chartTrendline from 'chartjs-plugin-trendline';
+import './parsing';
 
 /**
  * The currently-drawn instance of the "Per capita energy use" chart.
@@ -76,18 +77,18 @@ const energyConsumptionBySourceChartDefaults = {
  * Draws a chart that visualizes the per capita energy use in a given country or region.
  *
  * @param canvas the ID of the canvas element to draw the chart on
- * @param csvData the CSV data to be visualized
+ * @param data the data to visualize, in the form of {@link Array}
  * @param params the parameters for the chart. See {@link perCapitaEnergyUseChartDefaults}
  */
 export function drawPerCapitaEnergyUseChart(
     canvas,
-    csvData,
+    data,
     params = perCapitaEnergyUseChartDefaults
 ) {
     if (perCapitaEnergyUseChart) {
         perCapitaEnergyUseChart.destroy();
     }
-    const chartData = csvToArray(csvData);
+    const chartData = data;
     const colors = colorScheme(params.type);
 
     perCapitaEnergyUseChart = new Chart(
@@ -206,19 +207,18 @@ export function drawPerCapitaEnergyUseChart(
  * Draws a chart that visualizes the energy consumption by source in a given country or region.
  *
  * @param canvas the ID of the canvas element to draw the chart on
- * @param csvData the CSV data to be visualized
+ * @param data the data to visualize, in the form of {@link Array}
  * @param params the parameters for the chart. See {@link energyConsumptionBySourceChartDefaults}
  */
 export function drawEnergyConsumptionBySourceChart(
     canvas,
-    csvData,
+    data,
     params = energyConsumptionBySourceChartDefaults
 ) {
     if (energyConsumptionBySourceChart) {
         energyConsumptionBySourceChart.destroy();
     }
-    const parsedData = csvToArray(csvData);
-    const chartData = parsedData
+    const chartData = data
         .filter(row => row[0] === params.entity)
         .sort((a, b) => parseInt(a[2]) - parseInt(b[2]));
     const labels = chartData.map(row => row[2]);
@@ -367,43 +367,6 @@ export function drawEnergyConsumptionBySourceChart(
             }
         };
     }
-}
-
-/**
- * Parses the CSV data from a string into a JS array.
- */
-export function csvToArray(strData, strDelimiter) {
-    strDelimiter = (strDelimiter || ',');
-    const objPattern = new RegExp(
-        (
-            '(\\' + strDelimiter + '|\\r?\\n|\\r|^)' +
-            '(?:"([^"]*(?:""[^"]*)*)"|' +
-            '([^"\\' + strDelimiter + '\\r\\n]*))'
-        ),
-        'gi',
-    );
-    const arrData = [[]];
-    let arrMatches = null;
-    while (arrMatches = objPattern.exec(strData)) {
-        const strMatchedDelimiter = arrMatches[1];
-        if (
-            strMatchedDelimiter.length &&
-            strMatchedDelimiter !== strDelimiter
-        ) {
-            arrData.push([]);
-        }
-        let strMatchedValue;
-        if (arrMatches[2]) {
-            strMatchedValue = arrMatches[2].replace(
-                new RegExp('""', 'g'),
-                '"',
-            );
-        } else {
-            strMatchedValue = arrMatches[3];
-        }
-        arrData[arrData.length - 1].push(strMatchedValue);
-    }
-    return (arrData);
 }
 
 window.drawPerCapitaEnergyUseChart = drawPerCapitaEnergyUseChart;
