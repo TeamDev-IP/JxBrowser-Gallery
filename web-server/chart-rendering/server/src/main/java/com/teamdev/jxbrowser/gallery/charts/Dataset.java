@@ -64,7 +64,7 @@ enum Dataset {
     }
 
     /**
-     * Returns the description of the dataset as a JSON string.
+     * Returns the info about the dataset as a JSON string.
      */
     String info() {
         return info.toString();

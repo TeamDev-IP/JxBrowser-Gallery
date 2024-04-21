@@ -42,7 +42,7 @@ let energyConsumptionBySourceChart;
  *
  * @type {{
  *     entity: string, // the country or region to visualize the data for
- *     type: string, // 'line'
+ *     type: string, // 'line' or 'bar'
  *     showLabels: boolean, // whether to show data labels
  *     showTrendline: boolean, // whether to show a trendline
  *     xMin: number, // the minimum value for the x-axis
@@ -135,17 +135,6 @@ export function drawPerCapitaEnergyUseChart(
         ];
     }
 
-    function trendline() {
-        return params.showTrendline
-            ? {
-                colorMin: colors.trendline,
-                colorMax: colors.trendline,
-                lineStyle: "dotted|solid",
-                width: 2
-            }
-            : null;
-    }
-
     function options() {
         return {
             animation: false,
@@ -199,6 +188,17 @@ export function drawPerCapitaEnergyUseChart(
                 }
             }
         };
+    }
+
+    function trendline() {
+        return params.showTrendline
+            ? {
+                colorMin: colors.trendline,
+                colorMax: colors.trendline,
+                lineStyle: "dotted|solid",
+                width: 2
+            }
+            : null;
     }
 }
 

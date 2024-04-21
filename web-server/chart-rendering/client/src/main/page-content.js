@@ -111,7 +111,7 @@ function switchToTab(tabId) {
 
 /**
  * Creates a panel that displays the specified dataset information as well as
- * an "Export to PNG" button.
+ * the "Export to PNG" button.
  *
  * @param datasetInfo the dataset information to display
  * @param exportPng the function to call when the user clicks the "Export to PNG" button

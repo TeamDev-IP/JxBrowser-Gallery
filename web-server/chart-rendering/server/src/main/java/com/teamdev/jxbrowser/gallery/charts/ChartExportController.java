@@ -52,7 +52,7 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
  * </ol>
  *
  * @implNote This controller is of {@link Context} scope to avoid increased latency
- *         upon receiving the first request.
+ * upon receiving the first request.
  */
 @Controller("/export")
 @Context
@@ -75,8 +75,8 @@ final class ChartExportController {
     @SuppressWarnings("resource" /* The engine has the same lifetime as the application. */)
     ChartExportController() {
         var options = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
-                                   .licenseKey(LicenseProvider.INSTANCE.getKey())
-                                   .build();
+                .licenseKey(LicenseProvider.INSTANCE.getKey())
+                .build();
         var engine = Engine.newInstance(options);
         browser = engine.newBrowser();
     }
