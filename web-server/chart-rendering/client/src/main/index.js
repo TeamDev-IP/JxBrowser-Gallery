@@ -36,7 +36,7 @@ const SERVER_URL = 'http://localhost:8080';
 
 /**
  * Initializes the tab containing the chart that visualizes the per capita energy use
- * in the selected country.
+ * in the selected country or region.
  */
 export function initPerCapitaEnergyUseChart() {
     const info = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/info`);
@@ -81,6 +81,10 @@ export function initPerCapitaEnergyUseChart() {
     }
 }
 
+/**
+ * Initializes the tab containing the chart that visualizes the energy consumption
+ * by source in the selected country or region.
+ */
 export function initEnergyConsumptionBySourceChart() {
     const info = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/info`);
     const datasetInfo = JSON.parse(info);

@@ -1,7 +1,7 @@
 {
   "id": "per-capita-energy-use",
-  "title": "Per capita energy use by country",
-  "description": "Per capita energy use by country, in kilowatt hours per person per year.",
+  "title": "Per capita energy use by region",
+  "description": "Per capita energy use by region, in kilowatt hours per person per year.",
   "rowCount": 10604,
   "columns": [
     {
@@ -12,12 +12,12 @@
     {
       "title": "code",
       "type": "string",
-      "description": "the country code"
+      "description": "the country or region code"
     },
     {
       "title": "year",
       "type": "integer",
-      "description": "the year in which the data was recorded"
+      "description": "the year for which the data was recorded"
     },
     {
       "title": "use",

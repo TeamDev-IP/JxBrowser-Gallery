@@ -1,7 +1,7 @@
 {
   "id": "energy-consumption-by-source",
-  "title": "Energy consumption by source, by country",
-  "description": "Energy consumption by source per country, per year, in terawatt-hours.",
+  "title": "Energy consumption by source, by region",
+  "description": "Energy consumption by source per region, per year, in terawatt-hours.",
   "rowCount": 6979,
   "columns": [
     {
@@ -17,7 +17,7 @@
     {
       "title": "year",
       "type": "integer",
-      "description": "the year in which the data was recorded"
+      "description": "the year for which the data was recorded"
     },
     {
       "title": "other",
