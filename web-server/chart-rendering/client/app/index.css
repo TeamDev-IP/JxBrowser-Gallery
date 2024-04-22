@@ -49,19 +49,42 @@ label {
 }
 
 .tab-content {
-    width: 80%;
+    width: 90%;
+    max-height: 75vh;
     display: flex;
     justify-content: space-between;
 }
 
-.dataset-info-panel {
+.left-panel {
     flex: 1;
+}
+
+.info-container {
+    max-height: 90%;
+    overflow: auto;
+}
+
+.info-container::-webkit-scrollbar {
+    width: 4px;
+    visibility: hidden;
+}
+
+.info-container:hover::-webkit-scrollbar {
+    visibility: visible;
+}
+
+.info-container:hover::-webkit-scrollbar-thumb {
+    background: gray;
+}
+
+.info-container:hover::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .export-button-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .canvas-container {
@@ -88,6 +111,10 @@ label {
     margin-top: 30px;
 }
 
+.controls-select {
+    margin-bottom: 10px;
+}
+
 .controls-label {
     display: flex;
     align-items: center;
@@ -100,4 +127,5 @@ label {
 
 .controls-slider {
     margin-left: -10px;
+    z-index: 1;
 }

@@ -27,7 +27,7 @@ tasks {
     val buildWebProject = buildWebProject(projectDir)
     val buildServerJs = buildCustom("buildServerJs", "build-server-js", projectDir)
 
-    val serverResources = projectDir.resolve("../server/src/main/resources/rendering")
+    val serverResources = projectDir.resolve("../server/widgets")
     val copyServerJs = copyServerJs(buildWebProject, buildServerJs, serverResources)
 
     val build by registering {

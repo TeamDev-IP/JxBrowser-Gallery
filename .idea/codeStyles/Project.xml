@@ -2,9 +2,20 @@
   <code_scheme name="Project" version="173">
     <option name="RIGHT_MARGIN" value="100" />
     <option name="SOFT_MARGINS" value="80" />
+    <JavaCodeStyleSettings>
+      <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="999" />
+      <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="999" />
+      <option name="JD_ALIGN_PARAM_COMMENTS" value="false" />
+    </JavaCodeStyleSettings>
     <JetCodeStyleSettings>
       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
     </JetCodeStyleSettings>
+    <codeStyleSettings language="JAVA">
+      <option name="ALIGN_MULTILINE_CHAINED_METHODS" value="true" />
+      <option name="METHOD_CALL_CHAIN_WRAP" value="2" />
+      <option name="BUILDER_METHODS" value="newBuilder,builder" />
+      <option name="KEEP_BUILDER_METHODS_INDENTS" value="true" />
+    </codeStyleSettings>
     <codeStyleSettings language="kotlin">
       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
     </codeStyleSettings>

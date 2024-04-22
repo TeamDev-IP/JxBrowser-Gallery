@@ -22,59 +22,108 @@ import '@material/web/dialog/dialog.js';
 import '@material/web/tabs/primary-tab.js';
 import '@material/web/tabs/tabs.js';
 
-import {drawFossilFuelsConsumptionChart} from "./chart-drawing";
+import {
+    addEnergyConsumptionBySourceChartControls,
+    addPerCapitaEnergyUseChartControls
+} from "./chart-controls";
+import {drawEnergyConsumptionBySourceChart, drawPerCapitaEnergyUseChart} from "./chart-drawing";
 import {openFileDownloadDialog} from "./download";
 import {httpGet} from "./http";
 import {newTab, populateTab} from "./page-content";
-import {addFossilFuelsConsumptionChartControls} from "./chart-controls";
+import {csvToArray} from "./parsing";
 
 const SERVER_URL = 'http://localhost:8080';
 
 /**
- * Initializes the tab containing the chart that visualizes the share of primary
- * energy consumption from fossil fuels in Portugal.
+ * Initializes the tab containing the chart that visualizes the per capita energy use
+ * in the selected country or region.
  */
-export function initFossilFuelsConsumptionChart() {
-    const info = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/info`);
+export function initPerCapitaEnergyUseChart() {
+    const info = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/info`);
     const datasetInfo = JSON.parse(info);
-    const data = httpGet(`${SERVER_URL}/dataset/fossil-fuels-consumption/data`);
+    const csvData = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/data`);
+    const data = csvToArray(csvData);
 
-    const tabId = newTab();
-    populateTab(tabId, datasetInfo, exportToPng);
+    const tabId = newTab("Per capita energy use", true);
+    populateTab(tabId, datasetInfo, exportPng);
 
-    drawFossilFuelsConsumptionChart(datasetInfo.id, data);
+    drawPerCapitaEnergyUseChart(datasetInfo.id, data);
 
-    const controls = addFossilFuelsConsumptionChartControls(datasetInfo.id);
+    const controls = addPerCapitaEnergyUseChartControls(datasetInfo.id, data);
     Object.values(controls)
           .forEach(control => control.addEventListener('change', redrawChart));
 
-    async function exportToPng() {
+    async function exportPng() {
         const params = chartParams(controls);
         const encodedParams = encodeURIComponent(JSON.stringify(params));
         const data = await fetch(
-            `${SERVER_URL}/export/fossil-fuels-consumption/png?params=${encodedParams}`
+            `${SERVER_URL}/export/per-capita-energy-use/png?params=${encodedParams}`
         ).then(r => r.blob());
         const url = window.URL.createObjectURL(data);
-        const filename = 'fossil-fuels.png';
+        const filename = 'per-capita-energy-use.png';
         openFileDownloadDialog(url, filename);
     }
 
     function redrawChart() {
         const params = chartParams(controls);
-        drawFossilFuelsConsumptionChart(datasetInfo.id, data, params);
+        drawPerCapitaEnergyUseChart(datasetInfo.id, data, params);
     }
 
     function chartParams(controls) {
         return {
+            entity: controls.entitySelector.selectedOptions[0].value,
             type: controls.typeSelector.selectedOptions[0].value,
             showLabels: controls.showLabelsCheckbox.checked,
             showTrendline: controls.showTrendlineCheckbox.checked,
             xMin: controls.xAxisSlider.valueStart,
-            xMax: controls.xAxisSlider.valueEnd,
-            yMin: controls.yAxisSlider.valueStart,
-            yMax: controls.yAxisSlider.valueEnd
+            xMax: controls.xAxisSlider.valueEnd
         };
     }
 }
 
-window.initFossilFuelsConsumptionChart = initFossilFuelsConsumptionChart;
+/**
+ * Initializes the tab containing the chart that visualizes the energy consumption
+ * by source in the selected country or region.
+ */
+export function initEnergyConsumptionBySourceChart() {
+    const info = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/info`);
+    const datasetInfo = JSON.parse(info);
+    const csvData = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/data`);
+    const data = csvToArray(csvData);
+
+    const tabId = newTab("Energy consumption by source", false);
+    populateTab(tabId, datasetInfo, exportPng);
+
+    drawEnergyConsumptionBySourceChart(datasetInfo.id, data);
+
+    const controls = addEnergyConsumptionBySourceChartControls(datasetInfo.id, data);
+    Object.values(controls)
+          .forEach(control => control.addEventListener('change', redrawChart));
+
+    async function exportPng() {
+        const params = chartParams(controls);
+        const encodedParams = encodeURIComponent(JSON.stringify(params));
+        const data = await fetch(
+            `${SERVER_URL}/export/energy-consumption-by-source/png?params=${encodedParams}`
+        ).then(r => r.blob());
+        const url = window.URL.createObjectURL(data);
+        const filename = 'energy-consumption-by-source.png';
+        openFileDownloadDialog(url, filename);
+    }
+
+    function redrawChart() {
+        const params = chartParams(controls);
+        drawEnergyConsumptionBySourceChart(datasetInfo.id, data, params);
+    }
+
+    function chartParams(controls) {
+        return {
+            entity: controls.entitySelector.selectedOptions[0].value,
+            xMin: controls.xAxisSlider.valueStart,
+            xMax: controls.xAxisSlider.valueEnd
+        };
+    }
+}
+
+window.initEnergyConsumptionBySourceChart = initEnergyConsumptionBySourceChart;
+window.initPerCapitaEnergyUseChart = initPerCapitaEnergyUseChart;

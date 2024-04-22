@@ -14,6 +14,7 @@ micronaut-gradlePlugin = "4.3.5" # https://github.com/micronaut-projects/microna
 micronaut-serdeJackson = "2.8.2" # https://mvnrepository.com/artifact/io.micronaut.serde/micronaut-serde-jackson
 gson = "2.10.1" # https://github.com/google/gson/releases
 snakeyaml = "2.2" # https://mvnrepository.com/artifact/org.yaml/snakeyaml
+j2html = "1.6.0" # https://github.com/tipsy/j2html/tags
 taskTree-gradlePlugin = "2.1.1" # https://github.com/dorongold/gradle-task-tree/releases
 
 [libraries]
@@ -28,4 +29,5 @@ micronaut-gradlePlugin = { module = "io.micronaut.gradle:micronaut-gradle-plugin
 micronaut-serdeJackson = { module = "io.micronaut.serde:micronaut-serde-jackson", version.ref = "micronaut-serdeJackson" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
+j2html = { module = "com.j2html:j2html", version.ref = "j2html" }
 taskTree-gradlePlugin = { module = "com.dorongold.plugins:task-tree", version.ref = "taskTree-gradlePlugin" }

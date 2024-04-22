@@ -33,23 +33,25 @@ let tabCount = 0;
 /**
  * Creates a new content tab and returns the corresponding DOM element ID.
  *
+ * @param displayName the display name of the new tab
+ * @param active whether the new tab should be active by default
  * @return {string} the ID of the DOM element representing the new tab
  */
-export function newTab() {
+export function newTab(displayName, active) {
     tabCount++;
 
     const primaryTab = document.createElement('md-primary-tab');
     primaryTab.id = `tab-${tabCount}`;
-    primaryTab.innerText = `Dataset ${tabCount}`;
+    primaryTab.innerText = `${displayName}`;
     primaryTab.classList.add('md-typescale-title-medium');
-    if (tabCount === 1) {
+    if (active) {
         primaryTab.active = true;
     }
 
     const contentDiv = document.createElement('div');
     contentDiv.id = `content-${tabCount}`;
     contentDiv.className = 'tab-content';
-    if (tabCount > 1) {
+    if (!active) {
         contentDiv.style.display = 'none';
     }
 
@@ -69,8 +71,8 @@ export function newTab() {
 export function populateTab(tabId, datasetInfo, exportPng) {
     const content = document.getElementById(tabId);
 
-    const datasetInfoContainer = datasetInfoPanel(datasetInfo, exportPng);
-    content.appendChild(datasetInfoContainer);
+    const leftPanelContainer = leftPanel(datasetInfo, exportPng);
+    content.appendChild(leftPanelContainer);
 
     const chartContainer = document.createElement('div');
     chartContainer.className = 'canvas-container';
@@ -108,15 +110,19 @@ function switchToTab(tabId) {
 }
 
 /**
- * Creates a panel that displays the specified dataset information.
+ * Creates a panel that displays the specified dataset information as well as
+ * the "Export to PNG" button.
  *
  * @param datasetInfo the dataset information to display
  * @param exportPng the function to call when the user clicks the "Export to PNG" button
- * @return {HTMLDivElement} the panel with the dataset information
+ * @return the panel with the dataset information
  */
-function datasetInfoPanel(datasetInfo, exportPng) {
-    const datasetInfoPanel = document.createElement('div');
-    datasetInfoPanel.classList.add('dataset-info-panel');
+function leftPanel(datasetInfo, exportPng) {
+    const panel = document.createElement('div');
+    panel.classList.add('left-panel');
+
+    const infoContainer = document.createElement('div');
+    infoContainer.classList.add('info-container');
 
     const list = document.createElement('md-list');
 
@@ -142,7 +148,8 @@ function datasetInfoPanel(datasetInfo, exportPng) {
     });
     list.appendChild(columns);
 
-    datasetInfoPanel.appendChild(list);
+    infoContainer.appendChild(list);
+    panel.appendChild(infoContainer);
 
     const buttonContainer = document.createElement('div');
     buttonContainer.classList.add('export-button-container');
@@ -152,9 +159,9 @@ function datasetInfoPanel(datasetInfo, exportPng) {
     button.onclick = exportPng;
     buttonContainer.appendChild(button);
 
-    datasetInfoPanel.appendChild(buttonContainer);
+    panel.appendChild(buttonContainer);
 
-    return datasetInfoPanel;
+    return panel;
 }
 
 /**

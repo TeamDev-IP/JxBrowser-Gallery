@@ -1,5 +1,5 @@
-# The JavaScript bundle used for chart drawing.
-**/charts.js
-
 # The chart export results.
-**/exported/**
+**/images/**
+
+# The generated files used for chart drawing.
+**/widgets/**

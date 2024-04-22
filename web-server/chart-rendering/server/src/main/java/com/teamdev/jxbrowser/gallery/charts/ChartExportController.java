@@ -24,6 +24,7 @@ import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.license.internal.LicenseProvider;
+import io.micronaut.context.annotation.Context;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.QueryValue;
@@ -32,7 +33,6 @@ import io.micronaut.http.server.types.files.SystemFile;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 
@@ -41,29 +41,27 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
  *
  * <p>The process of rendering and exporting a chart is roughly the following:
  * <ol>
- *   <li>A pre-created {@link Browser} instance navigates to the local URL denoting
- *       the HTML canvas where the chart will be drawn.
- *   <li>The chart data is loaded and passed to the chart-drawing script via
- *       {@code frame.executeJavaScript(...)}.
- *   <li>A JavaScript function is called to draw the chart on the canvas.
+ *   <li>A {@link ChartWidget} instance with the passed chart parameters is created
+ *       and saved as an HTML file.
+ *   <li>A pre-created {@link Browser} instance loads the local URL denoting
+ *       the saved HTML file.
  *   <li>In case of an export to an image, the browser's bitmap, which now contains
  *       the rendered chart, is converted to {@code BufferedImage} and saved
  *       in the desired image format.
  *   <li>The saved file bytes are streamed back to the client as {@link SystemFile}.
  * </ol>
+ *
+ * @implNote This controller is of {@link Context} scope to avoid increased latency
+ * upon receiving the first request.
  */
 @Controller("/export")
+@Context
 final class ChartExportController {
 
     /**
      * A browser instance that is re-used for server-side rendering of the charts.
      */
     private final Browser browser;
-
-    /**
-     * The URL of the local HTML representing the canvas where the charts are drawn.
-     */
-    private final URL canvasUrl;
 
     /**
      * Creates a new controller instance.
@@ -81,39 +79,48 @@ final class ChartExportController {
                 .build();
         var engine = Engine.newInstance(options);
         browser = engine.newBrowser();
-        canvasUrl = new Resource("rendering/canvas.html").url();
     }
 
     /**
-     * Exports the "Fossil Fuels Consumption" chart to a PNG image.
+     * Exports the "Per Capita Energy Use" chart to a PNG image.
      *
      * @param params the parameters to pass to the chart drawing function
      * @return a {@link SystemFile} instance representing the exported PNG image
      * @throws IOException if an I/O error occurs during the operation
      */
-    @Get("/fossil-fuels-consumption/png")
-    SystemFile fossilFuelsConsumptionPng(@QueryValue String params) throws IOException {
+    @Get("/per-capita-energy-use/png")
+    SystemFile perCapitaEnergyUsePng(@QueryValue String params) throws IOException {
+        var widget = ChartWidget.createAndWriteToFile(
+                Dataset.PER_CAPITA_ENERGY_USE, "window.drawPerCapitaEnergyUseChart", params
+        );
+        var widgetUrl = widget.url();
         browser.navigation()
-               .loadUrlAndWait(canvasUrl.toString());
+               .loadUrlAndWait(widgetUrl.toString());
 
-        var data = Dataset.FOSSIL_FUELS_CONSUMPTION.dataAsString();
-        runChartDrawingJs(data, "window.drawFossilFuelsConsumptionChart", params);
-
-        var image = saveBitmapPng("exported/fossil-fuels-consumption.png");
-
+        var image = saveBitmapPng("images/per-capita-energy-use.png");
         return new SystemFile(image);
     }
 
-    private void runChartDrawingJs(String data,
-                                   String chartDrawingFunction,
-                                   String params) {
-        var mainFrame = browser.mainFrame()
-                .orElseThrow();
-        var javaScript = "const data = `%s`; %s('chart', data, %s);"
-                .formatted(
-                        data, chartDrawingFunction, params
-                );
-        mainFrame.executeJavaScript(javaScript);
+    /**
+     * Exports the "Energy Consumption by Source" chart to a PNG image.
+     *
+     * @param params the parameters to pass to the chart drawing function
+     * @return a {@link SystemFile} instance representing the exported PNG image
+     * @throws IOException if an I/O error occurs during the operation
+     */
+    @Get("/energy-consumption-by-source/png")
+    SystemFile energyConsumptionBySourcePng(@QueryValue String params) throws IOException {
+        var widget = ChartWidget.createAndWriteToFile(
+                Dataset.ENERGY_CONSUMPTION_BY_SOURCE,
+                "window.drawEnergyConsumptionBySourceChart",
+                params
+        );
+        var widgetUrl = widget.url();
+        browser.navigation()
+               .loadUrlAndWait(widgetUrl.toString());
+
+        var image = saveBitmapPng("images/energy-consumption-by-source.png");
+        return new SystemFile(image);
     }
 
     private File saveBitmapPng(String fileName) throws IOException {
