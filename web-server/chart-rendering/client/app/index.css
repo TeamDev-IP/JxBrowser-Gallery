@@ -19,6 +19,7 @@
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 :root {
     --md-sys-color-primary: #4769a2;
@@ -29,14 +30,31 @@
     --md-primary-tab-container-color: #ffffff;
 
     --md-list-container-color: #ffffff;
-    --md-list-item-label-text-color: #5b5b5b;
+    --md-list-item-label-text-color: #4769a2;
     --md-list-item-supporting-text-color: #5b5b5b;
+    }
+
+.column-title {
+    --md-list-item-bottom-space: 0px;
+    --md-list-item-trailing-space: 0px;
+    --md-list-item-top-space: 0px;
+    --md-list-item-one-line-container-height: 35px;
 }
 
 label {
     font-family: var(--md-ref-typeface-plain);
     font-size: 14px;
     color: var(--md-list-item-label-text-color);
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24;
+
+    color: #4769a2;
 }
 
 #tabs {

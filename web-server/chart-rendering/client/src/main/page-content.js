@@ -19,6 +19,7 @@
  */
 
 import '@material/web/button/outlined-button.js';
+import '@material/web/icon/icon.js';
 import '@material/web/list/list.js';
 import '@material/web/list/list-item.js';
 import '@material/web/tabs/primary-tab.js';
@@ -142,11 +143,27 @@ function leftPanel(datasetInfo, exportPng) {
 
     const columns = document.createElement('md-list-item');
     columns.appendChild(headline(`Columns`));
-    datasetInfo.columns.forEach(column => {
-        const text = `<li><i>${column.title}</i> - ${column.description}`;
-        columns.appendChild(supportingText(text));
-    });
     list.appendChild(columns);
+
+    const columnContainer = document.createElement('div');
+    datasetInfo.columns.forEach(column => {
+        const listItem = document.createElement('md-list-item');
+        listItem.classList.add('column-title');
+        const icon = document.createElement('md-icon');
+        icon.setAttribute('slot', 'start');
+        icon.classList.add('material-symbols-outlined');
+        if (column.type === 'number') {
+            icon.innerText = '123';
+        } else if (column.type === 'geo') {
+            icon.innerText = 'public';
+        } else if (column.type === 'string') {
+            icon.innerText = 'abc';
+        }
+        listItem.appendChild(supportingText(column.title));
+        listItem.appendChild(icon);
+        columnContainer.appendChild(listItem);
+    });
+    list.appendChild(columnContainer);
 
     infoContainer.appendChild(list);
     panel.appendChild(infoContainer);

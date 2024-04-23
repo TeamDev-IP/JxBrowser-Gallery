@@ -5,23 +5,23 @@
   "rowCount": 10604,
   "columns": [
     {
-      "title": "entity",
-      "type": "string",
+      "title": "Country or region",
+      "type": "geo",
       "description": "the name of the country or region"
     },
     {
-      "title": "code",
+      "title": "Region code",
       "type": "string",
       "description": "the country or region code"
     },
     {
-      "title": "year",
-      "type": "integer",
+      "title": "Year",
+      "type": "number",
       "description": "the year for which the data was recorded"
     },
     {
-      "title": "use",
-      "type": "float",
+      "title": "Per capita energy use",
+      "type": "number",
       "description": "the per capita energy use, kilowatt hours per person per year"
     }
   ],
