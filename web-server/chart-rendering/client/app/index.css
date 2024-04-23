@@ -32,7 +32,13 @@
     --md-list-container-color: #ffffff;
     --md-list-item-label-text-color: #4769a2;
     --md-list-item-supporting-text-color: #5b5b5b;
-    }
+}
+
+.dataset-description {
+    font-family: var(--md-ref-typeface-plain);
+    font-size: 14px;
+    color: var(--md-list-item-supporting-text-color);
+}
 
 .column-title {
     --md-list-item-bottom-space: 0px;
@@ -48,11 +54,7 @@ label {
 }
 
 .material-symbols-outlined {
-    font-variation-settings:
-            'FILL' 0,
-            'wght' 400,
-            'GRAD' 0,
-            'opsz' 24;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 
     color: #4769a2;
 }

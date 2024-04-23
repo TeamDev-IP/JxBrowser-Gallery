@@ -127,13 +127,10 @@ function leftPanel(datasetInfo, exportPng) {
 
     const list = document.createElement('md-list');
 
-    const title = document.createElement('md-list-item');
-    title.appendChild(headline(`${datasetInfo.title}`));
-    list.appendChild(title);
-
     const description = document.createElement('md-list-item');
-    description.appendChild(headline('Description'));
-    description.appendChild(supportingText(`${datasetInfo.description}`));
+    const div = headline(`${datasetInfo.description}`);
+    div.classList.add('dataset-description');
+    description.appendChild(div);
     list.appendChild(description);
 
     const rowCount = document.createElement('md-list-item');
