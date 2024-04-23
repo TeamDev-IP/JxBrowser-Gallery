@@ -345,7 +345,7 @@ export function drawEnergyConsumptionBySourceChart(
                             return value + ' TWh';
                         },
                     },
-                },
+                }
             },
             devicePixelRatio: 3,
             plugins: {

@@ -51,7 +51,7 @@ export function addPerCapitaEnergyUseChartControls(canvasId, data) {
         typeSelector,
         showLabelsCheckbox.label,
         showTrendlineCheckbox.label,
-        xAxisSlider.label,
+        xAxisSlider.label
     );
 
     return {
