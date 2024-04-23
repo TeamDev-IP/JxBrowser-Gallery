@@ -138,6 +138,7 @@ label {
 .controls-label {
     display: flex;
     align-items: center;
+    --md-list-item-label-text-color: #1d1b20;
 }
 
 .controls-checkbox {
