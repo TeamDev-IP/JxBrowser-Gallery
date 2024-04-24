@@ -133,9 +133,15 @@ function leftPanel(datasetInfo, exportPng) {
     description.appendChild(div);
     list.appendChild(description);
 
+    const rowCountLabel = document.createElement('span');
+    rowCountLabel.innerText = 'Row count: ';
+
+    const rowCountValue = document.createElement('span');
+    rowCountValue.className = 'row-count-value';
+    rowCountValue.innerText = datasetInfo.rowCount;
+
     const rowCount = document.createElement('md-list-item');
-    rowCount.appendChild(headline('Row count'));
-    rowCount.appendChild(supportingText(`${datasetInfo.rowCount}`));
+    rowCount.appendChild(headline(rowCountLabel.outerHTML + rowCountValue.outerHTML));
     list.appendChild(rowCount);
 
     const columns = document.createElement('md-list-item');
@@ -185,7 +191,7 @@ function headline(title) {
     const titleDiv = document.createElement('div');
     titleDiv.setAttribute('slot', 'headline');
     titleDiv.classList.add('md-typescale-title-small');
-    titleDiv.innerText = title;
+    titleDiv.innerHTML = title;
     return titleDiv;
 }
 

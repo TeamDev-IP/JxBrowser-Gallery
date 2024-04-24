@@ -34,19 +34,6 @@
     --md-list-item-supporting-text-color: #5b5b5b;
 }
 
-.dataset-description {
-    font-family: var(--md-ref-typeface-plain);
-    font-size: 14px;
-    color: var(--md-list-item-supporting-text-color);
-}
-
-.column-title {
-    --md-list-item-bottom-space: 0px;
-    --md-list-item-trailing-space: 0px;
-    --md-list-item-top-space: 0px;
-    --md-list-item-one-line-container-height: 35px;
-}
-
 label {
     font-family: var(--md-ref-typeface-plain);
     font-size: 14px;
@@ -99,6 +86,23 @@ label {
 
 .info-container:hover::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.dataset-description {
+    font-family: var(--md-ref-typeface-plain);
+    font-size: 14px;
+    color: var(--md-list-item-supporting-text-color);
+}
+
+.row-count-value {
+    color: var(--md-list-item-supporting-text-color);
+}
+
+.column-title {
+    --md-list-item-bottom-space: 0px;
+    --md-list-item-trailing-space: 0px;
+    --md-list-item-top-space: 0px;
+    --md-list-item-one-line-container-height: 35px;
 }
 
 .export-button-container {
