@@ -152,16 +152,7 @@ function leftPanel(datasetInfo, exportPng) {
     datasetInfo.columns.forEach(column => {
         const listItem = document.createElement('md-list-item');
         listItem.classList.add('column-title');
-        const icon = document.createElement('md-icon');
-        icon.setAttribute('slot', 'start');
-        icon.classList.add('material-symbols-outlined');
-        if (column.type === 'number') {
-            icon.innerText = '123';
-        } else if (column.type === 'geo') {
-            icon.innerText = 'public';
-        } else if (column.type === 'string') {
-            icon.innerText = 'abc';
-        }
+        const icon = columnIcon(column);
         listItem.appendChild(supportingText(column.title));
         listItem.appendChild(icon);
         columnContainer.appendChild(listItem);
@@ -182,6 +173,25 @@ function leftPanel(datasetInfo, exportPng) {
     panel.appendChild(buttonContainer);
 
     return panel;
+}
+
+/**
+ * Creates an icon to be included into a list item denoting a dataset column.
+ */
+function columnIcon(column) {
+    const icon = document.createElement('md-icon');
+    icon.setAttribute('slot', 'start');
+    icon.classList.add('material-symbols-outlined');
+    if (column.type === 'number') {
+        icon.innerText = '123';
+    } else if (column.type === 'geo') {
+        icon.innerText = 'public';
+    } else if (column.type === 'string') {
+        icon.innerText = 'abc';
+    } else {
+        throw new Error(`Unknown column type: ${column.type}.`);
+    }
+    return icon;
 }
 
 /**
