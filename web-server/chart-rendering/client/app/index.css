@@ -90,8 +90,6 @@ label {
 }
 
 .dataset-description {
-    font-family: var(--md-ref-typeface-plain);
-    font-size: 14px;
     color: var(--md-list-item-supporting-text-color);
 }
 
