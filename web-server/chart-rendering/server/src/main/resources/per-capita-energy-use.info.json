@@ -6,23 +6,19 @@
   "columns": [
     {
       "title": "Country or region",
-      "type": "geo",
-      "description": "the name of the country or region"
+      "type": "geo"
     },
     {
       "title": "Region code",
-      "type": "string",
-      "description": "the country or region code"
+      "type": "string"
     },
     {
       "title": "Year",
-      "type": "number",
-      "description": "the year for which the data was recorded"
+      "type": "number"
     },
     {
       "title": "Per capita energy use",
-      "type": "number",
-      "description": "the per capita energy use, kilowatt hours per person per year"
+      "type": "number"
     }
   ],
   "dataRef": "per-capita-energy-use.csv"

@@ -6,63 +6,51 @@
   "columns": [
     {
       "title": "Country or region",
-      "type": "geo",
-      "description": "the name of the country or region"
+      "type": "geo"
     },
     {
       "title": "Region code",
-      "type": "string",
-      "description": "the country or region code"
+      "type": "string"
     },
     {
       "title": "Year",
-      "type": "number",
-      "description": "the year for which the data was recorded"
+      "type": "number"
     },
     {
       "title": "Other renewables",
-      "type": "number",
-      "description": "the energy consumption from other renewables (including geothermal and biomass) in terawatt-hours"
+      "type": "number"
     },
     {
       "title": "Biofuels",
-      "type": "number",
-      "description": "the energy consumption from biofuels in terawatt-hours"
+      "type": "number"
     },
     {
       "title": "Solar",
-      "type": "number",
-      "description": "the energy consumption from solar power in terawatt-hours"
+      "type": "number"
     },
     {
       "title": "Wind",
-      "type": "number",
-      "description": "the energy consumption from wind power in terawatt-hours"
+      "type": "number"
     },
     {
       "title": "Hydro",
-      "type": "number",
-      "description": "the energy consumption from hydro power in terawatt-hours"
+      "type": "number"
     },
     {
       "title": "Nuclear",
-      "type": "number",
-      "description": "the energy consumption from nuclear power in terawatt-hours"
+      "type": "number"
     },
     {
       "title": "Gas",
-      "type": "number",
-      "description": "the energy consumption from gas in terawatt-hours"
+      "type": "number"
     },
     {
       "title": "Coal",
-      "type": "number",
-      "description": "the energy consumption from coal in terawatt-hours"
+      "type": "number"
     },
     {
       "title": "Oil",
-      "type": "number",
-      "description": "the energy consumption from oil in terawatt-hours"
+      "type": "number"
     }
   ],
   "dataRef": "energy-consumption-by-source.csv"
