@@ -1,7 +1,7 @@
 {
   "id": "per-capita-energy-use",
   "title": "Per capita energy use by region",
-  "description": "This chart shows country's average energy consumption per person each year, measured in kilowatt hours (kWh). The figures reflect the total energy consumption, including electricity, heating, and transportation.",
+  "description": "This chart shows country's or region's average energy consumption per person each year, measured in kilowatt hours (kWh). The figures reflect the total energy consumption, including electricity, heating, and transportation.",
   "rowCount": 10604,
   "columns": [
     {

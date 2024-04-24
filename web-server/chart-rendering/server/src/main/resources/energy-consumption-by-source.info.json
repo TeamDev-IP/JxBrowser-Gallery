@@ -1,7 +1,7 @@
 {
   "id": "energy-consumption-by-source",
   "title": "Energy consumption by source, by region",
-  "description": "This chart shows where countries get their energy from – coal, oil, gas, nuclear energy, or renewables. Energy consumption is shown per region, per year, in terawatt-hours (TWh).",
+  "description": "This chart shows where the countries/regions get their energy from – coal, oil, gas, nuclear energy, or renewables. Energy consumption is shown per region, per year, in terawatt-hours (TWh).",
   "rowCount": 6979,
   "columns": [
     {
