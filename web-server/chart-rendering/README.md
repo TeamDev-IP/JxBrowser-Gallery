@@ -9,21 +9,21 @@ The project is a web application that hosts [Chart.js][chart.js] charts visualiz
 for a couple of different datasets. The charts are initially rendered on the client side 
 where they can be tweaked and sent to the server for server-side rendering. The server side 
 runs the client-side JS in a headless JxBrowser instance to render the charts and export 
-them to the PNG format.
+them to PNG format.
 
 #### Client side
 
 The client side of the application is a simple web page that displays the dataset 
 information and provides the necessary controls for tweaking and exporting the charts. 
 The client side is implemented in JavaScript and uses the [Chart.js][chart.js] library 
-to render the charts. The app is styled using [Material 3][material] components.
+to render the charts. The app is styled with [Material 3][material] components.
 
 #### Server side
 
-The server side of the application is a Micronaut web server that uses the JxBrowser library
-to render charts as images on the server side. Using the client-side chart-drawing code,
-the server generates a widget that represents a rendered chart and exports it to PNG format
-with the help of JxBrowser:
+The server side of the application is a [Micronaut][micronaut] web server that 
+uses the JxBrowser library to render charts as images on the server side. Using 
+the client-side chart-drawing code, the server generates a widget that represents 
+a rendered chart and exports it to PNG format with the help of JxBrowser:
 ```java
 browser.navigation()
        .loadUrlAndWait("generated-widget.html");
@@ -49,8 +49,10 @@ The exported files are available for download in the browser and also appear
 under the `{project root}/web-server/chart-rendering/server/images` directory 
 on the server-local file system.
 
+[chart.js]: https://www.chartjs.org/
+[material]: https://m3.material.io/
+[micronaut]: https://micronaut.io/
 [java]: https://www.azul.com/downloads/#zulu
 [npm]: https://nodejs.org/en/download
 [gradle]: https://gradle.org/install
-[chart.js]: https://www.chartjs.org/
-[material]: https://m3.material.io/
+

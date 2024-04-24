@@ -122,7 +122,7 @@ export function drawPerCapitaEnergyUseChart(
     function datasets() {
         return [
             {
-                label: `Per capita energy use, kilowatt hours, ${params.entity}`,
+                label: `Per capita energy use, kWh, ${params.entity}`,
                 data: chartData
                     .filter(row => row[0] === params.entity)
                     .map(row => {
