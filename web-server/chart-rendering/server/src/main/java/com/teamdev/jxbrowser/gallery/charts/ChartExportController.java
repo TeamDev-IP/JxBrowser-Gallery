@@ -45,9 +45,8 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
  *       and saved as an HTML file.
  *   <li>A pre-created {@link Browser} instance loads the local URL denoting
  *       the saved HTML file.
- *   <li>In case of an export to an image, the browser's bitmap, which now contains
- *       the rendered chart, is converted to {@code BufferedImage} and saved
- *       in the desired image format.
+ *   <li>The browser's bitmap, which now contains the rendered chart, is converted
+ *       to {@code BufferedImage} and saved in the desired image format.
  *   <li>The saved file bytes are streamed back to the client as {@link SystemFile}.
  * </ol>
  *
