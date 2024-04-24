@@ -1,5 +1,5 @@
 # The chart export results.
 **/images/**
 
-# The generated files used for chart drawing.
+# The generated files used for chart rendering.
 **/widgets/**
