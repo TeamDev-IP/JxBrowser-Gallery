@@ -32,6 +32,7 @@
     --md-list-container-color: #ffffff;
     --md-list-item-label-text-color: #4769a2;
     --md-list-item-supporting-text-color: #5b5b5b;
+    --md-list-item-one-line-container-height: 50px;
 }
 
 label {
@@ -57,7 +58,7 @@ label {
 
 .tab-content {
     width: 90%;
-    max-height: 75vh;
+    height: 75vh;
     display: flex;
     justify-content: space-between;
 }
