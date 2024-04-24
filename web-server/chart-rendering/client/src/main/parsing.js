@@ -29,7 +29,7 @@ export function csvToArray(strData, strDelimiter) {
             '(?:"([^"]*(?:""[^"]*)*)"|' +
             '([^"\\' + strDelimiter + '\\r\\n]*))'
         ),
-        'gi',
+        'gi'
     );
     const arrData = [[]];
     let arrMatches = null;

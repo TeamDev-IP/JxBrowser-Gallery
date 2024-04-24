@@ -19,6 +19,7 @@
  */
 
 import '@material/web/button/outlined-button.js';
+import '@material/web/icon/icon.js';
 import '@material/web/list/list.js';
 import '@material/web/list/list-item.js';
 import '@material/web/tabs/primary-tab.js';
@@ -126,27 +127,37 @@ function leftPanel(datasetInfo, exportPng) {
 
     const list = document.createElement('md-list');
 
-    const title = document.createElement('md-list-item');
-    title.appendChild(headline(`${datasetInfo.title}`));
-    list.appendChild(title);
-
     const description = document.createElement('md-list-item');
-    description.appendChild(headline('Description'));
-    description.appendChild(supportingText(`${datasetInfo.description}`));
+    const div = headline(`${datasetInfo.description}`);
+    div.classList.add('dataset-description');
+    description.appendChild(div);
     list.appendChild(description);
 
+    const rowCountLabel = document.createElement('span');
+    rowCountLabel.innerText = 'Row count: ';
+
+    const rowCountValue = document.createElement('span');
+    rowCountValue.className = 'row-count-value';
+    rowCountValue.innerText = datasetInfo.rowCount;
+
     const rowCount = document.createElement('md-list-item');
-    rowCount.appendChild(headline('Row count'));
-    rowCount.appendChild(supportingText(`${datasetInfo.rowCount}`));
+    rowCount.appendChild(headline(rowCountLabel.outerHTML + rowCountValue.outerHTML));
     list.appendChild(rowCount);
 
     const columns = document.createElement('md-list-item');
     columns.appendChild(headline(`Columns`));
-    datasetInfo.columns.forEach(column => {
-        const text = `<li><i>${column.title}</i> - ${column.description}`;
-        columns.appendChild(supportingText(text));
-    });
     list.appendChild(columns);
+
+    const columnContainer = document.createElement('div');
+    datasetInfo.columns.forEach(column => {
+        const listItem = document.createElement('md-list-item');
+        listItem.classList.add('column-title');
+        const icon = columnIcon(column);
+        listItem.appendChild(supportingText(column.title));
+        listItem.appendChild(icon);
+        columnContainer.appendChild(listItem);
+    });
+    list.appendChild(columnContainer);
 
     infoContainer.appendChild(list);
     panel.appendChild(infoContainer);
@@ -165,13 +176,32 @@ function leftPanel(datasetInfo, exportPng) {
 }
 
 /**
+ * Creates an icon to be included into a list item denoting a dataset column.
+ */
+function columnIcon(column) {
+    const icon = document.createElement('md-icon');
+    icon.setAttribute('slot', 'start');
+    icon.classList.add('material-symbols-outlined');
+    if (column.type === 'number') {
+        icon.innerText = '123';
+    } else if (column.type === 'geo') {
+        icon.innerText = 'public';
+    } else if (column.type === 'string') {
+        icon.innerText = 'abc';
+    } else {
+        throw new Error(`Unknown column type: ${column.type}.`);
+    }
+    return icon;
+}
+
+/**
  * Creates a headline to be included into a list item.
  */
 function headline(title) {
     const titleDiv = document.createElement('div');
     titleDiv.setAttribute('slot', 'headline');
     titleDiv.classList.add('md-typescale-title-small');
-    titleDiv.innerText = title;
+    titleDiv.innerHTML = title;
     return titleDiv;
 }
 

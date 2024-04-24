@@ -122,7 +122,7 @@ export function drawPerCapitaEnergyUseChart(
     function datasets() {
         return [
             {
-                label: `Per capita energy use, kilowatt hours, ${params.entity}`,
+                label: `Per capita energy use, kWh, ${params.entity}`,
                 data: chartData
                     .filter(row => row[0] === params.entity)
                     .map(row => {
@@ -156,7 +156,6 @@ export function drawPerCapitaEnergyUseChart(
                 },
                 y: {
                     ticks: {
-                        stepSize: 10,
                         callback: function (value) {
                             return value + ' kWh';
                         },
@@ -345,7 +344,7 @@ export function drawEnergyConsumptionBySourceChart(
                             return value + ' TWh';
                         },
                     },
-                },
+                }
             },
             devicePixelRatio: 3,
             plugins: {

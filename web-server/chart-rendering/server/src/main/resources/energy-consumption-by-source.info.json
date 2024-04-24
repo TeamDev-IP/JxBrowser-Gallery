@@ -1,68 +1,56 @@
 {
   "id": "energy-consumption-by-source",
   "title": "Energy consumption by source, by region",
-  "description": "Energy consumption by source per region, per year, in terawatt-hours.",
+  "description": "This chart shows where the countries/regions get their energy from – coal, oil, gas, nuclear energy, or renewables. Energy consumption is shown per region, per year, in terawatt-hours (TWh).",
   "rowCount": 6979,
   "columns": [
     {
-      "title": "entity",
-      "type": "string",
-      "description": "the name of the country or region"
+      "title": "Country or region",
+      "type": "geo"
     },
     {
-      "title": "code",
-      "type": "string",
-      "description": "the country or region code"
+      "title": "Region code",
+      "type": "string"
     },
     {
-      "title": "year",
-      "type": "integer",
-      "description": "the year for which the data was recorded"
+      "title": "Year",
+      "type": "number"
     },
     {
-      "title": "other",
-      "type": "float",
-      "description": "the energy consumption from other renewables (including geothermal and biomass) in terawatt-hours"
+      "title": "Other renewables",
+      "type": "number"
     },
     {
-      "title": "biofuels",
-      "type": "float",
-      "description": "the energy consumption from biofuels in terawatt-hours"
+      "title": "Biofuels",
+      "type": "number"
     },
     {
-      "title": "solar",
-      "type": "float",
-      "description": "the energy consumption from solar power in terawatt-hours"
+      "title": "Solar",
+      "type": "number"
     },
     {
-      "title": "wind",
-      "type": "float",
-      "description": "the energy consumption from wind power in terawatt-hours"
+      "title": "Wind",
+      "type": "number"
     },
     {
-      "title": "hydro",
-      "type": "float",
-      "description": "the energy consumption from hydro power in terawatt-hours"
+      "title": "Hydro",
+      "type": "number"
     },
     {
-      "title": "nuclear",
-      "type": "float",
-      "description": "the energy consumption from nuclear power in terawatt-hours"
+      "title": "Nuclear",
+      "type": "number"
     },
     {
-      "title": "gas",
-      "type": "float",
-      "description": "the energy consumption from gas in terawatt-hours"
+      "title": "Gas",
+      "type": "number"
     },
     {
-      "title": "coal",
-      "type": "float",
-      "description": "the energy consumption from coal in terawatt-hours"
+      "title": "Coal",
+      "type": "number"
     },
     {
-      "title": "oil",
-      "type": "float",
-      "description": "the energy consumption from oil in terawatt-hours"
+      "title": "Oil",
+      "type": "number"
     }
   ],
   "dataRef": "energy-consumption-by-source.csv"
