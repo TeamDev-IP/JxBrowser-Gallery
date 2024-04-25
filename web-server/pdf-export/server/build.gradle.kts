@@ -1,8 +1,7 @@
 /*
  *  Copyright 2024, TeamDev. All rights reserved.
- *
+ *  
  *  Redistribution and use in source and/or binary forms, with or without
- *  modification, must retain the above copyright notice and the following
  *  disclaimer.
  *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -18,23 +17,16 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.get
-import gradle.libs
-
 plugins {
-    id("jvm-module")
-    id("jxbrowser")
-    id("io.micronaut.application")
-    id("io.ktor.plugin")
+    id("server-app")
+}
+
+application {
+    mainClass.set("com.example.MainKt")
 }
 
 dependencies {
-    implementation(project(":jxbrowser-license"))
-    runtimeOnly(libs.micronaut.serdeJackson)
-    runtimeOnly(libs.snakeyaml)
-}
-
-micronaut {
-    version = libs.versions.micronaut.get()
-    runtime("netty")
+    implementation("io.ktor:ktor-server-core-jvm")
+    implementation("io.ktor:ktor-server-netty-jvm")
+    implementation("ch.qos.logback:logback-classic:1.4.14")
 }

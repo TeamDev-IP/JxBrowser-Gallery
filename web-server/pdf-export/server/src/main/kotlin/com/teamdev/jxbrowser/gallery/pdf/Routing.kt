@@ -18,23 +18,18 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.get
-import gradle.libs
+package com.teamdev.jxbrowser.gallery.pdf
 
-plugins {
-    id("jvm-module")
-    id("jxbrowser")
-    id("io.micronaut.application")
-    id("io.ktor.plugin")
-}
+import io.ktor.server.application.Application
+import io.ktor.server.application.call
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.get
+import io.ktor.server.routing.routing
 
-dependencies {
-    implementation(project(":jxbrowser-license"))
-    runtimeOnly(libs.micronaut.serdeJackson)
-    runtimeOnly(libs.snakeyaml)
-}
-
-micronaut {
-    version = libs.versions.micronaut.get()
-    runtime("netty")
+fun Application.configureRouting() {
+    routing {
+        get("/") {
+            call.respondText("Hello World!")
+        }
+    }
 }

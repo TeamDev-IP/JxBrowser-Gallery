@@ -9,6 +9,7 @@ java-vendor = "AZUL" # See also: `org.gradle.jvm.toolchain.JvmVendorSpec`
 kotlin = "1.9.23" # https://github.com/JetBrains/kotlin/releases
 detekt = "1.23.6" # https://github.com/detekt/detekt/releases
 compose = "1.6.1" # https://github.com/JetBrains/compose-multiplatform/releases
+ktor-gradlePlugin = "2.3.10" # https://github.com/ktorio/ktor
 micronaut = "4.3.7" # https://github.com/micronaut-projects/micronaut-starter
 micronaut-gradlePlugin = "4.3.5" # https://github.com/micronaut-projects/micronaut-gradle-plugin
 micronaut-serdeJackson = "2.8.2" # https://mvnrepository.com/artifact/io.micronaut.serde/micronaut-serde-jackson
@@ -25,6 +26,7 @@ jxbrowser-gradlePlugin = { module = "com.teamdev.jxbrowser:JxBrowser-Gradle-Plug
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 detekt-gradlePlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+ktor-gradlePlugin = { module = "io.ktor.plugin:plugin", version.ref = "ktor-gradlePlugin" }
 micronaut-gradlePlugin = { module = "io.micronaut.gradle:micronaut-gradle-plugin", version.ref = "micronaut-gradlePlugin" }
 micronaut-serdeJackson = { module = "io.micronaut.serde:micronaut-serde-jackson", version.ref = "micronaut-serdeJackson" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
