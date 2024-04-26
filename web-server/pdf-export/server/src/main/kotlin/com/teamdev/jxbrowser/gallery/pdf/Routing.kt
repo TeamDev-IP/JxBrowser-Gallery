@@ -25,16 +25,14 @@ import io.ktor.server.application.call
 import io.ktor.server.response.respondFile
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
-import java.nio.file.Path
 import java.nio.file.Paths
-
-val PDF_PATH: Path = Paths.get("google.pdf")
 
 fun Application.configureRouting() {
     routing {
         get("/") {
-            Browser.printToPdfAndWait("https://google.com", PDF_PATH)
-            call.respondFile(PDF_PATH.toFile())
+            val pdfPath = Paths.get("exported.pdf")
+            Browser.printToPdfAndWait("https://google.com", pdfPath)
+            call.respondFile(pdfPath.toFile())
         }
     }
 }
