@@ -20,8 +20,6 @@
 
 package com.teamdev.jxbrowser.gallery.pdf
 
-import com.teamdev.jxbrowser.dsl.browser.mainFrame
-import com.teamdev.jxbrowser.dsl.browser.navigation
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.response.respondFile
@@ -33,12 +31,9 @@ import java.nio.file.Paths
 val PDF_PATH: Path = Paths.get("google.pdf")
 
 fun Application.configureRouting() {
-    val browser = browserForPrinting()
-
     routing {
         get("/") {
-            browser.navigation.loadUrlAndWait("https://google.com")
-            browser.mainFrame!!.print()
+            Browser.printToPdfAndWait("https://google.com", PDF_PATH)
             call.respondFile(PDF_PATH.toFile())
         }
     }

@@ -21,15 +21,14 @@
 package com.teamdev.jxbrowser.gallery.pdf
 
 import com.teamdev.jxbrowser.browser.Browser
-import com.teamdev.jxbrowser.browser.callback.PrintCallback
-import com.teamdev.jxbrowser.browser.callback.PrintHtmlCallback
 import com.teamdev.jxbrowser.dsl.Engine
-import com.teamdev.jxbrowser.dsl.register
 import com.teamdev.jxbrowser.engine.RenderingMode
 import com.teamdev.jxbrowser.license.JxBrowserLicense
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
 
-fun browserForPrinting(): Browser {
+val Browser = newBrowser()
+
+private fun newBrowser(): Browser {
     val licenseKey = LicenseProvider.key
     val engine = Engine(RenderingMode.HARDWARE_ACCELERATED) {
         options {
@@ -37,23 +36,5 @@ fun browserForPrinting(): Browser {
         }
     }
     val browser = engine.newBrowser()
-    browser.register(PrintCallback)
-    browser.register(PrintHtmlCallback)
     return browser
-}
-
-private val PrintCallback = PrintCallback { _, tell -> tell.print() }
-
-private val PrintHtmlCallback = PrintHtmlCallback { params: PrintHtmlCallback.Params,
-                                                    tell: PrintHtmlCallback.Action ->
-    val pdfPrinter = params
-        .printers()
-        .pdfPrinter()
-    pdfPrinter
-        .printJob()
-        .settings()
-        .pdfFilePath(PDF_PATH.toAbsolutePath())
-        .enablePrintingBackgrounds()
-        .apply()
-    tell.proceed(pdfPrinter)
 }
