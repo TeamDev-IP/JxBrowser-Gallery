@@ -31,7 +31,7 @@ fun Application.configureRouting() {
     routing {
         get("/") {
             val pdfPath = Paths.get("exported.pdf")
-            Browser.printToPdfAndWait("https://google.com", pdfPath)
+            Browser.printToPdfAndWait("https://teamdev.com/jxbrowser/", pdfPath)
             call.respondFile(pdfPath.toFile())
         }
     }
