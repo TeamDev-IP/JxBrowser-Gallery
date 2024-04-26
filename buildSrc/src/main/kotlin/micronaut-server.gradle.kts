@@ -25,7 +25,6 @@ plugins {
     id("jvm-module")
     id("jxbrowser")
     id("io.micronaut.application")
-    id("io.ktor.plugin")
 }
 
 dependencies {
