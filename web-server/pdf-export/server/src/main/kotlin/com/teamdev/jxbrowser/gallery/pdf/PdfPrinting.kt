@@ -42,8 +42,8 @@ const val PRINT_TIMEOUT_SECONDS = 5L
  *
  * The printing is performed in two steps:
  * 1. The [Browser] instance opens the webpage and waits for the page to be fully loaded.
- * 2. The print request is initiated. With the help of [PrintCallback] and [PrintHtmlCallback]
- * callbacks, the [Browser] instance is instructed to immediately proceed with printing
+ * 2. The print request is initiated. With the help of [PrintCallback] and [PrintHtmlCallback],
+ * the [Browser] instance is instructed to immediately proceed with printing
  * upon receiving such a request. The file is saved at the specified destination.
  *
  * The function blocks until the PDF is generated or the timeout has been reached.
