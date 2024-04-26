@@ -40,7 +40,7 @@ The image is then returned to the client side as a byte array.
 ### Running locally
 ```shell
    ./gradlew build
-   ./gradlew :web-server:chart-rendering:server:run -D"jxbrowser.license.key"=your_license_key
+   ./gradlew :web-server:chart-rendering:server:run
 ```
 After this, open `/server/chart-rendering/client/app/index.html` to launch 
 the client side of the application.
