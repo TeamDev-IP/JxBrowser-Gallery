@@ -22,7 +22,7 @@ plugins {
 }
 
 application {
-    mainClass.set("com.example.MainKt")
+    mainClass.set("com.teamdev.jxbrowser.gallery.pdf.MainKt")
 }
 
 dependencies {
