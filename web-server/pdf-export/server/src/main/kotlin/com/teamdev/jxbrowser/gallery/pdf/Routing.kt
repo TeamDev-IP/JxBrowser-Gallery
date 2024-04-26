@@ -20,12 +20,18 @@
 
 package com.teamdev.jxbrowser.gallery.pdf
 
+import com.teamdev.jxbrowser.browser.Browser
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.response.respondFile
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import java.nio.file.Paths
+
+/**
+ * The [Browser] instance used across the application.
+ */
+val browser = newBrowser()
 
 /**
  * Configures the [Application] routes.
@@ -39,7 +45,7 @@ fun Application.configureRouting() {
     routing {
         get("/") {
             val pdfPath = Paths.get("exported/webpage.pdf")
-            Browser.printToPdfAndWait("https://teamdev.com/jxbrowser/", pdfPath)
+            browser.printToPdfAndWait("https://teamdev.com/jxbrowser/", pdfPath)
             call.respondFile(pdfPath.toFile())
         }
     }

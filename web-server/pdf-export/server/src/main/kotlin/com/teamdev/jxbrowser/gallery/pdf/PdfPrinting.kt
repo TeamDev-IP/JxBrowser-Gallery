@@ -72,9 +72,11 @@ private val PrintCallback = PrintCallback { _, tell -> tell.print() }
  *
  * The [onCompleted] callback is invoked once the printing operation is completed.
  */
-private fun printHtmlCallback(destination:Path, onCompleted: () -> Unit): PrintHtmlCallback {
-    return PrintHtmlCallback { params: PrintHtmlCallback.Params,
-                               tell: PrintHtmlCallback.Action ->
+private fun printHtmlCallback(destination: Path, onCompleted: () -> Unit): PrintHtmlCallback {
+    return PrintHtmlCallback {
+            params: PrintHtmlCallback.Params,
+            tell: PrintHtmlCallback.Action,
+        ->
         val pdfPrinter = params
             .printers()
             .pdfPrinter()
