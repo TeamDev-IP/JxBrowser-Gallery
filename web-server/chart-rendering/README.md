@@ -47,7 +47,7 @@ the client side of the application.
 
 The exported files are available for download in the browser and also appear 
 under the `{project root}/web-server/chart-rendering/server/images` directory 
-on the server-local file system.
+on the local file system.
 
 [chart.js]: https://www.chartjs.org/
 [material]: https://m3.material.io/

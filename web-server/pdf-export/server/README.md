@@ -16,7 +16,7 @@ After this, open the URL specified in the console to access the server side of t
 
 The exported files are available for download in the browser and also appear 
 under the `{project root}/web-server/pdf-export/server/exported` directory 
-on the server-local file system.
+on the local file system.
 
 [jdk]: https://www.azul.com/downloads/#zulu
 [gradle]: https://gradle.org/install
