@@ -30,7 +30,7 @@ import java.nio.file.Paths
 fun Application.configureRouting() {
     routing {
         get("/") {
-            val pdfPath = Paths.get("exported.pdf")
+            val pdfPath = Paths.get("exported/exported.pdf")
             Browser.printToPdfAndWait("https://teamdev.com/jxbrowser/", pdfPath)
             call.respondFile(pdfPath.toFile())
         }
