@@ -31,8 +31,23 @@ import java.nio.file.Path
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
+/**
+ * The timeout for the PDF printing operation in seconds.
+ */
 const val PRINT_TIMEOUT_SECONDS = 5L
 
+/**
+ * Prints the webpage denoted by the passed [url] to a PDF file and saves
+ * the file to [dest].
+ *
+ * The printing is performed in two steps:
+ * 1. The [Browser] instance opens the webpage and waits for the page to be fully loaded.
+ * 2. The print request is initiated. With the help of [PrintCallback] and [PrintHtmlCallback]
+ * callbacks, the [Browser] instance is instructed to immediately proceed with printing
+ * upon receiving such a request. The file is saved at the specified destination.
+ *
+ * The function blocks until the PDF is generated or the timeout has been reached.
+ */
 fun Browser.printToPdfAndWait(url: String, dest: Path) {
     val latch = CountDownLatch(1)
     register(PrintCallback)
@@ -44,8 +59,19 @@ fun Browser.printToPdfAndWait(url: String, dest: Path) {
     latch.await(PRINT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
 }
 
+/**
+ * The callback that instructs the [Browser] to immediately print the webpage
+ * upon receiving a print request.
+ */
 private val PrintCallback = PrintCallback { _, tell -> tell.print() }
 
+/**
+ * Creates a [PrintHtmlCallback] that prints the webpage to a PDF file.
+ *
+ * The file is saved to the specified [destination].
+ *
+ * The [onCompleted] callback is invoked once the printing operation is completed.
+ */
 private fun printHtmlCallback(destination:Path, onCompleted: () -> Unit): PrintHtmlCallback {
     return PrintHtmlCallback { params: PrintHtmlCallback.Params,
                                tell: PrintHtmlCallback.Action ->

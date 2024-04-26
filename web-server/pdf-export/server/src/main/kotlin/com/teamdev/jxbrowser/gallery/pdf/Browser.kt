@@ -26,8 +26,14 @@ import com.teamdev.jxbrowser.engine.RenderingMode
 import com.teamdev.jxbrowser.license.JxBrowserLicense
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
 
+/**
+ * The [Browser] instance used across the application.
+ */
 val Browser = newBrowser()
 
+/**
+ * Creates a new [Browser] instance with the hardware accelerated rendering mode.
+ */
 private fun newBrowser(): Browser {
     val licenseKey = LicenseProvider.key
     val engine = Engine(RenderingMode.HARDWARE_ACCELERATED) {

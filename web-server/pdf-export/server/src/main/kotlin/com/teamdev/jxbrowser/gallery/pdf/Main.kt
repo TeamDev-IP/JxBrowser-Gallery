@@ -24,11 +24,17 @@ import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
+/**
+ * The main entry point of the application.
+ */
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
             .start(wait = true)
 }
 
+/**
+ * Performs the routing configuration for the application.
+ */
 fun Application.module() {
     configureRouting()
 }

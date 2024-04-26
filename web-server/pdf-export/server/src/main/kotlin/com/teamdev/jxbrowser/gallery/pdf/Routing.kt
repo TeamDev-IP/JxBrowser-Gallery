@@ -27,10 +27,18 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import java.nio.file.Paths
 
+/**
+ * Configures the [Application] routes.
+ *
+ * The index route makes the [Browser] generate a PDF from the webpage
+ * at "https://teamdev.com/jxbrowser/" and return this file to the client.
+ *
+ * The PDF is also saved locally on the server at a predefined path.
+ */
 fun Application.configureRouting() {
     routing {
         get("/") {
-            val pdfPath = Paths.get("exported/exported.pdf")
+            val pdfPath = Paths.get("exported/webpage.pdf")
             Browser.printToPdfAndWait("https://teamdev.com/jxbrowser/", pdfPath)
             call.respondFile(pdfPath.toFile())
         }
