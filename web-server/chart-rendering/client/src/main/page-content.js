@@ -144,21 +144,6 @@ function leftPanel(datasetInfo, exportPng) {
     rowCount.appendChild(headline(rowCountLabel.outerHTML + rowCountValue.outerHTML));
     list.appendChild(rowCount);
 
-    const columns = document.createElement('md-list-item');
-    columns.appendChild(headline(`Columns`));
-    list.appendChild(columns);
-
-    const columnContainer = document.createElement('div');
-    datasetInfo.columns.forEach(column => {
-        const listItem = document.createElement('md-list-item');
-        listItem.classList.add('column-title');
-        const icon = columnIcon(column);
-        listItem.appendChild(supportingText(column.title));
-        listItem.appendChild(icon);
-        columnContainer.appendChild(listItem);
-    });
-    list.appendChild(columnContainer);
-
     infoContainer.appendChild(list);
     panel.appendChild(infoContainer);
 
