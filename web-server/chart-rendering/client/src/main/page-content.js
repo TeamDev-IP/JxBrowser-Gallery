@@ -161,25 +161,6 @@ function leftPanel(datasetInfo, exportPng) {
 }
 
 /**
- * Creates an icon to be included into a list item denoting a dataset column.
- */
-function columnIcon(column) {
-    const icon = document.createElement('md-icon');
-    icon.setAttribute('slot', 'start');
-    icon.classList.add('material-symbols-outlined');
-    if (column.type === 'number') {
-        icon.innerText = '123';
-    } else if (column.type === 'geo') {
-        icon.innerText = 'public';
-    } else if (column.type === 'string') {
-        icon.innerText = 'abc';
-    } else {
-        throw new Error(`Unknown column type: ${column.type}.`);
-    }
-    return icon;
-}
-
-/**
  * Creates a headline to be included into a list item.
  */
 function headline(title) {
@@ -188,15 +169,4 @@ function headline(title) {
     titleDiv.classList.add('md-typescale-title-small');
     titleDiv.innerHTML = title;
     return titleDiv;
-}
-
-/**
- * Creates supporting text to be included into a list item.
- */
-function supportingText(text) {
-    const supportingTextDiv = document.createElement('div');
-    supportingTextDiv.setAttribute('slot', 'supporting-text');
-    supportingTextDiv.classList.add('md-typescale-body-small');
-    supportingTextDiv.innerHTML = text;
-    return supportingTextDiv;
 }
