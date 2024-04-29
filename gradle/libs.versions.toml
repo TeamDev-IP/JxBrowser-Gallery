@@ -1,6 +1,6 @@
 [versions]
 # Versions of JxBrowser and the related dependencies.
-jxbrowser = "8.0.0-eap.1" # https://europe-maven.pkg.dev/jxbrowser/eaps/com/teamdev/jxbrowser/jxbrowser-mac/maven-metadata.xml
+jxbrowser = "8.0.0-eap.2" # https://europe-maven.pkg.dev/jxbrowser/eaps/com/teamdev/jxbrowser/jxbrowser-mac/maven-metadata.xml
 jxbrowser-gradlePlugin = "1.0.2" # https://github.com/TeamDev-IP/JxBrowser-Gradle-Plugin/releases
 
 # Other platforms, libraries, and plugins.
@@ -9,6 +9,7 @@ java-vendor = "AZUL" # See also: `org.gradle.jvm.toolchain.JvmVendorSpec`
 kotlin = "1.9.23" # https://github.com/JetBrains/kotlin/releases
 detekt = "1.23.6" # https://github.com/detekt/detekt/releases
 compose = "1.6.1" # https://github.com/JetBrains/compose-multiplatform/releases
+ktor = "2.3.10" # https://github.com/ktorio/ktor
 micronaut = "4.3.7" # https://github.com/micronaut-projects/micronaut-starter
 micronaut-gradlePlugin = "4.3.5" # https://github.com/micronaut-projects/micronaut-gradle-plugin
 micronaut-serdeJackson = "2.8.2" # https://mvnrepository.com/artifact/io.micronaut.serde/micronaut-serde-jackson
@@ -16,6 +17,7 @@ gson = "2.10.1" # https://github.com/google/gson/releases
 snakeyaml = "2.2" # https://mvnrepository.com/artifact/org.yaml/snakeyaml
 j2html = "1.6.0" # https://github.com/tipsy/j2html/tags
 taskTree-gradlePlugin = "2.1.1" # https://github.com/dorongold/gradle-task-tree/releases
+logback = "1.5.6" # https://github.com/qos-ch/logback/releases
 
 [libraries]
 # Aliases for the JxBrowser-related dependencies.
@@ -25,9 +27,12 @@ jxbrowser-gradlePlugin = { module = "com.teamdev.jxbrowser:JxBrowser-Gradle-Plug
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 detekt-gradlePlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+ktor-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-gradlePlugin = { module = "io.ktor.plugin:plugin", version.ref = "ktor" }
 micronaut-gradlePlugin = { module = "io.micronaut.gradle:micronaut-gradle-plugin", version.ref = "micronaut-gradlePlugin" }
 micronaut-serdeJackson = { module = "io.micronaut.serde:micronaut-serde-jackson", version.ref = "micronaut-serdeJackson" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
 j2html = { module = "com.j2html:j2html", version.ref = "j2html" }
 taskTree-gradlePlugin = { module = "com.dorongold.plugins:task-tree", version.ref = "taskTree-gradlePlugin" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }

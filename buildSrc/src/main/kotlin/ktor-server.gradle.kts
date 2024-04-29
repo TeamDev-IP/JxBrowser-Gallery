@@ -21,24 +21,14 @@
 import gradle.libs
 
 plugins {
-    id("micronaut-server")
-}
-
-application {
-    mainClass.set("com.teamdev.jxbrowser.gallery.charts.Application")
+    id("jvm-module")
+    id("jxbrowser")
+    id("io.ktor.plugin")
 }
 
 dependencies {
-    implementation(libs.gson)
-    implementation(libs.j2html)
-}
-
-val dependentTasks = listOf("processResources", "inspectRuntimeClasspath")
-
-dependentTasks.forEach { taskName ->
-    tasks.named(taskName) {
-        // Ensure the client-side code is built first so that the chart-drawing
-        // JS bundle is available.
-        dependsOn(":web-server:chart-rendering:client:build")
-    }
+    implementation(project(":jxbrowser-license"))
+    implementation(jxbrowser.kotlin)
+    implementation(libs.ktor.netty)
+    implementation(libs.logback)
 }

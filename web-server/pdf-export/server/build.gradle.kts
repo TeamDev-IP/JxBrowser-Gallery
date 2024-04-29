@@ -1,8 +1,7 @@
 /*
  *  Copyright 2024, TeamDev. All rights reserved.
- *
+ *  
  *  Redistribution and use in source and/or binary forms, with or without
- *  modification, must retain the above copyright notice and the following
  *  disclaimer.
  *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -18,27 +17,10 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.libs
-
 plugins {
-    id("micronaut-server")
+    id("ktor-server")
 }
 
 application {
-    mainClass.set("com.teamdev.jxbrowser.gallery.charts.Application")
-}
-
-dependencies {
-    implementation(libs.gson)
-    implementation(libs.j2html)
-}
-
-val dependentTasks = listOf("processResources", "inspectRuntimeClasspath")
-
-dependentTasks.forEach { taskName ->
-    tasks.named(taskName) {
-        // Ensure the client-side code is built first so that the chart-drawing
-        // JS bundle is available.
-        dependsOn(":web-server:chart-rendering:client:build")
-    }
+    mainClass.set("com.teamdev.jxbrowser.gallery.pdf.MainKt")
 }

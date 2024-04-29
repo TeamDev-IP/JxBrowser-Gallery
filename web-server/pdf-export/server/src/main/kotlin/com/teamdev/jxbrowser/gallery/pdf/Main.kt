@@ -18,27 +18,23 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.libs
+package com.teamdev.jxbrowser.gallery.pdf
 
-plugins {
-    id("micronaut-server")
+import io.ktor.server.application.Application
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+
+/**
+ * The main entry point of the application.
+ */
+fun main() {
+    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
+        .start(wait = true)
 }
 
-application {
-    mainClass.set("com.teamdev.jxbrowser.gallery.charts.Application")
-}
-
-dependencies {
-    implementation(libs.gson)
-    implementation(libs.j2html)
-}
-
-val dependentTasks = listOf("processResources", "inspectRuntimeClasspath")
-
-dependentTasks.forEach { taskName ->
-    tasks.named(taskName) {
-        // Ensure the client-side code is built first so that the chart-drawing
-        // JS bundle is available.
-        dependsOn(":web-server:chart-rendering:client:build")
-    }
+/**
+ * Performs the routing configuration for the application.
+ */
+fun Application.module() {
+    configureRouting()
 }

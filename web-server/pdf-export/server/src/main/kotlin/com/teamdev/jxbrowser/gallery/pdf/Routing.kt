@@ -18,27 +18,35 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.libs
+package com.teamdev.jxbrowser.gallery.pdf
 
-plugins {
-    id("micronaut-server")
-}
+import com.teamdev.jxbrowser.browser.Browser
+import io.ktor.server.application.Application
+import io.ktor.server.application.call
+import io.ktor.server.response.respondFile
+import io.ktor.server.routing.get
+import io.ktor.server.routing.routing
+import java.nio.file.Paths
 
-application {
-    mainClass.set("com.teamdev.jxbrowser.gallery.charts.Application")
-}
+/**
+ * The [Browser] instance used across the application.
+ */
+val browser = newBrowser()
 
-dependencies {
-    implementation(libs.gson)
-    implementation(libs.j2html)
-}
-
-val dependentTasks = listOf("processResources", "inspectRuntimeClasspath")
-
-dependentTasks.forEach { taskName ->
-    tasks.named(taskName) {
-        // Ensure the client-side code is built first so that the chart-drawing
-        // JS bundle is available.
-        dependsOn(":web-server:chart-rendering:client:build")
+/**
+ * Configures the [Application] routes.
+ *
+ * The index route makes the [Browser] generate a PDF from the webpage
+ * at "https://teamdev.com/jxbrowser/" and return this file to the client.
+ *
+ * The PDF is also saved locally on the server at a predefined path.
+ */
+fun Application.configureRouting() {
+    routing {
+        get("/") {
+            val pdfPath = Paths.get("exported/webpage.pdf")
+            browser.printToPdfAndWait("https://teamdev.com/jxbrowser/", pdfPath)
+            call.respondFile(pdfPath.toFile())
+        }
     }
 }

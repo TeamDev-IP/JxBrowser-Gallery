@@ -18,27 +18,24 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.libs
+package com.teamdev.jxbrowser.gallery.pdf
 
-plugins {
-    id("micronaut-server")
-}
+import com.teamdev.jxbrowser.browser.Browser
+import com.teamdev.jxbrowser.dsl.Engine
+import com.teamdev.jxbrowser.engine.RenderingMode
+import com.teamdev.jxbrowser.license.JxBrowserLicense
+import com.teamdev.jxbrowser.license.internal.LicenseProvider
 
-application {
-    mainClass.set("com.teamdev.jxbrowser.gallery.charts.Application")
-}
-
-dependencies {
-    implementation(libs.gson)
-    implementation(libs.j2html)
-}
-
-val dependentTasks = listOf("processResources", "inspectRuntimeClasspath")
-
-dependentTasks.forEach { taskName ->
-    tasks.named(taskName) {
-        // Ensure the client-side code is built first so that the chart-drawing
-        // JS bundle is available.
-        dependsOn(":web-server:chart-rendering:client:build")
+/**
+ * Creates a new [Browser] instance with the hardware accelerated rendering mode.
+ */
+fun newBrowser(): Browser {
+    val licenseKey = LicenseProvider.key
+    val engine = Engine(RenderingMode.HARDWARE_ACCELERATED) {
+        options {
+            license = JxBrowserLicense(licenseKey)
+        }
     }
+    val browser = engine.newBrowser()
+    return browser
 }

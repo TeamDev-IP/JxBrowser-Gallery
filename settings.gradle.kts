@@ -24,5 +24,6 @@ include(
     "jxbrowser-license",
     "compose:pomodoro",
     "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server"
+    "web-server:chart-rendering:server",
+    "web-server:pdf-export:server"
 )

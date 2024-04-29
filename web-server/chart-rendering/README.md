@@ -40,14 +40,14 @@ The image is then returned to the client side as a byte array.
 ### Running locally
 ```shell
    ./gradlew build
-   ./gradlew :web-server:chart-rendering:server:run -D"jxbrowser.license.key"=your_license_key
+   ./gradlew :web-server:chart-rendering:server:run
 ```
 After this, open `/server/chart-rendering/client/app/index.html` to launch 
 the client side of the application.
 
 The exported files are available for download in the browser and also appear 
 under the `{project root}/web-server/chart-rendering/server/images` directory 
-on the server-local file system.
+on the local file system.
 
 [chart.js]: https://www.chartjs.org/
 [material]: https://m3.material.io/
