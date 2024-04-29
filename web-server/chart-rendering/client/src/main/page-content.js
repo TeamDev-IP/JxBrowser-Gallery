@@ -67,12 +67,13 @@ export function newTab(displayName, active) {
  *
  * @param tabId the ID of the tab to populate
  * @param datasetInfo the dataset information to display
+ * @param dataFileUrl the URL pointing to the file containing the dataset data
  * @param exportPng the function to call when the user clicks the "Export to PNG" button
  */
-export function populateTab(tabId, datasetInfo, exportPng) {
+export function populateTab(tabId, datasetInfo, dataFileUrl, exportPng) {
     const content = document.getElementById(tabId);
 
-    const leftPanelContainer = leftPanel(datasetInfo, exportPng);
+    const leftPanelContainer = leftPanel(datasetInfo, dataFileUrl, exportPng);
     content.appendChild(leftPanelContainer);
 
     const chartContainer = document.createElement('div');
@@ -115,10 +116,11 @@ function switchToTab(tabId) {
  * the "Export to PNG" button.
  *
  * @param datasetInfo the dataset information to display
+ * @param dataFileUrl the URL pointing to the file containing the dataset data
  * @param exportPng the function to call when the user clicks the "Export to PNG" button
  * @return the panel with the dataset information
  */
-function leftPanel(datasetInfo, exportPng) {
+function leftPanel(datasetInfo, dataFileUrl, exportPng) {
     const panel = document.createElement('div');
     panel.classList.add('left-panel');
 
@@ -154,6 +156,18 @@ function leftPanel(datasetInfo, exportPng) {
     const source = document.createElement('md-list-item');
     source.appendChild(headline(sourceLabel.outerHTML + sourceValue.outerHTML));
     list.appendChild(source);
+
+    const dataFileLinkLabel = document.createElement('span');
+    dataFileLinkLabel.innerText = 'Download: ';
+
+    const dataFileLinkValue = document.createElement('a');
+    dataFileLinkValue.href = dataFileUrl;
+    dataFileLinkValue.download = 'data.csv';
+    dataFileLinkValue.innerText = 'data.csv';
+
+    const dataFileLink = document.createElement('md-list-item');
+    dataFileLink.appendChild(headline(dataFileLinkLabel.outerHTML + dataFileLinkValue.outerHTML));
+    list.appendChild(dataFileLink);
 
     infoContainer.appendChild(list);
     panel.appendChild(infoContainer);
