@@ -97,6 +97,10 @@ label {
     color: var(--md-list-item-supporting-text-color);
 }
 
+.source-value {
+    color: var(--md-list-item-supporting-text-color);
+}
+
 .column-title {
     --md-list-item-bottom-space: 0px;
     --md-list-item-trailing-space: 0px;

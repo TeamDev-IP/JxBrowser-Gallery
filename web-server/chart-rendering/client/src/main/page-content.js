@@ -144,6 +144,17 @@ function leftPanel(datasetInfo, exportPng) {
     rowCount.appendChild(headline(rowCountLabel.outerHTML + rowCountValue.outerHTML));
     list.appendChild(rowCount);
 
+    const sourceLabel = document.createElement('span');
+    sourceLabel.innerText = 'Source: ';
+
+    const sourceValue = document.createElement('span');
+    sourceValue.className = 'source-value';
+    sourceValue.innerText = datasetInfo.source;
+
+    const source = document.createElement('md-list-item');
+    source.appendChild(headline(sourceLabel.outerHTML + sourceValue.outerHTML));
+    list.appendChild(source);
+
     infoContainer.appendChild(list);
     panel.appendChild(infoContainer);
 
