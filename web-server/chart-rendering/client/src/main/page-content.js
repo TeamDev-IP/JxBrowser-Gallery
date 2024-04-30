@@ -151,7 +151,7 @@ function leftPanel(datasetInfo, dataFileUrl, exportPng) {
 
     const sourceValue = document.createElement('span');
     sourceValue.className = 'source-value';
-    sourceValue.innerText = datasetInfo.source;
+    sourceValue.innerHTML = datasetInfo.source;
 
     const source = document.createElement('md-list-item');
     source.appendChild(headline(sourceLabel.outerHTML + sourceValue.outerHTML));
@@ -166,6 +166,7 @@ function leftPanel(datasetInfo, dataFileUrl, exportPng) {
     dataFileLinkValue.innerText = 'data.csv';
 
     const dataFileLink = document.createElement('md-list-item');
+    dataFileLink.classList.add('data-file-link');
     dataFileLink.appendChild(headline(dataFileLinkLabel.outerHTML + dataFileLinkValue.outerHTML));
     list.appendChild(dataFileLink);
 

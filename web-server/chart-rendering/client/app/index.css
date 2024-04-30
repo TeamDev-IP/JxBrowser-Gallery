@@ -101,6 +101,14 @@ label {
     color: var(--md-list-item-supporting-text-color);
 }
 
+.source-value a {
+    color: var(--md-list-item-label-text-color);
+}
+
+.data-file-link a {
+    color: var(--md-list-item-label-text-color);
+}
+
 .column-title {
     --md-list-item-bottom-space: 0px;
     --md-list-item-trailing-space: 0px;
