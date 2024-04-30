@@ -45,10 +45,10 @@ export function initPerCapitaEnergyUseChart() {
     const data = csvToArray(csvData);
 
     const blob = new Blob([csvData], {type: 'text/plain'});
-    const dataFileUrl = window.URL.createObjectURL(blob);
+    const dataUrl = window.URL.createObjectURL(blob);
 
     const tabId = newTab("Per capita energy use", true);
-    populateTab(tabId, datasetInfo, dataFileUrl, exportPng);
+    populateTab(tabId, datasetInfo, dataUrl, exportPng);
 
     drawPerCapitaEnergyUseChart(datasetInfo.id, data);
 
@@ -95,10 +95,10 @@ export function initEnergyConsumptionBySourceChart() {
     const data = csvToArray(csvData);
 
     const blob = new Blob([csvData], {type: 'text/plain'});
-    const dataFileUrl = window.URL.createObjectURL(blob);
+    const dataUrl = window.URL.createObjectURL(blob);
 
     const tabId = newTab("Energy consumption by source", false);
-    populateTab(tabId, datasetInfo, dataFileUrl, exportPng);
+    populateTab(tabId, datasetInfo, dataUrl, exportPng);
 
     drawEnergyConsumptionBySourceChart(datasetInfo.id, data);
 
