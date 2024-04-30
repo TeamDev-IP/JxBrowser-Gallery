@@ -67,13 +67,13 @@ export function newTab(displayName, active) {
  *
  * @param tabId the ID of the tab to populate
  * @param datasetInfo the dataset information to display
- * @param dataFileUrl the URL pointing to the file containing the dataset data
+ * @param datasetDataUrl the URL pointing to the file containing the dataset data
  * @param exportPng the function to call when the user clicks the "Export to PNG" button
  */
-export function populateTab(tabId, datasetInfo, dataFileUrl, exportPng) {
+export function populateTab(tabId, datasetInfo, datasetDataUrl, exportPng) {
     const content = document.getElementById(tabId);
 
-    const leftPanelContainer = leftPanel(datasetInfo, dataFileUrl, exportPng);
+    const leftPanelContainer = leftPanel(datasetInfo, datasetDataUrl, exportPng);
     content.appendChild(leftPanelContainer);
 
     const chartContainer = document.createElement('div');
