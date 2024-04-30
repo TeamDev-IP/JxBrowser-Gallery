@@ -3,6 +3,6 @@
   "title": "Energy consumption by source, by region",
   "description": "This chart shows where the countries/regions get their energy from – coal, oil, gas, nuclear energy, or renewables. Energy consumption is shown per region, per year, in terawatt-hours (TWh).",
   "rowCount": 6979,
-  "source": "Hannah Ritchie, Max Roser and Pablo Rosado (2020) - \"CO₂ and Greenhouse Gas Emissions\". Published online at OurWorldInData.org. Retrieved from: '<a href=\"https://ourworldindata.org/co2-and-greenhouse-gas-emissions\">https://ourworldindata.org/co2-and-greenhouse-gas-emissions</a>' [Online Resource]",
+  "source": "Hannah Ritchie, Max Roser and Pablo Rosado (2020) - \"CO₂ and Greenhouse Gas Emissions\". Published online at <a href=\"https://ourworldindata.org/co2-and-greenhouse-gas-emissions\">ourworldindata.org</a>.",
   "dataRef": "energy-consumption-by-source.csv"
 }
