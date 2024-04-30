@@ -112,15 +112,14 @@ function switchToTab(tabId) {
 }
 
 /**
- * Creates a panel that displays the specified dataset information as well as
- * the "Export to PNG" button.
+ * Creates a panel that displays the dataset information as well as the export button.
  *
  * @param datasetInfo the dataset information to display
- * @param dataFileUrl the URL pointing to the file containing the dataset data
+ * @param datasetDataUrl the URL pointing to the file containing the dataset data
  * @param exportPng the function to call when the user clicks the "Export to PNG" button
  * @return the panel with the dataset information
  */
-function leftPanel(datasetInfo, dataFileUrl, exportPng) {
+function leftPanel(datasetInfo, datasetDataUrl, exportPng) {
     const panel = document.createElement('div');
     panel.classList.add('left-panel');
 
@@ -131,7 +130,7 @@ function leftPanel(datasetInfo, dataFileUrl, exportPng) {
 
     const description = document.createElement('md-list-item');
     const div = headline(`${datasetInfo.description}`);
-    div.classList.add('dataset-description');
+    div.classList.add('description');
     description.appendChild(div);
     list.appendChild(description);
 
@@ -139,7 +138,7 @@ function leftPanel(datasetInfo, dataFileUrl, exportPng) {
     rowCountLabel.innerText = 'Row count: ';
 
     const rowCountValue = document.createElement('span');
-    rowCountValue.className = 'row-count-value';
+    rowCountValue.className = 'row-count';
     rowCountValue.innerText = datasetInfo.rowCount;
 
     const rowCount = document.createElement('md-list-item');
@@ -150,25 +149,25 @@ function leftPanel(datasetInfo, dataFileUrl, exportPng) {
     sourceLabel.innerText = 'Source: ';
 
     const sourceValue = document.createElement('span');
-    sourceValue.className = 'source-value';
+    sourceValue.className = 'source';
     sourceValue.innerHTML = datasetInfo.source;
 
     const source = document.createElement('md-list-item');
     source.appendChild(headline(sourceLabel.outerHTML + sourceValue.outerHTML));
     list.appendChild(source);
 
-    const dataFileLinkLabel = document.createElement('span');
-    dataFileLinkLabel.innerText = 'Download: ';
+    const dataLinkLabel = document.createElement('span');
+    dataLinkLabel.innerText = 'Download: ';
 
-    const dataFileLinkValue = document.createElement('a');
-    dataFileLinkValue.href = dataFileUrl;
-    dataFileLinkValue.download = 'data.csv';
-    dataFileLinkValue.innerText = 'data.csv';
+    const dataLinkValue = document.createElement('a');
+    dataLinkValue.href = datasetDataUrl;
+    dataLinkValue.download = 'data.csv';
+    dataLinkValue.innerText = 'data.csv';
 
-    const dataFileLink = document.createElement('md-list-item');
-    dataFileLink.classList.add('data-file-link');
-    dataFileLink.appendChild(headline(dataFileLinkLabel.outerHTML + dataFileLinkValue.outerHTML));
-    list.appendChild(dataFileLink);
+    const dataLink = document.createElement('md-list-item');
+    dataLink.classList.add('data-link');
+    dataLink.appendChild(headline(dataLinkLabel.outerHTML + dataLinkValue.outerHTML));
+    list.appendChild(dataLink);
 
     infoContainer.appendChild(list);
     panel.appendChild(infoContainer);
