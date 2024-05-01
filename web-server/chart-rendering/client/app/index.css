@@ -89,12 +89,24 @@ label {
     background: #555;
 }
 
-.dataset-description {
+.description {
     color: var(--md-list-item-supporting-text-color);
 }
 
-.row-count-value {
+.row-count {
     color: var(--md-list-item-supporting-text-color);
+}
+
+.source {
+    color: var(--md-list-item-supporting-text-color);
+}
+
+.source a {
+    color: var(--md-list-item-label-text-color);
+}
+
+.data-link a {
+    color: var(--md-list-item-label-text-color);
 }
 
 .column-title {

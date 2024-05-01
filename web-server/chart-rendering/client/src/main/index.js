@@ -44,8 +44,11 @@ export function initPerCapitaEnergyUseChart() {
     const csvData = httpGet(`${SERVER_URL}/dataset/per-capita-energy-use/data`);
     const data = csvToArray(csvData);
 
+    const blob = new Blob([csvData], {type: 'text/plain'});
+    const dataUrl = window.URL.createObjectURL(blob);
+
     const tabId = newTab("Per capita energy use", true);
-    populateTab(tabId, datasetInfo, exportPng);
+    populateTab(tabId, datasetInfo, dataUrl, exportPng);
 
     drawPerCapitaEnergyUseChart(datasetInfo.id, data);
 
@@ -91,8 +94,11 @@ export function initEnergyConsumptionBySourceChart() {
     const csvData = httpGet(`${SERVER_URL}/dataset/energy-consumption-by-source/data`);
     const data = csvToArray(csvData);
 
+    const blob = new Blob([csvData], {type: 'text/plain'});
+    const dataUrl = window.URL.createObjectURL(blob);
+
     const tabId = newTab("Energy consumption by source", false);
-    populateTab(tabId, datasetInfo, exportPng);
+    populateTab(tabId, datasetInfo, dataUrl, exportPng);
 
     drawEnergyConsumptionBySourceChart(datasetInfo.id, data);
 

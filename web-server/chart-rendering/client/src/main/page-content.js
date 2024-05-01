@@ -67,12 +67,13 @@ export function newTab(displayName, active) {
  *
  * @param tabId the ID of the tab to populate
  * @param datasetInfo the dataset information to display
+ * @param datasetDataUrl the URL pointing to the file containing the dataset data
  * @param exportPng the function to call when the user clicks the "Export to PNG" button
  */
-export function populateTab(tabId, datasetInfo, exportPng) {
+export function populateTab(tabId, datasetInfo, datasetDataUrl, exportPng) {
     const content = document.getElementById(tabId);
 
-    const leftPanelContainer = leftPanel(datasetInfo, exportPng);
+    const leftPanelContainer = leftPanel(datasetInfo, datasetDataUrl, exportPng);
     content.appendChild(leftPanelContainer);
 
     const chartContainer = document.createElement('div');
@@ -111,14 +112,14 @@ function switchToTab(tabId) {
 }
 
 /**
- * Creates a panel that displays the specified dataset information as well as
- * the "Export to PNG" button.
+ * Creates a panel that displays the dataset information as well as the export button.
  *
  * @param datasetInfo the dataset information to display
+ * @param datasetDataUrl the URL pointing to the file containing the dataset data
  * @param exportPng the function to call when the user clicks the "Export to PNG" button
  * @return the panel with the dataset information
  */
-function leftPanel(datasetInfo, exportPng) {
+function leftPanel(datasetInfo, datasetDataUrl, exportPng) {
     const panel = document.createElement('div');
     panel.classList.add('left-panel');
 
@@ -129,7 +130,7 @@ function leftPanel(datasetInfo, exportPng) {
 
     const description = document.createElement('md-list-item');
     const div = headline(`${datasetInfo.description}`);
-    div.classList.add('dataset-description');
+    div.classList.add('description');
     description.appendChild(div);
     list.appendChild(description);
 
@@ -137,27 +138,36 @@ function leftPanel(datasetInfo, exportPng) {
     rowCountLabel.innerText = 'Row count: ';
 
     const rowCountValue = document.createElement('span');
-    rowCountValue.className = 'row-count-value';
+    rowCountValue.className = 'row-count';
     rowCountValue.innerText = datasetInfo.rowCount;
 
     const rowCount = document.createElement('md-list-item');
     rowCount.appendChild(headline(rowCountLabel.outerHTML + rowCountValue.outerHTML));
     list.appendChild(rowCount);
 
-    const columns = document.createElement('md-list-item');
-    columns.appendChild(headline(`Columns`));
-    list.appendChild(columns);
+    const sourceLabel = document.createElement('span');
+    sourceLabel.innerText = 'Source: ';
 
-    const columnContainer = document.createElement('div');
-    datasetInfo.columns.forEach(column => {
-        const listItem = document.createElement('md-list-item');
-        listItem.classList.add('column-title');
-        const icon = columnIcon(column);
-        listItem.appendChild(supportingText(column.title));
-        listItem.appendChild(icon);
-        columnContainer.appendChild(listItem);
-    });
-    list.appendChild(columnContainer);
+    const sourceValue = document.createElement('span');
+    sourceValue.className = 'source';
+    sourceValue.innerHTML = datasetInfo.source;
+
+    const source = document.createElement('md-list-item');
+    source.appendChild(headline(sourceLabel.outerHTML + sourceValue.outerHTML));
+    list.appendChild(source);
+
+    const dataLinkLabel = document.createElement('span');
+    dataLinkLabel.innerText = 'Download: ';
+
+    const dataLinkValue = document.createElement('a');
+    dataLinkValue.href = datasetDataUrl;
+    dataLinkValue.download = 'data.csv';
+    dataLinkValue.innerText = 'data.csv';
+
+    const dataLink = document.createElement('md-list-item');
+    dataLink.classList.add('data-link');
+    dataLink.appendChild(headline(dataLinkLabel.outerHTML + dataLinkValue.outerHTML));
+    list.appendChild(dataLink);
 
     infoContainer.appendChild(list);
     panel.appendChild(infoContainer);
@@ -176,25 +186,6 @@ function leftPanel(datasetInfo, exportPng) {
 }
 
 /**
- * Creates an icon to be included into a list item denoting a dataset column.
- */
-function columnIcon(column) {
-    const icon = document.createElement('md-icon');
-    icon.setAttribute('slot', 'start');
-    icon.classList.add('material-symbols-outlined');
-    if (column.type === 'number') {
-        icon.innerText = '123';
-    } else if (column.type === 'geo') {
-        icon.innerText = 'public';
-    } else if (column.type === 'string') {
-        icon.innerText = 'abc';
-    } else {
-        throw new Error(`Unknown column type: ${column.type}.`);
-    }
-    return icon;
-}
-
-/**
  * Creates a headline to be included into a list item.
  */
 function headline(title) {
@@ -203,15 +194,4 @@ function headline(title) {
     titleDiv.classList.add('md-typescale-title-small');
     titleDiv.innerHTML = title;
     return titleDiv;
-}
-
-/**
- * Creates supporting text to be included into a list item.
- */
-function supportingText(text) {
-    const supportingTextDiv = document.createElement('div');
-    supportingTextDiv.setAttribute('slot', 'supporting-text');
-    supportingTextDiv.classList.add('md-typescale-body-small');
-    supportingTextDiv.innerHTML = text;
-    return supportingTextDiv;
 }

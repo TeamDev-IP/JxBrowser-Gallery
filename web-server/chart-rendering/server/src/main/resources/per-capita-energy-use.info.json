@@ -3,23 +3,6 @@
   "title": "Per capita energy use by region",
   "description": "This chart shows country's or region's average energy consumption per person each year, measured in kilowatt hours (kWh). The figures reflect the total energy consumption, including electricity, heating, and transportation.",
   "rowCount": 10604,
-  "columns": [
-    {
-      "title": "Country or region",
-      "type": "geo"
-    },
-    {
-      "title": "Region code",
-      "type": "string"
-    },
-    {
-      "title": "Year",
-      "type": "number"
-    },
-    {
-      "title": "Per capita energy use",
-      "type": "number"
-    }
-  ],
+  "source": "Hannah Ritchie, Max Roser and Pablo Rosado (2020) - \"CO₂ and Greenhouse Gas Emissions\". Published online at <a href=\"https://ourworldindata.org/co2-and-greenhouse-gas-emissions\">ourworldindata.org</a>.",
   "dataRef": "per-capita-energy-use.csv"
 }
