@@ -18,13 +18,12 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "jxbrowser-gallery"
+import gradle.web.buildWebProject
 
-include(
-    "jxbrowser-license",
-    "compose:pomodoro",
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+tasks {
+    val buildWebProject = buildWebProject(projectDir)
+
+    val build by registering {
+        dependsOn(buildWebProject)
+    }
+}

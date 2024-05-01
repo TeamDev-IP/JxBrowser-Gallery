@@ -18,13 +18,17 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "jxbrowser-gallery"
+import {defineConfig} from "vite"
 
-include(
-    "jxbrowser-license",
-    "compose:pomodoro",
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+// noinspection JSUnusedGlobalSymbols
+export default defineConfig({
+    build: {
+        emptyOutDir: false,
+        rollupOptions: {
+            input: './src/main/index.js',
+            output: {
+                entryFileNames: 'index.js',
+            }
+        },
+    },
+})
