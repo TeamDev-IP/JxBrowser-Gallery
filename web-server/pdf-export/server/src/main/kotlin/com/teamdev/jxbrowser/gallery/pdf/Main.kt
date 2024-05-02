@@ -21,8 +21,10 @@
 package com.teamdev.jxbrowser.gallery.pdf
 
 import io.ktor.server.application.Application
+import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.plugins.cors.routing.CORS
 
 /**
  * The main entry point of the application.
@@ -36,5 +38,8 @@ fun main() {
  * Performs the routing configuration for the application.
  */
 fun Application.module() {
+    install(CORS) {
+        anyHost()
+    }
     configureRouting()
 }

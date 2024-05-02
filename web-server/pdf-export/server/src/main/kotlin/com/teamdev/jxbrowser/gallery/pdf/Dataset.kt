@@ -24,7 +24,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 enum class Dataset(resourceName: String) {
-    DIETARY_COMPOSITION_BY_COUNTRY("dietary-composition-by-country.info.json");
+    DIETARY_COMPOSITION_BY_COUNTRY("/dietary-composition-by-country.info.json");
 
     private val info: DatasetInfo
     private val data: String

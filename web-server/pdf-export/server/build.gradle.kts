@@ -27,5 +27,6 @@ application {
 }
 
 dependencies {
+    implementation("io.ktor:ktor-server-cors:2.3.10")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 }
