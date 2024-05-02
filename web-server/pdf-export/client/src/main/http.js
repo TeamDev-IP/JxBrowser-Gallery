@@ -18,21 +18,15 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import {httpGet} from "./http";
-import { Grid } from "gridjs";
-import "gridjs/dist/theme/mermaid.css";
-import {csvToArray} from "./parsing";
-
-const data = httpGet('http://localhost:8080/dataset/dietary-composition-by-country/data');
-const array = csvToArray(data);
-console.log(array);
-const grid = new Grid({
-    columns: ["Entity", "Code", "Year", "Type", "Value"],
-    data: array,
-    pagination: {
-        limit: 20,
-        summary: false
-    }
-});
-
-grid.render(document.getElementById("content"));
+/**
+ * Sends a GET request to the specified URL and returns the response.
+ *
+ * @param url {string} the URL to send the request to
+ * @return {string} the response from the server
+ */
+export function httpGet(url) {
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open('GET', url, false);
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+}

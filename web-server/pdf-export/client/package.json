@@ -6,7 +6,8 @@
     "build": "vite build --config vite.config.js"
   },
   "dependencies": {
-    "@material/web": "^1.4.0"
+    "@material/web": "^1.4.0",
+    "gridjs": "^6.2.0"
   },
   "devDependencies": {
     "vite": "^5.1.2"
