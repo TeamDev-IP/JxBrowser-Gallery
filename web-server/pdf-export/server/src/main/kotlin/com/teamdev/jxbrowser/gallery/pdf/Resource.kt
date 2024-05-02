@@ -1,7 +1,8 @@
 /*
  *  Copyright 2024, TeamDev. All rights reserved.
- *  
+ *
  *  Redistribution and use in source and/or binary forms, with or without
+ *  modification, must retain the above copyright notice and the following
  *  disclaimer.
  *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -17,15 +18,8 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-plugins {
-    id("ktor-server")
-    kotlin("plugin.serialization") version "1.9.23"
-}
+package com.teamdev.jxbrowser.gallery.pdf
 
-application {
-    mainClass.set("com.teamdev.jxbrowser.gallery.pdf.MainKt")
-}
-
-dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+fun resourceAsText(path: String): String? {
+    return object {}.javaClass.getResource(path)?.readText()
 }

@@ -1,7 +1,8 @@
 /*
  *  Copyright 2024, TeamDev. All rights reserved.
- *  
+ *
  *  Redistribution and use in source and/or binary forms, with or without
+ *  modification, must retain the above copyright notice and the following
  *  disclaimer.
  *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -17,15 +18,38 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-plugins {
-    id("ktor-server")
-    kotlin("plugin.serialization") version "1.9.23"
+package com.teamdev.jxbrowser.gallery.pdf
+
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+
+enum class Dataset(resourceName: String) {
+    DIETARY_COMPOSITION_BY_COUNTRY("dietary-composition-by-country.info.json");
+
+    private val info: DatasetInfo
+    private val data: String
+
+    init {
+        val infoJson = resourceAsText(resourceName)!!
+        this.info = Json.decodeFromString<DatasetInfo>(infoJson)
+        this.data = resourceAsText(info.dataRef)!!
+    }
+
+    fun info(): DatasetInfo {
+        return info
+    }
+
+    fun data(): String {
+        return data
+    }
 }
 
-application {
-    mainClass.set("com.teamdev.jxbrowser.gallery.pdf.MainKt")
-}
-
-dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-}
+@Serializable
+data class DatasetInfo(
+    val id: String,
+    val title: String,
+    val description: String,
+    val rowCount: Int,
+    val source: String,
+    val dataRef: String,
+)
