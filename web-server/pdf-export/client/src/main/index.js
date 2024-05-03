@@ -18,7 +18,6 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import '@material/web/button/outlined-button.js';
 import {httpGet} from "./http";
 import "gridjs/dist/theme/mermaid.css";
 import {csvToArray} from "./parsing";
@@ -45,6 +44,7 @@ const grid = new Grid({
         }
     ],
     data: array,
+    search: true,
     pagination: {
         limit: 20,
         summary: true
