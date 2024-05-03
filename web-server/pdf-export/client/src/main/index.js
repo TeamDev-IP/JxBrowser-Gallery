@@ -18,20 +18,53 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import '@material/web/button/outlined-button.js';
 import {httpGet} from "./http";
-import { Grid } from "gridjs";
 import "gridjs/dist/theme/mermaid.css";
 import {csvToArray} from "./parsing";
+import { Grid, html } from "gridjs";
 
 const data = httpGet('http://localhost:8080/dataset/dietary-composition-by-country/data');
 const array = csvToArray(data);
 console.log(array);
 const grid = new Grid({
-    columns: ["Entity", "Code", "Year", "Type", "Value"],
+    columns: [
+        "Entity",
+        "Code",
+        "Year",
+        "Type",
+        {
+            name: html('<div style="border-bottom: 1px solid #ccc">Value, per person, per day</div>'),
+            formatter: (cell) => `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(3))} kcal`,
+            attributes: (cell) => {
+                return {
+                    'data-cell-content': cell,
+                    'style': 'text-align: right'
+                };
+            }
+        }
+    ],
     data: array,
     pagination: {
         limit: 20,
-        summary: false
+        summary: true
+    },
+    style: {
+        table: {
+            border: '1px solid #ccc',
+        },
+        th: {
+            color: '#000',
+            'border-bottom': '1px solid #ccc',
+            'text-align': 'left'
+        },
+        td: {
+            'text-align': 'left',
+            width: '100px'
+        }
+    },
+    className: {
+        paginationButton: 'btn btn-outline-secondary',
     }
 });
 
