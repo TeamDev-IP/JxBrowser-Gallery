@@ -56,5 +56,11 @@ fun Application.configureRouting() {
             val data = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.data()
             call.respondText(data)
         }
+
+        get("/") {
+            val pdfPath = Paths.get("exported/webpage.pdf")
+            browser.printToPdfAndWait("https://teamdev.com/jxbrowser/", pdfPath)
+            call.respondFile(pdfPath.toFile())
+        }
     }
 }
