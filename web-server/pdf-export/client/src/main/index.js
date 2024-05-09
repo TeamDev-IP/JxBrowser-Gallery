@@ -21,30 +21,29 @@
 import {httpGet} from "./http";
 import "gridjs/dist/theme/mermaid.css";
 import {csvToArray} from "./parsing";
-import { Grid, html } from "gridjs";
+import {Grid, html} from "gridjs";
 
-const data = httpGet('http://localhost:8080/dataset/dietary-composition-by-country/data');
-const array = csvToArray(data);
-console.log(array);
+const csv = httpGet('http://localhost:8080/dataset/dietary-composition-by-country/data');
+const data = csvToArray(csv);
+
 const grid = new Grid({
     columns: [
-        "Entity",
-        "Code",
-        "Year",
-        "Type",
+        {id: 'entity', name: 'Entity', width: '20%'},
+        {id: 'code', name: 'Code', width: '20%'},
+        {id: 'year', name: 'Year', width: '20%'},
+        {id: 'type', name: 'Type', width: '20%'},
         {
-            name: html('<div style="border-bottom: 1px solid #ccc">Value, per person, per day</div>'),
-            formatter: (cell) => `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(3))} kcal`,
-            attributes: (cell) => {
-                return {
-                    'data-cell-content': cell,
-                    'style': 'text-align: right'
-                };
-            }
+            id: 'value',
+            name: 'Value, per person, per day',
+            width: '20%',
+            formatter: (cell) => html(
+                '<div style="text-align: right">' +
+                `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(3))} kcal` +
+                '</div>'
+            ),
         }
     ],
-    data: array,
-    search: true,
+    data: data,
     pagination: {
         limit: 20,
         summary: true
@@ -52,6 +51,7 @@ const grid = new Grid({
     style: {
         table: {
             border: '1px solid #ccc',
+            width: '70%',
         },
         th: {
             color: '#000',
@@ -59,8 +59,7 @@ const grid = new Grid({
             'text-align': 'left'
         },
         td: {
-            'text-align': 'left',
-            width: '100px'
+            'text-align': 'left'
         }
     },
     className: {
@@ -68,4 +67,32 @@ const grid = new Grid({
     }
 });
 
-grid.render(document.getElementById("content"));
+grid.render(document.getElementById('content'));
+
+const filterableColumns = ["Entity", "Code", "Year", "Type"];
+const filters = filterableColumns.map((column) => {
+    const input = document.createElement("input");
+    input.placeholder = `Filter by ${column.toLowerCase()}`;
+    return input;
+});
+
+const filterContainer = document.getElementById('filters');
+filters.forEach(input => filterContainer.appendChild(input));
+
+filters.forEach((input) => {
+    input.addEventListener('input', () => {
+        const filteredData = applyFilters();
+        grid.updateConfig({
+            data: filteredData
+        }).forceRender();
+    });
+});
+
+function applyFilters() {
+    return data.filter(row => {
+        return filters.every((input, index) => {
+            const filterValue = input.value.toLowerCase();
+            return !filterValue || row[index] && row[index].toLowerCase().includes(filterValue);
+        });
+    });
+}
