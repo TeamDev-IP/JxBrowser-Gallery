@@ -64,7 +64,7 @@ const grid = new Grid({
         }
     },
     className: {
-        paginationButton: 'btn btn-outline-secondary',
+        paginationButton: 'btn btn-outline-dark',
     }
 });
 
