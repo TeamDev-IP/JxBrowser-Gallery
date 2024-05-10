@@ -35,10 +35,12 @@ export function leftPanel(datasetInfo, datasetDataUrl) {
     list.classList.add('list-group');
 
     const description = document.createElement('li');
-    description.classList.add('list-group-item');
-    description.classList.add('d-flex');
-    description.classList.add('justify-content-between');
-    description.classList.add('align-items-start');
+    description.classList.add(
+        'list-group-item',
+        'd-flex',
+        'justify-content-between',
+        'align-items-start', 'small'
+    );
     description.innerHTML = `${datasetInfo.description}`;
     list.appendChild(description);
 
@@ -49,11 +51,14 @@ export function leftPanel(datasetInfo, datasetDataUrl) {
     rowCountValue.innerText = datasetInfo.rowCount;
 
     const rowCount = document.createElement('li');
-    rowCount.classList.add('list-group-item');
-    rowCount.classList.add('d-flex');
-    rowCount.classList.add('justify-content-between');
-    rowCount.classList.add('align-items-start');
-    rowCount.appendChild(subheading(rowCountLabel.outerHTML + rowCountValue.outerHTML));
+    rowCount.classList.add(
+        'list-group-item',
+        'd-flex',
+        'justify-content-between',
+        'align-items-start',
+        'small'
+    );
+    rowCount.appendChild(div(rowCountLabel.outerHTML + rowCountValue.outerHTML));
     list.appendChild(rowCount);
 
     const sourceLabel = document.createElement('span');
@@ -63,11 +68,14 @@ export function leftPanel(datasetInfo, datasetDataUrl) {
     sourceValue.innerHTML = datasetInfo.source;
 
     const source = document.createElement('li');
-    source.classList.add('list-group-item');
-    source.classList.add('d-flex');
-    source.classList.add('justify-content-between');
-    source.classList.add('align-items-start');
-    source.appendChild(subheading(sourceLabel.outerHTML + sourceValue.outerHTML));
+    source.classList.add(
+        'list-group-item',
+        'd-flex',
+        'justify-content-between',
+        'align-items-start',
+        'small'
+    );
+    source.appendChild(div(sourceLabel.outerHTML + sourceValue.outerHTML));
     list.appendChild(source);
 
     const dataLinkLabel = document.createElement('span');
@@ -79,11 +87,14 @@ export function leftPanel(datasetInfo, datasetDataUrl) {
     dataLinkValue.innerText = 'data.csv';
 
     const dataLink = document.createElement('li');
-    dataLink.classList.add('list-group-item');
-    dataLink.classList.add('d-flex');
-    dataLink.classList.add('justify-content-between');
-    dataLink.classList.add('align-items-start');
-    dataLink.appendChild(subheading(dataLinkLabel.outerHTML + dataLinkValue.outerHTML));
+    dataLink.classList.add(
+        'list-group-item',
+        'd-flex',
+        'justify-content-between',
+        'align-items-start',
+        'small'
+    );
+    dataLink.appendChild(div(dataLinkLabel.outerHTML + dataLinkValue.outerHTML));
     list.appendChild(dataLink);
 
     infoContainer.appendChild(list);
@@ -92,8 +103,8 @@ export function leftPanel(datasetInfo, datasetDataUrl) {
     return panel;
 }
 
-function subheading(title) {
-    const titleDiv = document.createElement('div');
-    titleDiv.innerHTML = title;
-    return titleDiv;
+function div(html) {
+    const el = document.createElement('div');
+    el.innerHTML = html;
+    return el;
 }

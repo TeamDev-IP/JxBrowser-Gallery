@@ -22,7 +22,7 @@ import {httpGet} from "./http";
 import "gridjs/dist/theme/mermaid.css";
 import {csvToArray} from "./parsing";
 import {Grid, html} from "gridjs";
-import {leftPanel} from "./page-content";
+import {leftPanel} from "./left-panel";
 
 const SERVER_URL = 'http://localhost:8080';
 
