@@ -85,16 +85,10 @@ const grid = new Grid({
 grid.render(document.getElementById('grid'));
 
 const filterableColumns = ["Entity", "Code", "Year", "Type"];
-const filters = filterableColumns.map((column) => {
-    const input = document.createElement("input");
-    input.classList.add('filter');
-    input.placeholder = `Filter by ${column.toLowerCase()}`;
-    return input;
-});
+const filters = filterableColumns.map((column) => input(column));
 
 const filterContainer = document.getElementById('filters');
 filters.forEach(input => filterContainer.appendChild(input));
-
 filters.forEach((input) => {
     input.addEventListener('input', () => {
         const filteredData = applyFilters();
@@ -103,6 +97,14 @@ filters.forEach((input) => {
         }).forceRender();
     });
 });
+
+function input(column) {
+    const input = document.createElement("input");
+    const lowercaseColumn = column.toLowerCase();
+    input.classList.add(`filter-${lowercaseColumn}`);
+    input.placeholder = `Filter by ${lowercaseColumn}`;
+    return input;
+}
 
 function applyFilters() {
     return data.filter(row => {

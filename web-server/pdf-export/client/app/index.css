@@ -31,7 +31,18 @@
     flex: 5;
 }
 
-.filter {
-    margin-right: 1px;
-    width: 15.7%;
+.filter-entity {
+    width: 17.5%;
+}
+
+.filter-code {
+    width: 16.5%;
+}
+
+.filter-year {
+    width: 16.5%;
+}
+
+.filter-type {
+    width: 16.5%;
 }
