@@ -42,14 +42,16 @@ const grid = new Grid({
         {
             id: 'entity',
             name: 'Entity',
-            width: '15%'
+            width: '15%',
+            'max-width': '15%'
         },
         {
             id: 'code',
             name: 'Code',
             width: '10%',
+            'max-width': '10%',
             formatter: (cell) => html(
-                '<div style="text-align: center">' +
+                '<div class="centered-cell">' +
                 `${cell}` +
                 '</div>'
             )
@@ -58,8 +60,9 @@ const grid = new Grid({
             id: 'year',
             name: 'Year',
             width: '10%',
+            'max-width': '10%',
             formatter: (cell) => html(
-                '<div style="text-align: center">' +
+                '<div class="centered-cell">' +
                 `${cell}` +
                 '</div>'
             )
@@ -67,14 +70,16 @@ const grid = new Grid({
         {
             id: 'type',
             name: 'Type',
-            width: '15%'
+            width: '15%',
+            'max-width': '15%'
         },
         {
             id: 'value',
             name: 'Value',
             width: '10%',
+            'max-width': '10%',
             formatter: (cell) => html(
-                '<div style="text-align: right">' +
+                '<div class="right-aligned-cell">' +
                 `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(2))} kcal` +
                 '</div>'
             )
@@ -84,26 +89,6 @@ const grid = new Grid({
     pagination: {
         limit: 10,
         summary: true
-    },
-    style: {
-        table: {
-            border: '1px solid #ccc',
-            width: '90%'
-        },
-        th: {
-            'background-color': '#f9fafb',
-            border: '1px solid #e5e7eb',
-            'border-top': 'none',
-            color: '#6b7280',
-            outline: 0,
-            'text-align': 'center',
-            padding: '14px 24px'
-        },
-        td: {
-            border: '1px solid #e5e7eb',
-            'text-align': 'left',
-            padding: '12px 24px'
-        }
     },
     className: {
         paginationButton: 'btn btn-outline-dark',

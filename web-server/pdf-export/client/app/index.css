@@ -30,3 +30,37 @@
 #grid-container {
     flex: 5;
 }
+
+.gridjs-table {
+    width: 90%;
+    border: 1px solid #ccc;
+}
+
+.gridjs-th {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-top: none;
+    color: #6b7280;
+    outline: 0;
+    text-align: center;
+    padding: 14px 24px;
+}
+
+.gridjs-td {
+    border: 1px solid #e5e7eb;
+    text-align: left;
+    padding: 12px 24px;
+}
+
+.entity-column {
+    width: 15%;
+    max-width: 15%;
+}
+
+.centered-cell {
+    text-align: center;
+}
+
+.right-aligned-cell {
+    text-align: right;
+}
