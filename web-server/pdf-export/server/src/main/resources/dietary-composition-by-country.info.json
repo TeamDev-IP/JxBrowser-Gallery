@@ -2,7 +2,7 @@
   "id": "dietary-composition-by-country",
   "title": "Dietary composition by country",
   "description": "This dataset lists the dietary composition of countries around the world. It includes the calories potentially available for consumption from different food groups, such as cereals, vegetables, fruits, meat, and dairy. Measurements are given in kilocalories per person per day.",
-  "rowCount":5928,
+  "rowCount": 5928,
   "source": "Hannah Ritchie, Pablo Rosado and Max Roser (2023) - \"Diet Compositions\". Published online at <a href=\"https://ourworldindata.org/diet-compositions\">ourworldindata.org</a>.",
   "dataRef": "/dietary-composition-by-country.csv"
 }

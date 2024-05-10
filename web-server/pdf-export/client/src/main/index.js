@@ -22,9 +22,20 @@ import {httpGet} from "./http";
 import "gridjs/dist/theme/mermaid.css";
 import {csvToArray} from "./parsing";
 import {Grid, html} from "gridjs";
+import {leftPanel} from "./page-content";
 
-const csv = httpGet('http://localhost:8080/dataset/dietary-composition-by-country/data');
+const SERVER_URL = 'http://localhost:8080';
+
+const info = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/info`);
+const datasetInfo = JSON.parse(info);
+const csv = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/data`);
 const data = csvToArray(csv);
+
+const blob = new Blob([csv], {type: 'text/plain'});
+const dataUrl = window.URL.createObjectURL(blob);
+
+const infoPanel = leftPanel(datasetInfo, dataUrl);
+document.getElementById('info-container').prepend(infoPanel);
 
 const grid = new Grid({
     columns: [
@@ -51,15 +62,19 @@ const grid = new Grid({
     style: {
         table: {
             border: '1px solid #ccc',
-            width: '70%',
+            width: '85%'
         },
         th: {
             color: '#000',
             'border-bottom': '1px solid #ccc',
-            'text-align': 'left'
+            'text-align': 'left',
+            'padding-left': '3px',
+            'padding-right': '2px'
         },
         td: {
-            'text-align': 'left'
+            'text-align': 'left',
+            'padding-left': '3px',
+            'padding-right': '2px'
         }
     },
     className: {
@@ -67,11 +82,12 @@ const grid = new Grid({
     }
 });
 
-grid.render(document.getElementById('content'));
+grid.render(document.getElementById('grid'));
 
 const filterableColumns = ["Entity", "Code", "Year", "Type"];
 const filters = filterableColumns.map((column) => {
     const input = document.createElement("input");
+    input.classList.add('filter');
     input.placeholder = `Filter by ${column.toLowerCase()}`;
     return input;
 });
