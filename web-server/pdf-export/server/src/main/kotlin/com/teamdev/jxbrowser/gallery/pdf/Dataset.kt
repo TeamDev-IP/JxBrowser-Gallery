@@ -23,22 +23,42 @@ package com.teamdev.jxbrowser.gallery.pdf
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
+/**
+ * An enumeration of datasets available to the application.
+ */
 enum class Dataset(resourceName: String) {
     DIETARY_COMPOSITION_BY_COUNTRY("/dietary-composition-by-country.info.json");
 
+    /**
+     * The parsed dataset info.
+     */
     private val info: DatasetInfo
+
+    /**
+     * The dataset content.
+     */
     private val data: String
 
+    /**
+     * Initializes a new enum instance for the dataset denoted by the resource
+     * with the passed name.
+     */
     init {
         val infoJson = resourceAsText(resourceName)!!
         this.info = Json.decodeFromString<DatasetInfo>(infoJson)
         this.data = resourceAsText(info.dataRef)!!
     }
 
+    /**
+     * Returns the dataset info.
+     */
     fun info(): DatasetInfo {
         return info
     }
 
+    /**
+     * Returns the dataset content.
+     */
     fun data(): String {
         return data
     }

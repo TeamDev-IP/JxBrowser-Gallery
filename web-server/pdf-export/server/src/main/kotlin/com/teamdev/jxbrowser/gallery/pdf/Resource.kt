@@ -20,6 +20,9 @@
 
 package com.teamdev.jxbrowser.gallery.pdf
 
+/**
+ * Reads the text content of the resource denoted by the passed path.
+ */
 fun resourceAsText(path: String): String? {
     return object {}.javaClass.getResource(path)?.readText()
 }
