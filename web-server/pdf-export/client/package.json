@@ -1,7 +1,7 @@
 {
   "name": "charts",
   "version": "1.0.0",
-  "description": "The server-side chart rendering application.",
+  "description": "The server-side PDF rendering application.",
   "scripts": {
     "build": "vite build --config vite.config.js"
   },

@@ -22,7 +22,7 @@ import {Grid, html} from "gridjs";
 import {newFiltersFor} from "./filters";
 
 /**
- * Creates a new grid visualizing the data about dietary composition by country.
+ * Creates a new grid visualizing the data about the dietary composition by country.
  *
  * @param data the data to visualize in the form of a two-dimensional array
  * @return the created {@link Grid} instance
@@ -116,7 +116,7 @@ function createFilters(grid, data) {
         {name: "Year", index: 2, width: widths[2]},
         {name: "Type", index: 3, width: widths[3]}
     ];
-    const filters = newFiltersFor(filterableColumns, values => applyFilters(grid, data, values))
+    const filters = newFiltersFor(filterableColumns, values => applyFilters(grid, data, values));
     return filters;
 }
 
@@ -138,7 +138,7 @@ function applyFilters(grid, data, filterValues) {
 }
 
 /**
- * Listens to the grid state changes and triggers `onRendered` when the grid is fully rendered.
+ * Listens to the grid state changes and triggers {@code onRendered} when the grid is fully rendered.
  */
 function renderStateListener(state, prevState, onRendered) {
     if (prevState.status < state.status) {

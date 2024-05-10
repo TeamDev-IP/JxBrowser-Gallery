@@ -25,15 +25,15 @@ import {newGrid} from "./grid";
 
 const SERVER_URL = 'http://localhost:8080';
 
-const info = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/info`);
-const datasetInfo = JSON.parse(info);
+const datasetInfo = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/info`);
+const parsedInfo = JSON.parse(datasetInfo);
 const csv = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/data`);
 const data = csvToArray(csv);
 
 const blob = new Blob([csv], {type: 'text/plain'});
 const dataUrl = window.URL.createObjectURL(blob);
 
-const infoPanel = newLeftPanel(datasetInfo, dataUrl);
+const infoPanel = newLeftPanel(parsedInfo, dataUrl);
 document.getElementById('info-container').prepend(infoPanel);
 
 const grid = newGrid(data);

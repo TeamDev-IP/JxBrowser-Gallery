@@ -57,5 +57,3 @@ export function csvToArray(strData, strDelimiter) {
     }
     return (arrData);
 }
-
-window.csvToArray = csvToArray;
