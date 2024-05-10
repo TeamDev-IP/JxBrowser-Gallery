@@ -25,86 +25,34 @@
  * @param datasetDataUrl the URL pointing to the file containing the dataset data
  * @return the panel with the dataset information
  */
-export function leftPanel(datasetInfo, datasetDataUrl) {
+export function newLeftPanel(datasetInfo, datasetDataUrl) {
     const panel = document.createElement('div');
-    panel.id = 'left-panel';
-
-    const infoContainer = document.createElement('div');
 
     const list = document.createElement('ul');
     list.classList.add('list-group');
 
-    const description = document.createElement('li');
-    description.classList.add(
-        'list-group-item',
-        'd-flex',
-        'justify-content-between',
-        'align-items-start', 'small'
-    );
-    description.innerHTML = `${datasetInfo.description}`;
-    list.appendChild(description);
+    addListItem(list, `${datasetInfo.description}`);
+    addListItem(list, `<h6>Row count</h6> ${datasetInfo.rowCount}`);
+    addListItem(list, `<h6>Source</h6> ${datasetInfo.source}`);
 
-    const rowCountLabel = document.createElement('span');
-    rowCountLabel.innerText = 'Row count: ';
+    const dataLink = document.createElement('a');
+    dataLink.href = datasetDataUrl;
+    dataLink.download = 'data.csv';
+    dataLink.innerText = 'data.csv';
+    addListItem(list, `<h6>Download</h6> ${dataLink.outerHTML}`)
 
-    const rowCountValue = document.createElement('span');
-    rowCountValue.innerText = datasetInfo.rowCount;
-
-    const rowCount = document.createElement('li');
-    rowCount.classList.add(
-        'list-group-item',
-        'd-flex',
-        'justify-content-between',
-        'align-items-start',
-        'small'
-    );
-    rowCount.appendChild(div(rowCountLabel.outerHTML + rowCountValue.outerHTML));
-    list.appendChild(rowCount);
-
-    const sourceLabel = document.createElement('span');
-    sourceLabel.innerText = 'Source: ';
-
-    const sourceValue = document.createElement('span');
-    sourceValue.innerHTML = datasetInfo.source;
-
-    const source = document.createElement('li');
-    source.classList.add(
-        'list-group-item',
-        'd-flex',
-        'justify-content-between',
-        'align-items-start',
-        'small'
-    );
-    source.appendChild(div(sourceLabel.outerHTML + sourceValue.outerHTML));
-    list.appendChild(source);
-
-    const dataLinkLabel = document.createElement('span');
-    dataLinkLabel.innerText = 'Download: ';
-
-    const dataLinkValue = document.createElement('a');
-    dataLinkValue.href = datasetDataUrl;
-    dataLinkValue.download = 'data.csv';
-    dataLinkValue.innerText = 'data.csv';
-
-    const dataLink = document.createElement('li');
-    dataLink.classList.add(
-        'list-group-item',
-        'd-flex',
-        'justify-content-between',
-        'align-items-start',
-        'small'
-    );
-    dataLink.appendChild(div(dataLinkLabel.outerHTML + dataLinkValue.outerHTML));
-    list.appendChild(dataLink);
-
-    infoContainer.appendChild(list);
-    panel.appendChild(infoContainer);
+    panel.appendChild(list);
 
     return panel;
 }
 
-function div(html) {
-    const el = document.createElement('div');
-    el.innerHTML = html;
-    return el;
+function addListItem(list, html) {
+    const item = document.createElement('li');
+    item.classList.add(
+        'list-group-item',
+        'align-items-start',
+        'small'
+    );
+    item.innerHTML = html;
+    list.appendChild(item);
 }

@@ -18,23 +18,26 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import {httpGet} from "./http";
-import {csvToArray} from "./parsing";
-import {newLeftPanel} from "./left-panel";
-import {newGrid} from "./grid";
+export function newFiltersFor(columns, applyFiltering) {
+    const filters = columns.map((column) => input(column));
+    const filterContainer = document.getElementById('filters');
+    filters.forEach(filter => filterContainer.appendChild(filter));
+    filters.forEach((filter) => {
+        filter.addEventListener('input', () => {
+            const values = filters.map(input => {
+                return {index: input.index, value: input.value};
+            });
+            applyFiltering(values);
+        });
+    });
+    return filters;
+}
 
-const SERVER_URL = 'http://localhost:8080';
-
-const info = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/info`);
-const datasetInfo = JSON.parse(info);
-const csv = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/data`);
-const data = csvToArray(csv);
-
-const blob = new Blob([csv], {type: 'text/plain'});
-const dataUrl = window.URL.createObjectURL(blob);
-
-const infoPanel = newLeftPanel(datasetInfo, dataUrl);
-document.getElementById('info-container').prepend(infoPanel);
-
-const grid = newGrid(data);
-grid.render(document.getElementById('grid'));
+function input(filterableColumn) {
+    const input = document.createElement("input");
+    const lowercaseColumn = filterableColumn.name.toLowerCase();
+    input.placeholder = `Filter by ${lowercaseColumn}`;
+    input.style.width = `${filterableColumn.width}px`;
+    input.index = filterableColumn.index;
+    return input;
+}
