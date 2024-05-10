@@ -39,6 +39,7 @@ dependencies {
     implementation(generatedVersionCatalog())
     implementation(libs.kotlin.gradlePlugin)
     implementation(libs.detekt.gradlePlugin)
+    implementation(libs.kotlin.serialization.gradlePlugin)
     implementation(libs.jxbrowser.gradlePlugin)
     implementation(libs.compose.gradlePlugin)
     implementation(libs.ktor.gradlePlugin)

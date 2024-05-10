@@ -17,9 +17,11 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import gradle.libs
+
 plugins {
     id("ktor-server")
-    kotlin("plugin.serialization") version "1.9.23"
+    kotlin("plugin.serialization")
 }
 
 application {
@@ -27,6 +29,6 @@ application {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-cors:2.3.10")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.ktor.cors)
+    implementation(libs.kotlin.serialization)
 }
