@@ -18,6 +18,13 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * Creates input elements for filtering the data in the grid.
+ *
+ * @param columns the filterable columns
+ * @param applyFiltering the function which applies the filtering
+ * @return the created filter elements
+ */
 export function newFiltersFor(columns, applyFiltering) {
     const filters = columns.map((column) => input(column));
     const filterContainer = document.getElementById('filters');
@@ -33,6 +40,9 @@ export function newFiltersFor(columns, applyFiltering) {
     return filters;
 }
 
+/**
+ * Creates an input element for filtering the data by the passed column.
+ */
 function input(filterableColumn) {
     const input = document.createElement("input");
     const lowercaseColumn = filterableColumn.name.toLowerCase();

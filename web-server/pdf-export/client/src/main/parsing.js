@@ -20,6 +20,8 @@
 
 /**
  * Parses the CSV data from a string into a JS array.
+ *
+ * <p>Omits the first row of the CSV data, which is assumed to be the header.
  */
 export function csvToArray(strData, strDelimiter) {
     strDelimiter = (strDelimiter || ',');
