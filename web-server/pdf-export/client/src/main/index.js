@@ -39,42 +39,70 @@ document.getElementById('info-container').prepend(infoPanel);
 
 const grid = new Grid({
     columns: [
-        {id: 'entity', name: 'Entity', width: '20%'},
-        {id: 'code', name: 'Code', width: '20%'},
-        {id: 'year', name: 'Year', width: '20%'},
-        {id: 'type', name: 'Type', width: '20%'},
+        {
+            id: 'entity',
+            name: 'Entity',
+            width: '15%'
+        },
+        {
+            id: 'code',
+            name: 'Code',
+            width: '10%',
+            formatter: (cell) => html(
+                '<div style="text-align: center">' +
+                `${cell}` +
+                '</div>'
+            )
+        },
+        {
+            id: 'year',
+            name: 'Year',
+            width: '10%',
+            formatter: (cell) => html(
+                '<div style="text-align: center">' +
+                `${cell}` +
+                '</div>'
+            )
+        },
+        {
+            id: 'type',
+            name: 'Type',
+            width: '15%'
+        },
         {
             id: 'value',
-            name: 'Value, per person, per day',
-            width: '20%',
+            name: 'Value',
+            width: '10%',
             formatter: (cell) => html(
                 '<div style="text-align: right">' +
                 `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(3))} kcal` +
                 '</div>'
-            ),
+            )
         }
     ],
     data: data,
     pagination: {
-        limit: 20,
+        limit: 10,
         summary: true
     },
     style: {
         table: {
             border: '1px solid #ccc',
-            width: '85%'
+            width: '90%'
         },
         th: {
-            color: '#000',
-            'border-bottom': '1px solid #ccc',
-            'text-align': 'left',
-            'padding-left': '3px',
-            'padding-right': '2px'
+            'background-color': '#f9fafb',
+            border: '1px solid #e5e7eb',
+            'border-top': 'none',
+            color: '#6b7280',
+            outline: 0,
+            'text-align': 'center',
+            padding: '14px 24px'
         },
         td: {
+            border: '1px solid #e5e7eb',
             'text-align': 'left',
-            'padding-left': '3px',
-            'padding-right': '2px'
+            padding: '12px 24px'
         }
     },
     className: {
@@ -82,7 +110,8 @@ const grid = new Grid({
     }
 });
 
-grid.render(document.getElementById('grid'));
+grid.config.store.subscribe(readyStateListener);
+grid.render(document.getElementById('grid'))
 
 const filterableColumns = ["Entity", "Code", "Year", "Type"];
 const filters = filterableColumns.map((column) => input(column));
@@ -112,5 +141,28 @@ function applyFilters() {
             const filterValue = input.value.toLowerCase();
             return !filterValue || row[index] && row[index].toLowerCase().includes(filterValue);
         });
+    });
+}
+
+function readyStateListener(state, prevState) {
+    if (prevState.status < state.status) {
+        if (prevState.status === 2 && state.status === 3) {
+            onGridRendered();
+        }
+    }
+}
+
+function onGridRendered() {
+    const headers = document.querySelectorAll('.gridjs-th');
+    headers.forEach((header, index) => {
+        const width = header.offsetWidth;
+        const column = filterableColumns[index];
+        if (!column) {
+            return;
+        }
+        const filterInput = document.querySelector(`.filter-${column.toLowerCase()}`);
+        if (filterInput) {
+            filterInput.style.width = `${width}px`;
+        }
     });
 }
