@@ -75,7 +75,7 @@ const grid = new Grid({
             width: '10%',
             formatter: (cell) => html(
                 '<div style="text-align: right">' +
-                `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(3))} kcal` +
+                `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(2))} kcal` +
                 '</div>'
             )
         }
