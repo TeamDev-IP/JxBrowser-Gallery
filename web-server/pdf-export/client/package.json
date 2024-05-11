@@ -1,5 +1,5 @@
 {
-  "name": "charts",
+  "name": "pdf-export",
   "version": "1.0.0",
   "description": "The server-side PDF rendering application.",
   "scripts": {

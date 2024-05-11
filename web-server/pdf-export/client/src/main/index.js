@@ -34,7 +34,7 @@ const blob = new Blob([csv], {type: 'text/plain'});
 const dataUrl = window.URL.createObjectURL(blob);
 
 const infoPanel = newLeftPanel(parsedInfo, dataUrl);
-document.getElementById('info-container').prepend(infoPanel);
+document.getElementById('info-container').append(infoPanel);
 
 const grid = newGrid(data);
 grid.render(document.getElementById('grid'));

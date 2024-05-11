@@ -47,7 +47,7 @@ export function newLeftPanel(datasetInfo, datasetDataUrl) {
 }
 
 /**
- * Adds an item with the passed inner {@code html} to the list.
+ * Adds an item with the passed inner `html` to the list.
  */
 function addListItem(list, html) {
     const item = document.createElement('li');

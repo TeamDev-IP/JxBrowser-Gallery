@@ -21,8 +21,8 @@
 /**
  * Sends a GET request to the specified URL and returns the response.
  *
- * @param url {string} the URL to send the request to
- * @return {string} the response from the server
+ * @param url the URL to send the request to
+ * @return the response from the server
  */
 export function httpGet(url) {
     const xmlHttp = new XMLHttpRequest();

@@ -22,10 +22,10 @@
  * Creates input elements for filtering the data in the grid.
  *
  * @param columns the filterable columns
- * @param applyFiltering the function which applies the filtering
+ * @param applyFilters the function that applies the filter values
  * @return the created filter elements
  */
-export function newFiltersFor(columns, applyFiltering) {
+export function newFiltersFor(columns, applyFilters) {
     const filters = columns.map((column) => input(column));
     const filterContainer = document.getElementById('filters');
     filters.forEach(filter => filterContainer.appendChild(filter));
@@ -34,7 +34,7 @@ export function newFiltersFor(columns, applyFiltering) {
             const values = filters.map(input => {
                 return {index: input.index, value: input.value};
             });
-            applyFiltering(values);
+            applyFilters(values);
         });
     });
     return filters;
