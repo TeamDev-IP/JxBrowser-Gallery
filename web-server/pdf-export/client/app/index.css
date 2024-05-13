@@ -31,38 +31,24 @@
 
 #grid-container {
     flex: 5;
+    margin-left: 10px;
 }
 
 .gridjs-table {
-    width: 90%;
-    border: 1px solid #ccc;
+    width: 65%;
 }
 
 .gridjs-th {
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-top: none;
-    color: #6b7280;
-    outline: 0;
-    text-align: center;
-    padding: 14px 24px;
+    font-weight: normal;
+    text-align: left;
+    padding-right: 40px;
 }
 
 .gridjs-td {
-    border: 1px solid #e5e7eb;
     text-align: left;
-    padding: 12px 24px;
+    padding-right: 40px;
 }
 
-.entity-column {
-    width: 15%;
-    max-width: 15%;
-}
-
-.centered-cell {
-    text-align: center;
-}
-
-.right-aligned-cell {
+.right-aligned {
     text-align: right;
 }

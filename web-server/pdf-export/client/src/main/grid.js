@@ -32,7 +32,7 @@ export function newGrid(data) {
         columns: columns(),
         data: data,
         pagination: {
-            limit: 10,
+            limit: 20,
             summary: true
         },
         className: {
@@ -58,27 +58,26 @@ function columns() {
         {
             id: 'entity',
             name: 'Entity',
-            width: '15%',
-            'max-width': '15%'
+            width: '30%',
+            'max-width': '30%'
         },
         {
             id: 'code',
             name: 'Code',
-            width: '10%',
-            'max-width': '10%',
-            formatter: (cell) => html(
-                '<div class="centered-cell">' +
-                `${cell}` +
-                '</div>'
-            )
+            width: '5%',
+            'max-width': '5%'
         },
         {
             id: 'year',
-            name: 'Year',
-            width: '10%',
-            'max-width': '10%',
+            name: html(
+                '<div class="right-aligned">' +
+                'Year' +
+                '</div>'
+            ),
+            width: '5%',
+            'max-width': '5%',
             formatter: (cell) => html(
-                '<div class="centered-cell">' +
+                '<div class="right-aligned">' +
                 `${cell}` +
                 '</div>'
             )
@@ -86,17 +85,21 @@ function columns() {
         {
             id: 'type',
             name: 'Type',
-            width: '15%',
-            'max-width': '15%'
+            width: '20%',
+            'max-width': '20%'
         },
         {
             id: 'value',
-            name: 'Value',
-            width: '10%',
-            'max-width': '10%',
+            name: html(
+                '<div class="right-aligned">' +
+                'Value' +
+                '</div>'
+            ),
+            width: '15%',
+            'max-width': '15%',
             formatter: (cell) => html(
-                '<div class="right-aligned-cell">' +
-                `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(2))} kcal` +
+                '<div class="right-aligned">' +
+                `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(1))} kcal` +
                 '</div>'
             )
         }
