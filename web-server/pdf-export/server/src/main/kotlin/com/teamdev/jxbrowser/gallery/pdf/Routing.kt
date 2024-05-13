@@ -24,8 +24,11 @@ import com.teamdev.jxbrowser.browser.Browser
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.response.respondFile
+import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.nio.file.Paths
 
 /**
@@ -35,14 +38,32 @@ val browser = newBrowser()
 
 /**
  * Configures the [Application] routes.
- *
- * The index route makes the [Browser] generate a PDF from the webpage
- * at "https://teamdev.com/jxbrowser/" and return this file to the client.
- *
- * The PDF is also saved locally on the server at a predefined path.
  */
 fun Application.configureRouting() {
     routing {
+
+        /**
+         * Returns the info about the "Dietary composition by country" dataset.
+         */
+        get("/dataset/dietary-composition-by-country/info") {
+            val info = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.info()
+            val json = Json.encodeToString(info)
+            call.respondText(json)
+        }
+
+        /**
+         * Returns the content of the "Dietary composition by country" dataset.
+         */
+        get("/dataset/dietary-composition-by-country/data") {
+            val data = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.data()
+            call.respondText(data)
+        }
+
+        /**
+         * Prints a random page to PDF using JxBrowser and returns the PDF file.
+         *
+         * The PDF is also saved locally on the server at a predefined path.
+         */
         get("/") {
             val pdfPath = Paths.get("exported/webpage.pdf")
             browser.printToPdfAndWait("https://teamdev.com/jxbrowser/", pdfPath)

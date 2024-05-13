@@ -17,10 +17,18 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import gradle.libs
+
 plugins {
     id("ktor-server")
+    kotlin("plugin.serialization")
 }
 
 application {
     mainClass.set("com.teamdev.jxbrowser.gallery.pdf.MainKt")
+}
+
+dependencies {
+    implementation(libs.ktor.cors)
+    implementation(libs.kotlin.serialization)
 }

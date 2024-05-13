@@ -25,5 +25,6 @@ include(
     "compose:pomodoro",
     "web-server:chart-rendering:client",
     "web-server:chart-rendering:server",
+    "web-server:pdf-export:client",
     "web-server:pdf-export:server"
 )

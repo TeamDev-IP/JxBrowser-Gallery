@@ -20,26 +20,9 @@
 
 package com.teamdev.jxbrowser.gallery.pdf
 
-import io.ktor.server.application.Application
-import io.ktor.server.application.install
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
-import io.ktor.server.plugins.cors.routing.CORS
-
 /**
- * The main entry point of the application.
+ * Reads the text content of the resource denoted by the passed path.
  */
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
-}
-
-/**
- * Performs the routing configuration for the application.
- */
-fun Application.module() {
-    install(CORS) {
-        anyHost()
-    }
-    configureRouting()
+fun resourceAsText(path: String): String? {
+    return object {}.javaClass.getResource(path)?.readText()
 }

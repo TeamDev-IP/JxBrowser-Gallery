@@ -18,28 +18,15 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.teamdev.jxbrowser.gallery.pdf
-
-import io.ktor.server.application.Application
-import io.ktor.server.application.install
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
-import io.ktor.server.plugins.cors.routing.CORS
-
 /**
- * The main entry point of the application.
+ * Sends a GET request to the specified URL and returns the response.
+ *
+ * @param url the URL to send the request to
+ * @return the response from the server
  */
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
-}
-
-/**
- * Performs the routing configuration for the application.
- */
-fun Application.module() {
-    install(CORS) {
-        anyHost()
-    }
-    configureRouting()
+export function httpGet(url) {
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open('GET', url, false);
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
 }

@@ -18,28 +18,23 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.teamdev.jxbrowser.gallery.pdf
+import {httpGet} from "./http";
+import {csvToArray} from "./parsing";
+import {newLeftPanel} from "./left-panel";
+import {newGrid} from "./grid";
 
-import io.ktor.server.application.Application
-import io.ktor.server.application.install
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
-import io.ktor.server.plugins.cors.routing.CORS
+const SERVER_URL = 'http://localhost:8080';
 
-/**
- * The main entry point of the application.
- */
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
-}
+const datasetInfo = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/info`);
+const parsedInfo = JSON.parse(datasetInfo);
+const csv = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/data`);
+const data = csvToArray(csv);
 
-/**
- * Performs the routing configuration for the application.
- */
-fun Application.module() {
-    install(CORS) {
-        anyHost()
-    }
-    configureRouting()
-}
+const blob = new Blob([csv], {type: 'text/plain'});
+const dataUrl = window.URL.createObjectURL(blob);
+
+const infoPanel = newLeftPanel(parsedInfo, dataUrl);
+document.getElementById('info-container').append(infoPanel);
+
+const grid = newGrid(data);
+grid.render(document.getElementById('grid'));
