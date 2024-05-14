@@ -34,10 +34,6 @@
     margin-left: 10px;
 }
 
-.gridjs-table {
-    table-layout: fixed;
-}
-
 .gridjs-th {
     border-bottom: 1px solid #e5e7eb;
     font-weight: normal;
