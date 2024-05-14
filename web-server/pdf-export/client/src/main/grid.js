@@ -50,22 +50,62 @@ export function newGrid(data) {
     return grid;
 }
 
+const modifiedRows = {};
+
 /**
  * Returns the columns configuration of the grid.
  */
 function columns() {
+    let previousRow;
     return [
         {
             id: 'entity',
             name: 'Entity',
             width: '30%',
-            'max-width': '30%'
+            'max-width': '30%',
+            formatter: (cell, row) => {
+                if (modifiedRows[row.id]) {
+                    console.log("Got modified row: ", modifiedRows[row.id]);
+                    const modifiedRowElement = modifiedRows[row.id][0];
+                    console.log("Modified row element: ", modifiedRowElement);
+                    return modifiedRowElement;
+                }
+                if (previousRow
+                    && previousRow.cells[0].data === row.cells[0].data
+                    && previousRow.cells[1].data === row.cells[1].data
+                    && previousRow.cells[2].data === row.cells[2].data) {
+                    console.log("Previous row: ", previousRow);
+                    previousRow = row;
+                    modifiedRows[row.id] = ['', '', '', row.cells[3].data, row.cells[4].data];
+                    return '';
+                }
+                console.log("Setting modified row: ", row);
+                modifiedRows[row.id] = [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data];
+                previousRow = row;
+                return cell;
+            }
         },
         {
             id: 'code',
             name: 'Code',
             width: '5%',
-            'max-width': '5%'
+            'max-width': '5%',
+            formatter: (cell, row) => {
+                if (modifiedRows[row.id]) {
+                    return modifiedRows[row.id][1];
+                }
+                if (previousRow
+                    && previousRow.cells[0].data === row.cells[0].data
+                    && previousRow.cells[1].data === row.cells[1].data
+                    && previousRow.cells[2].data === row.cells[2].data) {
+                    previousRow = row;
+                    modifiedRows[row.id] = ['', '', '', row.cells[3].data, row.cells[4].data];
+                    return '';
+                }
+                modifiedRows[row.id] = [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data];
+                previousRow = row;
+                return cell;
+            }
         },
         {
             id: 'year',
@@ -76,17 +116,39 @@ function columns() {
             ),
             width: '5%',
             'max-width': '5%',
-            formatter: (cell) => html(
-                '<div class="right-aligned">' +
-                `${cell}` +
-                '</div>'
-            )
+            formatter: (cell, row) => {
+                if (modifiedRows[row.id]) {
+                    return html(
+                        '<div class="right-aligned">' +
+                        `${modifiedRows[row.id][2]}` +
+                        '</div>'
+                    );
+                }
+                if (previousRow
+                    && previousRow.cells[0].data === row.cells[0].data
+                    && previousRow.cells[1].data === row.cells[1].data
+                    && previousRow.cells[2].data === row.cells[2].data) {
+                    previousRow = row;
+                    modifiedRows[row.id] = ['', '', '', row.cells[3].data, row.cells[4].data];
+                    return '';
+                }
+                modifiedRows[row.id] = [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data];
+                previousRow = row;
+                return html(
+                    '<div class="right-aligned">' +
+                    `${cell}` +
+                    '</div>'
+                );
+            }
         },
         {
             id: 'type',
             name: 'Type',
             width: '20%',
-            'max-width': '20%'
+            'max-width': '20%',
+            formatter: cell => {
+                return cell;
+            }
         },
         {
             id: 'value',
