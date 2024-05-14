@@ -67,10 +67,7 @@ function columns() {
             'max-width': '30%',
             formatter: (cell, row) => {
                 if (modifiedRows.get(row.id)) {
-                    console.log("Got modified row: ", modifiedRows[row.id]);
-                    const modifiedRowElement = modifiedRows.get(row.id)[0];
-                    console.log("Modified row element: ", modifiedRowElement);
-                    return modifiedRowElement;
+                    return modifiedRows.get(row.id)[0];
                 }
                 const pageStart = modifiedRows.size % PAGE_SIZE === 0;
                 if (!pageStart
@@ -78,12 +75,10 @@ function columns() {
                     && previousRow.cells[0].data === row.cells[0].data
                     && previousRow.cells[1].data === row.cells[1].data
                     && previousRow.cells[2].data === row.cells[2].data) {
-                    console.log("Previous row: ", previousRow);
                     previousRow = row;
                     modifiedRows.set(row.id, ['', '', '', row.cells[3].data, row.cells[4].data]);
                     return '';
                 }
-                console.log("Setting modified row: ", row);
                 modifiedRows.set(row.id, [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data]);
                 previousRow = row;
                 return cell;

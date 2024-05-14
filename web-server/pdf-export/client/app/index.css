@@ -39,14 +39,23 @@
 }
 
 .gridjs-th {
+    border-bottom: 1px solid #e5e7eb;
     font-weight: normal;
     text-align: left;
     padding-right: 40px;
 }
 
+.gridjs-th:last-child {
+    padding-right: 0;
+}
+
 .gridjs-td {
     text-align: left;
     padding-right: 40px;
+}
+
+.gridjs-td:last-child {
+    padding-right: 0;
 }
 
 .right-aligned {
