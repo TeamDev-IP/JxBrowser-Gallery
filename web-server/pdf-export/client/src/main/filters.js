@@ -45,6 +45,7 @@ export function newFiltersFor(columns, applyFilters) {
  */
 function input(filterableColumn) {
     const input = document.createElement("input");
+    input.classList.add('filter-input', 'small', 'text-muted');
     const lowercaseColumn = filterableColumn.name.toLowerCase();
     input.placeholder = `Filter by ${lowercaseColumn}`;
     input.style.width = `${filterableColumn.width}px`;

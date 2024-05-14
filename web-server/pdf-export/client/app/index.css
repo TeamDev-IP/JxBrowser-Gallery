@@ -34,6 +34,23 @@
     margin-left: 10px;
 }
 
+.filter-input {
+    border: none;
+    border-bottom: 1px solid #e5e7eb;
+    text-overflow: ellipsis;
+    padding-right: 40px;
+    padding-bottom: 10px;
+}
+
+.filter-input:focus {
+    outline: none;
+    border: none;
+}
+
+.gridjs-table {
+    width: 60%;
+}
+
 .gridjs-th {
     border-bottom: 1px solid #e5e7eb;
     font-weight: normal;
@@ -42,6 +59,7 @@
 }
 
 .gridjs-th:last-child {
+    border-top: 1px solid #e5e7eb;
     padding-right: 0;
 }
 

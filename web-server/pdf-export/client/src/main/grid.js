@@ -44,18 +44,23 @@ export function newGrid(data) {
             paginationSummary: 'pagination-text',
             paginationButton: 'btn btn-outline-dark btn-sm pagination-button'
         },
-        width: '60%',
         autoWidth: true
     });
     const filters = [];
     grid.config.store.subscribe(
-        (state, prev) => renderStateListener(state, prev, () => {
-            modifiedRows.clear();
-            previousRow = null;
-            if (filters.length === 0) {
-                filters.push(createFilters(grid, data));
+        (state, prev) => renderStateListener(
+            state,
+            prev,
+            () => {
+                modifiedRows.clear();
+                previousRow = null;
+            },
+            () => {
+                if (filters.length === 0) {
+                    filters.push(createFilters(grid, data));
+                }
             }
-        })
+        )
     );
     return grid;
 }
@@ -205,9 +210,12 @@ function applyFilters(grid, data, filterValues) {
 /**
  * Listens to the grid state changes and triggers `onRendered` when the grid is fully rendered.
  */
-function renderStateListener(state, prevState, onRendered) {
+function renderStateListener(state, prevState, onPreRendered, onRendered) {
     if (prevState.status < state.status) {
         if (prevState.status === 1 && state.status === 2) {
+            onPreRendered();
+        }
+        if (prevState.status === 2 && state.status === 3) {
             onRendered();
         }
     }
