@@ -66,7 +66,11 @@ function columns() {
     return [
         {
             id: 'entity',
-            name: 'Entity',
+            name: html(
+                '<div class="entity-column">' +
+                'Entity' +
+                '</div>'
+            ),
             formatter: (cell, row) => {
                 if (modifiedRows.get(row.id)) {
                     return modifiedRows.get(row.id)[0];
