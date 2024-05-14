@@ -36,10 +36,9 @@
 
 .filter-input {
     border: none;
-    border-bottom: 1px solid #e5e7eb;
     text-overflow: ellipsis;
     padding-right: 40px;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
 }
 
 .filter-input:focus {
@@ -52,6 +51,7 @@
 }
 
 .gridjs-th {
+    border-top: 1px solid #e5e7eb;
     border-bottom: 1px solid #e5e7eb;
     font-weight: normal;
     text-align: left;
@@ -59,7 +59,6 @@
 }
 
 .gridjs-th:last-child {
-    border-top: 1px solid #e5e7eb;
     padding-right: 0;
 }
 
