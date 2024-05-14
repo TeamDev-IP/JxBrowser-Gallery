@@ -205,6 +205,7 @@ function applyFilters(grid, data, filterValues) {
                 && row[v.index].toLowerCase().includes(filterValue);
         });
     });
+    modifiedRows.clear();
     grid.updateConfig({
         data: filteredData
     }).forceRender();
