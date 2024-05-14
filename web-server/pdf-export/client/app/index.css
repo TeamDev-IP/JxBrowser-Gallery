@@ -35,7 +35,7 @@
 }
 
 .gridjs-table {
-    width: 65%;
+    table-layout: fixed;
 }
 
 .gridjs-th {

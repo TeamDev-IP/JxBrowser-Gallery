@@ -38,8 +38,12 @@ export function newGrid(data) {
             summary: true
         },
         className: {
-            paginationButton: 'btn btn-outline-dark',
-        }
+            table: 'small',
+            pagination: 'small',
+            paginationButton: 'btn btn-outline-dark'
+        },
+        width: '60%',
+        autoWidth: true
     });
     const filters = [];
     grid.config.store.subscribe(
@@ -63,8 +67,6 @@ function columns() {
         {
             id: 'entity',
             name: 'Entity',
-            width: '30%',
-            'max-width': '30%',
             formatter: (cell, row) => {
                 if (modifiedRows.get(row.id)) {
                     return modifiedRows.get(row.id)[0];
@@ -87,8 +89,6 @@ function columns() {
         {
             id: 'code',
             name: 'Code',
-            width: '5%',
-            'max-width': '5%',
             formatter: (cell, row) => {
                 if (modifiedRows.get(row.id)) {
                     return modifiedRows.get(row.id)[1];
@@ -115,8 +115,6 @@ function columns() {
                 'Year' +
                 '</div>'
             ),
-            width: '5%',
-            'max-width': '5%',
             formatter: (cell, row) => {
                 if (modifiedRows.get(row.id)) {
                     return html(
@@ -147,8 +145,6 @@ function columns() {
         {
             id: 'type',
             name: 'Type',
-            width: '20%',
-            'max-width': '20%',
             formatter: cell => {
                 return cell;
             }
@@ -160,8 +156,6 @@ function columns() {
                 'Value' +
                 '</div>'
             ),
-            width: '15%',
-            'max-width': '15%',
             formatter: (cell) => html(
                 '<div class="right-aligned">' +
                 `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(1))} kcal` +
