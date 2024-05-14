@@ -41,7 +41,8 @@ export function newGrid(data) {
         className: {
             table: 'small',
             pagination: 'small',
-            paginationButton: 'btn btn-outline-dark'
+            paginationSummary: 'pagination-text',
+            paginationButton: 'btn btn-outline-dark btn-sm pagination-button'
         },
         width: '60%',
         autoWidth: true
