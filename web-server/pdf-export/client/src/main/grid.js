@@ -21,7 +21,8 @@
 import {Grid, html} from "gridjs";
 import {newFiltersFor} from "./filters";
 
-const PAGE_SIZE = 20;
+let previousRow;
+const modifiedRows = new Map();
 
 /**
  * Creates a new grid visualizing the data about the dietary composition of countries.
@@ -34,7 +35,7 @@ export function newGrid(data) {
         columns: columns(),
         data: data,
         pagination: {
-            limit: PAGE_SIZE,
+            limit: 20,
             summary: true
         },
         className: {
@@ -48,6 +49,8 @@ export function newGrid(data) {
     const filters = [];
     grid.config.store.subscribe(
         (state, prev) => renderStateListener(state, prev, () => {
+            modifiedRows.clear();
+            previousRow = null;
             if (filters.length === 0) {
                 filters.push(createFilters(grid, data));
             }
@@ -56,13 +59,10 @@ export function newGrid(data) {
     return grid;
 }
 
-const modifiedRows = new Map();
-
 /**
  * Returns the columns configuration of the grid.
  */
 function columns() {
-    let previousRow;
     return [
         {
             id: 'entity',
@@ -71,9 +71,7 @@ function columns() {
                 if (modifiedRows.get(row.id)) {
                     return modifiedRows.get(row.id)[0];
                 }
-                const pageStart = modifiedRows.size % PAGE_SIZE === 0;
-                if (!pageStart
-                    && previousRow
+                if (previousRow
                     && previousRow.cells[0].data === row.cells[0].data
                     && previousRow.cells[1].data === row.cells[1].data
                     && previousRow.cells[2].data === row.cells[2].data) {
@@ -194,7 +192,6 @@ function applyFilters(grid, data, filterValues) {
                 && row[v.index].toLowerCase().includes(filterValue);
         });
     });
-    modifiedRows.clear();
     grid.updateConfig({
         data: filteredData
     }).forceRender();
@@ -205,7 +202,7 @@ function applyFilters(grid, data, filterValues) {
  */
 function renderStateListener(state, prevState, onRendered) {
     if (prevState.status < state.status) {
-        if (prevState.status === 2 && state.status === 3) {
+        if (prevState.status === 1 && state.status === 2) {
             onRendered();
         }
     }
