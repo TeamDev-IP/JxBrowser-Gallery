@@ -21,6 +21,8 @@
 import {Grid, html} from "gridjs";
 import {newFiltersFor} from "./filters";
 
+const PAGE_SIZE = 20;
+
 /**
  * Creates a new grid visualizing the data about the dietary composition of countries.
  *
@@ -32,7 +34,7 @@ export function newGrid(data) {
         columns: columns(),
         data: data,
         pagination: {
-            limit: 20,
+            limit: PAGE_SIZE,
             summary: true
         },
         className: {
@@ -50,7 +52,7 @@ export function newGrid(data) {
     return grid;
 }
 
-const modifiedRows = {};
+const modifiedRows = new Map();
 
 /**
  * Returns the columns configuration of the grid.
@@ -64,23 +66,25 @@ function columns() {
             width: '30%',
             'max-width': '30%',
             formatter: (cell, row) => {
-                if (modifiedRows[row.id]) {
+                if (modifiedRows.get(row.id)) {
                     console.log("Got modified row: ", modifiedRows[row.id]);
-                    const modifiedRowElement = modifiedRows[row.id][0];
+                    const modifiedRowElement = modifiedRows.get(row.id)[0];
                     console.log("Modified row element: ", modifiedRowElement);
                     return modifiedRowElement;
                 }
-                if (previousRow
+                const pageStart = modifiedRows.size % PAGE_SIZE === 0;
+                if (!pageStart
+                    && previousRow
                     && previousRow.cells[0].data === row.cells[0].data
                     && previousRow.cells[1].data === row.cells[1].data
                     && previousRow.cells[2].data === row.cells[2].data) {
                     console.log("Previous row: ", previousRow);
                     previousRow = row;
-                    modifiedRows[row.id] = ['', '', '', row.cells[3].data, row.cells[4].data];
+                    modifiedRows.set(row.id, ['', '', '', row.cells[3].data, row.cells[4].data]);
                     return '';
                 }
                 console.log("Setting modified row: ", row);
-                modifiedRows[row.id] = [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data];
+                modifiedRows.set(row.id, [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data]);
                 previousRow = row;
                 return cell;
             }
@@ -91,18 +95,20 @@ function columns() {
             width: '5%',
             'max-width': '5%',
             formatter: (cell, row) => {
-                if (modifiedRows[row.id]) {
-                    return modifiedRows[row.id][1];
+                if (modifiedRows.get(row.id)) {
+                    return modifiedRows.get(row.id)[1];
                 }
-                if (previousRow
+                const pageStart = modifiedRows.size % PAGE_SIZE === 0;
+                if (!pageStart
+                    && previousRow
                     && previousRow.cells[0].data === row.cells[0].data
                     && previousRow.cells[1].data === row.cells[1].data
                     && previousRow.cells[2].data === row.cells[2].data) {
                     previousRow = row;
-                    modifiedRows[row.id] = ['', '', '', row.cells[3].data, row.cells[4].data];
+                    modifiedRows.set(row.id, ['', '', '', row.cells[3].data, row.cells[4].data]);
                     return '';
                 }
-                modifiedRows[row.id] = [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data];
+                modifiedRows.set(row.id, [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data]);
                 previousRow = row;
                 return cell;
             }
@@ -117,22 +123,24 @@ function columns() {
             width: '5%',
             'max-width': '5%',
             formatter: (cell, row) => {
-                if (modifiedRows[row.id]) {
+                if (modifiedRows.get(row.id)) {
                     return html(
                         '<div class="right-aligned">' +
-                        `${modifiedRows[row.id][2]}` +
+                        `${modifiedRows.get(row.id)[2]}` +
                         '</div>'
                     );
                 }
-                if (previousRow
+                const pageStart = modifiedRows.size % PAGE_SIZE === 0;
+                if (!pageStart
+                    && previousRow
                     && previousRow.cells[0].data === row.cells[0].data
                     && previousRow.cells[1].data === row.cells[1].data
                     && previousRow.cells[2].data === row.cells[2].data) {
                     previousRow = row;
-                    modifiedRows[row.id] = ['', '', '', row.cells[3].data, row.cells[4].data];
+                    modifiedRows.set(row.id, ['', '', '', row.cells[3].data, row.cells[4].data]);
                     return '';
                 }
-                modifiedRows[row.id] = [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data];
+                modifiedRows.set(row.id, [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data]);
                 previousRow = row;
                 return html(
                     '<div class="right-aligned">' +
