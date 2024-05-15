@@ -20,19 +20,21 @@
 
 import {Grid, html} from "gridjs";
 import {newFiltersFor} from "./filters";
-
-let previousRow;
-const modifiedRows = new Map();
+import {DeduplicatingFormatter} from "./formatter";
 
 /**
  * Creates a new grid visualizing the data about the dietary composition of countries.
+ *
+ * The created grid is extended with the filtering capabilities as well as
+ * the deduplication formatting for "Entity", "Code", and "Year" columns.
  *
  * @param data the data to visualize, in the form of a two-dimensional array
  * @return the created {@link Grid} instance
  */
 export function newGrid(data) {
+    const formatter = new DeduplicatingFormatter([0, 1, 2]);
     const grid = new Grid({
-        columns: columns(),
+        columns: columns(formatter),
         data: data,
         pagination: {
             limit: 20,
@@ -51,10 +53,7 @@ export function newGrid(data) {
         (state, prev) => renderStateListener(
             state,
             prev,
-            () => {
-                modifiedRows.clear();
-                previousRow = null;
-            },
+            () => formatter.clear(),
             () => {
                 if (filters.length === 0) {
                     filters.push(createFilters(grid, data));
@@ -68,7 +67,7 @@ export function newGrid(data) {
 /**
  * Returns the columns configuration of the grid.
  */
-function columns() {
+function columns(formatter) {
     return [
         {
             id: 'entity',
@@ -77,44 +76,12 @@ function columns() {
                 'Entity' +
                 '</div>'
             ),
-            formatter: (cell, row) => {
-                if (modifiedRows.get(row.id)) {
-                    return modifiedRows.get(row.id)[0];
-                }
-                if (previousRow
-                    && previousRow.cells[0].data === row.cells[0].data
-                    && previousRow.cells[1].data === row.cells[1].data
-                    && previousRow.cells[2].data === row.cells[2].data) {
-                    previousRow = row;
-                    modifiedRows.set(row.id, ['', '', '', row.cells[3].data, row.cells[4].data]);
-                    return '';
-                }
-                modifiedRows.set(row.id, [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data]);
-                previousRow = row;
-                return cell;
-            }
+            formatter: (cell, row) => formatter.format(row, 0)
         },
         {
             id: 'code',
             name: 'Code',
-            formatter: (cell, row) => {
-                if (modifiedRows.get(row.id)) {
-                    return modifiedRows.get(row.id)[1];
-                }
-                const pageStart = modifiedRows.size % PAGE_SIZE === 0;
-                if (!pageStart
-                    && previousRow
-                    && previousRow.cells[0].data === row.cells[0].data
-                    && previousRow.cells[1].data === row.cells[1].data
-                    && previousRow.cells[2].data === row.cells[2].data) {
-                    previousRow = row;
-                    modifiedRows.set(row.id, ['', '', '', row.cells[3].data, row.cells[4].data]);
-                    return '';
-                }
-                modifiedRows.set(row.id, [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data]);
-                previousRow = row;
-                return cell;
-            }
+            formatter: (cell, row) => formatter.format(row, 1)
         },
         {
             id: 'year',
@@ -123,39 +90,16 @@ function columns() {
                 'Year' +
                 '</div>'
             ),
-            formatter: (cell, row) => {
-                if (modifiedRows.get(row.id)) {
-                    return html(
-                        '<div class="right-aligned">' +
-                        `${modifiedRows.get(row.id)[2]}` +
-                        '</div>'
-                    );
-                }
-                const pageStart = modifiedRows.size % PAGE_SIZE === 0;
-                if (!pageStart
-                    && previousRow
-                    && previousRow.cells[0].data === row.cells[0].data
-                    && previousRow.cells[1].data === row.cells[1].data
-                    && previousRow.cells[2].data === row.cells[2].data) {
-                    previousRow = row;
-                    modifiedRows.set(row.id, ['', '', '', row.cells[3].data, row.cells[4].data]);
-                    return '';
-                }
-                modifiedRows.set(row.id, [row.cells[0].data, row.cells[1].data, row.cells[2].data, row.cells[3].data, row.cells[4].data]);
-                previousRow = row;
-                return html(
-                    '<div class="right-aligned">' +
-                    `${cell}` +
-                    '</div>'
-                );
-            }
+            formatter: (cell, row) => html(
+                '<div class="right-aligned">' +
+                `${formatter.format(row, 2)}` +
+                '</div>'
+            )
         },
         {
             id: 'type',
             name: 'Type',
-            formatter: cell => {
-                return cell;
-            }
+            formatter: (cell, row) => formatter.format(row, 3)
         },
         {
             id: 'value',
@@ -164,11 +108,14 @@ function columns() {
                 'Value' +
                 '</div>'
             ),
-            formatter: (cell) => html(
-                '<div class="right-aligned">' +
-                `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(1))} kcal` +
-                '</div>'
-            )
+            formatter: (cell, row) => {
+                const formatted = formatter.format(row, 4);
+                return html(
+                    '<div class="right-aligned">' +
+                    `${((parseFloat(formatted) ? parseFloat(formatted) : 0).toFixed(1))} kcal` +
+                    '</div>'
+                );
+            }
         }
     ];
 }
@@ -208,7 +155,8 @@ function applyFilters(grid, data, filterValues) {
 }
 
 /**
- * Listens to the grid state changes and triggers `onRendered` when the grid is fully rendered.
+ * Listens to the grid state changes and triggers `onPreRendered` and `onRendered`
+ * depending on the state.
  */
 function renderStateListener(state, prevState, onPreRendered, onRendered) {
     if (prevState.status < state.status) {
