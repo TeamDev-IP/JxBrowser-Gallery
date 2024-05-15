@@ -38,7 +38,7 @@
     border: none;
     text-overflow: ellipsis;
     padding-right: 40px;
-    padding-bottom: 15px;
+    padding-bottom: 5px;
 }
 
 .filter-input:focus {
