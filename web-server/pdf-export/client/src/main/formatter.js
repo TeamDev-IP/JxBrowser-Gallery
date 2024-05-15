@@ -38,7 +38,7 @@ export class DeduplicatingFormatter {
     }
 
     /**
-     * Formats a cell situated at `columnIndex` in the specified `row`.
+     * Formats a cell located at the specified `columnIndex` in `row`.
      *
      * @param row the row containing the cell
      * @param columnIndex the index of the column containing the cell
