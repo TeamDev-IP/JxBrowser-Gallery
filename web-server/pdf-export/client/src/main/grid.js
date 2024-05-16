@@ -130,8 +130,8 @@ function createFilters(grid, data) {
     const filterableColumns = [
         {name: "Entity", index: 0, width: widths[0]},
         {name: "Code", index: 1, width: widths[1]},
-        {name: "Year", index: 2, width: widths[2]},
-        {name: "Type", index: 3, width: widths[3]}
+        {name: "Year", index: 2, width: widths[2], styles: ['right-aligned']},
+        {name: "Type", index: 3, width: widths[3]},
     ];
     const filters = newFiltersFor(filterableColumns, values => applyFilters(grid, data, values));
     return filters;
