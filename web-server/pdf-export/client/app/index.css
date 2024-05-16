@@ -31,38 +31,65 @@
 
 #grid-container {
     flex: 5;
+    margin-left: 10px;
+}
+
+.filter-input {
+    border: none;
+    text-overflow: ellipsis;
+    padding-right: 40px;
+    padding-bottom: 5px;
+}
+
+.filter-input:focus {
+    outline: none;
+    border: none;
 }
 
 .gridjs-table {
-    width: 90%;
-    border: 1px solid #ccc;
+    width: 65%;
 }
 
 .gridjs-th {
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-top: none;
-    color: #6b7280;
-    outline: 0;
-    text-align: center;
-    padding: 14px 24px;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    font-weight: normal;
+    text-align: left;
+    padding-right: 40px;
+}
+
+.gridjs-th:last-child {
+    padding-right: 0;
 }
 
 .gridjs-td {
-    border: 1px solid #e5e7eb;
     text-align: left;
-    padding: 12px 24px;
+    padding-right: 40px;
+}
+
+.gridjs-td:last-child {
+    padding-right: 0;
 }
 
 .entity-column {
-    width: 15%;
-    max-width: 15%;
+    width: 250px;
 }
 
-.centered-cell {
-    text-align: center;
-}
-
-.right-aligned-cell {
+.right-aligned {
     text-align: right;
+}
+
+.pagination-text {
+    margin-top: 30px;
+    margin-left: 8px;
+}
+
+.pagination-button {
+    border: none;
+    border-radius: 0;
+    margin-right: 2px;
+}
+
+.pagination-text b {
+    font-weight: normal;
 }

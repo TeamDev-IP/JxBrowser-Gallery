@@ -20,32 +20,46 @@
 
 import {Grid, html} from "gridjs";
 import {newFiltersFor} from "./filters";
+import {DeduplicatingFormatter} from "./formatter";
 
 /**
  * Creates a new grid visualizing the data about the dietary composition of countries.
+ *
+ * The created grid is extended with the filtering capabilities as well as
+ * the deduplication formatting for "Entity", "Code", and "Year" columns.
  *
  * @param data the data to visualize, in the form of a two-dimensional array
  * @return the created {@link Grid} instance
  */
 export function newGrid(data) {
+    const formatter = new DeduplicatingFormatter([0, 1, 2]);
     const grid = new Grid({
-        columns: columns(),
+        columns: columns(formatter),
         data: data,
         pagination: {
-            limit: 10,
+            limit: 20,
             summary: true
         },
         className: {
-            paginationButton: 'btn btn-outline-dark',
-        }
+            table: 'small',
+            pagination: 'small',
+            paginationSummary: 'pagination-text',
+            paginationButton: 'btn btn-outline-dark btn-sm pagination-button'
+        },
+        autoWidth: true
     });
     const filters = [];
     grid.config.store.subscribe(
-        (state, prev) => renderStateListener(state, prev, () => {
-            if (filters.length === 0) {
-                filters.push(createFilters(grid, data));
+        (state, prev) => renderStateListener(
+            state,
+            prev,
+            () => formatter.clear(),
+            () => {
+                if (filters.length === 0) {
+                    filters.push(createFilters(grid, data));
+                }
             }
-        })
+        )
     );
     return grid;
 }
@@ -53,52 +67,55 @@ export function newGrid(data) {
 /**
  * Returns the columns configuration of the grid.
  */
-function columns() {
+function columns(formatter) {
     return [
         {
             id: 'entity',
-            name: 'Entity',
-            width: '15%',
-            'max-width': '15%'
+            name: html(
+                '<div class="entity-column">' +
+                'Entity' +
+                '</div>'
+            ),
+            formatter: (cell, row) => formatter.format(row, 0)
         },
         {
             id: 'code',
             name: 'Code',
-            width: '10%',
-            'max-width': '10%',
-            formatter: (cell) => html(
-                '<div class="centered-cell">' +
-                `${cell}` +
-                '</div>'
-            )
+            formatter: (cell, row) => formatter.format(row, 1)
         },
         {
             id: 'year',
-            name: 'Year',
-            width: '10%',
-            'max-width': '10%',
-            formatter: (cell) => html(
-                '<div class="centered-cell">' +
-                `${cell}` +
+            name: html(
+                '<div class="right-aligned">' +
+                'Year' +
+                '</div>'
+            ),
+            formatter: (cell, row) => html(
+                '<div class="right-aligned">' +
+                `${formatter.format(row, 2)}` +
                 '</div>'
             )
         },
         {
             id: 'type',
             name: 'Type',
-            width: '15%',
-            'max-width': '15%'
+            formatter: (cell, row) => formatter.format(row, 3)
         },
         {
             id: 'value',
-            name: 'Value',
-            width: '10%',
-            'max-width': '10%',
-            formatter: (cell) => html(
-                '<div class="right-aligned-cell">' +
-                `${((parseFloat(cell) ? parseFloat(cell) : 0).toFixed(2))} kcal` +
+            name: html(
+                '<div class="right-aligned">' +
+                'Value' +
                 '</div>'
-            )
+            ),
+            formatter: (cell, row) => {
+                const formatted = formatter.format(row, 4);
+                return html(
+                    '<div class="right-aligned">' +
+                    `${((parseFloat(formatted) ? parseFloat(formatted) : 0).toFixed(1))} kcal` +
+                    '</div>'
+                );
+            }
         }
     ];
 }
@@ -113,8 +130,8 @@ function createFilters(grid, data) {
     const filterableColumns = [
         {name: "Entity", index: 0, width: widths[0]},
         {name: "Code", index: 1, width: widths[1]},
-        {name: "Year", index: 2, width: widths[2]},
-        {name: "Type", index: 3, width: widths[3]}
+        {name: "Year", index: 2, width: widths[2], styles: ['right-aligned']},
+        {name: "Type", index: 3, width: widths[3]},
     ];
     const filters = newFiltersFor(filterableColumns, values => applyFilters(grid, data, values));
     return filters;
@@ -138,10 +155,14 @@ function applyFilters(grid, data, filterValues) {
 }
 
 /**
- * Listens to the grid state changes and triggers `onRendered` when the grid is fully rendered.
+ * Listens to the grid state changes and triggers `onPreRendered` and `onRendered`
+ * depending on the state.
  */
-function renderStateListener(state, prevState, onRendered) {
+function renderStateListener(state, prevState, onPreRendered, onRendered) {
     if (prevState.status < state.status) {
+        if (prevState.status === 1 && state.status === 2) {
+            onPreRendered();
+        }
         if (prevState.status === 2 && state.status === 3) {
             onRendered();
         }

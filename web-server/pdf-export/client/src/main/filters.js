@@ -45,8 +45,11 @@ export function newFiltersFor(columns, applyFilters) {
  */
 function input(filterableColumn) {
     const input = document.createElement("input");
-    const lowercaseColumn = filterableColumn.name.toLowerCase();
-    input.placeholder = `Filter by ${lowercaseColumn}`;
+    input.classList.add('filter-input', 'small', 'text-muted');
+    if (filterableColumn.styles) {
+        input.classList.add(...filterableColumn.styles);
+    }
+    input.placeholder = `Search`;
     input.style.width = `${filterableColumn.width}px`;
     input.index = filterableColumn.index;
     return input;

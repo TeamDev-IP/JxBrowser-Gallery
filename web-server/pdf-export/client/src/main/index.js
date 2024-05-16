@@ -28,7 +28,7 @@ const SERVER_URL = 'http://localhost:8080';
 const datasetInfo = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/info`);
 const parsedInfo = JSON.parse(datasetInfo);
 const csv = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/data`);
-const data = csvToArray(csv);
+const data = csvToArray(csv.trim());
 
 const blob = new Blob([csv], {type: 'text/plain'});
 const dataUrl = window.URL.createObjectURL(blob);
