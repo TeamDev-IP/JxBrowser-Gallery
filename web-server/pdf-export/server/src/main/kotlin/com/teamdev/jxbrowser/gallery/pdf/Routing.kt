@@ -21,12 +21,14 @@
 package com.teamdev.jxbrowser.gallery.pdf
 
 import com.teamdev.jxbrowser.browser.Browser
+import io.ktor.http.content.OutgoingContent
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.response.respondFile
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
+import io.ktor.util.AttributeKey
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.nio.file.Paths
@@ -60,14 +62,19 @@ fun Application.configureRouting() {
         }
 
         /**
-         * Prints a random page to PDF using JxBrowser and returns the PDF file.
+         * Prints the table to PDF using JxBrowser and returns the PDF file.
          *
-         * The PDF is also saved locally on the server at a predefined path.
+         * The PDF is also saved locally to the `exported` directory.
          */
-        get("/") {
+        get("/dataset/dietary-composition-by-country/print") {
             val pdfPath = Paths.get("exported/webpage.pdf")
-            browser.printToPdfAndWait("https://teamdev.com/jxbrowser/", pdfPath)
-            call.respondFile(pdfPath.toFile())
+            val widgetUrl = resourceUrl("/widgets/index.html")!!
+            browser.printToPdfAndWait(widgetUrl, pdfPath)
+            call.respondFile(pdfPath.toFile(), configure = OutgoingContent::configure)
         }
     }
+}
+
+private fun OutgoingContent.configure() {
+    setProperty(AttributeKey("Content-Length"), "77000000")
 }

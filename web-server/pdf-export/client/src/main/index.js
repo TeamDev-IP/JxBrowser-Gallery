@@ -36,5 +36,5 @@ const dataUrl = window.URL.createObjectURL(blob);
 const infoPanel = newLeftPanel(parsedInfo, dataUrl);
 document.getElementById('info-container').append(infoPanel);
 
-const grid = newGrid(data);
+const grid = newGrid(data, 20, true);
 grid.render(document.getElementById('grid'));

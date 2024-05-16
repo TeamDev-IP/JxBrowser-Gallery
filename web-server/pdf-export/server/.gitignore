@@ -1,2 +1,6 @@
 # The PDF export results.
 **.pdf
+
+# The generated sources used for chart rendering.
+index.js
+index-**.css

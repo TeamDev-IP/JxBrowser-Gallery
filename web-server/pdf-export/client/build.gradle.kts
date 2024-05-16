@@ -18,12 +18,31 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import gradle.web.BuildWeb
 import gradle.web.buildWebProject
 
 tasks {
     val buildWebProject = buildWebProject(projectDir)
 
+    val serverResources = projectDir.resolve("../server/src/main/resources/widgets")
+    val copyServerJs = copyServerJs(buildWebProject, serverResources)
+
     val build by registering {
         dependsOn(buildWebProject)
+        dependsOn(copyServerJs)
     }
+}
+
+/**
+ * Registers a task to copy [buildWebProject] output to the given [destination].
+ */
+fun TaskContainerScope.copyServerJs(
+    buildWebProject: TaskProvider<BuildWeb>,
+    destination: File
+): TaskProvider<Copy> {
+    val copyServerJs by registering(Copy::class) {
+        from(buildWebProject)
+        into(destination)
+    }
+    return copyServerJs
 }
