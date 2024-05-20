@@ -29,19 +29,15 @@ import {DeduplicatingFormatter} from "./formatter";
  * the deduplication formatting for "Entity", "Code", and "Year" columns.
  *
  * @param data the data to visualize, in the form of a two-dimensional array
- * @param limit the number of rows to show on a single page or `null` to show all rows
+ * @param pageSize the number of rows to show on a single page or `null` to show all rows
  * @param showFilters `true` to show the filters, `false` otherwise
  * @return the created {@link Grid} instance
  */
-export function newGrid(data, limit, showFilters) {
+export function newGrid(data, pageSize, showFilters) {
     const formatter = new DeduplicatingFormatter([0, 1, 2]);
-    const grid = new Grid({
+    const config = {
         columns: columns(formatter),
         data: data,
-        pagination: {
-            limit: limit,
-            summary: true
-        },
         className: {
             table: 'small',
             pagination: 'small',
@@ -49,7 +45,14 @@ export function newGrid(data, limit, showFilters) {
             paginationButton: 'btn btn-outline-dark btn-sm pagination-button'
         },
         autoWidth: true
-    });
+    };
+    if (pageSize) {
+        config.pagination = {
+            summary: true,
+            limit: pageSize
+        };
+    }
+    const grid = new Grid(config);
     const filters = [];
     grid.config.store.subscribe(
         (state, prev) => renderStateListener(
@@ -59,6 +62,9 @@ export function newGrid(data, limit, showFilters) {
             () => {
                 if (showFilters && filters.length === 0) {
                     filters.push(createFilters(grid, data));
+                }
+                if (window.javaPrinter) {
+                    window.javaPrinter.print();
                 }
             }
         )

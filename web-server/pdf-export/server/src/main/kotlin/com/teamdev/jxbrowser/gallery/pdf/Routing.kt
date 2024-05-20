@@ -21,6 +21,7 @@
 package com.teamdev.jxbrowser.gallery.pdf
 
 import com.teamdev.jxbrowser.browser.Browser
+import com.teamdev.jxbrowser.dsl.browser.navigation
 import io.ktor.http.content.OutgoingContent
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
@@ -32,6 +33,16 @@ import io.ktor.util.AttributeKey
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.nio.file.Paths
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+
+/**
+ * The timeout for the PDF printing operation in seconds.
+ *
+ * This value is set to a relatively high number because printing of the PDF files
+ * can take a long time depending on the size of the webpage.
+ */
+const val PRINT_TIMEOUT_SECONDS = 120L
 
 /**
  * The [Browser] instance used across the application.
@@ -69,7 +80,12 @@ fun Application.configureRouting() {
         get("/dataset/dietary-composition-by-country/print") {
             val pdfPath = Paths.get("exported/webpage.pdf")
             val widgetUrl = resourceUrl("/widgets/index.html")!!
-            browser.printToPdfAndWait(widgetUrl, pdfPath)
+            val countDownLatch = CountDownLatch(1)
+            browser.configurePrinting(pdfPath) {
+                countDownLatch.countDown()
+            }
+            browser.navigation.loadUrlAndWait(widgetUrl)
+            countDownLatch.await(PRINT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             call.respondFile(pdfPath.toFile(), configure = OutgoingContent::configure)
         }
     }

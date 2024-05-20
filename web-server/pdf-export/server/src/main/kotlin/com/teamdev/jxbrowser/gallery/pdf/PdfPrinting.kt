@@ -21,42 +21,47 @@
 package com.teamdev.jxbrowser.gallery.pdf
 
 import com.teamdev.jxbrowser.browser.Browser
+import com.teamdev.jxbrowser.browser.callback.InjectJsCallback
 import com.teamdev.jxbrowser.browser.callback.PrintCallback
 import com.teamdev.jxbrowser.browser.callback.PrintHtmlCallback
 import com.teamdev.jxbrowser.dsl.browser.mainFrame
-import com.teamdev.jxbrowser.dsl.browser.navigation
 import com.teamdev.jxbrowser.dsl.register
+import com.teamdev.jxbrowser.js.JsAccessible
+import com.teamdev.jxbrowser.js.JsObject
 import com.teamdev.jxbrowser.print.event.PrintCompleted
 import java.nio.file.Path
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 
 /**
- * The timeout for the PDF printing operation in seconds.
- */
-const val PRINT_TIMEOUT_SECONDS = 5L
-
-/**
- * Prints the webpage denoted by the passed [url] to a PDF file and saves
- * the file to [dest].
+ * Configures printing for the [Browser] instance.
  *
- * The printing is performed in two steps:
- * 1. The [Browser] instance opens the webpage and waits for the page to be fully loaded.
- * 2. The print request is initiated. With the help of [PrintCallback] and [PrintHtmlCallback],
- * the [Browser] instance is instructed to immediately proceed with printing
- * upon receiving such a request. The file is saved at the specified destination.
+ * With the help of [InjectJsCallback], the JS code loaded by the [Browser] instance
+ * is supplied with a `javaPrinter` object that can be used to initiate the printing
+ * when the webpage is ready.
  *
- * The function blocks until the PDF is generated or the timeout has been reached.
+ * With the help of [PrintCallback] and [PrintHtmlCallback], the [Browser] instance
+ * is instructed to immediately save the current page to PDF at [destination]
+ * upon receiving a print request.
+ *
+ * The [onPrinted] callback is invoked once the printing operation is completed.
  */
-fun Browser.printToPdfAndWait(url: String, dest: Path) {
-    val latch = CountDownLatch(1)
+fun Browser.configurePrinting(destination: Path, onPrinted: () -> Unit) {
+    register(InjectJavaScriptCallback)
     register(PrintCallback)
-    register(printHtmlCallback(dest) {
-        latch.countDown()
+    register(printHtmlCallback(destination) {
+        onPrinted()
     })
-    navigation.loadUrlAndWait(url)
-    mainFrame!!.print()
-    latch.await(PRINT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+}
+
+/**
+ * The callback that injects the [Printer] object into the JS code loaded
+ * by the [Browser] instance.
+ */
+private val InjectJavaScriptCallback = InjectJsCallback { params ->
+    val window = params.frame().executeJavaScript<JsObject>("window")
+    window!!.putProperty(
+        "javaPrinter", Printer()
+    )
+    InjectJsCallback.Response.proceed()
 }
 
 /**
@@ -90,5 +95,16 @@ private fun printHtmlCallback(destination: Path, onCompleted: () -> Unit): Print
             onCompleted()
         }
         tell.proceed(pdfPrinter)
+    }
+}
+
+/**
+ * The class that enables the printing of the webpage from inside the JS code.
+ */
+class Printer {
+
+    @JsAccessible
+    fun print() {
+        browser.mainFrame!!.print()
     }
 }
