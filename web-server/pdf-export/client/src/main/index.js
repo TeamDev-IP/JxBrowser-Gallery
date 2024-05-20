@@ -25,16 +25,20 @@ import {newGrid} from "./grid";
 
 const SERVER_URL = 'http://localhost:8080';
 
-const datasetInfo = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/info`);
-const parsedInfo = JSON.parse(datasetInfo);
-const csv = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/data`);
-const data = csvToArray(csv.trim());
+function initializeWebpage() {
+    const datasetInfo = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/info`);
+    const parsedInfo = JSON.parse(datasetInfo);
+    const csv = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/data`);
+    const data = csvToArray(csv.trim());
 
-const blob = new Blob([csv], {type: 'text/plain'});
-const dataUrl = window.URL.createObjectURL(blob);
+    const blob = new Blob([csv], {type: 'text/plain'});
+    const dataUrl = window.URL.createObjectURL(blob);
 
-const infoPanel = newLeftPanel(parsedInfo, dataUrl);
-document.getElementById('info-container').append(infoPanel);
+    const infoPanel = newLeftPanel(parsedInfo, dataUrl);
+    document.getElementById('info-container').append(infoPanel);
 
-const grid = newGrid(data, 20, true);
-grid.render(document.getElementById('grid'));
+    const grid = newGrid(data, 20, true);
+    grid.render(document.getElementById('grid'));
+}
+
+window.initializeWebpage = initializeWebpage;
