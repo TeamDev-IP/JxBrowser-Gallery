@@ -42,7 +42,7 @@ import java.nio.file.Path
  * is instructed to immediately save the current page to PDF at [destination]
  * upon receiving a print request.
  *
- * The [onPrinted] callback is invoked once the printing operation is completed.
+ * The [onPrinted] callback is invoked once the operation is completed.
  */
 fun Browser.configurePrinting(destination: Path, onPrinted: () -> Unit) {
     register(InjectJavaScriptCallback)
