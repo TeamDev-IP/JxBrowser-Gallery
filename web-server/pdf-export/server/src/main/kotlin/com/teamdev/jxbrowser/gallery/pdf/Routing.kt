@@ -89,10 +89,22 @@ fun Application.configureRouting() {
             browser.navigation.loadUrlAndWait(widgetUrl)
 
             val data = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.data()
+            val entityFilter = call.request.queryParameters["entity"] ?: ""
+            val codeFilter = call.request.queryParameters["code"] ?: ""
+            val yearFilter = call.request.queryParameters["year"] ?: ""
+            val typeFilter = call.request.queryParameters["type"] ?: ""
             val jsScript = """
                 const csv = `$data`;
-                const data = window.csvToArray(csv);
-                const grid = window.newGrid(data, null, false);
+                const data = window.csvToArray(csv.trim());
+                const filterValues = ['$entityFilter', '$codeFilter', '$yearFilter', '$typeFilter'];
+                const filtered = data.filter(row => {
+                    return filterValues.every((v, index) => {
+                        return !v
+                            || row[index]
+                            && row[index].toLowerCase().includes(v.toLowerCase());
+                    });
+                });
+                const grid = window.newGrid(filtered, null, false);
                 grid.render(document.getElementById('grid'));
             """
             browser.mainFrame!!.executeJavaScript<Unit>(jsScript)
