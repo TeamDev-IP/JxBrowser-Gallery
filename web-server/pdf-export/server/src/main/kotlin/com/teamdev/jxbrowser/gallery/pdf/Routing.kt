@@ -97,7 +97,6 @@ fun Application.configureRouting() {
             val data = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.data()
             val jsScript = """
                 const csv = `$data`;
-                console.log('Initialized the CSV data.');
                 const data = window.csvToArray(csv);
                 const grid = window.newGrid(data, null, false);
                 grid.render(document.getElementById('grid'));
