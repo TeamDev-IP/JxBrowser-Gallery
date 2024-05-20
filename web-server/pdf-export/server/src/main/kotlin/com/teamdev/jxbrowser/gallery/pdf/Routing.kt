@@ -21,6 +21,8 @@
 package com.teamdev.jxbrowser.gallery.pdf
 
 import com.teamdev.jxbrowser.browser.Browser
+import com.teamdev.jxbrowser.browser.event.ConsoleMessageReceived
+import com.teamdev.jxbrowser.dsl.browser.mainFrame
 import com.teamdev.jxbrowser.dsl.browser.navigation
 import io.ktor.http.content.OutgoingContent
 import io.ktor.server.application.Application
@@ -84,7 +86,24 @@ fun Application.configureRouting() {
             browser.configurePrinting(pdfPath) {
                 countDownLatch.countDown()
             }
+            browser.on(ConsoleMessageReceived::class.java) { event ->
+                val consoleMessage = event.consoleMessage()
+                val level = consoleMessage.level()
+                val message = consoleMessage.message()
+                println("[$level] $message")
+            }
             browser.navigation.loadUrlAndWait(widgetUrl)
+
+            val data = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.data()
+            val jsScript = """
+                const csv = `$data`;
+                console.log('Initialized the CSV data.');
+                const data = window.csvToArray(csv);
+                const grid = window.newGrid(data, null, false);
+                grid.render(document.getElementById('grid'));
+            """
+            browser.mainFrame!!.executeJavaScript<Unit>(jsScript)
+
             countDownLatch.await(PRINT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             call.respondFile(pdfPath.toFile(), configure = OutgoingContent::configure)
         }
