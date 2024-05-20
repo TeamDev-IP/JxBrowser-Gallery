@@ -18,6 +18,8 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import {Modal} from 'bootstrap';
+
 /**
  * Opens the file download dialog with a link to the passed file.
  *
@@ -25,12 +27,12 @@
  * @param filename the name under which the file should be saved
  */
 export function openFileDownloadDialog(url, filename) {
-    const message = document.getElementById('file-download-message');
+    const message = document.getElementById('download-dialog-body');
     message.innerHTML =
         `Download link: <a href="${url}" download="${filename}">${filename}</a>
                 <br><br>
                 Also, available on the server filesystem as
-                '<i>*project root*/web-server/chart-rendering/server/images/${filename}</i>'.`
-    const dialog = document.getElementById('file-download-dialog');
+                '<i>*project root*/web-server/pdf-export/server/exported/${filename}</i>'.`
+    const dialog = Modal.getOrCreateInstance(document.getElementById('download-dialog'));
     dialog.show();
 }

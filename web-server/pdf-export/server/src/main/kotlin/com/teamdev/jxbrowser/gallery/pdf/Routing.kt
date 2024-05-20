@@ -79,7 +79,7 @@ fun Application.configureRouting() {
          *
          * The PDF is also saved locally to the `exported` directory.
          */
-        get("/dataset/dietary-composition-by-country/print") {
+        get("/print/dietary-composition-by-country") {
             val pdfPath = Paths.get("exported/webpage.pdf")
             val widgetUrl = resourceUrl("/widgets/index.html")!!
             val countDownLatch = CountDownLatch(1)

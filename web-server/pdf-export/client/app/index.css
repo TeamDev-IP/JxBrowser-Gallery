@@ -34,6 +34,12 @@
     margin-left: 10px;
 }
 
+#print-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .filter-input {
     border: none;
     text-overflow: ellipsis;
