@@ -86,12 +86,6 @@ fun Application.configureRouting() {
             browser.configurePrinting(pdfPath) {
                 countDownLatch.countDown()
             }
-            browser.on(ConsoleMessageReceived::class.java) { event ->
-                val consoleMessage = event.consoleMessage()
-                val level = consoleMessage.level()
-                val message = consoleMessage.message()
-                println("[$level] $message")
-            }
             browser.navigation.loadUrlAndWait(widgetUrl)
 
             val data = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.data()
