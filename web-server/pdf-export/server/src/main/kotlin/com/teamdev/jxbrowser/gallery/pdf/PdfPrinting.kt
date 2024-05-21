@@ -45,7 +45,7 @@ import java.nio.file.Path
  * instance to immediately save the current page to PDF at [destination] upon
  * receiving a print request.
  *
- * The [onPrinted] callback is invoked once the operation completes.
+ * The [onPrinted] callback runs once the operation completes.
  */
 fun Browser.configurePrinting(destination: Path, onPrinted: () -> Unit) {
     register(injectJsCallback(this))
@@ -78,7 +78,7 @@ private val PrintCallback = PrintCallback { _, tell -> tell.print() }
  *
  * The file is saved to the specified [destination].
  *
- * The [onCompleted] callback is invoked once the printing operation is completed.
+ * The [onCompleted] callback runs once the printing operation is completed.
  */
 private fun printHtmlCallback(destination: Path, onCompleted: () -> Unit): PrintHtmlCallback {
     return PrintHtmlCallback {

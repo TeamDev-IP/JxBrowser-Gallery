@@ -22,14 +22,14 @@ The main components of this application are:
 
 2. A web server that accepts print requests and generates PDF files using JxBrowser.
    A print request encloses the specifics of the tabular data to be printed. Based
-   on these parameters, the server generates an HTML/CSS/JS table via running
+   on these parameters, the server generates an HTML/CSS/JS table by running
    `browser.executeJavaScript(...)` after loading some generic HTML template.
 
    An alternative approach would be to generate an HTML template with all the
    necessary parameters beforehand and then load it into the browser directly. 
    Both approaches are valid and lead to the same result.
 
-3. A client side that allows to tweak the table and send it to the server for PDF export.
+3. A client side that allows tweaking the table and sending it to the server for PDF export.
    The displayed table data can be changed via the designated filter controls.
 
 The technology stack used in this project is [JxBrowser 8][jxbrowser], [Ktor][ktor] 

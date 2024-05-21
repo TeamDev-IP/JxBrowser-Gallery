@@ -32,7 +32,7 @@ private const val WIDGET_RESOURCE = "/widgets/index.html"
  * The specified [filterValues] are used to filter the table data before rendering.
  *
  * Once the table fully renders, the JS code on the page will call the PDF printing
- * functionality that has been injected via [configurePrinting].
+ * functionality that has been configured via [configurePrinting].
  */
 fun renderTable(browser: Browser, filterValues: Iterable<String>) {
     val widgetUrl = resourceUrl(WIDGET_RESOURCE)!!

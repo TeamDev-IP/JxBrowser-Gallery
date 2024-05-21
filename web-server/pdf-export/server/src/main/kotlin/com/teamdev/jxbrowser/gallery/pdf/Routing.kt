@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit
  * The timeout for the PDF printing operation in seconds.
  *
  * This value is set to a relatively high number because printing of the PDF files
- * can take a long time depending on the size of the webpage.
+ * can take a long time depending on the content size.
  */
 const val PRINT_TIMEOUT_SECONDS = 120L
 
@@ -98,6 +98,9 @@ fun Application.configureRouting() {
     }
 }
 
+/**
+ * Increases the maximum possible length of the response content.
+ */
 private fun OutgoingContent.configure() {
     setProperty(AttributeKey("Content-Length"), "77000000")
 }
