@@ -22,7 +22,7 @@ import {httpGet} from "./http";
 import {csvToArray} from "./parsing";
 import {newLeftPanel} from "./left-panel";
 import {newGrid} from "./grid";
-import {openFileDownloadDialog} from "./download";
+import {newDownloadDialog, openDownloadDialog} from "./download";
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -35,7 +35,10 @@ function initializeWebpage() {
     const blob = new Blob([csv], {type: 'text/plain'});
     const dataUrl = window.URL.createObjectURL(blob);
 
-    const infoPanel = newLeftPanel(parsedInfo, dataUrl, printToPdf);
+    const downloadDialog = newDownloadDialog();
+    document.getElementById('download-dialog-container').appendChild(downloadDialog.element);
+
+    const infoPanel = newLeftPanel(parsedInfo, dataUrl, () => printToPdf(downloadDialog));
     document.getElementById('info-container').append(infoPanel);
 
     const grid = newGrid(data, 20, true);
@@ -45,7 +48,7 @@ function initializeWebpage() {
 /**
  * Prints the currently displayed table to PDF.
  */
-async function printToPdf() {
+async function printToPdf(downloadDialog) {
     const printButton = document.getElementById('print-button');
     printButton.disabled = true;
     const buttonText = printButton.innerText;
@@ -61,7 +64,7 @@ async function printToPdf() {
     ).then(r => r.blob());
     const url = window.URL.createObjectURL(data);
     const filename = 'webpage.pdf';
-    openFileDownloadDialog(url, filename);
+    openDownloadDialog(downloadDialog, url, filename);
 
     printButton.disabled = false;
     printButton.innerText = buttonText;
