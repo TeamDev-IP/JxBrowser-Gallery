@@ -78,7 +78,7 @@ private val PrintCallback = PrintCallback { _, tell -> tell.print() }
  *
  * The file is saved to the specified [destination].
  *
- * The [onCompleted] callback runs once the printing operation is completed.
+ * The [onCompleted] callback runs once the printing operation completes.
  */
 private fun printHtmlCallback(destination: Path, onCompleted: () -> Unit): PrintHtmlCallback {
     return PrintHtmlCallback {

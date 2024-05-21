@@ -24,7 +24,10 @@ import com.teamdev.jxbrowser.browser.Browser
 import com.teamdev.jxbrowser.dsl.browser.mainFrame
 import com.teamdev.jxbrowser.dsl.browser.navigation
 
-private const val WIDGET_RESOURCE = "/widgets/index.html"
+/**
+ * A resource containing the basic HTML template for the table rendering.
+ */
+private const val TEMPLATE_RESOURCE = "/rendering/index.html"
 
 /**
  * Renders the "Dietary composition by country" table using the passed [Browser] instance.
@@ -35,8 +38,8 @@ private const val WIDGET_RESOURCE = "/widgets/index.html"
  * functionality that has been configured via [configurePrinting].
  */
 fun renderTable(browser: Browser, filterValues: Iterable<String>) {
-    val widgetUrl = resourceUrl(WIDGET_RESOURCE)!!
-    browser.navigation.loadUrlAndWait(widgetUrl)
+    val templateUrl = resourceUrl(TEMPLATE_RESOURCE)!!
+    browser.navigation.loadUrlAndWait(templateUrl)
 
     val data = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.data()
     val filters = filterValues.joinToString(prefix = "[", postfix = "]") { "'$it'" }

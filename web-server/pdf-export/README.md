@@ -17,7 +17,7 @@ The main components of this application are:
    
    Also, the printing process is adapted to the pages that require long asynchronous 
    operations to finish before being printed. If such operations are absent, the printing 
-   process can be simplified to a single call to `browser.mainFrame!!.print()`
+   process can be simplified to a single call of `browser.mainFrame!!.print()`
    (see `PdfPrinting.kt`).
 
 2. A web server that accepts print requests and generates PDF files using JxBrowser.
