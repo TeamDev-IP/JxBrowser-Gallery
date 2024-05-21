@@ -42,13 +42,13 @@ import java.nio.file.Path
  * `browser.mainFrame!!.print()` directly.
  *
  * The [PrintCallback] and [PrintHtmlCallback] callbacks configure the [Browser]
- * instance to immediately save the current page to PDF at the [destination] path
- * upon receiving a print request.
+ * instance to immediately save the current page to PDF at [destination] upon
+ * receiving a print request.
  *
  * The [onPrinted] callback is invoked once the operation completes.
  */
 fun Browser.configurePrinting(destination: Path, onPrinted: () -> Unit) {
-    register(InjectJavaScriptCallback)
+    register(injectJsCallback(this))
     register(PrintCallback)
     register(printHtmlCallback(destination) {
         onPrinted()
@@ -56,13 +56,13 @@ fun Browser.configurePrinting(destination: Path, onPrinted: () -> Unit) {
 }
 
 /**
- * The callback that injects the [Printer] object into the JS code loaded
+ * Creates the callback that injects the [Printer] object into the JS code loaded
  * by the [Browser] instance.
  */
-private val InjectJavaScriptCallback = InjectJsCallback { params ->
+private fun injectJsCallback(browser: Browser) = InjectJsCallback { params ->
     val window = params.frame().executeJavaScript<JsObject>("window")
     window!!.putProperty(
-        "javaPrinter", Printer()
+        "javaPrinter", Printer(browser)
     )
     InjectJsCallback.Response.proceed()
 }
@@ -104,7 +104,7 @@ private fun printHtmlCallback(destination: Path, onCompleted: () -> Unit): Print
 /**
  * The class that enables the printing of the webpage from inside the JS code.
  */
-class Printer {
+class Printer(private val browser: Browser) {
 
     /**
      * Initiates the printing of the webpage.

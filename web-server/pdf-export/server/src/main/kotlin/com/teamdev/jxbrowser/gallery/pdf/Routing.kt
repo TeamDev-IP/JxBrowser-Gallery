@@ -46,7 +46,7 @@ const val PRINT_TIMEOUT_SECONDS = 120L
 /**
  * The [Browser] instance used across the application.
  */
-val browser = newBrowser()
+private val browser = newBrowser()
 
 /**
  * Configures the [Application] routes.
@@ -72,7 +72,7 @@ fun Application.configureRouting() {
         }
 
         /**
-         * Prints the table to PDF using JxBrowser and returns the PDF file.
+         * Prints the table to PDF using [browser] and returns the PDF file.
          *
          * The file is also saved locally to the `exported` directory.
          */

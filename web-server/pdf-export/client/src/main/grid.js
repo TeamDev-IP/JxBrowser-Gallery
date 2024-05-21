@@ -29,7 +29,8 @@ import {DeduplicatingFormatter} from "./formatter";
  * the deduplication formatting for "Entity", "Code", and "Year" columns.
  *
  * @param data the data to visualize, in the form of a two-dimensional array
- * @param pageSize the number of rows to show on a single page or `null` to show all rows
+ * @param pageSize the number of rows to show on a single page or `null`
+ *                 to disable the pagination
  * @param showFilters `true` to show the filters, `false` otherwise
  * @return the created {@link Grid} instance
  */
@@ -73,7 +74,7 @@ export function newGrid(data, pageSize, showFilters) {
 }
 
 /**
- * Returns the columns configuration of the grid.
+ * Returns the column configurations of the grid.
  */
 function columns(formatter) {
     return [

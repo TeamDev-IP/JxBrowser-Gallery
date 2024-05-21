@@ -26,6 +26,9 @@ import {newDownloadDialog, openDownloadDialog} from "./download";
 
 const SERVER_URL = 'http://localhost:8080';
 
+/**
+ * Initializes the UI displaying the dataset information and the data grid.
+ */
 function initializeWebpage() {
     const datasetInfo = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/info`);
     const parsedInfo = JSON.parse(datasetInfo);
@@ -54,6 +57,19 @@ async function printToPdf(downloadDialog) {
     const buttonText = printButton.innerText;
     printButton.innerText = 'Generating PDF...';
 
+    const pdf = await generateAndFetchPdf();
+    const url = window.URL.createObjectURL(pdf);
+    const filename = 'webpage.pdf';
+    openDownloadDialog(downloadDialog, url, filename);
+
+    printButton.disabled = false;
+    printButton.innerText = buttonText;
+}
+
+/**
+ * Sends a request to the server to print the currently displayed table to PDF.
+ */
+async function generateAndFetchPdf() {
     const filterInputs = document.querySelectorAll('.filter-input');
     const queryString = Array.from(filterInputs)
         .filter(f => f.value)
@@ -62,12 +78,7 @@ async function printToPdf(downloadDialog) {
     const data = await fetch(
         `${SERVER_URL}/print/dietary-composition-by-country?${queryString}`
     ).then(r => r.blob());
-    const url = window.URL.createObjectURL(data);
-    const filename = 'webpage.pdf';
-    openDownloadDialog(downloadDialog, url, filename);
-
-    printButton.disabled = false;
-    printButton.innerText = buttonText;
+    return data;
 }
 
 window.initializeWebpage = initializeWebpage;
