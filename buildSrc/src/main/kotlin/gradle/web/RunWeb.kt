@@ -20,11 +20,6 @@
 
 package gradle.web
 
-import org.gradle.api.file.Directory
-import org.gradle.api.file.RegularFile
-import org.gradle.api.provider.Provider
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.TaskContainerScope
@@ -32,40 +27,19 @@ import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.register
 import java.io.File
 
-/**
- * Installs web project dependencies using `npm install` command.
- */
-abstract class InstallWebDependencies :
-    NpmExec<InstallWebDependencies>(InstallWebDependencies::class) {
-
-    /**
-     * Configuration file, containing web dependencies to install.
-     */
-    @get:InputFile
-    val packageJson: Provider<RegularFile>
-        get() = webProjectDir.file("package.json")
-
-    /**
-     * Directory with installed dependencies.
-     */
-    @get:OutputDirectory
-    val nodeModules: Provider<Directory>
-        get() = webProjectDir.dir("node_modules")
+abstract class RunWeb : NpmExec<RunWeb>(RunWeb::class, isMuted = false) {
 
     @TaskAction
     override fun exec() {
-        commandLine("install")
+        commandLine("start")
         super.exec()
     }
 }
 
 /**
- * Registers [InstallWebDependencies] task in this [TaskContainerScope].
+ * Registers [RunWeb] task in this [TaskContainerScope].
  */
-fun TaskContainerScope.installWeDependencies(
-    webProjectDir: File,
-): TaskProvider<InstallWebDependencies> =
-    register<InstallWebDependencies>("installWeDependencies") {
+fun TaskContainerScope.runWebProject(webProjectDir: File): TaskProvider<RunWeb> =
+    register<RunWeb>("runWeb") {
         this.webProjectDir = webProjectDir
     }
-
