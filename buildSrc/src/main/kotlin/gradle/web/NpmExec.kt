@@ -20,7 +20,7 @@
 
 package gradle.web
 
-import gradle.SilentExec
+import gradle.MutableExec
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.Internal
@@ -30,8 +30,10 @@ import kotlin.reflect.KClass
 /**
  * Specifies NPM executable and working directory.
  */
-abstract class NpmExec<T : NpmExec<T>>(taskType: KClass<T>) :
-    SilentExec<T>(taskType) {
+abstract class NpmExec<T : NpmExec<T>>(
+    taskType: KClass<T>,
+    isMuted: Boolean = true
+) : MutableExec<T>(taskType, isMuted) {
 
     private val npm = if (isWindows()) "npm.cmd" else "npm"
 
