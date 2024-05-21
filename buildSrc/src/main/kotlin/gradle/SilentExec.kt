@@ -32,7 +32,7 @@ import kotlin.reflect.KClass
  * If [isMuted] is `true` and the task fails to execute the command,
  * then the content of both streams is printed and the exception is thrown.
  */
-abstract class MutableExec<T : MutableExec<T>>(
+abstract class SilentExec<T : SilentExec<T>>(
     taskType: KClass<T>,
     private val isMuted: Boolean = false
 ) : AbstractExecTask<T>(taskType.java) {
