@@ -21,9 +21,6 @@
 package com.teamdev.jxbrowser.gallery.pdf
 
 import com.teamdev.jxbrowser.browser.Browser
-import com.teamdev.jxbrowser.browser.event.ConsoleMessageReceived
-import com.teamdev.jxbrowser.dsl.browser.mainFrame
-import com.teamdev.jxbrowser.dsl.browser.navigation
 import io.ktor.http.content.OutgoingContent
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
@@ -77,37 +74,23 @@ fun Application.configureRouting() {
         /**
          * Prints the table to PDF using JxBrowser and returns the PDF file.
          *
-         * The PDF is also saved locally to the `exported` directory.
+         * The file is also saved locally to the `exported` directory.
          */
         get("/print/dietary-composition-by-country") {
             val pdfPath = Paths.get("exported/webpage.pdf")
-            val widgetUrl = resourceUrl("/widgets/index.html")!!
             val countDownLatch = CountDownLatch(1)
             browser.configurePrinting(pdfPath) {
                 countDownLatch.countDown()
             }
-            browser.navigation.loadUrlAndWait(widgetUrl)
 
-            val data = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.data()
-            val entityFilter = call.request.queryParameters["entity"] ?: ""
-            val codeFilter = call.request.queryParameters["code"] ?: ""
-            val yearFilter = call.request.queryParameters["year"] ?: ""
-            val typeFilter = call.request.queryParameters["type"] ?: ""
-            val jsScript = """
-                const csv = `$data`;
-                const data = window.csvToArray(csv.trim());
-                const filterValues = ['$entityFilter', '$codeFilter', '$yearFilter', '$typeFilter'];
-                const filtered = data.filter(row => {
-                    return filterValues.every((v, index) => {
-                        return !v
-                            || row[index]
-                            && row[index].toLowerCase().includes(v.toLowerCase());
-                    });
-                });
-                const grid = window.newGrid(filtered, null, false);
-                grid.render(document.getElementById('grid'));
-            """
-            browser.mainFrame!!.executeJavaScript<Unit>(jsScript)
+            val queryParams = call.request.queryParameters
+            val filterValues = listOf(
+                queryParams["entity"] ?: "",
+                queryParams["code"] ?: "",
+                queryParams["year"] ?: "",
+                queryParams["type"] ?: ""
+            )
+            renderTable(browser, filterValues)
 
             countDownLatch.await(PRINT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             call.respondFile(pdfPath.toFile(), configure = OutgoingContent::configure)

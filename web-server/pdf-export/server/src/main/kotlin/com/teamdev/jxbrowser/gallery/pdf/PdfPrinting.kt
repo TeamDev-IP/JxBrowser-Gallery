@@ -36,13 +36,16 @@ import java.nio.file.Path
  *
  * With the help of [InjectJsCallback], the JS code loaded by the [Browser] instance
  * is supplied with a `javaPrinter` object that can be used to initiate the printing
- * when the webpage is ready.
+ * when the webpage is ready. Such an approach is necessary when the loaded page
+ * does asynchronous operations that need to complete before printing. When the page
+ * is rendered synchronously, it's possible to use `browser.loadUrlAndWait(...)` ->
+ * `browser.mainFrame!!.print()` directly.
  *
- * With the help of [PrintCallback] and [PrintHtmlCallback], the [Browser] instance
- * is instructed to immediately save the current page to PDF at [destination]
+ * The [PrintCallback] and [PrintHtmlCallback] callbacks configure the [Browser]
+ * instance to immediately save the current page to PDF at the [destination] path
  * upon receiving a print request.
  *
- * The [onPrinted] callback is invoked once the operation is completed.
+ * The [onPrinted] callback is invoked once the operation completes.
  */
 fun Browser.configurePrinting(destination: Path, onPrinted: () -> Unit) {
     register(InjectJavaScriptCallback)
@@ -103,6 +106,12 @@ private fun printHtmlCallback(destination: Path, onCompleted: () -> Unit): Print
  */
 class Printer {
 
+    /**
+     * Initiates the printing of the webpage.
+     *
+     * The [JsAccessible] annotation makes this method callable from the webpage
+     * loaded by the [Browser] instance.
+     */
     @JsAccessible
     fun print() {
         browser.mainFrame!!.print()
