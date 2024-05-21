@@ -20,26 +20,25 @@
 
 package gradle.web
 
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
-import org.gradle.api.tasks.TaskProvider
-import org.gradle.kotlin.dsl.TaskContainerScope
-import org.gradle.kotlin.dsl.assign
-import org.gradle.kotlin.dsl.register
-import java.io.File
+import org.gradle.api.tasks.options.Option
 
 abstract class RunWeb : NpmExec<RunWeb>(RunWeb::class, isMuted = false) {
 
+    @Input
+    @Option(description = "Port to be taken by the running app.")
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+    var port: Integer = Integer.valueOf(DEFAULT_NODE_PORT) as Integer
+
     @TaskAction
     override fun exec() {
-        commandLine("start")
+        commandLine("start", "--", "--port", port)
         super.exec()
     }
 }
 
 /**
- * Registers [RunWeb] task in this [TaskContainerScope].
+ * Node's default port.
  */
-fun TaskContainerScope.runWebProject(webProjectDir: File): TaskProvider<RunWeb> =
-    register<RunWeb>("runWeb") {
-        this.webProjectDir = webProjectDir
-    }
+private const val DEFAULT_NODE_PORT = 3000

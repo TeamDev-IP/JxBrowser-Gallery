@@ -18,13 +18,13 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import gradle.web.RunWeb
 import gradle.web.installWeDependencies
-import gradle.web.runWebProject
 
 tasks {
     val installWebDependencies = installWeDependencies(projectDir)
-    val runWeb = runWebProject(projectDir)
-    val run by registering {
-        dependsOn(installWebDependencies, runWeb)
+    val run by registering(RunWeb::class) {
+        this.webProjectDir = projectDir
+        dependsOn(installWebDependencies)
     }
 }

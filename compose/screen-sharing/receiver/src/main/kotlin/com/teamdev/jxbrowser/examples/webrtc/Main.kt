@@ -47,6 +47,6 @@ private fun createEngine(): Engine = Engine(OFF_SCREEN) {
 }
 
 private fun Browser.loadLocalhost() {
-    val port = System.getProperty("server.port") ?: 3000
+    val port = System.getProperty("server.port")
     navigation.loadUrlAndWait("http://localhost:$port/receiver")
 }
