@@ -18,7 +18,7 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.teamdev.jxbrowser.examples.webrtc
+package com.teamdev.jxbrowser.examples.webrtc.receiver
 
 import androidx.compose.ui.window.singleWindowApplication
 import com.teamdev.jxbrowser.browser.Browser

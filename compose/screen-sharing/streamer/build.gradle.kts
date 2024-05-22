@@ -24,7 +24,7 @@ plugins {
 
 compose.desktop {
     application {
-        mainClass = "com.teamdev.jxbrowser.examples.webrtc.MainKt"
+        mainClass = "com.teamdev.jxbrowser.examples.webrtc.streamer.MainKt"
         jvmArgs("-Dserver.port=${properties["port"] ?: 3000}")
     }
 }
