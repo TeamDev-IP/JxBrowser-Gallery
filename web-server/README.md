@@ -17,7 +17,8 @@ using JxBrowser. Following the approach described in this app, you'll be able to
 This example application utilizes a client-server architecture to highlight how 
 you can build a user-friendly web UI for inspecting and tweaking the charts that 
 later will be rendered on the server side. The same mechanism of rendering can also 
-be used in desktop, console, and any other environment where JxBrowser is available.
+be used in desktop, console apps, as well as in any other environment where 
+JxBrowser is available.
 
 See the project README for more details: [chart-rendering/README.md](chart-rendering/README.md).
 
