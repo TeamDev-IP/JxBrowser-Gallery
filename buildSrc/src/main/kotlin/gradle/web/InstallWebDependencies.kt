@@ -68,4 +68,3 @@ fun TaskContainerScope.installWeDependencies(
     register<InstallWebDependencies>("installWeDependencies") {
         this.webProjectDir = webProjectDir
     }
-
