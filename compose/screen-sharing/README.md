@@ -3,7 +3,7 @@
 This project demonstrates how to share a screen between two Java 
 applications using WebRTC and [JxBrowser](https://www.teamdev.com/jxbrowser).
 
-![Applications](/.github/readme-resources/screenshot.png?raw=true)
+![Screen sharing screenshot](/.github/readme-resources/screenshot.png?raw=true)
 
 ## Description
 
@@ -20,11 +20,11 @@ and use JxBrowser.
 
 ## Running
 
-To run this example, one needs start the server, streamer and receiver apps
+To run this example, one needs to start the server, streamer and receiver apps
 in individual terminals.
 
 By default, the example uses `3000` port. But it is possible to pass a custom
-port with CLI option.
+port with CLI options.
 
 Start WebRTC server:
 

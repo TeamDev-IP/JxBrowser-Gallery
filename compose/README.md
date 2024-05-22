@@ -14,5 +14,5 @@ This app requires Node.js 20 for building and running.
 
 ### Screen Sharing
 
-The example that demonstrates how to share a screen between two Java
-applications using WebRTC and JxBrowser.
+The project allows sharing a screen between two Java applications 
+using WebRTC and JxBrowser.
