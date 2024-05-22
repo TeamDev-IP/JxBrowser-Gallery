@@ -24,6 +24,30 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 
+/**
+ * Runs the given web project using `npm start` command.
+ *
+ * Please make sure project's `package.json` has such a script declared.
+ * Although, for "start" script there is a default value (`node server.js`),
+ * it is recommended to have the used scripts explicitly declared.
+ *
+ * For example:
+ *
+ * ```
+ * "scripts": {
+ *     "start": "node server.js"
+ * }
+ * ```
+ *
+ * The task allows to configure the used [port]. It can be changed by a Gradle
+ * script or passed from CLI.
+ *
+ * An example of the task invocation with the specified port:
+ *
+ * ```
+ * ./gradlew :compose:screen-sharing:server:run --port=4000
+ * ```
+ */
 abstract class RunWeb : NpmExec<RunWeb>(RunWeb::class, isMuted = false) {
 
     @Input
