@@ -63,7 +63,7 @@ abstract class InstallWebDependencies :
  * Registers [InstallWebDependencies] task in this [TaskContainerScope].
  */
 fun TaskContainerScope.installWeDependencies(
-    webProjectDir: File,
+    webProjectDir: File
 ): TaskProvider<InstallWebDependencies> =
     register<InstallWebDependencies>("installWeDependencies") {
         this.webProjectDir = webProjectDir
