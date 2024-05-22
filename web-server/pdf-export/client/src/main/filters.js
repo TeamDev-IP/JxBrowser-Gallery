@@ -51,6 +51,7 @@ function input(filterableColumn) {
     }
     input.placeholder = `Search`;
     input.style.width = `${filterableColumn.width}px`;
+    input.columnName = filterableColumn.name;
     input.index = filterableColumn.index;
     return input;
 }

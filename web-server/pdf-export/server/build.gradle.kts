@@ -32,3 +32,13 @@ dependencies {
     implementation(libs.ktor.cors)
     implementation(libs.kotlin.serialization)
 }
+
+val dependentTasks = listOf("processResources")
+
+dependentTasks.forEach { taskName ->
+    tasks.named(taskName) {
+        // Ensure the client-side code is built first so that the table-drawing
+        // JS bundle is available.
+        dependsOn(":web-server:pdf-export:client:build")
+    }
+}

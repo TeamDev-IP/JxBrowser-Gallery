@@ -13,15 +13,27 @@ The main components of this application are:
 1. A JxBrowser instance, which can print an arbitrary webpage to PDF programmatically.
    How to do it is shown in `PdfPrinting.kt`. This particular example highlights
    the usage of the JxBrowser Kotlin API but the identical process can be executed
-   using the JxBrowser Java API.
-2. A web server that accepts print requests and generates web pages to print
-   via JxBrowser. The print requests enclose the specifics of the tabular data to be
-   printed, while the generated files represent the rendered tables built with HTML/CSS/JS.
-3. A client side that allows to tweak the table and send it to the server for PDF export.
-   The table data is tweaked via the designated filter controls.
+   using the JxBrowser Java API. 
+   
+   Also, the printing process is adapted to the pages that require long asynchronous 
+   operations to finish before being printed. If such operations are absent, the printing 
+   process can be simplified to a single call of `browser.mainFrame!!.print()`
+   (see `PdfPrinting.kt`).
+
+2. A web server that accepts print requests and generates PDF files using JxBrowser.
+   A print request encloses the specifics of the tabular data to be printed. Based
+   on these parameters, the server generates an HTML/CSS/JS table by running
+   `browser.executeJavaScript(...)` after loading some generic HTML template.
+
+   An alternative approach would be to generate an HTML template with all the
+   necessary parameters beforehand and then load it into the browser directly. 
+   Both approaches are valid and lead to the same result.
+
+3. A client side that allows tweaking the table and sending it to the server for PDF export.
+   The displayed table data can be changed via the designated filter controls.
 
 The technology stack used in this project is [JxBrowser 8][jxbrowser], [Ktor][ktor] 
-as a web server, and [Grid.js][gridjs] for the table rendering.
+as a web server, and [Grid.js][gridjs] for the HTML/CSS/JS table rendering.
 
 ### Prerequisites
 1. [JDK 17+][jdk].

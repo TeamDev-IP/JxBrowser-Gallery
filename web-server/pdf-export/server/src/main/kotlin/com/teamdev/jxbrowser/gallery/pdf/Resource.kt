@@ -26,3 +26,10 @@ package com.teamdev.jxbrowser.gallery.pdf
 fun resourceAsText(path: String): String? {
     return object {}.javaClass.getResource(path)?.readText()
 }
+
+/**
+ * Returns the URL of the resource denoted by the passed path.
+ */
+fun resourceUrl(path: String): String? {
+    return object {}.javaClass.getResource(path)?.toExternalForm()
+}

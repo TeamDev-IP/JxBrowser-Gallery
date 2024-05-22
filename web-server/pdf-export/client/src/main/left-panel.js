@@ -23,9 +23,10 @@
  *
  * @param datasetInfo the dataset information to display
  * @param datasetDataUrl the URL pointing to the file containing the dataset data
+ * @param printToPdf the function to call when the user clicks the "Print to PDF" button
  * @return the panel with the dataset information
  */
-export function newLeftPanel(datasetInfo, datasetDataUrl) {
+export function newLeftPanel(datasetInfo, datasetDataUrl, printToPdf) {
     const panel = document.createElement('div');
 
     const list = document.createElement('ul');
@@ -40,6 +41,16 @@ export function newLeftPanel(datasetInfo, datasetDataUrl) {
     dataLink.download = 'data.csv';
     dataLink.innerText = 'data.csv';
     addListItem(list, `<h6>Download</h6> ${dataLink.outerHTML}`)
+
+    const buttonContainer = addListItem(list, '');
+    const printButton = document.createElement('button');
+    printButton.innerText = 'Print to PDF';
+    printButton.id = 'print-button';
+    printButton.classList.add('btn', 'btn-outline-dark');
+    printButton.addEventListener('click', () => {
+        printToPdf();
+    });
+    buttonContainer.appendChild(printButton);
 
     panel.appendChild(list);
 
@@ -58,4 +69,5 @@ function addListItem(list, html) {
     );
     item.innerHTML = html;
     list.appendChild(item);
+    return item;
 }

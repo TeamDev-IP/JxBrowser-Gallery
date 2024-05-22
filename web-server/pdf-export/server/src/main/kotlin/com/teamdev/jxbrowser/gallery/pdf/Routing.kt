@@ -21,20 +21,32 @@
 package com.teamdev.jxbrowser.gallery.pdf
 
 import com.teamdev.jxbrowser.browser.Browser
+import io.ktor.http.content.OutgoingContent
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.response.respondFile
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
+import io.ktor.util.AttributeKey
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.nio.file.Paths
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+
+/**
+ * The timeout for the PDF printing operation in seconds.
+ *
+ * This value is set to a relatively high number because printing of the PDF files
+ * can take a long time depending on the content size.
+ */
+const val PRINT_TIMEOUT_SECONDS = 120L
 
 /**
  * The [Browser] instance used across the application.
  */
-val browser = newBrowser()
+private val browser = newBrowser()
 
 /**
  * Configures the [Application] routes.
@@ -60,14 +72,35 @@ fun Application.configureRouting() {
         }
 
         /**
-         * Prints a random page to PDF using JxBrowser and returns the PDF file.
+         * Prints the table to PDF using [browser] and returns the PDF file.
          *
-         * The PDF is also saved locally on the server at a predefined path.
+         * The file is also saved locally to the `exported` directory.
          */
-        get("/") {
+        get("/print/dietary-composition-by-country") {
             val pdfPath = Paths.get("exported/webpage.pdf")
-            browser.printToPdfAndWait("https://teamdev.com/jxbrowser/", pdfPath)
-            call.respondFile(pdfPath.toFile())
+            val countDownLatch = CountDownLatch(1)
+            browser.configurePrinting(pdfPath) {
+                countDownLatch.countDown()
+            }
+
+            val queryParams = call.request.queryParameters
+            val filterValues = listOf(
+                queryParams["entity"] ?: "",
+                queryParams["code"] ?: "",
+                queryParams["year"] ?: "",
+                queryParams["type"] ?: ""
+            )
+            renderTable(browser, filterValues)
+
+            countDownLatch.await(PRINT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            call.respondFile(pdfPath.toFile(), configure = OutgoingContent::configure)
         }
     }
+}
+
+/**
+ * Increases the maximum possible length of the response content.
+ */
+private fun OutgoingContent.configure() {
+    setProperty(AttributeKey("Content-Length"), "77000000")
 }
