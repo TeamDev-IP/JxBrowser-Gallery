@@ -1,46 +1,45 @@
 # Java Remote Screen Sharing via WebRTC
 
-This example project demonstrates how to share a screen between two Java applications using WebRTC and [JxBrowser](https://www.teamdev.com/jxbrowser).
+This project demonstrates how to share a screen between two Java 
+applications using WebRTC and [JxBrowser](https://www.teamdev.com/jxbrowser).
 
 ![Applications](/.github/readme-resources/screenshot.png?raw=true)
 
 ## Description
 
-The project consists of two parts: a simplistic WebRTC [server](./server) and [client applications](./clients).
+The project consists of three parts: a simplistic WebRTC server and two 
+client applications: streamer and receiver.
 
-The server is written in Node.js. The clients are written in Java and use JxBrowser.
+The server is written with Node.js. The clients are written in Kotlin 
+and use JxBrowser.
 
 ## Requirements
 
-- Java 8+
-- Node.js 16.15.0
+- Java 17+.
+- Node.js 16+.
 
-## Setup
+## Running
 
-Open a terminal and run the following commands:
+To run this example, one needs start the server, streamer and receiver apps
+in individual terminals.
+
+By default, the example uses `3000` port. But it is possible to pass a custom
+port with CLI option.
+
+Start WebRTC server:
 
 ```bash
-cd server
-npm install
+./gradlew :compose:screen-sharing:server:run [--port=4000]
 ```
 
-## Run
-
-Start the server:
+Start the streamer app:
 
 ```bash
-cd server
-node server.js [-p 3000]
+./gradlew :compose:screen-sharing:streamer:run [-Pport=4000]
 ```
 
-In different terminals, run Java clients:
+Start the receiver app:
 
 ```bash
-cd clients
-./gradlew runStreamer [-Pport=3000]
-```
-
-```bash
-cd clients
-./gradlew runReceiver [-Pport=3000]
+./gradlew :compose:screen-sharing:receiver:run [-Pport=4000]
 ```
