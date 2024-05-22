@@ -20,6 +20,8 @@
 
 package com.teamdev.jxbrowser.examples.webrtc.receiver
 
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.window.singleWindowApplication
 import com.teamdev.jxbrowser.browser.Browser
 import com.teamdev.jxbrowser.compose.BrowserView
@@ -32,11 +34,12 @@ import com.teamdev.jxbrowser.license.internal.LicenseProvider
 /**
  * An application that receives a screen sharing stream and shows it.
  */
-fun main() {
-    val engine = createEngine()
-    val browser = engine.newBrowser().apply { loadLocalhost() }
-    singleWindowApplication(title = "Receiver") {
-        BrowserView(browser)
+fun main() = singleWindowApplication(title = "Receiver") {
+    val engine = remember { createEngine() }
+    val browser = remember { engine.newBrowser() }
+    BrowserView(browser)
+    LaunchedEffect(Unit) {
+        browser.loadLocalhost()
     }
 }
 

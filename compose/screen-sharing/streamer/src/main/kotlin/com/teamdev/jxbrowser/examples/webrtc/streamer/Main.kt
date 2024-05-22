@@ -53,7 +53,9 @@ import com.teamdev.jxbrowser.license.internal.LicenseProvider
  */
 fun main() {
     val engine = createEngine()
-    val browser = engine.newBrowser().apply { loadLocalhost() }
+    val browser = engine.newBrowser()
+
+    // The capture session is stored as observable Compose state.
     var captureSession by mutableStateOf<CaptureSession?>(null)
 
     // Select a source when the browser is about to start a capturing session.
@@ -67,6 +69,9 @@ fun main() {
     browser.subscribe<CaptureSessionStarted> { event: CaptureSessionStarted ->
         captureSession = event.capture()
     }
+
+    // Loads the page connected to WebRTC server.
+    browser.loadLocalhost()
 
     singleWindowApplication(
         state = WindowState(width = 400.dp, height = 300.dp),
