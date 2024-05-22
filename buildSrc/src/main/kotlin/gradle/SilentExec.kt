@@ -27,10 +27,12 @@ import kotlin.reflect.KClass
 
 /**
  * Decorator for the standard `Exec` task, which can hide both error
- * and standard output streams as long as the execution is successful.
+ * and standard output streams.
  *
- * If [isMuted] is `true` and the task fails to execute the command,
- * then the content of both streams is printed and the exception is thrown.
+ * If [isMuted] is `true`, then both error and standard streams are hidden
+ * as long as the execution is successful. If the task fails to execute
+ * the given command, then the content of both streams is printed,
+ * and the exception is thrown.
  */
 abstract class SilentExec<T : SilentExec<T>>(
     taskType: KClass<T>,
