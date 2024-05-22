@@ -25,7 +25,7 @@ import com.teamdev.jxbrowser.dsl.browser.mainFrame
 import com.teamdev.jxbrowser.dsl.browser.navigation
 
 /**
- * A resource containing the basic HTML template for the table rendering.
+ * A resource containing the HTML template for the table rendering.
  */
 private const val TEMPLATE_RESOURCE = "/rendering/index.html"
 
