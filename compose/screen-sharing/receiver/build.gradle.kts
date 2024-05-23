@@ -18,6 +18,8 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import gradle.web.DEFAULT_NODE_PORT
+
 plugins {
     `compose-app`
 }
@@ -25,6 +27,6 @@ plugins {
 compose.desktop {
     application {
         mainClass = "com.teamdev.jxbrowser.examples.webrtc.receiver.MainKt"
-        jvmArgs("-Dserver.port=${properties["port"] ?: 3000}")
+        jvmArgs("-Dserver.port=${properties["port"] ?: DEFAULT_NODE_PORT}")
     }
 }

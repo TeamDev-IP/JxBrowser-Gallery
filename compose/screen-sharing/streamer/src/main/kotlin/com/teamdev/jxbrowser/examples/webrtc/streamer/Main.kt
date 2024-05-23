@@ -106,6 +106,6 @@ private fun createEngine(): Engine = Engine(OFF_SCREEN) {
 }
 
 private fun Browser.loadLocalhost() {
-    val port = System.getProperty("server.port")
+    val port = System.getProperty("server.port")!!
     navigation.loadUrlAndWait("http://localhost:$port/streamer")
 }

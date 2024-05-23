@@ -20,8 +20,8 @@
 
 import express from 'express';
 import http from 'http';
-import { Server as SocketIO } from "socket.io";
-import { Command } from 'commander';
+import {Server as SocketIO} from "socket.io";
+import {Command} from 'commander';
 import * as url from 'url';
 
 const app = express();
@@ -61,13 +61,15 @@ io.on('connection', (socket) => {
 httpServer.listen(getPortValue());
 
 function getPortValue() {
-    const program = new Command();
-    const defaultPort = 3000;
+    const command = new Command();
+    command.option('-p, --port <value>', 'port value');
+    command.parse(process.argv);
 
-    program
-        .option('-p, --port <value>', 'port value');
-    program.parse(process.argv);
+    const options = command.opts();
+    const port = options.port
+    if (port == null) {
+        throw new Error('No port provided!');
+    }
 
-    const options = program.opts();
-    return options.port ? options.port : defaultPort;
+    return port;
 }

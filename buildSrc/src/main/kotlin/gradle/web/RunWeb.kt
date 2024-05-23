@@ -65,4 +65,4 @@ abstract class RunWeb : NpmExec<RunWeb>(RunWeb::class, isMuted = false) {
 /**
  * Node's default port.
  */
-private const val DEFAULT_NODE_PORT = 3000
+const val DEFAULT_NODE_PORT = 3000
