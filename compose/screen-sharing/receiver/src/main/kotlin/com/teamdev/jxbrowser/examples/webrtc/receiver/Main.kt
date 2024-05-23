@@ -32,7 +32,7 @@ import com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
 
 /**
- * An application that receives a screen sharing stream and shows it.
+ * An application that displays the shared screen.
  */
 fun main() = singleWindowApplication(title = "Receiver") {
     val engine = remember { createEngine() }
