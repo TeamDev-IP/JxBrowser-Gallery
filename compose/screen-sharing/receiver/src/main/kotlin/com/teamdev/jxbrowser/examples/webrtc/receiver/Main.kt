@@ -24,12 +24,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.singleWindowApplication
 import com.teamdev.jxbrowser.browser.Browser
+import com.teamdev.jxbrowser.browser.event.ConsoleMessageReceived
 import com.teamdev.jxbrowser.compose.BrowserView
 import com.teamdev.jxbrowser.dsl.Engine
 import com.teamdev.jxbrowser.dsl.browser.navigation
+import com.teamdev.jxbrowser.dsl.subscribe
 import com.teamdev.jxbrowser.engine.Engine
 import com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
+import java.io.File
 
 /**
  * An application that displays the shared screen.
@@ -37,6 +40,11 @@ import com.teamdev.jxbrowser.license.internal.LicenseProvider
 fun main() = singleWindowApplication(title = "Receiver") {
     val engine = remember { createEngine() }
     val browser = remember { engine.newBrowser() }
+
+    browser.subscribe<ConsoleMessageReceived> { event ->
+        println(event.consoleMessage().message())
+    }
+
     BrowserView(browser)
     LaunchedEffect(Unit) {
         browser.loadLocalhost()
@@ -50,6 +58,6 @@ private fun createEngine(): Engine = Engine(OFF_SCREEN) {
 }
 
 private fun Browser.loadLocalhost() {
-    val port = System.getProperty("server.port")!!
-    navigation.loadUrlAndWait("http://localhost:$port/receiver")
+    val receiver = File("src/main/resources/receiver.html")
+    navigation.loadUrl(receiver.absolutePath)
 }

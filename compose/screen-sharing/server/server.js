@@ -22,21 +22,11 @@ import express from 'express';
 import http from 'http';
 import {Server as SocketIO} from "socket.io";
 import {Command} from 'commander';
-import * as url from 'url';
 
 const app = express();
 const httpServer = http.createServer(app);
 const io = new SocketIO(httpServer);
 const room = 'room';
-const rootPath = url.fileURLToPath(new URL('.', import.meta.url));
-
-app.use(express.static('public'));
-app.get('/streamer', (req, res) => {
-    res.sendFile(rootPath + 'public/streamer.html');
-});
-app.get('/receiver', (req, res) => {
-    res.sendFile(rootPath + 'public/receiver.html');
-});
 
 io.on('connection', (socket) => {
     socket.on('join-receiver', () => {

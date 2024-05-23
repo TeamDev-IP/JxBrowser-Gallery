@@ -37,6 +37,7 @@ import com.teamdev.jxbrowser.browser.callback.StartCaptureSessionCallback
 import com.teamdev.jxbrowser.browser.callback.StartCaptureSessionCallback.Action
 import com.teamdev.jxbrowser.browser.callback.StartCaptureSessionCallback.Params
 import com.teamdev.jxbrowser.browser.event.CaptureSessionStarted
+import com.teamdev.jxbrowser.browser.event.ConsoleMessageReceived
 import com.teamdev.jxbrowser.capture.AudioCaptureMode
 import com.teamdev.jxbrowser.capture.CaptureSession
 import com.teamdev.jxbrowser.dsl.Engine
@@ -47,6 +48,7 @@ import com.teamdev.jxbrowser.dsl.subscribe
 import com.teamdev.jxbrowser.engine.Engine
 import com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
+import java.io.File
 
 /**
  * An application that shares the primary screen.
@@ -57,6 +59,10 @@ fun main() {
 
     // The capture session is stored as observable Compose state.
     var captureSession by mutableStateOf<CaptureSession?>(null)
+
+    browser.subscribe<ConsoleMessageReceived> { event ->
+        println(event.consoleMessage().message())
+    }
 
     // Select a source when the browser is about to start a capturing session.
     browser.register(StartCaptureSessionCallback { params: Params, tell: Action ->
@@ -106,6 +112,6 @@ private fun createEngine(): Engine = Engine(OFF_SCREEN) {
 }
 
 private fun Browser.loadLocalhost() {
-    val port = System.getProperty("server.port")!!
-    navigation.loadUrlAndWait("http://localhost:$port/streamer")
+    val streamer = File("src/main/resources/streamer.html")
+    navigation.loadUrl(streamer.absolutePath)
 }
