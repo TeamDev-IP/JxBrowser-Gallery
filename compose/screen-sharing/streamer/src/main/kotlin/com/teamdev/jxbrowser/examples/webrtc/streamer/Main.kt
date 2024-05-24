@@ -47,8 +47,12 @@ import com.teamdev.jxbrowser.dsl.register
 import com.teamdev.jxbrowser.dsl.subscribe
 import com.teamdev.jxbrowser.engine.Engine
 import com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN
+import com.teamdev.jxbrowser.frame.Frame
+import com.teamdev.jxbrowser.js.JsAccessible
+import com.teamdev.jxbrowser.js.JsObject
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
 import java.io.File
+import java.lang.Thread.sleep
 
 /**
  * An application that shares the primary screen.
@@ -76,8 +80,10 @@ fun main() {
         captureSession = event.capture()
     }
 
-    // Loads the page connected to WebRTC server.
-    browser.loadLocalhost()
+    // Loads the page connected to WebRTC server and returns
+    // browser's main frame.
+    val mainFrame = browser.loadWebrtcStreamer()
+    mainFrame.executeJavaScript<Unit>("connect({host: \"localhost\", port: 9000})")
 
     singleWindowApplication(
         state = WindowState(width = 400.dp, height = 300.dp),
@@ -89,13 +95,13 @@ fun main() {
         ) {
             if (captureSession == null) {
                 Button(onClick = {
-                    browser.mainFrame?.executeJavaScript<Any>("startScreenSharing()")
+                    mainFrame.executeJavaScript<Unit>("startScreenSharing()")
                 }) {
                     Text("Start sharing")
                 }
             } else {
                 Button(onClick = {
-                    captureSession!!.stop()
+                    mainFrame.executeJavaScript<Unit>("stopScreenSharing()")
                     captureSession = null
                 }) {
                     Text("Stop sharing")
@@ -111,7 +117,29 @@ private fun createEngine(): Engine = Engine(OFF_SCREEN) {
     }
 }
 
-private fun Browser.loadLocalhost() {
+private fun Browser.loadWebrtcStreamer(): Frame {
     val streamer = File("src/main/resources/streamer.html")
     navigation.loadUrl(streamer.absolutePath)
+    while (!streamLoaded()) {
+        sleep(150L) // extract.
+    }
+    return mainFrame!!
 }
+
+/**
+ * Checks if WebRTC streamer has completed loading.
+ *
+ * The page is configured to export...
+ */
+private fun Browser.streamLoaded(): Boolean {
+    if (mainFrame == null) {
+        // The page itself hasn't loaded yet.
+        return false
+    }
+
+    val frame = mainFrame!!
+    return frame.hasGlobalVariable("connect")
+}
+
+private fun Frame.hasGlobalVariable(name: String) =
+    executeJavaScript<Boolean>("$name != null") == true

@@ -22,65 +22,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Streamer</title>
-    <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
+    <title>WebRTC streamer</title>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 </head>
 <body>
 <script>
     const STREAMER_PEER_ID = 'streamer';
     const RECEIVER_PEER_ID = 'receiver';
 
-    const socket = io("localhost:3050");
+    // A `Peer` instance holds a connection to a signaling (peer) server
+    // and creates peer-to-peer connections for media streaming.
+    let peer;
 
-    let streamerPeer;
-    let connection;
-
-    connectToServer();
+    // A peer-to-peer media connection is created when the script is asked
+    // to start a screen sharing.
+    let mediaConnection;
 
     /**
-     * Connects the streamer browser to the WebRTC server.
+     * Establishes connection between this peer and the signaling server.
+     *
+     * This method is indented to be invoked from the Java side.
+     *
+     * @param signalingServer.host server's address
+     * @param signalingServer.port server's port
      */
-    function connectToServer() {
-        streamerPeer = new Peer(STREAMER_PEER_ID);
-        streamerPeer.on('open', () => {
-            socket.emit('join-streamer');
-        });
-
-        socket.on('receiver-disconnected', () => {
-            if (connection) {
-                connection.close();
-            }
-        });
+    window.connect = (signalingServer) => {
+        peer = new Peer(STREAMER_PEER_ID, signalingServer);
     }
 
     /**
      * Starts a screen sharing session between the streamer and the receiver.
+     *
+     * This method is indented to be invoked from the Java side.
      */
     window.startScreenSharing = () => {
-        console.log(window.isSecureContext)
         navigator.mediaDevices.getDisplayMedia({
             video: {
                 cursor: 'always'
-            },
-            audio: {
-                echoCancellation: true,
-                noiseSuppression: true
             }
         }).then(stream => {
-            if (streamerPeer) {
-                connection = streamerPeer.call(RECEIVER_PEER_ID, stream);
-            }
-            stream.getVideoTracks()[0].onended = closeRemoteSharing;
+            mediaConnection = peer.call(RECEIVER_PEER_ID, stream);
         });
     }
 
     /**
-     * Notifies the server that screen sharing has stopped.
+     * Stops the screen sharing session.
+     *
+     * This method is indented to be invoked from the Java side.
      */
-    function closeRemoteSharing() {
-        socket.emit('screen-sharing-stopped');
-        connection.close();
+    window.stopScreenSharing = () => {
+        mediaConnection.close();
     }
 </script>
 </body>

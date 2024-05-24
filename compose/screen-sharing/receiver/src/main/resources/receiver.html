@@ -22,9 +22,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Receiver</title>
-    <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
+    <title>WebRTC receiver</title>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
     <style>
         video {
             display: none;
@@ -36,45 +35,43 @@
 </head>
 <body>
 <div>
-    <video autoplay controls></video>
+    <video autoplay controls muted></video>
 </div>
 <script>
     const RECEIVER_PEER_ID = 'receiver';
-    const socket = io("localhost:3050");
-
-    connectToServer();
 
     /**
-     * Connects the receiver browser to the WebRTC server.
+     * Establishes connection between this peer and the signaling server.
+     *
+     * The method subscribes to new peer calls to show the incoming
+     * video stream.
+     *
+     * Please note, this method is indented to be invoked from the Java side.
+     *
+     * @param signalingServer.host server's address
+     * @param signalingServer.port server's port
      */
-    function connectToServer() {
-        const receiverPeer = new Peer(RECEIVER_PEER_ID);
-        receiverPeer.on('open', () => {
-            socket.emit('join-receiver');
-        });
-
-        receiverPeer.on('call', (call) => {
+    window.connect = (signalingServer) => {
+        const peer = new Peer(RECEIVER_PEER_ID, signalingServer);
+        peer.on('call', (call) => {
             call.answer();
             call.on('stream', (stream) => {
-                addVideoStream(stream);
+                showVideo(stream);
             });
-        });
-
-        socket.on('remove-video', () => {
-            removeVideoStream();
-        });
-
-        socket.on('streamer-disconnected', () => {
-            removeVideoStream();
+            call.on('close', () => {
+                hideVideo();
+            });
         });
     }
 
+    connect({host: "localhost", port: 9000});
+
     /**
-     * Displays the video element with the given stream as the source of the media.
+     * Sets the given {@link stream} as the source for the video element.
      *
-     * @param {MediaStream} stream media stream to be displayed
+     * @param {MediaStream} stream media to be displayed
      */
-    function addVideoStream(stream) {
+    function showVideo(stream) {
         const video = document.querySelector('video');
         video.srcObject = stream;
         video.style.display = 'block';
@@ -83,7 +80,7 @@
     /**
      * Clears the video element and hides it.
      */
-    function removeVideoStream() {
+    function hideVideo() {
         const video = document.querySelector('video');
         video.srcObject = null;
         video.style.display = 'none';
