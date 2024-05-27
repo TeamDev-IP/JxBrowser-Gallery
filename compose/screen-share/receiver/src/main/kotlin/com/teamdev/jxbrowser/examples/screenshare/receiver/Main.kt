@@ -71,4 +71,4 @@ private fun Browser.loadWebrtcReceiver() {
  * Path to a file in resources with JavaScript code, which uses WebRTC
  * to receive a video stream of the shared screen.
  */
-private const val WEBRTC_RECEIVER = "/webrtc-receiver.html"
+private const val WEBRTC_RECEIVER = "/receiving-peer.html"

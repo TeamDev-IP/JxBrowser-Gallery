@@ -52,7 +52,7 @@ internal class WebrtcSender(
          * Path to a web page in resources that uses WebRTC to send a video
          * stream of the shared screen.
          */
-        const val WEBRTC_SENDER_PAGE = "/webrtc-sender.html"
+        const val WEBRTC_SENDER_PAGE = "/sending-peer.html"
 
         /**
          * Blocking interval in milliseconds, which is used to block
