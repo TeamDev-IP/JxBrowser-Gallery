@@ -17,7 +17,7 @@ By following the approach described in this example, the user will be able to:
 This example application showcases a client-server architecture to highlight how
 you can build a user-friendly web UI for inspecting and tweaking the charts and
 then reuse the same code to render charts as images on the server side. The similar
-mechanism of rendering, however, can also be achieved in a desktop app, a console app,
+mechanism of rendering can also be achieved in a desktop app, a console app,
 and in any other environment where JxBrowser is available.
 
 ### Description

@@ -5,15 +5,15 @@ on the server side using JxBrowser.
 
 ### Summary
 
-This app demonstrates how to print the HTML/CSS/JS content to PDF using JxBrowser.
-By following the approach showed in this example, the user will be able to:
+This app demonstrates how to print HTML/CSS/JS content in PDF format using JxBrowser.
+By following the approach shown in this example, the user will be able to:
 
 1. Print arbitrary webpage content to PDF programmatically. This app chooses table
    data as an example.
-2. Inspect and tweak the content via UI controls before it is submitted for printing.
+2. Inspect and tweak the content via UI controls before submitting it for printing.
 3. Robustly generate large PDF files (1000+ pages) if necessary.
 
-This example highlights the usage of the JxBrowser Kotlin API, with the identical
+This example highlights the usage of the JxBrowser Kotlin API, with identical
 functionality being also offered by the JxBrowser Java API. The printing mechanism
 employed in this app will work on a web server, a desktop app, a console app,
 and in any other environment where JxBrowser is available.
