@@ -18,8 +18,9 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-const {PeerServer} = require("peer");
+import {PeerServer} from "peer";
 
+// PeerJs implementation of a signaling server.
 PeerServer({
     port: 9000
 });

@@ -1,5 +1,6 @@
 {
   "name": "signling-server",
+  "type": "module",
   "private": true,
   "scripts": {
     "start": "node server.js"
