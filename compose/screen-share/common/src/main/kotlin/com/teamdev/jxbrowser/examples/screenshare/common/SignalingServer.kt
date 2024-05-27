@@ -18,7 +18,7 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.teamdev.jxbrowser.examples.screenshare.sender
+package com.teamdev.jxbrowser.examples.screenshare.common
 
 /**
  * Address of WebRTC signaling server.

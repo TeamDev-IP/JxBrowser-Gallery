@@ -30,6 +30,8 @@ import com.teamdev.jxbrowser.capture.event.CaptureSessionStopped
 import com.teamdev.jxbrowser.dsl.browser.mainFrame
 import com.teamdev.jxbrowser.dsl.register
 import com.teamdev.jxbrowser.dsl.subscribe
+import com.teamdev.jxbrowser.examples.screenshare.common.SignalingServer
+import com.teamdev.jxbrowser.examples.screenshare.common.asJsObject
 import com.teamdev.jxbrowser.frame.Frame
 import java.io.File
 import java.lang.Thread.sleep

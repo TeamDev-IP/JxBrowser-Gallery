@@ -24,6 +24,10 @@ plugins {
     `compose-app`
 }
 
+dependencies {
+    implementation(project(":compose:screen-share:common"))
+}
+
 compose.desktop {
     application {
         mainClass = "com.teamdev.jxbrowser.examples.screenshare.sender.MainKt"

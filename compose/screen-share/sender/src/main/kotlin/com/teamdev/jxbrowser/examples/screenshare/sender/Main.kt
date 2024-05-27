@@ -37,6 +37,7 @@ import androidx.compose.ui.window.singleWindowApplication
 import com.teamdev.jxbrowser.dsl.Engine
 import com.teamdev.jxbrowser.engine.Engine
 import com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN
+import com.teamdev.jxbrowser.examples.screenshare.common.SignalingServer
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
 
 /**
