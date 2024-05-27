@@ -19,8 +19,31 @@
  */
 
 import {PeerServer} from "peer";
+import {Command} from 'commander';
 
-// PeerJs implementation of a signaling server.
+// PeerJs implementation of a WebRTC signaling server.
 PeerServer({
-    port: 9000
+    port: portFromArgs()
 });
+
+/**
+ * Extracts the passed `--port` value from the passed arguments.
+ *
+ * Specifying the port is mandatory. The methods throws without an explicitly
+ * passed port.
+ *
+ * @returns {number}
+ */
+function portFromArgs() {
+    const command = new Command();
+    command.option('-p, --port <value>');
+    command.parse(process.argv);
+
+    const options = command.opts();
+    const port = options.port
+    if (port == null) {
+        throw new Error('The used port should be explicitly provided: `--port 3000`.');
+    }
+
+    return port;
+}
