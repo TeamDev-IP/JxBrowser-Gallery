@@ -37,9 +37,6 @@ import java.io.File
 import java.lang.Thread.sleep
 import kotlin.io.path.createTempFile
 
-/**
- *
- */
 internal class WebrtcSender(
     browser: Browser,
     onSharingStarted: () -> Unit,

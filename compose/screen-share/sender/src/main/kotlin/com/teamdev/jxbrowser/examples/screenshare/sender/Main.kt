@@ -74,10 +74,9 @@ fun main() = singleWindowApplication(
         }
     }
 
+    // Supposing it connects immediately.
     LaunchedEffect(Unit) {
-        // We are supposing that connecting to a local server is immediate.
-        val server = signalingServer()
-        webrtc.connect(server)
+        webrtc.connect(SIGNALING_SERVER)
     }
 }
 
@@ -87,7 +86,7 @@ private fun createEngine(): Engine = Engine(OFF_SCREEN) {
     }
 }
 
-private fun signalingServer(): SignalingServer {
+private val SIGNALING_SERVER = run {
     val port = System.getProperty("server.port").toInt()
-    return SignalingServer("localhost", port)
+    SignalingServer("localhost", port)
 }
