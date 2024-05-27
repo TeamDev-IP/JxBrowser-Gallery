@@ -1,4 +1,4 @@
-# Apps built with JxBrowser in the Web Server environment
+# Apps built with JxBrowser in the web server environment
 
 This directory contains gallery apps that use JxBrowser in the web server environment.
 
