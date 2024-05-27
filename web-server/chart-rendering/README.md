@@ -15,10 +15,10 @@ By following the approach demonstrated in this example, the user can:
 4. Re-use the same chart-drawing code on the server side and the client side 
    if necessary.
 
-This example application showcases a client-server architecture to highlight how
-you can build a user-friendly web UI for inspecting and tweaking the charts and
-then reuse the same code to render charts as images on the server side. The same
-mechanism of rendering can also be utilized in a desktop app, a console app,
+This example application is built with a client-server architecture to highlight 
+how you can build a user-friendly web UI for inspecting and tweaking the charts 
+and then reuse the same code to render charts as images on the server side. The 
+same mechanism of rendering can also be utilized in a desktop app, a console app,
 and in any other environment where JxBrowser is available.
 
 ### Description
