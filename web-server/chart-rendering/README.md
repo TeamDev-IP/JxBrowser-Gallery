@@ -9,7 +9,7 @@ This app shows how to render and export rich HTML/CSS/JS charts as images using 
 By following the approach demonstrated in this example, the user can:
 
 1. Employ well-established HTML/CSS/JS charting libraries on the server side or
-   outside the web environment. This app showcases [Chart.js][chart.js].
+   outside the web environment. This app showcases usage of [Chart.js][chart.js].
 2. Use frontend styling options for the charts, like Bootstrap or Material typography.
 3. Perform an easy programmatic export to an image with few lines of code.
 4. Re-use the same chart-drawing code on the server side and the client side 
