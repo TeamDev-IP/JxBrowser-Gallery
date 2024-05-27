@@ -23,7 +23,7 @@ rootProject.name = "jxbrowser-gallery"
 include(
     "jxbrowser-license",
     "compose:pomodoro",
-    "compose:screen-sharing:server",
+    "compose:screen-sharing:signaling-server",
     "compose:screen-sharing:streamer",
     "compose:screen-sharing:receiver",
     "web-server:chart-rendering:client",
