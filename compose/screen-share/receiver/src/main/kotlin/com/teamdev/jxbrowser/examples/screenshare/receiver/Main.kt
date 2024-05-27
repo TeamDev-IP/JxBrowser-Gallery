@@ -18,7 +18,7 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.teamdev.jxbrowser.examples.webrtc.receiver
+package com.teamdev.jxbrowser.examples.screenshare.receiver
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -32,10 +32,10 @@ import com.teamdev.jxbrowser.dsl.subscribe
 import com.teamdev.jxbrowser.engine.Engine
 import com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
-import java.io.File
+import kotlin.io.path.createTempFile
 
 /**
- * An application that displays the shared screen.
+ * An application that displays the content of the shared screen.
  */
 fun main() = singleWindowApplication(title = "Receiver") {
     val engine = remember { createEngine() }
@@ -47,7 +47,7 @@ fun main() = singleWindowApplication(title = "Receiver") {
 
     BrowserView(browser)
     LaunchedEffect(Unit) {
-        browser.loadLocalhost()
+        browser.loadWebrtcReceiver()
     }
 }
 
@@ -57,7 +57,18 @@ private fun createEngine(): Engine = Engine(OFF_SCREEN) {
     }
 }
 
-private fun Browser.loadLocalhost() {
-    val receiver = File("src/main/resources/receiver.html")
-    navigation.loadUrl(receiver.absolutePath)
+/**
+ * Loads [WEBRTC_RECEIVER] file from resource and passes its content
+ * to this [Browser] instance.
+ */
+private fun Browser.loadWebrtcReceiver() {
+    val content = this.javaClass.getResource(WEBRTC_RECEIVER)!!.readBytes()
+    val file = createTempFile().toFile().also { it.writeBytes(content) }
+    navigation.loadUrl(file.absolutePath)
 }
+
+/**
+ * Path to a file in resources with JavaScript code, which uses WebRTC
+ * to receive a video stream of the shared screen.
+ */
+private const val WEBRTC_RECEIVER = "/webrtc-receiver.html"

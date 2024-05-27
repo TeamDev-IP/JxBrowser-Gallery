@@ -22,24 +22,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>WebRTC streamer</title>
+    <title>WebRTC sender</title>
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 </head>
 <body>
 <script>
-    const STREAMER_PEER_ID = 'streamer';
+    const SENDER_PEER_ID = 'sender';
     const RECEIVER_PEER_ID = 'receiver';
 
-    // A `Peer` instance holds a connection to a signaling (peer) server
-    // and creates peer-to-peer connections for media streaming.
+    // A `Peer` instance holds a connection to the signaling server
+    // and creates direct peer-to-peer media connections.
     let peer;
 
-    // A peer-to-peer media connection is created when the script is asked
-    // to start a screen sharing.
-    let mediaConnection;
+    // A media connection that represents a screen sharing session.
+    let connection;
+
 
     /**
-     * Establishes connection between this peer and the signaling server.
+     * Establishes connection with the signaling server.
      *
      * This method is indented to be invoked from the Java side.
      *
@@ -47,11 +47,15 @@
      * @param signalingServer.port server's port
      */
     window.connect = (signalingServer) => {
-        peer = new Peer(STREAMER_PEER_ID, signalingServer);
+        peer = new Peer(SENDER_PEER_ID, signalingServer);
     }
 
     /**
-     * Starts a screen sharing session between the streamer and the receiver.
+     * Starts a screen sharing session.
+     *
+     * The method captures a video stream using Screen Capture API and makes
+     * a call to the receiver with the given stream. A peer-to-peer connection
+     * is NOT established until the receiver answers the call.
      *
      * This method is indented to be invoked from the Java side.
      */
@@ -61,7 +65,7 @@
                 cursor: 'always'
             }
         }).then(stream => {
-            mediaConnection = peer.call(RECEIVER_PEER_ID, stream);
+            connection = peer.call(RECEIVER_PEER_ID, stream);
         });
     }
 
@@ -71,7 +75,7 @@
      * This method is indented to be invoked from the Java side.
      */
     window.stopScreenSharing = () => {
-        mediaConnection.close();
+        connection.close();
     }
 </script>
 </body>

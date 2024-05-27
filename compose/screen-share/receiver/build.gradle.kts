@@ -26,7 +26,7 @@ plugins {
 
 compose.desktop {
     application {
-        mainClass = "com.teamdev.jxbrowser.examples.webrtc.receiver.MainKt"
+        mainClass = "com.teamdev.jxbrowser.examples.screenshare.receiver.MainKt"
         jvmArgs("-Dserver.port=${properties["port"] ?: DEFAULT_NODE_PORT}")
     }
 }

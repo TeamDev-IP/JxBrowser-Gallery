@@ -18,15 +18,17 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.web.DEFAULT_NODE_PORT
+package com.teamdev.jxbrowser.examples.screenshare.sender
 
-plugins {
-    `compose-app`
-}
+/**
+ * Address of WebRTC signaling server.
+ */
+data class SignalingServer(
+    val host: String,
+    val port: Int,
+)
 
-compose.desktop {
-    application {
-        mainClass = "com.teamdev.jxbrowser.examples.webrtc.streamer.MainKt"
-        jvmArgs("-Dserver.port=${properties["port"] ?: DEFAULT_NODE_PORT}")
-    }
-}
+/**
+ * Returns address of this [SignalingServer] in JavaScript object notation.
+ */
+fun SignalingServer.asJsObject() = "{host: \"$host\", port: $port}"
