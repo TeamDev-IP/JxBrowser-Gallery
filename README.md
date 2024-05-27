@@ -9,8 +9,7 @@ All applications are grouped according to a toolkit they use:
 
 ## Prerequisites for building
 
-JDK 17 is required to build the apps. Gradle JVM toolchain is configured to use `Zulu JDK`. 
-Both Java version and vendor are declared in `gradle/libs.versions.toml`.
+JDK 17+ is required to build the apps. The Java version is declared in `gradle/libs.versions.toml`.
 
 ## JxBrowser license
 

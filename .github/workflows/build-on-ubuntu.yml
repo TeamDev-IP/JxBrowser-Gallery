@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 20.9.0
 
-      # Keep synced Java version and vendor with `gradle/libs.versions.toml`.
+      # Keep synced Java version with `gradle/libs.versions.toml`.
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
