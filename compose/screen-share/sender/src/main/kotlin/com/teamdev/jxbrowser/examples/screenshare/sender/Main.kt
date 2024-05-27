@@ -45,7 +45,7 @@ import com.teamdev.jxbrowser.license.internal.LicenseProvider
  */
 fun main() = singleWindowApplication(
     state = WindowState(width = 400.dp, height = 300.dp),
-    title = "Screen sharing sender"
+    title = "Screen share"
 ) {
     val engine = remember { createEngine() }
     val browser = remember { engine.newBrowser() }

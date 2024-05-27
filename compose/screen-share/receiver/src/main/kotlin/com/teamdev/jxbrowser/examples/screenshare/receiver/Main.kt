@@ -37,7 +37,7 @@ import kotlin.io.path.createTempFile
 /**
  * An application that displays the content of the shared screen.
  */
-fun main() = singleWindowApplication(title = "Receiver") {
+fun main() = singleWindowApplication(title = "Screen Viewer") {
     val engine = remember { createEngine() }
     val browser = remember { engine.newBrowser() }
 
