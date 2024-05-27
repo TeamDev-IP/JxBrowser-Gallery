@@ -11,7 +11,7 @@ By following the approach shown in this example, the user will be able to:
 1. Print arbitrary webpage content to PDF programmatically. This app chooses table
    data as an example.
 2. Inspect and tweak the content via UI controls before submitting it for printing.
-3. Robustly generate large PDF files (1000+ pages) if necessary.
+3. Robustly and efficiently generate large PDF files (1000+ pages) if necessary.
 
 This example highlights the usage of the JxBrowser Kotlin API, with identical
 functionality being also offered by the JxBrowser Java API. The printing mechanism
