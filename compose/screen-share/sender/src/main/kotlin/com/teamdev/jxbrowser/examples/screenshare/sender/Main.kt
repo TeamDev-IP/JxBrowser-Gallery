@@ -38,7 +38,7 @@ import com.teamdev.jxbrowser.examples.screenshare.common.SignalingServer
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
 
 /**
- * An application that shares the primary screen.
+ * A Compose application that shares the primary screen.
  */
 fun main() = singleWindowApplication(
     state = WindowState(width = 400.dp, height = 300.dp),

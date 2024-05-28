@@ -71,6 +71,9 @@ abstract class WebrtcPeer(
      * via `data:` scheme, which prohibits access to media devices because pages
      * loaded this way are not considered secure.
      *
+     * The file content is put to a temporary file to work around
+     * this restriction. Pages loaded via `file:` scheme are considered secure.
+     *
      * See also: [Secure Contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts)
      *           [Chromium #40135832](https://issues.chromium.org/issues/40135832?pli=1)
      *

@@ -31,7 +31,7 @@ import com.teamdev.jxbrowser.examples.screenshare.common.SignalingServer
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
 
 /**
- * An application that displays the content of the shared screen.
+ * A Compose application that displays the content of the shared screen.
  */
 fun main() = singleWindowApplication(title = "Screen Viewer") {
     val engine = remember { createEngine() }
