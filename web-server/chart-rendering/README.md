@@ -35,7 +35,6 @@ The image is then returned to the client side as a byte array.
 ### Prerequisites
 1. [Java 17+][java].
 2. [NPM][npm].
-3. [Gradle][gradle].
 
 ### Running locally
 ```shell
@@ -54,5 +53,4 @@ on the local file system.
 [micronaut]: https://micronaut.io/
 [java]: https://www.azul.com/downloads/#zulu
 [npm]: https://nodejs.org/en/download
-[gradle]: https://gradle.org/install
 
