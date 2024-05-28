@@ -20,6 +20,9 @@
 
 package com.teamdev.jxbrowser.examples.screenshare.sender
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.teamdev.jxbrowser.browser.Browser
 import com.teamdev.jxbrowser.browser.callback.StartCaptureSessionCallback
 import com.teamdev.jxbrowser.browser.callback.StartCaptureSessionCallback.Action
@@ -27,40 +30,14 @@ import com.teamdev.jxbrowser.browser.callback.StartCaptureSessionCallback.Params
 import com.teamdev.jxbrowser.browser.event.CaptureSessionStarted
 import com.teamdev.jxbrowser.capture.AudioCaptureMode
 import com.teamdev.jxbrowser.capture.event.CaptureSessionStopped
-import com.teamdev.jxbrowser.dsl.browser.mainFrame
 import com.teamdev.jxbrowser.dsl.register
 import com.teamdev.jxbrowser.dsl.subscribe
-import com.teamdev.jxbrowser.examples.screenshare.common.SignalingServer
-import com.teamdev.jxbrowser.examples.screenshare.common.asJsObject
-import com.teamdev.jxbrowser.frame.Frame
-import java.io.File
-import java.lang.Thread.sleep
-import kotlin.io.path.createTempFile
+import com.teamdev.jxbrowser.examples.screenshare.common.WebrtcPeer
 
-internal class WebrtcSender(
-    browser: Browser,
-    onSharingStarted: () -> Unit,
-    onSharingStopped: () -> Unit,
-) {
+internal class WebrtcSender(browser: Browser) : WebrtcPeer(browser, "/sending-peer.html") {
 
-    private companion object {
-
-        /**
-         * Path to a web page in resources that uses WebRTC to send a video
-         * stream of the shared screen.
-         */
-        const val WEBRTC_SENDER_PAGE = "/sending-peer.html"
-
-        /**
-         * Blocking interval in milliseconds, which is used to block
-         * the current thread until the [WEBRTC_SENDER_PAGE] complete loading.
-         */
-        const val POLLING_INTERVAL = 150L
-    }
-
-    private val frame = browser.mainFrame!!.also {
-        it.loadWebrtcSender()
-    }
+    var isSharing by mutableStateOf(false)
+        private set
 
     init {
         // Select a source when the browser is about to start a capturing session.
@@ -70,18 +47,12 @@ internal class WebrtcSender(
         })
         // Integrate `onSessionStarted` and `onSessionStopped` callbacks.
         browser.subscribe<CaptureSessionStarted> { event: CaptureSessionStarted ->
-            onSharingStarted()
+            isSharing = true
             event.capture().subscribe<CaptureSessionStopped> {
-                onSharingStopped()
+                isSharing = false
             }
         }
     }
-
-    /**
-     * Connects to the given signaling [server].
-     */
-    fun connect(server: SignalingServer) =
-        frame.executeJavaScript<Unit>("connect(${server.asJsObject()})")
 
     /**
      * Starts screen sharing session.
@@ -94,46 +65,4 @@ internal class WebrtcSender(
      */
     fun stopScreenSharing() =
         frame.executeJavaScript<Unit>("stopScreenSharing()")
-
-    /**
-     * Loads [WEBRTC_SENDER_PAGE] into this [Frame].
-     *
-     * Please note, the file content is not passed to JxBrowser "as is"
-     * (`frame.loadHtml(content)`) intentionally. Such a loading is performed
-     * via `data:` scheme, which prohibits access to media devices because pages
-     * loaded this way are not considered secure.
-     *
-     * See also: [Secure Contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts)
-     *           [Chromium #40135832](https://issues.chromium.org/issues/40135832?pli=1)
-     */
-    private fun Frame.loadWebrtcSender() {
-        val file = withTempFile(WEBRTC_SENDER_PAGE)
-        loadUrl(file.absolutePath)
-        while (!pageLoaded()) {
-            sleep(POLLING_INTERVAL)
-        }
-    }
-
-    /**
-     * Checks if WebRTC sender page has completed loading.
-     *
-     * The page exports `connect()` method to a global scope. It is considered
-     * loaded when `connect` variable is initialized.
-     */
-    private fun Frame.pageLoaded(): Boolean = hasGlobalVariable("connect")
-
-    private fun Frame.hasGlobalVariable(name: String) =
-        executeJavaScript<Boolean>("$name != null") == true
-}
-
-/**
- * Reads the content of the given [resourcesFile] and writes it
- * to a temporary file.
- */
-private fun withTempFile(resourcesFile: String): File {
-    val webPage = ::withTempFile.javaClass.getResource(resourcesFile)!!
-    val content = webPage.readBytes()
-    val file = createTempFile().toFile()
-    file.writeBytes(content)
-    return file
 }

@@ -23,16 +23,12 @@ package com.teamdev.jxbrowser.examples.screenshare.receiver
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.singleWindowApplication
-import com.teamdev.jxbrowser.browser.Browser
-import com.teamdev.jxbrowser.browser.event.ConsoleMessageReceived
 import com.teamdev.jxbrowser.compose.BrowserView
 import com.teamdev.jxbrowser.dsl.Engine
-import com.teamdev.jxbrowser.dsl.browser.navigation
-import com.teamdev.jxbrowser.dsl.subscribe
 import com.teamdev.jxbrowser.engine.Engine
 import com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN
+import com.teamdev.jxbrowser.examples.screenshare.common.SignalingServer
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
-import kotlin.io.path.createTempFile
 
 /**
  * An application that displays the content of the shared screen.
@@ -40,14 +36,13 @@ import kotlin.io.path.createTempFile
 fun main() = singleWindowApplication(title = "Screen Viewer") {
     val engine = remember { createEngine() }
     val browser = remember { engine.newBrowser() }
-
-    browser.subscribe<ConsoleMessageReceived> { event ->
-        println(event.consoleMessage().message())
-    }
+    val webrtc = remember { WebrtcReceiver(browser) }
 
     BrowserView(browser)
+
+    // Supposing it connects immediately to the local server.
     LaunchedEffect(Unit) {
-        browser.loadWebrtcReceiver()
+        webrtc.connect(SIGNALING_SERVER)
     }
 }
 
@@ -57,18 +52,7 @@ private fun createEngine(): Engine = Engine(OFF_SCREEN) {
     }
 }
 
-/**
- * Loads [WEBRTC_RECEIVER] file from resource and passes its content
- * to this [Browser] instance.
- */
-private fun Browser.loadWebrtcReceiver() {
-    val content = this.javaClass.getResource(WEBRTC_RECEIVER)!!.readBytes()
-    val file = createTempFile().toFile().also { it.writeBytes(content) }
-    navigation.loadUrl(file.absolutePath)
+private val SIGNALING_SERVER = run {
+    val port = System.getProperty("server.port").toInt()
+    SignalingServer("localhost", port)
 }
-
-/**
- * Path to a file in resources with JavaScript code, which uses WebRTC
- * to receive a video stream of the shared screen.
- */
-private const val WEBRTC_RECEIVER = "/receiving-peer.html"

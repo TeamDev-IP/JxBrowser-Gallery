@@ -41,10 +41,10 @@
     const RECEIVER_PEER_ID = 'receiver';
 
     /**
-     * Establishes connection between this peer and the signaling server.
+     * Establishes connection with the signaling server.
      *
-     * The method subscribes to new peer calls to show the incoming
-     * video stream.
+     * Right after, the method subscribes to new peer calls to show
+     * the incoming video stream.
      *
      * Please note, this method is indented to be invoked from the Java side.
      *
@@ -64,10 +64,9 @@
         });
     }
 
-    connect({host: "localhost", port: 9000});
-
     /**
-     * Sets the given {@link stream} as the source for the video element.
+     * Sets the given {@link stream} as the source for the video element
+     * and shows it.
      *
      * @param {MediaStream} stream media to be displayed
      */

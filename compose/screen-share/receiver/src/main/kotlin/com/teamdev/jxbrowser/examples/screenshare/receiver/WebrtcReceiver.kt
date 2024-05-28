@@ -18,19 +18,9 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gradle.web.DEFAULT_NODE_PORT
+package com.teamdev.jxbrowser.examples.screenshare.receiver
 
-plugins {
-    `compose-app`
-}
+import com.teamdev.jxbrowser.browser.Browser
+import com.teamdev.jxbrowser.examples.screenshare.common.WebrtcPeer
 
-dependencies {
-    implementation(project(":compose:screen-share:common"))
-}
-
-compose.desktop {
-    application {
-        mainClass = "com.teamdev.jxbrowser.examples.screenshare.receiver.MainKt"
-        jvmArgs("-Dserver.port=${properties["port"] ?: DEFAULT_NODE_PORT}")
-    }
-}
+internal class WebrtcReceiver(browser: Browser) : WebrtcPeer(browser, "/receiving-peer.html")
