@@ -54,7 +54,7 @@
     window.connect = (signalingServer) => {
         const peer = new Peer(RECEIVER_PEER_ID, signalingServer);
         peer.on('call', (call) => {
-            call.answer();
+            call.answer(); // Accepts the call.
             call.on('stream', (stream) => {
                 showVideo(stream);
             });
@@ -65,7 +65,7 @@
     }
 
     /**
-     * Sets the given {@link stream} as the source for the video element
+     * Sets the given {@link stream} as a source for the video element
      * and shows it.
      *
      * @param {MediaStream} stream media to be displayed

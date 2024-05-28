@@ -23,4 +23,13 @@ package com.teamdev.jxbrowser.examples.screenshare.receiver
 import com.teamdev.jxbrowser.browser.Browser
 import com.teamdev.jxbrowser.examples.screenshare.common.WebrtcPeer
 
+/**
+ * A WebRTC receiver peer.
+ *
+ * This receiver is configured to automatically answer WebRTC calls when
+ * it is connected to a signaling server.
+ *
+ * @param [browser] The browser instance used for running JavaScript code,
+ *  which actually invokes WebRTC API.
+ */
 internal class WebrtcReceiver(browser: Browser) : WebrtcPeer(browser, "/receiving-peer.html")
