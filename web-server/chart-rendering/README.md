@@ -6,26 +6,25 @@ on the server side using JxBrowser.
 ### Summary
 
 Modern web environment provides a wide variety of well-established tools to visualize
-a data set as a chart. However, in some scenarios, just displaying the chart
-on a web page only partially satisfies the requirements. The chart may need 
-to be created and shared hourly/daily/weekly, with the human intervention in this 
-process minimized. The chart rendering can also be a part of a larger server pipeline, 
-further calling for automation. Or, the chart may have to be displayed as a part 
-of a desktop application.
+a dataset as a chart. However, in some scenarios, just displaying the chart
+on a web page is not what's needed. The chart may have to be created and shared 
+daily/weekly/monthly, with the human intervention in this process minimized. 
+The chart rendering can also be a part of a larger server pipeline, further calling
+for automation. Or, the chart may have to be displayed as a part of a desktop application.
 
 This example demonstrates how to tackle these challenges with the help of JxBrowser.
 The showcased application is a web server that utilizes the power of JxBrowser
 to render an arbitrary web page and then export it to an image. With such an approach,
-the application can render and export HTML/CSS/JS charts directly on the server side.
-The export happens upon a programmatic request, once built and run, this solution
-requires no human interaction or intervention. It can be hosted on a dedicated
-server or on a Cloud VM, rendering and sharing charts upon requests such as a cron job
-or a REST API call from another program.
+the application renders the HTML/CSS/JS charts directly on the server side, offering
+their export as images to any caller. The export happens upon a programmatic request, 
+once built and run, this solution requires no human interaction or intervention. 
+It can be hosted on a dedicated server or a Cloud VM, rendering and sharing charts 
+upon requests such as a cron job or a REST API call from another program.
 
 Using JxBrowser to build such an application entails the following benefits:
 
 1. A fully automated chart-drawing solution, which requires neither human actions
-   nor an open UI to draw the charts and share them via email or other channels.
+   nor an open UI to draw the charts and share them via communication channels of choice.
 2. The access to a rich web ecosystem of charting libraries like [Chart.js][chart.js]
    when rendering charts on the server side. This includes the frontend styling
    options, like [Bootstrap][bootstrap] or [Material][material] typography.
