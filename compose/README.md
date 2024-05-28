@@ -14,5 +14,5 @@ This app requires Node.js 20 for building and running.
 
 ### Screen Sharing
 
-The project allows sharing a screen between two Java applications 
+The project allows sharing a screen between two Compose applications 
 using WebRTC and JxBrowser.
