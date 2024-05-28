@@ -53,6 +53,7 @@ abstract class RunWeb : NpmExec<RunWeb>(RunWeb::class, isMuted = false) {
     @Input
     @Option(description = "Port to be taken by the running app.")
     @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+    // `@Option` requires exactly a boxed `Integer`.
     var port: Integer = Integer.valueOf(DEFAULT_NODE_PORT) as Integer
 
     @TaskAction
