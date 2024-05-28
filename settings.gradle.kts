@@ -25,7 +25,7 @@ include(
 
     "compose:pomodoro",
 
-    "compose:screen-share:signaling-server",
+    "compose:screen-share:server",
     "compose:screen-share:sender",
     "compose:screen-share:receiver",
     "compose:screen-share:common",
