@@ -22,26 +22,20 @@ package com.teamdev.jxbrowser.examples.screenshare.common
 
 import com.teamdev.jxbrowser.browser.Browser
 import com.teamdev.jxbrowser.dsl.browser.mainFrame
+import com.teamdev.jxbrowser.dsl.browser.navigation
 import com.teamdev.jxbrowser.frame.Frame
 import java.io.File
-import java.lang.Thread.sleep
+import kotlin.io.path.createTempFile
 
 abstract class WebrtcPeer(
     browser: Browser,
     webPage: String,
 ) {
 
-    private companion object {
+    private val frame = browser.mainFrame!!
 
-        /**
-         * Blocking interval in milliseconds, which is used to block
-         * the current thread until the [webPage] complete loading.
-         */
-        const val POLLING_INTERVAL = 150L
-    }
-
-    protected val frame = browser.mainFrame!!.also {
-        it.loadWebrtcSender(webPage)
+    init {
+        browser.loadWebrtcSender(webPage)
     }
 
     /**
@@ -49,6 +43,9 @@ abstract class WebrtcPeer(
      */
     fun connect(server: SignalingServer) =
         frame.executeJavaScript<Unit>("connect(${server.asJsObject()})")
+
+    protected fun executeJavaScript(javaScript: String) =
+        frame.executeJavaScript<Unit>(javaScript)
 
     /**
      * Loads [WEBRTC_SENDER_PAGE] into this [Frame].
@@ -61,34 +58,20 @@ abstract class WebrtcPeer(
      * See also: [Secure Contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts)
      *           [Chromium #40135832](https://issues.chromium.org/issues/40135832?pli=1)
      */
-    private fun Frame.loadWebrtcSender(webPage: String) {
+    private fun Browser.loadWebrtcSender(webPage: String) {
         val file = withTempFile(webPage)
-        loadUrl(file.absolutePath)
-        while (!pageLoaded()) {
-            sleep(POLLING_INTERVAL)
-        }
+        navigation.loadUrlAndWait(file.absolutePath)
     }
 
     /**
-     * Checks if WebRTC sender page has completed loading.
-     *
-     * The page exports `connect()` method to a global scope. It is considered
-     * loaded when `connect` variable is initialized.
+     * Reads the content of the given [resourcesFile] and writes it
+     * to a temporary file.
      */
-    private fun Frame.pageLoaded(): Boolean = hasGlobalVariable("connect")
-
-    private fun Frame.hasGlobalVariable(name: String) =
-        executeJavaScript<Boolean>("$name != null") == true
-}
-
-/**
- * Reads the content of the given [resourcesFile] and writes it
- * to a temporary file.
- */
-private fun withTempFile(resourcesFile: String): File {
-    val webPage = ::withTempFile.javaClass.getResource(resourcesFile)!!
-    val content = webPage.readBytes()
-    val file = kotlin.io.path.createTempFile().toFile()
-    file.writeBytes(content)
-    return file
+    private fun withTempFile(resourcesFile: String): File {
+        val webPage = ::withTempFile.javaClass.getResource(resourcesFile)!!
+        val content = webPage.readBytes()
+        val file = createTempFile(suffix = ".html").toFile()
+        file.writeBytes(content)
+        return file
+    }
 }
