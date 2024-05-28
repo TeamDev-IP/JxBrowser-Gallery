@@ -35,8 +35,10 @@
     let peer;
 
     // A media connection that represents a screen sharing session.
-    let connection;
+    let mediaConnection;
 
+    // A video stream, which is part of the media connection.
+    let mediaStream;
 
     /**
      * Establishes connection with the signaling server.
@@ -65,7 +67,8 @@
                 cursor: 'always'
             }
         }).then(stream => {
-            connection = peer.call(RECEIVER_PEER_ID, stream);
+            mediaConnection = peer.call(RECEIVER_PEER_ID, stream);
+            mediaStream = stream
         });
     }
 
@@ -75,7 +78,9 @@
      * This method is indented to be invoked from the Java side.
      */
     window.stopScreenSharing = () => {
-        connection.close();
+        mediaConnection.close();
+        mediaStream.getTracks()
+            .forEach(track => track.stop());
     }
 </script>
 </body>
