@@ -34,8 +34,19 @@ import com.teamdev.jxbrowser.dsl.register
 import com.teamdev.jxbrowser.dsl.subscribe
 import com.teamdev.jxbrowser.examples.screenshare.common.WebrtcPeer
 
+/**
+ * A WebRTC sender peer.
+ *
+ * The sender allows starting and stopping a screen sharing session.
+ *
+ * @param [browser] The browser instance used for running JavaScript code,
+ *  which actually invokes WebRTC API.
+ */
 internal class WebrtcSender(browser: Browser) : WebrtcPeer(browser, "/sending-peer.html") {
 
+    /**
+     * Says whether this sender has an active screen sharing session.
+     */
     var isSharing by mutableStateOf(false)
         private set
 
@@ -45,7 +56,7 @@ internal class WebrtcSender(browser: Browser) : WebrtcPeer(browser, "/sending-pe
             val primaryScreen = params.sources().screens()[0]
             tell.selectSource(primaryScreen, AudioCaptureMode.CAPTURE)
         })
-        // Integrate `onSessionStarted` and `onSessionStopped` callbacks.
+        // Update `isSharing` state variable as a session starts and stops.
         browser.subscribe<CaptureSessionStarted> { event: CaptureSessionStarted ->
             isSharing = true
             event.capture().subscribe<CaptureSessionStopped> {
