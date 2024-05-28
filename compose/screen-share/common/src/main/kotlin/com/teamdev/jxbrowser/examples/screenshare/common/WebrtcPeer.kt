@@ -23,10 +23,20 @@ package com.teamdev.jxbrowser.examples.screenshare.common
 import com.teamdev.jxbrowser.browser.Browser
 import com.teamdev.jxbrowser.dsl.browser.mainFrame
 import com.teamdev.jxbrowser.dsl.browser.navigation
-import com.teamdev.jxbrowser.frame.Frame
 import java.io.File
 import kotlin.io.path.createTempFile
 
+/**
+ * An abstract implementation of a WebRTC peer based on PeerJs and JxBrowser.
+ *
+ * WebRTC API is accessible only from browsers. As so, this class relies
+ * on both JavaScript code (which actually invokes the API) and the browser
+ * instance to run this code from JVM.
+ *
+ * @param [browser] JxBrowser instance allowing using Chromium from JVM.
+ * @param [webPage] Path to a file in the app resources, containing JS code
+ *  that actually invokes WebRTC API.
+ */
 abstract class WebrtcPeer(
     browser: Browser,
     webPage: String,
@@ -35,20 +45,26 @@ abstract class WebrtcPeer(
     private val frame = browser.mainFrame!!
 
     init {
-        browser.loadWebrtcSender(webPage)
+        browser.loadWebPage(webPage)
     }
 
     /**
-     * Connects to the given signaling [server].
+     * Connects this [WebrtcPeer] to the given signaling [server].
      */
-    fun connect(server: SignalingServer) =
-        frame.executeJavaScript<Unit>("connect(${server.asJsObject()})")
+    fun connect(server: SignalingServer) {
+        val connectionString = server.asJsObject()
+        executeJavaScript("connect($connectionString)")
+    }
 
+    /**
+     * Executes the given JavaScript code in the context
+     * of the [loaded web page][loadWebPage].
+     */
     protected fun executeJavaScript(javaScript: String) =
         frame.executeJavaScript<Unit>(javaScript)
 
     /**
-     * Loads [WEBRTC_SENDER_PAGE] into this [Frame].
+     * Loads the given [webPage] into this [Browser] from the app resources.
      *
      * Please note, the file content is not passed to JxBrowser "as is"
      * (`frame.loadHtml(content)`) intentionally. Such a loading is performed
@@ -57,21 +73,22 @@ abstract class WebrtcPeer(
      *
      * See also: [Secure Contexts](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts)
      *           [Chromium #40135832](https://issues.chromium.org/issues/40135832?pli=1)
+     *
+     * @param [webPage] Path to a web page in the app resources.
      */
-    private fun Browser.loadWebrtcSender(webPage: String) {
-        val file = withTempFile(webPage)
+    private fun Browser.loadWebPage(webPage: String) {
+        val file = tempFile(webPage)
         navigation.loadUrlAndWait(file.absolutePath)
     }
 
     /**
-     * Reads the content of the given [resourcesFile] and writes it
-     * to a temporary file.
+     * Reads the given [webPage] file from the app resources, and writes
+     * its content to a temporary HTML file.
      */
-    private fun withTempFile(resourcesFile: String): File {
-        val webPage = ::withTempFile.javaClass.getResource(resourcesFile)!!
-        val content = webPage.readBytes()
+    private fun tempFile(webPage: String): File {
+        val url = this::tempFile.javaClass.getResource(webPage)!!
+        val content = url.readBytes()
         val file = createTempFile(suffix = ".html").toFile()
-        file.writeBytes(content)
-        return file
+        return file.also { it.writeBytes(content) }
     }
 }

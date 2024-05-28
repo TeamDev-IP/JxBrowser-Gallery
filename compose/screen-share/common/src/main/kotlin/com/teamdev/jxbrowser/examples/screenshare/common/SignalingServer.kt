@@ -21,7 +21,7 @@
 package com.teamdev.jxbrowser.examples.screenshare.common
 
 /**
- * Address of WebRTC signaling server.
+ * PeerJS signaling server for establishing peer-to-peer WebRTC connections.
  */
 data class SignalingServer(
     val host: String,
@@ -30,5 +30,11 @@ data class SignalingServer(
 
 /**
  * Returns address of this [SignalingServer] in JavaScript object notation.
+ *
+ * An example of the returned string:
+ *
+ * ```
+ * {host: "localhost", port: 3000}
+ * ```
  */
 fun SignalingServer.asJsObject() = "{host: \"$host\", port: $port}"
