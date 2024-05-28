@@ -33,7 +33,7 @@ To run this example, one needs to start the server, sender and receiver apps
 in individual terminals.
 
 By default, the example uses `3000` port. But it is possible to pass a custom
-port with CLI options.
+port with CLI options. Please make sure you pass the same port to each task.
 
 Start the signaling server:
 
