@@ -5,21 +5,34 @@ on the server side using JxBrowser.
 
 ### Summary
 
-This app shows how to render and export rich HTML/CSS/JS charts as images using JxBrowser.
-By following the approach demonstrated in this example, the user can:
+Modern web environment provides a wide variety of well-established tools to visualize
+a data set as a chart. However, in some scenarios, just displaying the chart
+on a web page only partially satisfies the requirements. The chart may need 
+to be created and shared hourly/daily/weekly, with the human intervention in this 
+process minimized. The chart rendering can also be a part of a larger server pipeline, 
+further calling for automation. Or, the chart may have to be displayed as a part 
+of a desktop application.
 
-1. Employ well-established HTML/CSS/JS charting libraries on the server side or
-   outside the web environment. This app showcases usage of [Chart.js][chart.js].
-2. Use frontend styling options for the charts, like Bootstrap or Material typography.
-3. Perform an easy programmatic export to an image with few lines of code.
-4. Re-use the same chart-drawing code on the server side and the client side 
-   if necessary.
+This example demonstrates how to tackle these challenges with the help of JxBrowser.
+The showcased application is a web server that utilizes the power of JxBrowser
+to render an arbitrary web page and then export it to an image. With such an approach,
+the application can render and export HTML/CSS/JS charts directly on the server side.
+The export happens upon a programmatic request, once built and run, this solution
+requires no human interaction or intervention. It can be hosted on a dedicated
+server or on a Cloud VM, rendering and sharing charts upon requests such as a cron job
+or a REST API call from another program.
 
-This example application is built with a client-server architecture to highlight 
-how you can build a user-friendly web UI for inspecting and tweaking the charts 
-and then reuse the same code to render charts as images on the server side. The 
-same mechanism of rendering can also be utilized in a desktop app, a console app,
-and in any other environment where JxBrowser is available.
+Using JxBrowser to build such an application entails the following benefits:
+
+1. A fully automated chart-drawing solution, which requires neither human actions
+   nor an open UI to draw the charts and share them via email or other channels.
+2. The access to a rich web ecosystem of charting libraries like [Chart.js][chart.js]
+   when rendering charts on the server side. This includes the frontend styling
+   options, like [Bootstrap][bootstrap] or [Material][material] typography.
+3. The ability to re-use the same chart-drawing code on the web server and
+   the web client if necessary.
+4. The chart-drawing mechanism that works identically on a web server, a desktop app,
+   a console app, and in any other environment where JxBrowser is available.
 
 ### Description
 
@@ -68,6 +81,7 @@ under the `{project root}/web-server/chart-rendering/server/images` directory
 on the local file system.
 
 [chart.js]: https://www.chartjs.org/
+[bootstrap]: https://getbootstrap.com/
 [material]: https://m3.material.io/
 [micronaut]: https://micronaut.io/
 [java]: https://www.azul.com/downloads/#zulu
