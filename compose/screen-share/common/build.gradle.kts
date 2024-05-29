@@ -18,21 +18,11 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "jxbrowser-gallery"
+plugins {
+    `jvm-module`
+    jxbrowser
+}
 
-include(
-    "jxbrowser-license",
-
-    "compose:pomodoro",
-
-    "compose:screen-share:server",
-    "compose:screen-share:sender",
-    "compose:screen-share:receiver",
-    "compose:screen-share:common",
-
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+dependencies {
+    implementation(jxbrowser.kotlin)
+}

@@ -18,21 +18,18 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "jxbrowser-gallery"
+package com.teamdev.jxbrowser.examples.screenshare.receiver
 
-include(
-    "jxbrowser-license",
+import com.teamdev.jxbrowser.browser.Browser
+import com.teamdev.jxbrowser.examples.screenshare.common.WebrtcPeer
 
-    "compose:pomodoro",
-
-    "compose:screen-share:server",
-    "compose:screen-share:sender",
-    "compose:screen-share:receiver",
-    "compose:screen-share:common",
-
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+/**
+ * A WebRTC receiver peer.
+ *
+ * This receiver is configured to automatically answer WebRTC calls when
+ * it is connected to a signaling server.
+ *
+ * @param [browser] The browser instance used for running JavaScript code,
+ *  which actually invokes WebRTC API.
+ */
+internal class WebrtcReceiver(browser: Browser) : WebrtcPeer(browser, "/receiving-peer.html")

@@ -1,0 +1,87 @@
+<!--
+  ~  Copyright 2024, TeamDev. All rights reserved.
+  ~
+  ~  Redistribution and use in source and/or binary forms, with or without
+  ~  modification, must retain the above copyright notice and the following
+  ~  disclaimer.
+  ~
+  ~  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  ~  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  ~  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  ~  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  ~  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  ~  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  ~  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  ~  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  ~  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  ~  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  ~  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebRTC sender</title>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+</head>
+<body>
+<script>
+    const SENDER_PEER_ID = 'sender';
+    const RECEIVER_PEER_ID = 'receiver';
+
+    // A `Peer` instance holds a connection to the signaling server
+    // and establishes direct peer-to-peer media connections.
+    let peer;
+
+    // A media connection that represents a screen sharing session.
+    let mediaConnection;
+
+    // A video stream, which is part of the media connection.
+    let mediaStream;
+
+    /**
+     * Establishes connection with the signaling server.
+     *
+     * This method is indented to be invoked from the Java side.
+     *
+     * @param signalingServer.host server's address
+     * @param signalingServer.port server's port
+     */
+    window.connect = (signalingServer) => {
+        peer = new Peer(SENDER_PEER_ID, signalingServer);
+    }
+
+    /**
+     * Starts a screen sharing session.
+     *
+     * The method captures a video stream using Screen Capture API and makes
+     * a call to the receiver with the given stream. A peer-to-peer connection
+     * is NOT established until the receiver answers the call.
+     *
+     * This method is indented to be invoked from the Java side.
+     */
+    window.startScreenSharing = () => {
+        navigator.mediaDevices.getDisplayMedia({
+            video: {
+                cursor: 'always'
+            }
+        }).then(stream => {
+            mediaConnection = peer.call(RECEIVER_PEER_ID, stream);
+            mediaStream = stream
+        });
+    }
+
+    /**
+     * Stops the screen sharing session.
+     *
+     * This method is indented to be invoked from the Java side.
+     */
+    window.stopScreenSharing = () => {
+        mediaConnection.close();
+        mediaStream.getTracks()
+            .forEach(track => track.stop());
+    }
+</script>
+</body>
+</html>

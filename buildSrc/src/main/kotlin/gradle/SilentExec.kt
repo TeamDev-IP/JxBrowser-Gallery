@@ -26,29 +26,35 @@ import java.io.ByteArrayOutputStream
 import kotlin.reflect.KClass
 
 /**
- * Decorator for the standard `Exec` task, which hides both error
- * and standard output streams as long as the execution is successful.
+ * Decorator for the standard `Exec` task, which can hide both error
+ * and standard output streams.
  *
- * If the task fails to execute the command, then the content of both
- * streams is printed and the exception is thrown.
+ * If [isMuted] is `true`, then both error and standard streams are hidden
+ * as long as the execution is successful. If the task fails to execute
+ * the given command, then the content of both streams is printed,
+ * and the exception is thrown.
  */
-abstract class SilentExec<T : SilentExec<T>>(taskType: KClass<T>) :
-    AbstractExecTask<T>(taskType.java) {
+abstract class SilentExec<T : SilentExec<T>>(
+    taskType: KClass<T>,
+    private val isMuted: Boolean = false
+) : AbstractExecTask<T>(taskType.java) {
 
     private val allOutput = ByteArrayOutputStream()
 
     init {
-        standardOutput = allOutput
-        errorOutput = allOutput
+        if (isMuted) {
+            standardOutput = allOutput
+            errorOutput = allOutput
 
-        // To be able to print streams' content before throwing.
-        isIgnoreExitValue = true
+            // To be able to print streams' content before throwing.
+            isIgnoreExitValue = true
+        }
     }
 
     @TaskAction
     override fun exec() {
         super.exec()
-        if (executionFailed()) {
+        if (isMuted && executionFailed()) {
             println("$allOutput")
             throw IllegalStateException("The failed command: `$commandLine`.")
         }
