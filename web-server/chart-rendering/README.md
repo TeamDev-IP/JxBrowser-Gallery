@@ -8,7 +8,7 @@ on the server side using JxBrowser.
 Modern web environment provides a wide variety of well-established tools to visualize
 a dataset as a chart. However, in some scenarios, just displaying the chart
 on a web page is not what's needed. The chart may have to be created and shared 
-daily/weekly/monthly, with the human intervention in this process minimized. 
+daily/weekly/monthly, with the human intervention in the process minimized. 
 The chart rendering can also be a part of a larger server pipeline, further calling
 for automation. Or, the chart may have to be displayed as a part of a desktop application.
 
@@ -21,7 +21,7 @@ once built and run, this solution requires no human interaction or intervention.
 It can be hosted on a dedicated server or a Cloud VM, rendering and sharing charts 
 upon requests such as a cron job or a REST API call from another program.
 
-Using JxBrowser to build such an application entails the following benefits:
+Using JxBrowser to build this application entails the following benefits:
 
 1. A fully automated chart-drawing solution, which requires neither human actions
    nor an open UI to draw the charts and share them via communication channels of choice.
