@@ -1,22 +1,39 @@
 # PDF export with JxBrowser
 
-This project demonstrates how to render and export the table data to PDF 
-on the server side using JxBrowser.
+This project demonstrates how to perform programmatic PDF export of HTML/CSS/JS content 
+with the help of JxBrowser.
 
 ### Summary
 
-This app demonstrates how to print HTML/CSS/JS content in PDF format using JxBrowser.
-By following the approach shown in this example, the user will be able to:
+The need to perform an automated PDF export of some content arises in various scenarios. 
+A desktop app may have to generate a PDF report based on the user input. Or, a web server 
+may have to print a document to PDF on schedule without user interaction. Or, a scientific 
+application may have to export a large dataset to PDF for further processing.
 
-1. Print arbitrary webpage content to PDF programmatically. This app chooses table
-   data as an example.
-2. Inspect and tweak the content via UI controls before submitting it for printing.
-3. Robustly and efficiently generate large PDF files (300+ pages) if necessary.
+With the help of JxBrowser, it's possible to build a robust and universal solution
+for these and other scenarios. The showcased app is a web server that prints
+a real dataset visualized as an HTML/CSS table to PDF upon request. It uses JxBrowser's
+ability to render arbitrary web content and export it to PDF programmatically,
+without the need for UI interaction. Once built, such a solution can be hosted on 
+a dedicated server or a Cloud VM, generating PDFs on demand when supplied with
+the specifics of the HTML/CSS/JS content to render. The triggering mechanism for 
+the PDF creation would be a programmatic call from another app, such as a cron job
+or a REST API request.
 
-This example highlights the usage of the JxBrowser Kotlin API, with identical
-functionality being also offered by the JxBrowser Java API. The printing mechanism
-employed in this app will work on a web server, a desktop app, a console app,
-and in any other environment where JxBrowser is available.
+Using JxBrowser to solve this task offers several benefits:
+
+1. A fully automated PDF export solution that requires neither human actions
+   nor an open UI to generate PDFs and share them via communication channels of choice.
+2. The ability to render any web content to PDF, including complex HTML/CSS/JS
+   structures like tables, charts, and forms. This includes large entities that
+   span hundreds of pages when printed.
+3. Reusing the same HTML/CSS/JS code for the PDF generation and on the web 
+   client if necessary.
+4. The PDF printing mechanism that would work identically on a web server, a desktop app, 
+   a console app, and in any other environment where JxBrowser is available.
+5. The ability to switch between Java and Kotlin APIs of JxBrowser, which are 
+   interchangeable and offer the same functionality, depending on the project's
+   language of choice.
 
 ### Description
 
@@ -51,10 +68,12 @@ The technology stack used in this project is [JxBrowser 8][jxbrowser], [Ktor][kt
 as a web server, and [Grid.js][gridjs] for the HTML/CSS/JS table rendering.
 
 ### Prerequisites
+
 1. [JDK 17+][jdk].
 2. [Gradle][gradle].
 
 ### Running locally
+
 ```shell
    ./gradlew build
    ./gradlew :web-server:pdf-export:server:run
