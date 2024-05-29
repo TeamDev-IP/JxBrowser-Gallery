@@ -3,7 +3,7 @@
 This project demonstrates how to share a screen between two Java 
 applications using WebRTC and [JxBrowser](https://www.teamdev.com/jxbrowser).
 
-![Screen sharing screenshot](/.github/readme-resources/screenshot.jpeg?raw=true)
+![Screen sharing screenshot](.github/readme-resources/screenshot.jpeg)
 
 ## Description
 
