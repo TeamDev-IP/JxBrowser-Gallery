@@ -66,12 +66,12 @@ internal class WebrtcSender(browser: Browser) : WebrtcPeer(browser, "/sending-pe
     }
 
     /**
-     * Starts screen sharing session.
+     * Starts a screen sharing session.
      */
     fun startScreenSharing() = executeJavaScript("startScreenSharing()")
 
     /**
-     * Stops screen sharing session.
+     * Stops the screen sharing session.
      */
     fun stopScreenSharing() = executeJavaScript("stopScreenSharing()")
 }

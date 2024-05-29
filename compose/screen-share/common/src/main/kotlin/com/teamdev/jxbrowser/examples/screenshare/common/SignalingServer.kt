@@ -21,7 +21,7 @@
 package com.teamdev.jxbrowser.examples.screenshare.common
 
 /**
- * PeerJS signaling server for establishing peer-to-peer WebRTC connections.
+ * WebRTC signaling server for establishing peer-to-peer connections.
  */
 data class SignalingServer(
     val host: String,
