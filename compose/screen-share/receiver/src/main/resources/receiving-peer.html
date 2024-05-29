@@ -1,0 +1,89 @@
+<!--
+  ~  Copyright 2024, TeamDev. All rights reserved.
+  ~
+  ~  Redistribution and use in source and/or binary forms, with or without
+  ~  modification, must retain the above copyright notice and the following
+  ~  disclaimer.
+  ~
+  ~  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  ~  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  ~  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  ~  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  ~  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  ~  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  ~  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  ~  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  ~  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  ~  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  ~  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebRTC receiver</title>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <style>
+        video {
+            display: none;
+            margin: 0 auto;
+            width: 50%;
+            height: 50%;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <video autoplay controls muted></video>
+</div>
+<script>
+    const RECEIVER_PEER_ID = 'receiver';
+
+    /**
+     * Establishes connection with the signaling server.
+     *
+     * Right after, the method subscribes to new peer calls to show
+     * the incoming video stream.
+     *
+     * Please note, this method is indented to be invoked from the Java side.
+     *
+     * @param signalingServer.host server's address
+     * @param signalingServer.port server's port
+     */
+    window.connect = (signalingServer) => {
+        const peer = new Peer(RECEIVER_PEER_ID, signalingServer);
+        peer.on('call', (call) => {
+            call.answer(); // Accepts the call.
+            call.on('stream', (stream) => {
+                showVideo(stream);
+            });
+            call.on('close', () => {
+                hideVideo();
+            });
+        });
+    }
+
+    /**
+     * Sets the given {@link stream} as a source for the video element
+     * and shows it.
+     *
+     * @param {MediaStream} stream media to be displayed
+     */
+    function showVideo(stream) {
+        const video = document.querySelector('video');
+        video.srcObject = stream;
+        video.style.display = 'block';
+    }
+
+    /**
+     * Clears the video element and hides it.
+     */
+    function hideVideo() {
+        const video = document.querySelector('video');
+        video.srcObject = null;
+        video.style.display = 'none';
+    }
+</script>
+</body>
+</html>

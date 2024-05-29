@@ -20,35 +20,50 @@
 
 package gradle.web
 
-import gradle.SilentExec
-import org.apache.tools.ant.taskdefs.condition.Os
-import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
-import kotlin.reflect.KClass
+import org.gradle.api.tasks.options.Option
 
 /**
- * Specifies NPM executable and working directory.
+ * Runs the given web project using `npm start` command.
+ *
+ * Please make sure project's `package.json` has such a script declared.
+ * Although, for "start" script there is a default value (`node server.js`),
+ * it is recommended to have the used scripts explicitly declared.
+ *
+ * For example:
+ *
+ * ```
+ * "scripts": {
+ *     "start": "node server.js"
+ * }
+ * ```
+ *
+ * The task allows to configure the used [port]. It can be changed by a Gradle
+ * script or passed from CLI.
+ *
+ * An example of the task invocation with the specified port:
+ *
+ * ```
+ * ./gradlew :compose:screen-sharing:server:run --port=4000
+ * ```
  */
-abstract class NpmExec<T : NpmExec<T>>(
-    taskType: KClass<T>,
-    isMuted: Boolean = true
-) : SilentExec<T>(taskType, isMuted) {
+abstract class RunWeb : NpmExec<RunWeb>(RunWeb::class, isMuted = false) {
 
-    private val npm = if (isWindows()) "npm.cmd" else "npm"
-
-    /**
-     * The web project to execute NPM commands for.
-     */
-    @get:Internal // Let inheritors declare input on their own.
-    abstract val webProjectDir: DirectoryProperty
+    @Input
+    @Option(description = "Port to be taken by the running app.")
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+    // `@Option` requires exactly a boxed `Integer`.
+    var port: Integer = Integer.valueOf(DEFAULT_NODE_PORT) as Integer
 
     @TaskAction
     override fun exec() {
-        workingDir(webProjectDir)
-        commandLine(npm, *commandLine.toTypedArray())
+        commandLine("start", "--", "--port", port)
         super.exec()
     }
-
-    private fun isWindows(): Boolean = Os.isFamily(Os.FAMILY_WINDOWS)
 }
+
+/**
+ * Node's default port.
+ */
+const val DEFAULT_NODE_PORT = 3000

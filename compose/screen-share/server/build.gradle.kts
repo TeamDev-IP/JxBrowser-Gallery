@@ -18,21 +18,13 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "jxbrowser-gallery"
+import gradle.web.RunWeb
+import gradle.web.installWeDependencies
 
-include(
-    "jxbrowser-license",
-
-    "compose:pomodoro",
-
-    "compose:screen-share:server",
-    "compose:screen-share:sender",
-    "compose:screen-share:receiver",
-    "compose:screen-share:common",
-
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+tasks {
+    val installWebDependencies = installWeDependencies(projectDir)
+    val run by registering(RunWeb::class) {
+        this.webProjectDir = projectDir
+        dependsOn(installWebDependencies)
+    }
+}
