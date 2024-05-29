@@ -10,10 +10,10 @@ with the help of JxBrowser.
 Businesses often want to automate their reporting. By far, the most common format for
 such reports is PDF. The resulting files may include a variety of data, including tables,
 charts, and forms. While the format is very common, setting up an automated PDF export 
-can often impose some challenges. The organization may be required to lock into 
-a specific reporting tool and/or the developers may need to use a program library 
-with a steep learning curve requiring proficiency to use effectively. Also, the fidelity 
-of the generated content may not be as high as expected.
+can often impose some challenges. Depending on the solution, the organization may be 
+required to lock into a specific reporting tool and/or the developers may need to use 
+a program library with a steep learning curve requiring proficiency to use effectively. 
+Also, the fidelity of the generated content may not be as high as expected.
 
 In many situations, it's beneficial to use an alternative approach: render the desired 
 content as HTML/CSS/JS and print it to PDF via the built-in printing mechanism of a web browser.
