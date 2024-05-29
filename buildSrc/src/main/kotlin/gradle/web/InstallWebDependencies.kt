@@ -26,6 +26,11 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.TaskProvider
+import org.gradle.kotlin.dsl.TaskContainerScope
+import org.gradle.kotlin.dsl.assign
+import org.gradle.kotlin.dsl.register
+import java.io.File
 
 /**
  * Installs web project dependencies using `npm install` command.
@@ -53,3 +58,13 @@ abstract class InstallWebDependencies :
         super.exec()
     }
 }
+
+/**
+ * Registers [InstallWebDependencies] task in this [TaskContainerScope].
+ */
+fun TaskContainerScope.installWeDependencies(
+    webProjectDir: File
+): TaskProvider<InstallWebDependencies> =
+    register<InstallWebDependencies>("installWeDependencies") {
+        this.webProjectDir = webProjectDir
+    }

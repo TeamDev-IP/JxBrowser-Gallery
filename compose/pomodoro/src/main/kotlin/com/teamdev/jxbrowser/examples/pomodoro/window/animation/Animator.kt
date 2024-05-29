@@ -107,7 +107,7 @@ class Animator : AutoCloseable {
     }
 
     /**
-     * Checks if WebGL animations completed loading.
+     * Checks if WebGL animations have completed loading.
      *
      * [WEBGL_PAGE] is configured to export `animator` and `animation` global
      * variables as soon as all animations are ready, so this method checks
