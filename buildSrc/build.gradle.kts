@@ -31,7 +31,6 @@ repositories {
 kotlin {
     jvmToolchain {
         languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-        vendor = JvmVendorSpec.matching(libs.versions.java.vendor.get())
     }
 }
 

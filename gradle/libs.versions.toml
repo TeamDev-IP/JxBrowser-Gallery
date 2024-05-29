@@ -5,7 +5,6 @@ jxbrowser-gradlePlugin = "1.0.2" # https://github.com/TeamDev-IP/JxBrowser-Gradl
 
 # Other platforms, libraries, and plugins.
 java = "17" # See also: `org.gradle.jvm.toolchain.JavaLanguageVersion`
-java-vendor = "AZUL" # See also: `org.gradle.jvm.toolchain.JvmVendorSpec`
 kotlin = "1.9.23" # https://github.com/JetBrains/kotlin/releases
 kotlin-serialization = "1.6.3" # https://github.com/Kotlin/kotlinx.serialization/releases
 detekt = "1.23.6" # https://github.com/detekt/detekt/releases
