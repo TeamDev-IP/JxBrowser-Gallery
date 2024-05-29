@@ -32,6 +32,9 @@ Using JxBrowser to build an application like this entails the following benefits
    the web client if necessary.
 4. The chart-drawing mechanism that works identically on a web server, a desktop app,
    a console app, and in any other environment where JxBrowser is available.
+5. The ability to switch between Java and Kotlin APIs of JxBrowser, which are
+   interchangeable and offer the same functionality, depending on the project's
+   language of choice.
 
 ### Description
 
@@ -63,11 +66,13 @@ var image = browser.bitmap();
 The image is then returned to the client side as a byte array.
 
 ### Prerequisites
+
 1. [Java 17+][java].
 2. [NPM][npm].
 3. [Gradle][gradle].
 
 ### Running locally
+
 ```shell
    ./gradlew build
    ./gradlew :web-server:chart-rendering:server:run
