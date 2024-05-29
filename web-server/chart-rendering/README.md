@@ -21,13 +21,13 @@ once built and run, this solution requires no human interaction or intervention.
 It can be hosted on a dedicated server or a Cloud VM, rendering and sharing charts 
 upon requests such as a cron job or a REST API call from another program.
 
-Using JxBrowser to build this application entails the following benefits:
+Using JxBrowser to build an application like this entails the following benefits:
 
 1. A fully automated chart-drawing solution, which requires neither human actions
    nor an open UI to draw the charts and share them via communication channels of choice.
 2. The access to a rich web ecosystem of charting libraries like [Chart.js][chart.js]
-   when rendering charts on the server side. This includes the frontend styling
-   options, like [Bootstrap][bootstrap] or [Material][material] typography.
+   when rendering charts from within a Java/Kotlin app. This includes the frontend 
+   styling options, like [Bootstrap][bootstrap] or [Material][material] typography.
 3. The ability to re-use the same chart-drawing code on the web server and
    the web client if necessary.
 4. The chart-drawing mechanism that works identically on a web server, a desktop app,
