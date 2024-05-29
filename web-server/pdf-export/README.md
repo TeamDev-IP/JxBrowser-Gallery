@@ -15,10 +15,9 @@ for these and other scenarios. The showcased app is a web server that prints
 a real dataset visualized as an HTML/CSS table to PDF upon request. It uses JxBrowser's
 ability to render arbitrary web content and export it to PDF programmatically,
 without the need for UI interaction. Once built, such a solution can be hosted on 
-a dedicated server or a Cloud VM, generating PDFs on demand when supplied with
-the specifics of the HTML/CSS/JS content to render. The triggering mechanism for 
-the PDF creation would be a programmatic call from another app, such as a cron job
-or a REST API request.
+a dedicated server or a Cloud VM, generating PDFs from HTML/CSS/JS content on demand.
+The triggering mechanism for the PDF creation would be a programmatic call from another app, 
+such as a cron job or a REST API request.
 
 Using JxBrowser to solve this task offers several benefits:
 

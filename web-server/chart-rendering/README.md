@@ -8,7 +8,7 @@ on the server side using JxBrowser.
 Modern web environment provides a wide variety of well-established tools to visualize
 a dataset as a chart. However, in some scenarios, just displaying the chart
 on a web page is not what's needed. The chart may have to be created and shared 
-daily/weekly/monthly, with the human intervention in the process minimized. 
+daily/weekly/monthly, with human intervention in the process minimized. 
 The chart rendering can also be a part of a larger server pipeline, further calling
 for automation. Or, the chart may have to be displayed as a part of a desktop application.
 
