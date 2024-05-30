@@ -22,7 +22,7 @@ as HTML and print it to PDF via the built-in printing mechanism of a web browser
 
 #### Solution
 
-This example shows how an automated system using the latter approach could be implemented 
+This example shows how an automated system using the latter method could be implemented 
 with the help of JxBrowser. The showcased app is a web server that prints a real dataset 
 visualized as an HTML/CSS table to PDF upon request. It uses JxBrowser's API to render 
 the web content and programmatically export it to a PDF file. The resulting PDFs 
