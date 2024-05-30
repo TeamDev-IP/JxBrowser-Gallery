@@ -9,40 +9,38 @@ applications using [WebRTC][webrtc] and [JxBrowser](jxbrowser).
 
 ## Summary
 
-Remote screen sharing is used in various applications and services, from web
-conferencing to remote access applications. For example, it allows team members
-to share screens in virtual meetings and enables technical support specialists 
-to efficiently assist clients by directly viewing and guiding them. Third-party 
-apps like TeamViewer facilitate this. But what if you need screen sharing
-capabilities directly in your Java application?
+### Problem
 
-Developing an in-house screen sharing functionality in a desktop app requires 
-a lot of resources. Dealing with complicated network protocols and optimizations
-of UI to render a video stream may be challenging in terms of time and budged.
+Screen sharing is an essential tool used in many applications and services, 
+from web conferencing to remote support. It helps team members collaborate 
+in virtual meetings and allows technical support specialists to assist clients 
+more effectively by seeing their screens directly. While third-party apps like
+TeamViewer or Google Meet offer screen sharing, what if you need this feature
+directly in your Java application?
 
-Fortunately, we can build a screen sharing application much easier with WebRTC.
+Building screen sharing from scratch in a desktop app can be resource-intensive. 
+You have to handle complex network protocols and optimize the user interface 
+to stream video, which can be both time-consuming and expensive.
+
+### Solution
+
+Luckily, there's an easier way to implement screen sharing using WebRTC.
 It enables peer-to-peer audio, video, and data sharing, providing high-quality
-communication between browser without the need for plugins or external apps.
-But Java doesn't naturally support WebRTC. This is where JxBrowser comes into
-the picture. JxBrowser is a library that allows seamless integration of web 
-technologies into a Java Application, including WebRTC. This project leverages
-JxBrowser to integrate WebRTC and provide a screen-sharing feature within 
-the Java desktop application.
+communication between browsers. However, Java doesn't naturally support WebRTC,
+and that's where JxBrowser comes in. JxBrowser is a library that allows you to 
+integrate web technologies, including WebRTC, into a Java application. 
+This project uses JxBrowser to add WebRTC screen-sharing capabilities 
+to a Java desktop app.
 
-Employing JxBrowser & WebRTC provides the following benefits:
+Using JxBrowser and WebRTC in a desktop app has several advantages:
 
-1. Cross-Platform Compatibility: JxBrowser is designed to work seamlessly 
-across Windows, macOS, and Linux.
-2. Reliability and Stability: By leveraging JxBrowser's underlying Chromium 
-engine for WebRTC, you can benefit from the reliability and stability of Chromium,
-reducing the likelihood of compatibility issues and bugs in your screen sharing feature.
-3. APIs and Libraries: WebRTC provides a comprehensive set of APIs and libraries 
-that simplify the implementation of screen sharing, reducing development time.
-4. Optimized Streaming: WebRTC is optimized for low-latency and high-quality 
-real-time communication. It leverages various codecs and adaptive bitrate
-technologies to ensure smooth and efficient screen sharing.
-5. Encryption: WebRTC provides end-to-end encryption for all media streams, 
-ensuring that the screen sharing content is secure and protected from eavesdropping.
+1. JxBrowser works smoothly on Windows, macOS, and Linux.
+2. It uses the reliable Chromium engine, minimizing compatibility issues and bugs.
+3. The web world offers various WebRTC libraries, reducing development time.
+4. WebRTC is designed for low-latency real-time communication, ensuring smooth 
+video streaming with advanced codecs and adaptive bitrate technologies.
+5. All media streams are end-to-end encrypted, keeping your screen-sharing 
+sessions secure and private.
 
 ## Project structure
 
