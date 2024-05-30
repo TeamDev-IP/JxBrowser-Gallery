@@ -71,7 +71,9 @@ The image is then returned to the client side as a byte array.
 
 1. [Java 17+][java].
 2. [NPM][npm].
-3. [Gradle][gradle].
+
+This project uses [Gradle][gradle] as a build system. The [Gradle Wrapper][gradle-wrapper]
+is included in the project, so there is no need to install Gradle separately.
 
 ### Running locally
 
@@ -92,5 +94,5 @@ on the local file system.
 [micronaut]: https://micronaut.io/
 [java]: https://www.azul.com/downloads/#zulu
 [npm]: https://nodejs.org/en/download
-[gradle]: https://gradle.org/install
-
+[gradle]: https://gradle.org
+[gradle-wrapper]: https://docs.gradle.org/current/userguide/gradle_wrapper.html

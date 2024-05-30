@@ -73,7 +73,10 @@ as a web server, and [Grid.js][gridjs] for the HTML/CSS/JS table rendering.
 ### Prerequisites
 
 1. [JDK 17+][jdk].
-2. [Gradle][gradle].
+2. [NPM][npm].
+
+This project uses [Gradle][gradle] as a build system. The [Gradle Wrapper][gradle-wrapper]
+is included in the project, so there is no need to install Gradle separately.
 
 ### Running locally
 
@@ -89,11 +92,9 @@ under the `{project root}/web-server/pdf-export/server/exported` directory
 on the local file system.
 
 [jxbrowser]: https://teamdev.com/jxbrowser
-
 [ktor]: https://ktor.io
-
 [gridjs]: https://gridjs.io
-
 [jdk]: https://www.azul.com/downloads/#zulu
-
-[gradle]: https://gradle.org/install
+[npm]: https://nodejs.org/en/download
+[gradle]: https://gradle.org
+[gradle-wrapper]: https://docs.gradle.org/current/userguide/gradle_wrapper.html
