@@ -22,16 +22,19 @@ as HTML and print it to PDF via the built-in printing mechanism of a web browser
 
 #### Solution
 
-This example shows how an automated system using the latter method could be implemented 
-with the help of JxBrowser. The showcased app is a web server that prints a real dataset 
-visualized as an HTML/CSS table to PDF upon request. It uses JxBrowser's API to render 
-the web content and programmatically export it to a PDF file. The resulting PDFs 
-are the same as if they were printed by a plain desktop Chromium browser.
+In this example, we use JxBrowser on a JVM web server to export table-like data
+to PDF upon request. As JxBrowser is built on top of Chromium, we use the HTML
+capabilities to create the table interface, and use CSS and JS libraries to establish
+a proper look&feel. At runtime, the page is filled with the actual data, and rendered
+to PDF via JxBrowser's API. The resulting PDFs are the same as if they were printed
+by the Chromium browser for the desktop.
 
-Once this app is built and run, the whole printing process becomes automated and 
-requires no human intervention or interactions with the UI. The app can be hosted on 
-a dedicated server or a Cloud VM, generating PDFs upon requests, such as a cron job 
-or a REST API request from another program.
+Another thing is that once the app is launched, the PDF export process requires
+no human intervention or any other interaction with the UI. This helps to run,
+say, scheduled reports every night, if needed.
+
+The app can be hosted on a dedicated server or a Cloud VM, generating PDFs upon 
+requests, such as a cron job, or a REST API request from another program.
 
 To sum up, here is a short list of benefits:
 
