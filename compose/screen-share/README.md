@@ -1,11 +1,52 @@
 # Java Remote Screen Sharing via WebRTC
 
 This project demonstrates how to share a screen between two Java 
-applications using WebRTC and [JxBrowser](https://www.teamdev.com/jxbrowser).
+applications using [WebRTC][webrtc] and [JxBrowser](jxbrowser).
 
-![Screen sharing screenshot](/.github/readme-resources/screenshot.jpeg?raw=true)
+[webrtc]: https://webrtc.org/
+[jxbrowser]: https://www.teamdev.com/jxbrowser
+![Screen sharing screenshot](.github/readme-resources/screenshot.jpeg)
 
-## Description
+## Summary
+
+### Problem
+
+Screen sharing is an essential tool used in many applications and services.
+While there are many existing services on the market, it is often needed
+to add this feature into an existing application, closely integrating with 
+other parts of the application, and addressing potential privacy concerns.
+
+Building screen sharing from scratch in a desktop app can be resource-intensive. 
+One has to handle complex network protocols, optimize the user interface 
+to stream video, and also, maintain this code for years to come.
+
+### Solution
+
+JxBrowser supports the data transfer over WebRTC. It is an open standard,
+with many possible applications, one of them being video streaming.
+With WebRTC, video, audio, and other types of data are transferred
+peer-to-peer between application instances.
+
+Java as a platform has no built-in WebRTC support, but as JxBrowser operates
+on top of Chromium engine, its API provides all WebRTC features available 
+in Chrome. Not only it is possible to build a screen sharing channel between 
+two apps using JxBrowser, but one can have any WebRTC-compatible software 
+to send or receive data streams.
+
+This project is a simple desktop app built with JxBrowser and WebRTC, 
+with the code anyone can re-use in their own projects. Here is a number 
+of highlights:
+
+1. Cross-platform support for Windows, macOS, and Linux, 
+with various architectures, too.
+2. WebRTC implementation comes from Chromium, which is constantly updated 
+with performance improvements and security fixes.
+3. Following an open standard makes it easy to integrate with other platforms,
+such as mobile.
+4. All media streams are end-to-end encrypted, keeping the screen-sharing 
+sessions secure and private.
+
+## Project structure
 
 The project consists of four modules:
 
