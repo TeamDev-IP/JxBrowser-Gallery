@@ -29,8 +29,8 @@ and complex visualizations in their applications. This support enables a broad
 range of use cases, from 3D data visualizations to medical applications.
 
 This project demonstrates capability of 3D rendering with JxBrowser featuring
-three timers from a well-known Pomodoro technique, which are accompanied by
-the corresponding rotating 3D models. Here are some highlights:
+three timers from a well-known Pomodoro technique. Each timer is accompanied by
+the corresponding rotating 3D model. Here are some highlights:
 
 1. Cross-platform support for Windows, macOS, and Linux,
    with various architectures, too.
@@ -49,7 +49,7 @@ The project consist of a single Gradle module, but it has two logical parts:
 the used models.
 
 During the build, `webgl` component is assembled and put into the resources folder
-of Compose application. In runtime, JxBrowser loads the assembled JS files from
+of Compose application. In runtime, JxBrowser loads the assembled JS file from
 the app's resources.
 
 ## Requirements
