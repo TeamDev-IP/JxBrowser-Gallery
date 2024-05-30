@@ -11,7 +11,7 @@ When an organization wants to assemble and share some information, by far,
 the most common format for such reports would be PDF. The resulting files may 
 contain a variety of data, including tables, charts, and other visualizations. 
 
-However, while the format is very popular, setting up an automated PDF export system 
+However, while the format is very popular, setting up an automated PDF generation system 
 can often impose challenges. Depending on the solution, the organization may be required 
 to lock into a specific reporting tool and/or the developers may need to use a program library 
 with a steep learning curve requiring proficiency to use effectively. Also, the fidelity 
