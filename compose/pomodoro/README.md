@@ -1,8 +1,8 @@
 # Pomodoro tracker with WebGL animation
 
-This project represents a tray application that helps to follow
-[Pomodoro][pomodoro-wiki] time management technique. The application 
-is implemented using [WebGL][webgl-mdn] and [JxBrowser][jxbrowser].
+This project is a system-tray application that helps to follow
+[Pomodoro][pomodoro-wiki] time management technique. The technologies used 
+include[WebGL][webgl-mdn] and [JxBrowser][jxbrowser].
 
 ![screenshot.png](.github/readme-resources/screenshot.png)
 
@@ -14,30 +14,38 @@ is implemented using [WebGL][webgl-mdn] and [JxBrowser][jxbrowser].
 
 ### Problem
 
-Bringing 3D animation into a desktop application can be challenging.
-Integrating sophisticated 3D animation frameworks and libraries into existing
-applications often requires significant efforts. Moreover, ensuring cross-platform
-compatibility adds another layer of complexity, as different operating systems 
-may have varying levels of support for 3D rendering technologies.
+In modern desktop applications, it is often needed to render some graphic models
+or display an animated 3D visuals related to the business domain. However, 
+integrating sophisticated animation frameworks or libraries is almost always
+a challenge, especially, if we speak of modifying an existing, well-established app.
+Moreover, ensuring cross-platform compatibility adds another layer of complexity,
+as different operating systems usually have their own specifics for supporting 
+3D rendering.
 
 ### Solution
 
-JxBrowser supports WebGL, allowing rendering of 3D graphics within Java application.
-It integrates the Chromium engine, which inherently supports WebGL, ensuring 
-compatibility and performance. One can use JxBrowser's API to embed 3D content 
-and complex visualizations in their applications. This support enables a broad 
-range of use cases, from 3D data visualizations to medical applications.
+WebGL is a browser technology, allowing for displaying 2D and 3D objects, 
+optionally leveraging the power of GPU hardware acceleration. JxBrowser, being 
+built on top of Chromium, supports WebGL as well, and enables JVM apps to render 
+still and animated graphic objects. Also, as WebGL is a well-established technology 
+in the web world, there are many high-quality JS libraries, that significantly
+shorten the development time.
 
-This project demonstrates capability of 3D rendering with JxBrowser featuring
-three timers from a well-known Pomodoro technique. Each timer is accompanied by
-the corresponding rotating 3D model. Here are some highlights:
+In this project, we demonstrate rendering of 3D models using JxBrowser API,
+and, just for fun, visualize Pomodoro timers: each timer is accompanied by
+the corresponding rotating 3D model.
 
-1. Cross-platform support for Windows, macOS, and Linux,
-   with various architectures, too.
-2. WebGL leverages the power of the GPU to accelerate rendering processes.
-3. There is a rich ecosystem of libraries and frameworks built on top of WebG.
-This projects uses [ThreeJs][three-js] to load and animate the models.
+Another thing is that this application is built with [Compose Desktop][compose-multiplatform] 
+toolkit, being a new approach to building modern desktop applications in Kotlin.
 
+Here are some key features:
+
+1. System-tray application written in Compose Desktop.
+2. Cross-platform support for Windows, macOS, and Linux, with various architectures, too.
+3. 3D models are rendered with WebGL, with GPU acceleration.
+4. Excellent [ThreeJs][three-js] library is showcased to load and animate 3D models.
+
+[compose-multiplatform]: https://github.com/JetBrains/compose-multiplatform
 [three-js]: https://github.com/mrdoob/three.js
 
 ## Project structure
