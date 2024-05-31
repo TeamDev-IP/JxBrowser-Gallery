@@ -29,7 +29,7 @@
 export class DeduplicatingFormatter {
 
     /**
-     * Creates a new formatter which deduplicates the specified columns.
+     * Creates a new formatter that deduplicates the specified columns.
      *
      * @param columnsToDeduplicate the indexes of the columns to deduplicate
      */
