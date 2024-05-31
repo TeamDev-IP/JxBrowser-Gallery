@@ -27,7 +27,7 @@ as different operating systems usually have their own specifics for supporting
 WebGL is a browser technology, allowing for displaying 2D and 3D objects, 
 optionally leveraging the power of GPU hardware acceleration. JxBrowser, being 
 built on top of Chromium, supports WebGL as well, and enables JVM apps to render 
-still and animated graphic objects. Also, as WebGL is a well-established technology 
+still and animated graphic objects. Also, as WebGL is a long-standing technology 
 in the web world, there are many high-quality JS libraries, that significantly
 shorten the development time.
 
