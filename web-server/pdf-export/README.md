@@ -78,8 +78,8 @@ as a web server, and [Grid.js][gridjs] for the HTML/CSS/JS table rendering.
 1. [JDK 17+][jdk].
 2. [NPM][npm].
 
-This project uses [Gradle][gradle] as a build system. The [Gradle Wrapper][gradle-wrapper]
-is included in the project, so there is no need to install Gradle separately.
+This app uses [Gradle][gradle] as a build system. The [Gradle Wrapper][gradle-wrapper]
+is already included in the root Gradle project.
 
 ### Running locally
 

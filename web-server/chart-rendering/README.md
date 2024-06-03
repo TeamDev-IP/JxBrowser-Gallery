@@ -72,8 +72,8 @@ The image is then returned to the client side as a byte array.
 1. [Java 17+][java].
 2. [NPM][npm].
 
-This project uses [Gradle][gradle] as a build system. The [Gradle Wrapper][gradle-wrapper]
-is included in the project, so there is no need to install Gradle separately.
+This app uses [Gradle][gradle] as a build system. The [Gradle Wrapper][gradle-wrapper]
+is already included in root Gradle project.
 
 ### Running locally
 

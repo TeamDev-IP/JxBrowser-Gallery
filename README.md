@@ -16,7 +16,7 @@ The following apps are written in Kotlin, showcasing the JxBrowser's component
 for the Compose UI toolkit.
 
 * [Pomodoro](compose/pomodoro/README.md) 
-— a system tray helper for Pomodoro users, also features WebGL 3D models
+— a system tray helper for Pomodoro users, featuring WebGL 3D models
 in a desktop app.
 
 * [Screen Sharing](compose/screen-share/README.md)
@@ -32,7 +32,7 @@ JxBrowser here is a server-side tool to render and export the results
 to a media format of choice, such as images, or PDFs.
 
 * [Chart rendering](web-server/chart-rendering/README.md) —
-automates building the charts with custom JS libraries, with an export to PNG.
+automates building the charts using popular JS libraries, with an export to PNG.
 
 * [PDF export](web-server/pdf-export/README.md) — 
 renders the rich table data with CSS and JS, and exports the result to PDF.
@@ -41,7 +41,7 @@ renders the rich table data with CSS and JS, and exports the result to PDF.
 
 JDK 17+ is required to build the apps.
 
-The project is assembled using the [Gradle][gradle]. The [Gradle Wrapper][gradle-wrapper]
+The applications are assembled using [Gradle][gradle]. The [Gradle Wrapper][gradle-wrapper]
 is included in the project, so there is no need to install Gradle separately.
 
 ## Dependencies
