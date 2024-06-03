@@ -3,6 +3,8 @@
 This project demonstrates how to render and export HTML/CSS/JS charts 
 on the server side using JxBrowser.
 
+![screenshot.png](.github/readme-resources/screenshot.png)
+
 ### Summary
 
 #### Problem
