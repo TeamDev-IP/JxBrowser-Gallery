@@ -7,7 +7,7 @@ media artifacts, such as images and PDFs,
 from a rich UI built with HTML,CSS, and JavaScript.
 
 * [Chart rendering](chart-rendering/README.md) — 
-automates building the charts with custom JS libraries, with an export to PNG.
+automates building the charts using popular JS libraries, with an export to PNG.
 
 * [PDF export](pdf-export/README.md) — 
 renders the table data with CSS and JS, and exports the result to PDF.
