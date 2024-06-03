@@ -1,18 +1,10 @@
-# Apps built with JxBrowser and Compose Desktop
+# Compose Desktop apps
 
-To run an application, use `run` or `runDistributable` Gradle task. 
-See [docs][compose-gradle-plugin] to Compose Gradle plugin to know difference 
-between them.
+In this folder, the gallery applications are built with JxBrowser
+on top of Compose Multiplatform for desktop.
 
-[compose-gradle-plugin]: https://github.com/JetBrains/compose-multiplatform/blob/master/tutorials/Native_distributions_and_local_execution/README.md#gradle-plugin
+* [Pomodoro](pomodoro/README.md) —
+a system tray helper for Pomodoro users, showcasing WebGL in a desktop app.
 
-### Pomodoro
-
-A tray app that helps to follow Pomodoro Technique.
-
-This app requires Node.js 20 for building and running.
-
-### Screen Sharing
-
-The project allows sharing a screen between two Compose applications 
-using WebRTC and JxBrowser.
+* [Screen Sharing](screen-share/README.md) —
+an app to share a screen via WebRTC.
