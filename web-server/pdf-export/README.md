@@ -3,6 +3,8 @@
 This project demonstrates how to perform programmatic PDF export of HTML/CSS/JS content
 with the help of JxBrowser.
 
+![screenshot.png](.github/readme-resources/screenshot.png)
+
 ### Summary
 
 #### Problem
