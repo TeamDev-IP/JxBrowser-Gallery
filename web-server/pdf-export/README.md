@@ -75,8 +75,8 @@ as a web server, and [Grid.js][gridjs] for the HTML/CSS/JS table rendering.
 
 ### Prerequisites
 
-1. [JDK 17+][jdk].
-2. [NPM][npm].
+- Java 17 or later.
+- [NPM][npm].
 
 This app uses [Gradle][gradle] as a build system. The [Gradle Wrapper][gradle-wrapper]
 is already included in the root Gradle project.
@@ -97,7 +97,6 @@ on the local file system.
 [jxbrowser]: https://teamdev.com/jxbrowser
 [ktor]: https://ktor.io
 [gridjs]: https://gridjs.io
-[jdk]: https://www.azul.com/downloads/#zulu
 [npm]: https://nodejs.org/en/download
 [gradle]: https://gradle.org
 [gradle-wrapper]: https://docs.gradle.org/current/userguide/gradle_wrapper.html

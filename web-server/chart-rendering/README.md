@@ -69,8 +69,8 @@ The image is then returned to the client side as a byte array.
 
 ### Prerequisites
 
-1. [Java 17+][java].
-2. [NPM][npm].
+- Java 17 or later.
+- [NPM][npm].
 
 This app uses [Gradle][gradle] as a build system. The [Gradle Wrapper][gradle-wrapper]
 is already included in root Gradle project.
@@ -92,7 +92,6 @@ on the local file system.
 [bootstrap]: https://getbootstrap.com/
 [material]: https://m3.material.io/
 [micronaut]: https://micronaut.io/
-[java]: https://www.azul.com/downloads/#zulu
 [npm]: https://nodejs.org/en/download
 [gradle]: https://gradle.org
 [gradle-wrapper]: https://docs.gradle.org/current/userguide/gradle_wrapper.html
