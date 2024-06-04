@@ -1,17 +1,13 @@
 # Apps built with JxBrowser in the web server environment
 
-This directory contains gallery apps that use JxBrowser in the web server environment.
+This directory lists the gallery apps that use JxBrowser in the web server environment.
 
-### Chart Rendering
+The code is executed on a server side, and demonstrates how to produce
+media artifacts, such as images and PDFs, 
+from a rich UI built with HTML,CSS, and JavaScript.
 
-The chart rendering app that demonstrates how to render and export HTML/CSS/JS
-charts using JxBrowser.
+* [Chart rendering](chart-rendering/README.md) — 
+automates building the charts using popular JS libraries, with an export to PNG.
 
-See the subproject README for more details: [chart-rendering/README.md](chart-rendering/README.md).
-
-### PDF Export
-
-The PDF export app that demonstrates how to render and export the table data 
-to PDF using JxBrowser.
-
-See the subproject README for more details: [pdf-export/README.md](pdf-export/README.md).
+* [PDF export](pdf-export/README.md) — 
+renders the table data with CSS and JS, and exports the result to PDF.
