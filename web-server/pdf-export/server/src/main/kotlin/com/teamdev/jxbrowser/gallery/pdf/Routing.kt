@@ -41,9 +41,9 @@ import java.util.concurrent.TimeUnit
  * The timeout for the PDF printing operation in seconds.
  *
  * This value is set to a relatively high number because printing of the PDF files
- * can take a long time depending on the content size.
+ * can take some time depending on the content size.
  */
-const val PRINT_TIMEOUT_SECONDS = 120L
+const val PRINT_TIMEOUT_SECONDS = 20L
 
 /**
  * The [Browser] instance used across the application.
