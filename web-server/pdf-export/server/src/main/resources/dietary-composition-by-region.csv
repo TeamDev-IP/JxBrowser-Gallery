@@ -51,58 +51,6 @@ Africa,,2021,Barley,21.92
 Africa,,2021,Maize,364.7
 Africa,,2021,Rice,227.43
 Africa,,2021,Wheat,353.38
-Americas,,2020,Miscellaneous,4
-Americas,,2020,Alcoholic beverages,102
-Americas,,2020,Animal fats,83
-Americas,,2020,Vegetable oils,528
-Americas,,2020,Oilcrops,45
-Americas,,2020,Fish and seafood,23
-Americas,,2020,Sugar crops,3
-Americas,,2020,Sugar & sweeteners,457
-Americas,,2020,Starchy roots,114
-Americas,,2020,"Meat, other",2.99
-Americas,,2020,"Meat, sheep and goat",3.74
-Americas,,2020,"Meat, pig",109.6
-Americas,,2020,"Meat, poultry",169.8
-Americas,,2020,"Meat, beef",112.04
-Americas,,2020,Eggs,50
-Americas,,2020,Milk,274
-Americas,,2020,Nuts,24.88
-Americas,,2020,Fruit,143
-Americas,,2020,Vegetables,55
-Americas,,2020,Pulses,75
-Americas,,2020,Cereals,
-Americas,,2020,Other,
-Americas,,2020,Barley,2.67
-Americas,,2020,Maize,297.13
-Americas,,2020,Rice,178.79
-Americas,,2020,Wheat,447.21
-Americas,,2021,Miscellaneous,4
-Americas,,2021,Alcoholic beverages,108
-Americas,,2021,Animal fats,85
-Americas,,2021,Vegetable oils,542
-Americas,,2021,Oilcrops,46
-Americas,,2021,Fish and seafood,23
-Americas,,2021,Sugar crops,3
-Americas,,2021,Sugar & sweeteners,457
-Americas,,2021,Starchy roots,111
-Americas,,2021,"Meat, other",2.79
-Americas,,2021,"Meat, sheep and goat",3.81
-Americas,,2021,"Meat, pig",106.48
-Americas,,2021,"Meat, poultry",173.14
-Americas,,2021,"Meat, beef",110.98
-Americas,,2021,Eggs,50
-Americas,,2021,Milk,276
-Americas,,2021,Nuts,21.68
-Americas,,2021,Fruit,146
-Americas,,2021,Vegetables,54
-Americas,,2021,Pulses,66
-Americas,,2021,Cereals,
-Americas,,2021,Other,
-Americas,,2021,Barley,2.96
-Americas,,2021,Maize,302.11
-Americas,,2021,Rice,178.95
-Americas,,2021,Wheat,446.85
 Asia,,2020,Miscellaneous,2
 Asia,,2020,Alcoholic beverages,46
 Asia,,2020,Animal fats,56
@@ -311,58 +259,6 @@ Central Asia,,2021,Barley,20.41
 Central Asia,,2021,Maize,45.98
 Central Asia,,2021,Rice,75.02
 Central Asia,,2021,Wheat,1026.28
-Eastern Africa,,2020,Miscellaneous,2
-Eastern Africa,,2020,Alcoholic beverages,32
-Eastern Africa,,2020,Animal fats,13
-Eastern Africa,,2020,Vegetable oils,182
-Eastern Africa,,2020,Oilcrops,48
-Eastern Africa,,2020,Fish and seafood,11
-Eastern Africa,,2020,Sugar crops,10
-Eastern Africa,,2020,Sugar & sweeteners,112
-Eastern Africa,,2020,Starchy roots,286
-Eastern Africa,,2020,"Meat, other",3.09
-Eastern Africa,,2020,"Meat, sheep and goat",7.37
-Eastern Africa,,2020,"Meat, pig",11.36
-Eastern Africa,,2020,"Meat, poultry",8.48
-Eastern Africa,,2020,"Meat, beef",32.36
-Eastern Africa,,2020,Eggs,4
-Eastern Africa,,2020,Milk,74
-Eastern Africa,,2020,Nuts,3.37
-Eastern Africa,,2020,Fruit,112
-Eastern Africa,,2020,Vegetables,25
-Eastern Africa,,2020,Pulses,144
-Eastern Africa,,2020,Cereals,
-Eastern Africa,,2020,Other,
-Eastern Africa,,2020,Barley,30.37
-Eastern Africa,,2020,Maize,513.25
-Eastern Africa,,2020,Rice,182.22
-Eastern Africa,,2020,Wheat,186.84
-Eastern Africa,,2021,Miscellaneous,2
-Eastern Africa,,2021,Alcoholic beverages,31
-Eastern Africa,,2021,Animal fats,13
-Eastern Africa,,2021,Vegetable oils,208
-Eastern Africa,,2021,Oilcrops,46
-Eastern Africa,,2021,Fish and seafood,11
-Eastern Africa,,2021,Sugar crops,9
-Eastern Africa,,2021,Sugar & sweeteners,119
-Eastern Africa,,2021,Starchy roots,282
-Eastern Africa,,2021,"Meat, other",2.83
-Eastern Africa,,2021,"Meat, sheep and goat",6.9
-Eastern Africa,,2021,"Meat, pig",10.73
-Eastern Africa,,2021,"Meat, poultry",9.02
-Eastern Africa,,2021,"Meat, beef",32.83
-Eastern Africa,,2021,Eggs,4
-Eastern Africa,,2021,Milk,74
-Eastern Africa,,2021,Nuts,3.46
-Eastern Africa,,2021,Fruit,108
-Eastern Africa,,2021,Vegetables,23
-Eastern Africa,,2021,Pulses,140
-Eastern Africa,,2021,Cereals,
-Eastern Africa,,2021,Other,
-Eastern Africa,,2021,Barley,30.75
-Eastern Africa,,2021,Maize,502.58
-Eastern Africa,,2021,Rice,182.49
-Eastern Africa,,2021,Wheat,195.25
 Eastern Asia,,2020,Miscellaneous,3
 Eastern Asia,,2020,Alcoholic beverages,93
 Eastern Asia,,2020,Animal fats,39
@@ -571,110 +467,6 @@ Micronesia,,2021,Barley,0.91
 Micronesia,,2021,Maize,2.44
 Micronesia,,2021,Rice,530.7
 Micronesia,,2021,Wheat,298.06
-Middle Africa,,2020,Miscellaneous,3
-Middle Africa,,2020,Alcoholic beverages,33
-Middle Africa,,2020,Animal fats,5
-Middle Africa,,2020,Vegetable oils,171
-Middle Africa,,2020,Oilcrops,95
-Middle Africa,,2020,Fish and seafood,18
-Middle Africa,,2020,Sugar crops,4
-Middle Africa,,2020,Sugar & sweeteners,73
-Middle Africa,,2020,Starchy roots,969
-Middle Africa,,2020,"Meat, other",6.14
-Middle Africa,,2020,"Meat, sheep and goat",10.62
-Middle Africa,,2020,"Meat, pig",13.54
-Middle Africa,,2020,"Meat, poultry",13.65
-Middle Africa,,2020,"Meat, beef",25.49
-Middle Africa,,2020,Eggs,1
-Middle Africa,,2020,Milk,14
-Middle Africa,,2020,Nuts,0.19
-Middle Africa,,2020,Fruit,114
-Middle Africa,,2020,Vegetables,17
-Middle Africa,,2020,Pulses,63
-Middle Africa,,2020,Cereals,
-Middle Africa,,2020,Other,
-Middle Africa,,2020,Barley,0.49
-Middle Africa,,2020,Maize,245.03
-Middle Africa,,2020,Rice,132.28
-Middle Africa,,2020,Wheat,99.63
-Middle Africa,,2021,Miscellaneous,3
-Middle Africa,,2021,Alcoholic beverages,34
-Middle Africa,,2021,Animal fats,6
-Middle Africa,,2021,Vegetable oils,164
-Middle Africa,,2021,Oilcrops,83
-Middle Africa,,2021,Fish and seafood,18
-Middle Africa,,2021,Sugar crops,3
-Middle Africa,,2021,Sugar & sweeteners,68
-Middle Africa,,2021,Starchy roots,991
-Middle Africa,,2021,"Meat, other",6.08
-Middle Africa,,2021,"Meat, sheep and goat",10.86
-Middle Africa,,2021,"Meat, pig",15.13
-Middle Africa,,2021,"Meat, poultry",14.95
-Middle Africa,,2021,"Meat, beef",25.39
-Middle Africa,,2021,Eggs,1
-Middle Africa,,2021,Milk,13
-Middle Africa,,2021,Nuts,0.2
-Middle Africa,,2021,Fruit,116
-Middle Africa,,2021,Vegetables,16
-Middle Africa,,2021,Pulses,62
-Middle Africa,,2021,Cereals,
-Middle Africa,,2021,Other,
-Middle Africa,,2021,Barley,0.83
-Middle Africa,,2021,Maize,235.52
-Middle Africa,,2021,Rice,143.49
-Middle Africa,,2021,Wheat,100.94
-Northern Africa,,2020,Miscellaneous,3
-Northern Africa,,2020,Alcoholic beverages,4
-Northern Africa,,2020,Animal fats,28
-Northern Africa,,2020,Vegetable oils,313
-Northern Africa,,2020,Oilcrops,44
-Northern Africa,,2020,Fish and seafood,31
-Northern Africa,,2020,Sugar crops,13
-Northern Africa,,2020,Sugar & sweeteners,285
-Northern Africa,,2020,Starchy roots,75
-Northern Africa,,2020,"Meat, other",4.5
-Northern Africa,,2020,"Meat, sheep and goat",23.19
-Northern Africa,,2020,"Meat, pig",0.08
-Northern Africa,,2020,"Meat, poultry",53.15
-Northern Africa,,2020,"Meat, beef",34.24
-Northern Africa,,2020,Eggs,18
-Northern Africa,,2020,Milk,146
-Northern Africa,,2020,Nuts,14.06
-Northern Africa,,2020,Fruit,173
-Northern Africa,,2020,Vegetables,108
-Northern Africa,,2020,Pulses,57
-Northern Africa,,2020,Cereals,
-Northern Africa,,2020,Other,
-Northern Africa,,2020,Barley,45.06
-Northern Africa,,2020,Maize,301.41
-Northern Africa,,2020,Rice,149.54
-Northern Africa,,2020,Wheat,1083.49
-Northern Africa,,2021,Miscellaneous,3
-Northern Africa,,2021,Alcoholic beverages,4
-Northern Africa,,2021,Animal fats,28
-Northern Africa,,2021,Vegetable oils,316
-Northern Africa,,2021,Oilcrops,42
-Northern Africa,,2021,Fish and seafood,30
-Northern Africa,,2021,Sugar crops,13
-Northern Africa,,2021,Sugar & sweeteners,287
-Northern Africa,,2021,Starchy roots,73
-Northern Africa,,2021,"Meat, other",4.49
-Northern Africa,,2021,"Meat, sheep and goat",23.12
-Northern Africa,,2021,"Meat, pig",0.07
-Northern Africa,,2021,"Meat, poultry",56.03
-Northern Africa,,2021,"Meat, beef",30.97
-Northern Africa,,2021,Eggs,17
-Northern Africa,,2021,Milk,142
-Northern Africa,,2021,Nuts,17.06
-Northern Africa,,2021,Fruit,175
-Northern Africa,,2021,Vegetables,107
-Northern Africa,,2021,Pulses,58
-Northern Africa,,2021,Cereals,
-Northern Africa,,2021,Other,
-Northern Africa,,2021,Barley,51.46
-Northern Africa,,2021,Maize,291.73
-Northern Africa,,2021,Rice,150.07
-Northern Africa,,2021,Wheat,1078.48
 Northern America,,2020,Miscellaneous,3
 Northern America,,2020,Alcoholic beverages,136
 Northern America,,2020,Animal fats,114
@@ -935,58 +727,6 @@ South-eastern Asia,,2021,Barley,2.01
 South-eastern Asia,,2021,Maize,78.74
 South-eastern Asia,,2021,Rice,1202.93
 South-eastern Asia,,2021,Wheat,208.79
-Southern Africa,,2020,Miscellaneous,4
-Southern Africa,,2020,Alcoholic beverages,152
-Southern Africa,,2020,Animal fats,14
-Southern Africa,,2020,Vegetable oils,432
-Southern Africa,,2020,Oilcrops,25
-Southern Africa,,2020,Fish and seafood,12
-Southern Africa,,2020,Sugar crops,0
-Southern Africa,,2020,Sugar & sweeteners,308
-Southern Africa,,2020,Starchy roots,84
-Southern Africa,,2020,"Meat, other",5.43
-Southern Africa,,2020,"Meat, sheep and goat",18.61
-Southern Africa,,2020,"Meat, pig",31.3
-Southern Africa,,2020,"Meat, poultry",133.23
-Southern Africa,,2020,"Meat, beef",90.25
-Southern Africa,,2020,Eggs,25
-Southern Africa,,2020,Milk,100
-Southern Africa,,2020,Nuts,3.41
-Southern Africa,,2020,Fruit,30
-Southern Africa,,2020,Vegetables,34
-Southern Africa,,2020,Pulses,16
-Southern Africa,,2020,Cereals,
-Southern Africa,,2020,Other,
-Southern Africa,,2020,Barley,0.19
-Southern Africa,,2020,Maize,590.09
-Southern Africa,,2020,Rice,133.42
-Southern Africa,,2020,Wheat,442.87
-Southern Africa,,2021,Miscellaneous,5
-Southern Africa,,2021,Alcoholic beverages,158
-Southern Africa,,2021,Animal fats,13
-Southern Africa,,2021,Vegetable oils,414
-Southern Africa,,2021,Oilcrops,23
-Southern Africa,,2021,Fish and seafood,12
-Southern Africa,,2021,Sugar crops,0
-Southern Africa,,2021,Sugar & sweeteners,301
-Southern Africa,,2021,Starchy roots,81
-Southern Africa,,2021,"Meat, other",5.38
-Southern Africa,,2021,"Meat, sheep and goat",18.58
-Southern Africa,,2021,"Meat, pig",34.85
-Southern Africa,,2021,"Meat, poultry",150.26
-Southern Africa,,2021,"Meat, beef",90.92
-Southern Africa,,2021,Eggs,23
-Southern Africa,,2021,Milk,104
-Southern Africa,,2021,Nuts,4.27
-Southern Africa,,2021,Fruit,38
-Southern Africa,,2021,Vegetables,33
-Southern Africa,,2021,Pulses,18
-Southern Africa,,2021,Cereals,
-Southern Africa,,2021,Other,
-Southern Africa,,2021,Barley,0.16
-Southern Africa,,2021,Maize,564.15
-Southern Africa,,2021,Rice,129.86
-Southern Africa,,2021,Wheat,434.77
 Southern Asia,,2020,Miscellaneous,0
 Southern Asia,,2020,Alcoholic beverages,12
 Southern Asia,,2020,Animal fats,79
@@ -1091,58 +831,6 @@ Southern Europe,,2021,Barley,5.61
 Southern Europe,,2021,Maize,42.71
 Southern Europe,,2021,Rice,61.07
 Southern Europe,,2021,Wheat,849.78
-Western Africa,,2020,Miscellaneous,4
-Western Africa,,2020,Alcoholic beverages,21
-Western Africa,,2020,Animal fats,9
-Western Africa,,2020,Vegetable oils,250
-Western Africa,,2020,Oilcrops,127
-Western Africa,,2020,Fish and seafood,22
-Western Africa,,2020,Sugar crops,2
-Western Africa,,2020,Sugar & sweeteners,98
-Western Africa,,2020,Starchy roots,566
-Western Africa,,2020,"Meat, other",5.43
-Western Africa,,2020,"Meat, sheep and goat",9.02
-Western Africa,,2020,"Meat, pig",12.83
-Western Africa,,2020,"Meat, poultry",13.55
-Western Africa,,2020,"Meat, beef",13.55
-Western Africa,,2020,Eggs,7
-Western Africa,,2020,Milk,27
-Western Africa,,2020,Nuts,3.56
-Western Africa,,2020,Fruit,96
-Western Africa,,2020,Vegetables,53
-Western Africa,,2020,Pulses,110
-Western Africa,,2020,Cereals,
-Western Africa,,2020,Other,
-Western Africa,,2020,Barley,6.02
-Western Africa,,2020,Maize,281.36
-Western Africa,,2020,Rice,359.02
-Western Africa,,2020,Wheat,172.73
-Western Africa,,2021,Miscellaneous,4
-Western Africa,,2021,Alcoholic beverages,22
-Western Africa,,2021,Animal fats,11
-Western Africa,,2021,Vegetable oils,243
-Western Africa,,2021,Oilcrops,123
-Western Africa,,2021,Fish and seafood,21
-Western Africa,,2021,Sugar crops,2
-Western Africa,,2021,Sugar & sweeteners,108
-Western Africa,,2021,Starchy roots,562
-Western Africa,,2021,"Meat, other",5.4
-Western Africa,,2021,"Meat, sheep and goat",8.89
-Western Africa,,2021,"Meat, pig",13.53
-Western Africa,,2021,"Meat, poultry",14.76
-Western Africa,,2021,"Meat, beef",12.89
-Western Africa,,2021,Eggs,7
-Western Africa,,2021,Milk,27
-Western Africa,,2021,Nuts,3.91
-Western Africa,,2021,Fruit,96
-Western Africa,,2021,Vegetables,51
-Western Africa,,2021,Pulses,110
-Western Africa,,2021,Cereals,
-Western Africa,,2021,Other,
-Western Africa,,2021,Barley,7.67
-Western Africa,,2021,Maize,290.35
-Western Africa,,2021,Rice,375.44
-Western Africa,,2021,Wheat,177.78
 Western Asia,,2020,Miscellaneous,13
 Western Asia,,2020,Alcoholic beverages,21
 Western Asia,,2020,Animal fats,50

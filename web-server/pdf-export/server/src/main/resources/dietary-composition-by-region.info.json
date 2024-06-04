@@ -2,7 +2,7 @@
   "id": "dietary-composition-by-region",
   "title": "Dietary composition by region",
   "description": "This dataset lists the dietary composition of regions around the world. It includes the calories potentially available for consumption from different food groups, such as cereals, vegetables, fruits, meat, and dairy. Measurements are given in kilocalories per person per day.",
-  "rowCount": 1301,
+  "rowCount": 989,
   "source": "Hannah Ritchie, Pablo Rosado and Max Roser (2023) - \"Diet Compositions\". Published online at <a href=\"https://ourworldindata.org/diet-compositions\">ourworldindata.org</a>.",
   "dataRef": "/dietary-composition-by-region.csv"
 }
