@@ -44,13 +44,6 @@ JDK 17+ is required to build the apps.
 The applications are assembled using [Gradle][gradle]. The [Gradle Wrapper][gradle-wrapper]
 is included in the project, so there is no need to install Gradle separately.
 
-## Dependencies
-
-This repository uses a [Gradle version catalog][gradle-version-catalog] 
-to declare the properties of module's dependencies, including the source/target
-version of Java.<br>
-The file is located at `gradle/libs.versions.toml`.
-
 ## JxBrowser license
 
 To be able to run the applications, JxBrowser license is required.
@@ -61,6 +54,13 @@ The file is expected to contain a single line with the key value. For example:
 ```
 6YNS4HJ1IQUF6HWDG9SP98GSWUXWYVB49C4494X6LRP70ORIFHXQJXT29JVQYUCZO71...
 ```
+
+## Dependencies
+
+This repository uses a [Gradle version catalog][gradle-version-catalog] 
+to declare the properties of module's dependencies, including the source/target
+version of Java.<br>
+The file is located at `gradle/libs.versions.toml`.
 
 ## Redistribution and licensing
 
