@@ -32,9 +32,9 @@ const SERVER_URL = 'http://localhost:8080';
  * Initializes the UI displaying the dataset information and the data grid.
  */
 function initializeWebpage() {
-    const datasetInfo = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/info`);
+    const datasetInfo = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-region/info`);
     const parsedInfo = JSON.parse(datasetInfo);
-    const csv = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-country/data`);
+    const csv = httpGet(`${SERVER_URL}/dataset/dietary-composition-by-region/data`);
     const data = csvToArray(csv.trim());
 
     const blob = new Blob([csv], {type: 'text/plain'});
@@ -78,7 +78,7 @@ async function generateAndFetchPdf() {
         .map(filter => `${filter.columnName.toLowerCase()}=${filter.value}`)
         .join('&');
     const data = await fetch(
-        `${SERVER_URL}/print/dietary-composition-by-country?${queryString}`
+        `${SERVER_URL}/print/dietary-composition-by-region?${queryString}`
     ).then(r => r.blob());
     return data;
 }

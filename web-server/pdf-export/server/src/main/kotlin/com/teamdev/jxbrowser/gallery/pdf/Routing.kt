@@ -57,19 +57,19 @@ fun Application.configureRouting() {
     routing {
 
         /**
-         * Returns the info about the "Dietary composition by country" dataset.
+         * Returns the info about the "Dietary composition by region" dataset.
          */
-        get("/dataset/dietary-composition-by-country/info") {
-            val info = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.info()
+        get("/dataset/dietary-composition-by-region/info") {
+            val info = Dataset.DIETARY_COMPOSITION_BY_REGION.info()
             val json = Json.encodeToString(info)
             call.respondText(json)
         }
 
         /**
-         * Returns the content of the "Dietary composition by country" dataset.
+         * Returns the content of the "Dietary composition by region" dataset.
          */
-        get("/dataset/dietary-composition-by-country/data") {
-            val data = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.data()
+        get("/dataset/dietary-composition-by-region/data") {
+            val data = Dataset.DIETARY_COMPOSITION_BY_REGION.data()
             call.respondText(data)
         }
 
@@ -78,7 +78,7 @@ fun Application.configureRouting() {
          *
          * The file is also saved locally to the `exported` directory.
          */
-        get("/print/dietary-composition-by-country") {
+        get("/print/dietary-composition-by-region") {
             val pdfPath = Paths.get("exported/webpage.pdf")
             val countDownLatch = CountDownLatch(1)
             browser.configurePrinting(pdfPath) {
@@ -87,7 +87,7 @@ fun Application.configureRouting() {
 
             val queryParams = call.request.queryParameters
             val filterValues = listOf(
-                queryParams["entity"] ?: "",
+                queryParams["region"] ?: "",
                 queryParams["code"] ?: "",
                 queryParams["year"] ?: "",
                 queryParams["type"] ?: ""
