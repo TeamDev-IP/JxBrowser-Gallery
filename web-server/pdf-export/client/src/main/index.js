@@ -43,7 +43,7 @@ function initializeWebpage() {
     const downloadDialog = newDownloadDialog();
     document.getElementById('download-dialog-container').appendChild(downloadDialog.element);
 
-    const infoPanel = newLeftPanel(parsedInfo, dataUrl, () => printToPdf(downloadDialog));
+    const infoPanel = newLeftPanel(parsedInfo, dataUrl, () => exportToPdf(downloadDialog));
     document.getElementById('info-container').append(infoPanel);
 
     const grid = newGrid(data, 20, true);
@@ -51,21 +51,21 @@ function initializeWebpage() {
 }
 
 /**
- * Prints the currently displayed table to PDF.
+ * Exports the currently displayed table to PDF.
  */
-async function printToPdf(downloadDialog) {
-    const printButton = document.getElementById('print-button');
-    printButton.disabled = true;
-    const buttonText = printButton.innerText;
-    printButton.innerText = 'Generating PDF...';
+async function exportToPdf(downloadDialog) {
+    const exportButton = document.getElementById('export-button');
+    exportButton.disabled = true;
+    const buttonText = exportButton.innerText;
+    exportButton.innerText = 'Generating PDF...';
 
     const pdf = await generateAndFetchPdf();
     const url = window.URL.createObjectURL(pdf);
     const filename = 'webpage.pdf';
     openDownloadDialog(downloadDialog, url, filename);
 
-    printButton.disabled = false;
-    printButton.innerText = buttonText;
+    exportButton.disabled = false;
+    exportButton.innerText = buttonText;
 }
 
 /**

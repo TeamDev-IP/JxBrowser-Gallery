@@ -45,14 +45,14 @@ export function newLeftPanel(datasetInfo, datasetDataUrl, printToPdf) {
     addListItem(list, `<h6>Download</h6> ${dataLink.outerHTML}`)
 
     const buttonContainer = addListItem(list, '');
-    const printButton = document.createElement('button');
-    printButton.innerText = 'Print to PDF';
-    printButton.id = 'print-button';
-    printButton.classList.add('btn', 'btn-outline-dark');
-    printButton.addEventListener('click', () => {
+    const exportButton = document.createElement('button');
+    exportButton.innerText = 'Export to PDF';
+    exportButton.id = 'export-button';
+    exportButton.classList.add('btn', 'btn-outline-dark');
+    exportButton.addEventListener('click', () => {
         printToPdf();
     });
-    buttonContainer.appendChild(printButton);
+    buttonContainer.appendChild(exportButton);
 
     panel.appendChild(list);
 
