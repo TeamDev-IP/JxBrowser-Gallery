@@ -25,6 +25,8 @@
 #content {
     display: flex;
     justify-content: space-between;
+    margin-left: 15px;
+    margin-top: 15px;
 }
 
 #info-container {
