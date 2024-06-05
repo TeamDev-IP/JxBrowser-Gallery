@@ -35,15 +35,3 @@ group = "com.teamdev.jxbrowser"
 repositories {
     mavenCentral()
 }
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-    }
-}
-
-kotlin {
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-    }
-}

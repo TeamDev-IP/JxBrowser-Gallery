@@ -30,12 +30,6 @@ repositories {
     gradlePluginPortal()
 }
 
-kotlin {
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
-    }
-}
-
 dependencies {
     implementation(generatedVersionCatalog())
     implementation(libs.kotlin.gradlePlugin)
