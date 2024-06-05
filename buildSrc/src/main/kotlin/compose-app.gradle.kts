@@ -27,6 +27,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     id("jvm-module")
     id("jxbrowser")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.compose")
 }
 
