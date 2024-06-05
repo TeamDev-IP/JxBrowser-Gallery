@@ -52,7 +52,8 @@ export function newGrid(data, pageSize, showFilters) {
     if (pageSize) {
         config.pagination = {
             summary: true,
-            limit: pageSize
+            limit: pageSize,
+            buttonsCount: 5
         };
     }
     const grid = new Grid(config);
