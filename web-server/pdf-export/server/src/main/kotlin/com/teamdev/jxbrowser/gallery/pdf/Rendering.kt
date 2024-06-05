@@ -32,7 +32,7 @@ import com.teamdev.jxbrowser.dsl.browser.navigation
 private const val TEMPLATE_RESOURCE = "/rendering/index.html"
 
 /**
- * Renders the "Dietary composition by country" table using the passed [Browser] instance.
+ * Renders the "Dietary composition by region" table using the passed [Browser] instance.
  *
  * The specified [filterValues] are used to filter the table data before rendering.
  *
@@ -43,7 +43,7 @@ fun renderTable(browser: Browser, filterValues: Iterable<String>) {
     val templateUrl = resourceUrl(TEMPLATE_RESOURCE)!!
     browser.navigation.loadUrlAndWait(templateUrl)
 
-    val data = Dataset.DIETARY_COMPOSITION_BY_COUNTRY.data()
+    val data = Dataset.DIETARY_COMPOSITION_BY_REGION.data()
     val filters = filterValues.joinToString(prefix = "[", postfix = "]") { "'$it'" }
     val javaScript = """
         const csv = `$data`;
