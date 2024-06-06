@@ -105,6 +105,10 @@
     margin-right: 2px;
 }
 
+.small-pagination-button {
+    width: 32px;
+}
+
 .pagination-text b {
     font-weight: normal;
 }
