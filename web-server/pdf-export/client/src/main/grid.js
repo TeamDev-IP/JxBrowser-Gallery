@@ -33,10 +33,10 @@ import {DeduplicatingFormatter} from "./formatter";
  * @param data the data to visualize, in the form of a two-dimensional array
  * @param pageSize the number of rows to show on a single page or `null`
  *                 to disable the pagination
- * @param showFilters `true` to show the filters, `false` otherwise
+ * @param showControls `true` to show the table controls, `false` otherwise
  * @return the created {@link Grid} instance
  */
-export function newGrid(data, pageSize, showFilters) {
+export function newGrid(data, pageSize, showControls) {
     const formatter = new DeduplicatingFormatter([0, 1, 2]);
     const config = {
         columns: columns(formatter),
@@ -58,6 +58,7 @@ export function newGrid(data, pageSize, showFilters) {
     }
     const grid = new Grid(config);
     const filters = [];
+    let paginationDivPosition = null;
     grid.config.store.subscribe(
         (state, prev) => renderStateListener(
             state,
@@ -71,8 +72,20 @@ export function newGrid(data, pageSize, showFilters) {
                         closestTr.setAttribute("style", "border-top: 1px solid #e5e7eb;");
                     }
                 });
-                if (showFilters && filters.length === 0) {
-                    filters.push(createFilters(grid, data));
+                if (showControls) {
+                    if (filters.length === 0) {
+                        filters.push(createFilters(grid, data));
+                    }
+                    const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
+                    if (!paginationDivPosition) {
+                        paginationDivPosition = paginationDiv.getBoundingClientRect();
+                    }
+                    paginationDiv.setAttribute(
+                        "style",
+                        `position: fixed;
+                        visibility: visible;
+                        top: ${paginationDivPosition.top}px; 
+                        left: ${paginationDivPosition.left}px;`);
                 }
                 if (window.javaPrinter) {
                     window.javaPrinter.print();
