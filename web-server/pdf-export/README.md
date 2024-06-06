@@ -85,8 +85,10 @@ is already included in the root Gradle project.
 
 ### Running locally
 
+To start the application, execute the following command
+from the Gallery's root folder:
+
 ```shell
-   ./gradlew build
    ./gradlew :web-server:pdf-export:server:run
 ```
 
