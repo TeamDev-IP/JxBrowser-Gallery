@@ -51,6 +51,10 @@
     width: 250px;
 }
 
+.code-column {
+    width: 100px;
+}
+
 .right-aligned {
     text-align: right;
 }

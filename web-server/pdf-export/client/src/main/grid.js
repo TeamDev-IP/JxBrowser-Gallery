@@ -104,7 +104,11 @@ function columns(formatter) {
         },
         {
             id: 'code',
-            name: 'Code',
+            name: html(
+                '<div class="code-column">' +
+                'Code' +
+                '</div>'
+            ),
             formatter: (cell, row) => formatter.format(row, 1)
         },
         {
