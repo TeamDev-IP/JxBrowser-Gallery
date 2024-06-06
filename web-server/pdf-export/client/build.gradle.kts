@@ -26,7 +26,7 @@ import gradle.web.buildWebProject
 tasks {
     val buildWebProject = buildWebProject(projectDir)
 
-    val serverResources = projectDir.resolve("../server/src/main/resources/widgets")
+    val serverResources = projectDir.resolve("../server/src/main/resources/rendering")
     val copyServerJs = copyServerJs(buildWebProject, serverResources)
 
     val build by registering {
@@ -45,6 +45,7 @@ fun TaskContainerScope.copyServerJs(
     val copyServerJs by registering(Copy::class) {
         from(buildWebProject)
         into(destination)
+        include("index.js")
     }
     return copyServerJs
 }

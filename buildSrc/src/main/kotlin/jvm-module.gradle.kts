@@ -20,8 +20,9 @@
  *  SOFTWARE.
  */
 
-import gradle.libs
 import gradle.get
+import gradle.libs
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
@@ -36,3 +37,11 @@ repositories {
     mavenCentral()
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+kotlin {
+    compilerOptions.jvmTarget = JvmTarget.JVM_17
+}

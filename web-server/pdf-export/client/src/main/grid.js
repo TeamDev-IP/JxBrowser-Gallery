@@ -25,10 +25,10 @@ import {newFiltersFor} from "./filters";
 import {DeduplicatingFormatter} from "./formatter";
 
 /**
- * Creates a new grid visualizing the data about the dietary composition of countries.
+ * Creates a new grid visualizing the data about the dietary composition by region.
  *
  * The created grid is extended with the filtering capabilities as well as
- * the deduplication formatting for "Entity", "Code", and "Year" columns.
+ * the deduplication formatting for "Region", "Code", and "Year" columns.
  *
  * @param data the data to visualize, in the form of a two-dimensional array
  * @param pageSize the number of rows to show on a single page or `null`
@@ -81,10 +81,10 @@ export function newGrid(data, pageSize, showFilters) {
 function columns(formatter) {
     return [
         {
-            id: 'entity',
+            id: 'region',
             name: html(
-                '<div class="entity-column">' +
-                'Entity' +
+                '<div class="region-column">' +
+                'Region' +
                 '</div>'
             ),
             formatter: (cell, row) => formatter.format(row, 0)
@@ -139,7 +139,7 @@ function createFilters(grid, data) {
     const widths = Array.from(headers)
         .map(header => header.offsetWidth);
     const filterableColumns = [
-        {name: "Entity", index: 0, width: widths[0]},
+        {name: "Region", index: 0, width: widths[0]},
         {name: "Code", index: 1, width: widths[1]},
         {name: "Year", index: 2, width: widths[2], styles: ['right-aligned']},
         {name: "Type", index: 3, width: widths[3]},

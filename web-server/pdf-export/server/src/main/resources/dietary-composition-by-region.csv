@@ -1,0 +1,521 @@
+Region,Code,Year,Type,Value
+Africa,,2020,Miscellaneous,3
+Africa,,2020,Alcoholic beverages,29
+Africa,,2020,Animal fats,14
+Africa,,2020,Vegetable oils,239
+Africa,,2020,Oilcrops,77
+Africa,,2020,Fish and seafood,19
+Africa,,2020,Sugar crops,7
+Africa,,2020,Sugar & sweeteners,145
+Africa,,2020,Starchy roots,415
+Africa,,2020,"Meat, other",4.6
+Africa,,2020,"Meat, sheep and goat",11.85
+Africa,,2020,"Meat, pig",10.99
+Africa,,2020,"Meat, poultry",25.39
+Africa,,2020,"Meat, beef",28.94
+Africa,,2020,Eggs,8
+Africa,,2020,Milk,66
+Africa,,2020,Nuts,5
+Africa,,2020,Fruit,115
+Africa,,2020,Vegetables,48
+Africa,,2020,Pulses,100
+Africa,,2020,Cereals,
+Africa,,2020,Other,
+Africa,,2020,Barley,20.09
+Africa,,2020,Maize,369.9
+Africa,,2020,Rice,220.76
+Africa,,2020,Wheat,351.7
+Africa,,2021,Miscellaneous,3
+Africa,,2021,Alcoholic beverages,30
+Africa,,2021,Animal fats,14
+Africa,,2021,Vegetable oils,243
+Africa,,2021,Oilcrops,73
+Africa,,2021,Fish and seafood,19
+Africa,,2021,Sugar crops,6
+Africa,,2021,Sugar & sweeteners,149
+Africa,,2021,Starchy roots,416
+Africa,,2021,"Meat, other",4.5
+Africa,,2021,"Meat, sheep and goat",11.66
+Africa,,2021,"Meat, pig",11.4
+Africa,,2021,"Meat, poultry",27.36
+Africa,,2021,"Meat, beef",28.25
+Africa,,2021,Eggs,8
+Africa,,2021,Milk,65
+Africa,,2021,Nuts,5.73
+Africa,,2021,Fruit,114
+Africa,,2021,Vegetables,47
+Africa,,2021,Pulses,99
+Africa,,2021,Cereals,
+Africa,,2021,Other,
+Africa,,2021,Barley,21.92
+Africa,,2021,Maize,364.7
+Africa,,2021,Rice,227.43
+Africa,,2021,Wheat,353.38
+Asia,,2020,Miscellaneous,2
+Asia,,2020,Alcoholic beverages,46
+Asia,,2020,Animal fats,56
+Asia,,2020,Vegetable oils,250
+Asia,,2020,Oilcrops,91
+Asia,,2020,Fish and seafood,43
+Asia,,2020,Sugar crops,5
+Asia,,2020,Sugar & sweeteners,183
+Asia,,2020,Starchy roots,93
+Asia,,2020,"Meat, other",0.99
+Asia,,2020,"Meat, sheep and goat",10.38
+Asia,,2020,"Meat, pig",74.37
+Asia,,2020,"Meat, poultry",50.5
+Asia,,2020,"Meat, beef",25.05
+Asia,,2020,Eggs,41
+Asia,,2020,Milk,130
+Asia,,2020,Nuts,13.1
+Asia,,2020,Fruit,107
+Asia,,2020,Vegetables,141
+Asia,,2020,Pulses,62
+Asia,,2020,Cereals,
+Asia,,2020,Other,
+Asia,,2020,Barley,4.38
+Asia,,2020,Maize,65.8
+Asia,,2020,Rice,766.6
+Asia,,2020,Wheat,562.15
+Asia,,2021,Miscellaneous,2
+Asia,,2021,Alcoholic beverages,47
+Asia,,2021,Animal fats,58
+Asia,,2021,Vegetable oils,257
+Asia,,2021,Oilcrops,90
+Asia,,2021,Fish and seafood,43
+Asia,,2021,Sugar crops,5
+Asia,,2021,Sugar & sweeteners,182
+Asia,,2021,Starchy roots,93
+Asia,,2021,"Meat, other",0.95
+Asia,,2021,"Meat, sheep and goat",10.77
+Asia,,2021,"Meat, pig",80.94
+Asia,,2021,"Meat, poultry",50.24
+Asia,,2021,"Meat, beef",26.32
+Asia,,2021,Eggs,41
+Asia,,2021,Milk,131
+Asia,,2021,Nuts,13.76
+Asia,,2021,Fruit,110
+Asia,,2021,Vegetables,142
+Asia,,2021,Pulses,62
+Asia,,2021,Cereals,
+Asia,,2021,Other,
+Asia,,2021,Barley,4.09
+Asia,,2021,Maize,65.65
+Asia,,2021,Rice,758.04
+Asia,,2021,Wheat,571.33
+Caribbean,,2020,Miscellaneous,14
+Caribbean,,2020,Alcoholic beverages,92
+Caribbean,,2020,Animal fats,30
+Caribbean,,2020,Vegetable oils,294
+Caribbean,,2020,Oilcrops,37
+Caribbean,,2020,Fish and seafood,18
+Caribbean,,2020,Sugar crops,1
+Caribbean,,2020,Sugar & sweeteners,391
+Caribbean,,2020,Starchy roots,154
+Caribbean,,2020,"Meat, other",6.6
+Caribbean,,2020,"Meat, sheep and goat",4.34
+Caribbean,,2020,"Meat, pig",68.57
+Caribbean,,2020,"Meat, poultry",116.45
+Caribbean,,2020,"Meat, beef",32.42
+Caribbean,,2020,Eggs,26
+Caribbean,,2020,Milk,127
+Caribbean,,2020,Nuts,1.58
+Caribbean,,2020,Fruit,280
+Caribbean,,2020,Vegetables,50
+Caribbean,,2020,Pulses,104
+Caribbean,,2020,Cereals,
+Caribbean,,2020,Other,
+Caribbean,,2020,Barley,3.52
+Caribbean,,2020,Maize,137.26
+Caribbean,,2020,Rice,480.82
+Caribbean,,2020,Wheat,355.38
+Caribbean,,2021,Miscellaneous,11
+Caribbean,,2021,Alcoholic beverages,100
+Caribbean,,2021,Animal fats,30
+Caribbean,,2021,Vegetable oils,298
+Caribbean,,2021,Oilcrops,94
+Caribbean,,2021,Fish and seafood,18
+Caribbean,,2021,Sugar crops,1
+Caribbean,,2021,Sugar & sweeteners,389
+Caribbean,,2021,Starchy roots,144
+Caribbean,,2021,"Meat, other",4.49
+Caribbean,,2021,"Meat, sheep and goat",2.9
+Caribbean,,2021,"Meat, pig",45.04
+Caribbean,,2021,"Meat, poultry",114.78
+Caribbean,,2021,"Meat, beef",27.07
+Caribbean,,2021,Eggs,24
+Caribbean,,2021,Milk,117
+Caribbean,,2021,Nuts,1.85
+Caribbean,,2021,Fruit,272
+Caribbean,,2021,Vegetables,56
+Caribbean,,2021,Pulses,89
+Caribbean,,2021,Cereals,
+Caribbean,,2021,Other,
+Caribbean,,2021,Barley,4.08
+Caribbean,,2021,Maize,157.23
+Caribbean,,2021,Rice,473.49
+Caribbean,,2021,Wheat,355.73
+Central America,,2020,Miscellaneous,5
+Central America,,2020,Alcoholic beverages,82
+Central America,,2020,Animal fats,53
+Central America,,2020,Vegetable oils,335
+Central America,,2020,Oilcrops,21
+Central America,,2020,Fish and seafood,23
+Central America,,2020,Sugar crops,0
+Central America,,2020,Sugar & sweeteners,425
+Central America,,2020,Starchy roots,38
+Central America,,2020,"Meat, other",1.75
+Central America,,2020,"Meat, sheep and goat",3.13
+Central America,,2020,"Meat, pig",99.36
+Central America,,2020,"Meat, poultry",128.79
+Central America,,2020,"Meat, beef",53.79
+Central America,,2020,Eggs,62
+Central America,,2020,Milk,179
+Central America,,2020,Nuts,10.9
+Central America,,2020,Fruit,138
+Central America,,2020,Vegetables,47
+Central America,,2020,Pulses,91
+Central America,,2020,Cereals,
+Central America,,2020,Other,
+Central America,,2020,Barley,2.71
+Central America,,2020,Maize,915.94
+Central America,,2020,Rice,116.1
+Central America,,2020,Wheat,236.73
+Central America,,2021,Miscellaneous,6
+Central America,,2021,Alcoholic beverages,92
+Central America,,2021,Animal fats,53
+Central America,,2021,Vegetable oils,339
+Central America,,2021,Oilcrops,24
+Central America,,2021,Fish and seafood,23
+Central America,,2021,Sugar crops,0
+Central America,,2021,Sugar & sweeteners,419
+Central America,,2021,Starchy roots,39
+Central America,,2021,"Meat, other",1.78
+Central America,,2021,"Meat, sheep and goat",3.13
+Central America,,2021,"Meat, pig",103.53
+Central America,,2021,"Meat, poultry",134
+Central America,,2021,"Meat, beef",54.24
+Central America,,2021,Eggs,62
+Central America,,2021,Milk,184
+Central America,,2021,Nuts,9.06
+Central America,,2021,Fruit,142
+Central America,,2021,Vegetables,43
+Central America,,2021,Pulses,91
+Central America,,2021,Cereals,
+Central America,,2021,Other,
+Central America,,2021,Barley,3.33
+Central America,,2021,Maize,911.33
+Central America,,2021,Rice,96.42
+Central America,,2021,Wheat,246.87
+Europe,,2020,Miscellaneous,11
+Europe,,2020,Alcoholic beverages,165
+Europe,,2020,Animal fats,191
+Europe,,2020,Vegetable oils,462
+Europe,,2020,Oilcrops,30
+Europe,,2020,Fish and seafood,40
+Europe,,2020,Sugar crops,0
+Europe,,2020,Sugar & sweeteners,364
+Europe,,2020,Starchy roots,132
+Europe,,2020,"Meat, other",5.24
+Europe,,2020,"Meat, sheep and goat",9.71
+Europe,,2020,"Meat, pig",163.5
+Europe,,2020,"Meat, poultry",97.76
+Europe,,2020,"Meat, beef",61.09
+Europe,,2020,Eggs,49
+Europe,,2020,Milk,378
+Europe,,2020,Nuts,33.4
+Europe,,2020,Fruit,124
+Europe,,2020,Vegetables,80
+Europe,,2020,Pulses,25
+Europe,,2020,Cereals,
+Europe,,2020,Other,
+Europe,,2020,Barley,12.02
+Europe,,2020,Maize,50.03
+Europe,,2020,Rice,51.47
+Europe,,2020,Wheat,790.3
+Europe,,2021,Miscellaneous,11
+Europe,,2021,Alcoholic beverages,163
+Europe,,2021,Animal fats,194
+Europe,,2021,Vegetable oils,458
+Europe,,2021,Oilcrops,30
+Europe,,2021,Fish and seafood,40
+Europe,,2021,Sugar crops,0
+Europe,,2021,Sugar & sweeteners,371
+Europe,,2021,Starchy roots,127
+Europe,,2021,"Meat, other",5.31
+Europe,,2021,"Meat, sheep and goat",9.31
+Europe,,2021,"Meat, pig",167.8
+Europe,,2021,"Meat, poultry",96.96
+Europe,,2021,"Meat, beef",60.09
+Europe,,2021,Eggs,48
+Europe,,2021,Milk,380
+Europe,,2021,Nuts,33.72
+Europe,,2021,Fruit,123
+Europe,,2021,Vegetables,84
+Europe,,2021,Pulses,25
+Europe,,2021,Cereals,
+Europe,,2021,Other,
+Europe,,2021,Barley,10.44
+Europe,,2021,Maize,47.26
+Europe,,2021,Rice,49.35
+Europe,,2021,Wheat,801.03
+Micronesia,,2020,Miscellaneous,50
+Micronesia,,2020,Alcoholic beverages,22
+Micronesia,,2020,Animal fats,22
+Micronesia,,2020,Vegetable oils,294
+Micronesia,,2020,Oilcrops,557
+Micronesia,,2020,Fish and seafood,125
+Micronesia,,2020,Sugar crops,0
+Micronesia,,2020,Sugar & sweeteners,374
+Micronesia,,2020,Starchy roots,162
+Micronesia,,2020,"Meat, other",0.8
+Micronesia,,2020,"Meat, sheep and goat",2.38
+Micronesia,,2020,"Meat, pig",105.63
+Micronesia,,2020,"Meat, poultry",99.5
+Micronesia,,2020,"Meat, beef",23.39
+Micronesia,,2020,Eggs,15
+Micronesia,,2020,Milk,52
+Micronesia,,2020,Nuts,9.69
+Micronesia,,2020,Fruit,85
+Micronesia,,2020,Vegetables,29
+Micronesia,,2020,Pulses,6
+Micronesia,,2020,Cereals,
+Micronesia,,2020,Other,
+Micronesia,,2020,Barley,0.14
+Micronesia,,2020,Maize,2.21
+Micronesia,,2020,Rice,535.95
+Micronesia,,2020,Wheat,323.18
+Micronesia,,2021,Miscellaneous,48
+Micronesia,,2021,Alcoholic beverages,21
+Micronesia,,2021,Animal fats,19
+Micronesia,,2021,Vegetable oils,309
+Micronesia,,2021,Oilcrops,550
+Micronesia,,2021,Fish and seafood,123
+Micronesia,,2021,Sugar crops,0
+Micronesia,,2021,Sugar & sweeteners,363
+Micronesia,,2021,Starchy roots,162
+Micronesia,,2021,"Meat, other",2.16
+Micronesia,,2021,"Meat, sheep and goat",2.38
+Micronesia,,2021,"Meat, pig",119.34
+Micronesia,,2021,"Meat, poultry",139.36
+Micronesia,,2021,"Meat, beef",28.31
+Micronesia,,2021,Eggs,16
+Micronesia,,2021,Milk,60
+Micronesia,,2021,Nuts,9.62
+Micronesia,,2021,Fruit,85
+Micronesia,,2021,Vegetables,30
+Micronesia,,2021,Pulses,7
+Micronesia,,2021,Cereals,
+Micronesia,,2021,Other,
+Micronesia,,2021,Barley,0.91
+Micronesia,,2021,Maize,2.44
+Micronesia,,2021,Rice,530.7
+Micronesia,,2021,Wheat,298.06
+Northern America,,2020,Miscellaneous,3
+Northern America,,2020,Alcoholic beverages,136
+Northern America,,2020,Animal fats,114
+Northern America,,2020,Vegetable oils,714
+Northern America,,2020,Oilcrops,79
+Northern America,,2020,Fish and seafood,30
+Northern America,,2020,Sugar crops,
+Northern America,,2020,Sugar & sweeteners,574
+Northern America,,2020,Starchy roots,104
+Northern America,,2020,"Meat, other",3.12
+Northern America,,2020,"Meat, sheep and goat",3.81
+Northern America,,2020,"Meat, pig",158.1
+Northern America,,2020,"Meat, poultry",207.97
+Northern America,,2020,"Meat, beef",122.19
+Northern America,,2020,Eggs,55
+Northern America,,2020,Milk,381
+Northern America,,2020,Nuts,56.58
+Northern America,,2020,Fruit,144
+Northern America,,2020,Vegetables,74
+Northern America,,2020,Pulses,47
+Northern America,,2020,Cereals,
+Northern America,,2020,Other,
+Northern America,,2020,Barley,0.82
+Northern America,,2020,Maize,94.37
+Northern America,,2020,Rice,79.99
+Northern America,,2020,Wheat,602.31
+Northern America,,2021,Miscellaneous,3
+Northern America,,2021,Alcoholic beverages,140
+Northern America,,2021,Animal fats,111
+Northern America,,2021,Vegetable oils,742
+Northern America,,2021,Oilcrops,73
+Northern America,,2021,Fish and seafood,30
+Northern America,,2021,Sugar crops,
+Northern America,,2021,Sugar & sweeteners,585
+Northern America,,2021,Starchy roots,100
+Northern America,,2021,"Meat, other",3.44
+Northern America,,2021,"Meat, sheep and goat",4.31
+Northern America,,2021,"Meat, pig",153.44
+Northern America,,2021,"Meat, poultry",207.63
+Northern America,,2021,"Meat, beef",122.5
+Northern America,,2021,Eggs,55
+Northern America,,2021,Milk,387
+Northern America,,2021,Nuts,48.91
+Northern America,,2021,Fruit,146
+Northern America,,2021,Vegetables,74
+Northern America,,2021,Pulses,32
+Northern America,,2021,Cereals,
+Northern America,,2021,Other,
+Northern America,,2021,Barley,0.46
+Northern America,,2021,Maize,99.02
+Northern America,,2021,Rice,79.88
+Northern America,,2021,Wheat,596.07
+Oceania,,2020,Miscellaneous,33
+Oceania,,2020,Alcoholic beverages,124
+Oceania,,2020,Animal fats,133
+Oceania,,2020,Vegetable oils,400
+Oceania,,2020,Oilcrops,83
+Oceania,,2020,Fish and seafood,40
+Oceania,,2020,Sugar crops,0
+Oceania,,2020,Sugar & sweeteners,357
+Oceania,,2020,Starchy roots,194
+Oceania,,2020,"Meat, other",39.67
+Oceania,,2020,"Meat, sheep and goat",47.5
+Oceania,,2020,"Meat, pig",86
+Oceania,,2020,"Meat, poultry",129.53
+Oceania,,2020,"Meat, beef",91.53
+Oceania,,2020,Eggs,22
+Oceania,,2020,Milk,255
+Oceania,,2020,Nuts,50.33
+Oceania,,2020,Fruit,161
+Oceania,,2020,Vegetables,63
+Oceania,,2020,Pulses,39
+Oceania,,2020,Cereals,
+Oceania,,2020,Other,
+Oceania,,2020,Barley,0.63
+Oceania,,2020,Maize,24.77
+Oceania,,2020,Rice,140.82
+Oceania,,2020,Wheat,512.8
+Oceania,,2021,Miscellaneous,32
+Oceania,,2021,Alcoholic beverages,141
+Oceania,,2021,Animal fats,131
+Oceania,,2021,Vegetable oils,398
+Oceania,,2021,Oilcrops,75
+Oceania,,2021,Fish and seafood,39
+Oceania,,2021,Sugar crops,0
+Oceania,,2021,Sugar & sweeteners,355
+Oceania,,2021,Starchy roots,195
+Oceania,,2021,"Meat, other",38.84
+Oceania,,2021,"Meat, sheep and goat",41.98
+Oceania,,2021,"Meat, pig",90.67
+Oceania,,2021,"Meat, poultry",132.31
+Oceania,,2021,"Meat, beef",68.75
+Oceania,,2021,Eggs,24
+Oceania,,2021,Milk,239
+Oceania,,2021,Nuts,56.74
+Oceania,,2021,Fruit,161
+Oceania,,2021,Vegetables,65
+Oceania,,2021,Pulses,54
+Oceania,,2021,Cereals,
+Oceania,,2021,Other,
+Oceania,,2021,Barley,0.64
+Oceania,,2021,Maize,24.22
+Oceania,,2021,Rice,150.54
+Oceania,,2021,Wheat,498.28
+South America,,2020,Miscellaneous,3
+South America,,2020,Alcoholic beverages,81
+South America,,2020,Animal fats,74
+South America,,2020,Vegetable oils,466
+South America,,2020,Oilcrops,26
+South America,,2020,Fish and seafood,17
+South America,,2020,Sugar crops,7
+South America,,2020,Sugar & sweeteners,374
+South America,,2020,Starchy roots,149
+South America,,2020,"Meat, other",3.07
+South America,,2020,"Meat, sheep and goat",3.87
+South America,,2020,"Meat, pig",75.48
+South America,,2020,"Meat, poultry",158.33
+South America,,2020,"Meat, beef",134.31
+South America,,2020,Eggs,44
+South America,,2020,Milk,234
+South America,,2020,Nuts,5.23
+South America,,2020,Fruit,133
+South America,,2020,Vegetables,42
+South America,,2020,Pulses,90
+South America,,2020,Cereals,
+South America,,2020,Other,
+South America,,2020,Barley,4.17
+South America,,2020,Maize,234.4
+South America,,2020,Rice,262.57
+South America,,2020,Wheat,407.19
+South America,,2021,Miscellaneous,3
+South America,,2021,Alcoholic beverages,89
+South America,,2021,Animal fats,81
+South America,,2021,Vegetable oils,474
+South America,,2021,Oilcrops,28
+South America,,2021,Fish and seafood,17
+South America,,2021,Sugar crops,7
+South America,,2021,Sugar & sweeteners,367
+South America,,2021,Starchy roots,147
+South America,,2021,"Meat, other",2.48
+South America,,2021,"Meat, sheep and goat",3.73
+South America,,2021,"Meat, pig",72.68
+South America,,2021,"Meat, poultry",164.65
+South America,,2021,"Meat, beef",131.89
+South America,,2021,Eggs,44
+South America,,2021,Milk,233
+South America,,2021,Nuts,5.11
+South America,,2021,Fruit,136
+South America,,2021,Vegetables,41
+South America,,2021,Pulses,83
+South America,,2021,Cereals,
+South America,,2021,Other,
+South America,,2021,Barley,4.87
+South America,,2021,Maize,241.44
+South America,,2021,Rice,271.59
+South America,,2021,Wheat,408.02
+World,OWID_WRL,2020,Miscellaneous,3.9748785
+World,OWID_WRL,2020,Alcoholic beverages,61.61062
+World,OWID_WRL,2020,Animal fats,65.585495
+World,OWID_WRL,2020,Vegetable oils,304.07822
+World,OWID_WRL,2020,Oilcrops,75.5227
+World,OWID_WRL,2020,Fish and seafood,35.773907
+World,OWID_WRL,2020,Sugar crops,4.9685984
+World,OWID_WRL,2020,Sugar & sweeteners,228.55553
+World,OWID_WRL,2020,Starchy roots,154.02655
+World,OWID_WRL,2020,"Meat, other",2.474362
+World,OWID_WRL,2020,"Meat, sheep and goat",9.847762
+World,OWID_WRL,2020,"Meat, pig",76.198425
+World,OWID_WRL,2020,"Meat, poultry",66.35066
+World,OWID_WRL,2020,"Meat, beef",40.672947
+World,OWID_WRL,2020,Eggs,37.76135
+World,OWID_WRL,2020,Milk,160.98259
+World,OWID_WRL,2020,Nuts,15.303283
+World,OWID_WRL,2020,Fruit,114.27776
+World,OWID_WRL,2020,Vegetables,106.328
+World,OWID_WRL,2020,Pulses,65.585495
+World,OWID_WRL,2020,Cereals,
+World,OWID_WRL,2020,Other,
+World,OWID_WRL,2020,Barley,7.512521
+World,OWID_WRL,2020,Maize,145.63956
+World,OWID_WRL,2020,Rice,520.8979
+World,OWID_WRL,2020,Wheat,529.12585
+World,OWID_WRL,2021,Miscellaneous,3.9746227
+World,OWID_WRL,2021,Alcoholic beverages,62.600307
+World,OWID_WRL,2021,Animal fats,66.57493
+World,OWID_WRL,2021,Vegetable oils,310.02057
+World,OWID_WRL,2021,Oilcrops,75.51783
+World,OWID_WRL,2021,Fish and seafood,35.771603
+World,OWID_WRL,2021,Sugar crops,4.9682784
+World,OWID_WRL,2021,Sugar & sweeteners,229.53445
+World,OWID_WRL,2021,Starchy roots,154.01663
+World,OWID_WRL,2021,"Meat, other",2.4145834
+World,OWID_WRL,2021,"Meat, sheep and goat",9.986239
+World,OWID_WRL,2021,"Meat, pig",79.90979
+World,OWID_WRL,2021,"Meat, poultry",66.75379
+World,OWID_WRL,2021,"Meat, beef",40.878994
+World,OWID_WRL,2021,Eggs,36.76526
+World,OWID_WRL,2021,Milk,161.96588
+World,OWID_WRL,2021,Nuts,15.421536
+World,OWID_WRL,2021,Fruit,116.25771
+World,OWID_WRL,2021,Vegetables,107.31481
+World,OWID_WRL,2021,Pulses,64.587616
+World,OWID_WRL,2021,Cereals,
+World,OWID_WRL,2021,Other,
+World,OWID_WRL,2021,Barley,7.581593
+World,OWID_WRL,2021,Maize,145.73947
+World,OWID_WRL,2021,Rice,516.30347
+World,OWID_WRL,2021,Wheat,534.9743

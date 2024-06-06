@@ -29,7 +29,7 @@ import kotlinx.serialization.json.Json
  * An enumeration of datasets available to the application.
  */
 enum class Dataset(resourceName: String) {
-    DIETARY_COMPOSITION_BY_COUNTRY("/dietary-composition-by-country.info.json");
+    DIETARY_COMPOSITION_BY_REGION("/dietary-composition-by-region.info.json");
 
     /**
      * The parsed dataset info.

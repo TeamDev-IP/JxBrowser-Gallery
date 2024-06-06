@@ -30,10 +30,6 @@ repositories {
     gradlePluginPortal()
 }
 
-kotlin {
-
-}
-
 dependencies {
     implementation(generatedVersionCatalog())
     implementation(libs.kotlin.gradlePlugin)
