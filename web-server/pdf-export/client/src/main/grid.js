@@ -64,6 +64,13 @@ export function newGrid(data, pageSize, showFilters) {
             prev,
             () => formatter.clear(),
             () => {
+                const regionCells = document.getElementsByClassName('region-cell');
+                Array.from(regionCells).forEach(cell => {
+                    if (cell.innerText !== '') {
+                        const closestTr = cell.closest('.gridjs-tr');
+                        closestTr.setAttribute("style", "border-top: 1px solid #e5e7eb;");
+                    }
+                });
                 if (showFilters && filters.length === 0) {
                     filters.push(createFilters(grid, data));
                 }
@@ -88,7 +95,12 @@ function columns(formatter) {
                 'Region' +
                 '</div>'
             ),
-            formatter: (cell, row) => formatter.format(row, 0)
+            formatter: (cell, row) => {
+                const formattedCell = formatter.format(row, 0);
+                return html(
+                    `<div class="region-cell">${formattedCell}</div>`
+                );
+            }
         },
         {
             id: 'code',
