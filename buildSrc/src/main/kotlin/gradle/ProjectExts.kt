@@ -45,14 +45,14 @@ val Project.libs
 fun VersionNotationSupplier.get(): String = asProvider().get()
 
 /**
- * Returns the version of JxBrowser for packing Compose objects.
+ * Returns the version of JxBrowser for packaging the Compose builds.
  *
- * This method removes `-eap` prefix from the returned version, if any.
+ * This method removes `-eap...` suffix from the returned version, if any.
  * For example, if the currently used version is `8.0.0-eap.7`,
  * then the method would return just `8.0.0`.
  *
- * This is needed because `.dmg` version descriptor should match
- * the following format: `MAJOR[.MINOR][.PATCH]`.
+ * This is needed because `.dmg` version descriptor must be
+ * in the following format: `MAJOR[.MINOR][.PATCH]`.
  */
 fun Project.jxBrowserPackagingVersion(): String {
     val pattern = "(.*?)-eap".toRegex()
