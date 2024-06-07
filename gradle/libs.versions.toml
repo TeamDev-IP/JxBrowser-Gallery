@@ -4,11 +4,10 @@ jxbrowser = "8.0.0-eap.2" # https://europe-maven.pkg.dev/jxbrowser/eaps/com/team
 jxbrowser-gradlePlugin = "1.0.2" # https://github.com/TeamDev-IP/JxBrowser-Gradle-Plugin/releases
 
 # Other platforms, libraries, and plugins.
-java = "17" # See also: `org.gradle.jvm.toolchain.JavaLanguageVersion`
-kotlin = "1.9.23" # https://github.com/JetBrains/kotlin/releases
+kotlin = "2.0.0" # https://github.com/JetBrains/kotlin/releases
 kotlin-serialization = "1.6.3" # https://github.com/Kotlin/kotlinx.serialization/releases
 detekt = "1.23.6" # https://github.com/detekt/detekt/releases
-compose = "1.6.1" # https://github.com/JetBrains/compose-multiplatform/releases
+compose = "1.6.11" # https://github.com/JetBrains/compose-multiplatform/releases
 ktor = "2.3.10" # https://github.com/ktorio/ktor
 micronaut = "4.3.7" # https://github.com/micronaut-projects/micronaut-starter
 micronaut-gradlePlugin = "4.3.5" # https://github.com/micronaut-projects/micronaut-gradle-plugin
@@ -29,6 +28,7 @@ kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-j
 kotlin-serialization-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 detekt-gradlePlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 compose-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
+compose-compiler-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 ktor-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor" }
 ktor-gradlePlugin = { module = "io.ktor.plugin:plugin", version.ref = "ktor" }

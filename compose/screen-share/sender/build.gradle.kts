@@ -20,13 +20,18 @@
  *  SOFTWARE.
  */
 
+import gradle.jxBrowserPackagingVersion
 import gradle.web.DEFAULT_NODE_PORT
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
+    id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.compose")
     `compose-app`
 }
 
 dependencies {
+    implementation(compose.desktop.currentOs)
     implementation(project(":compose:screen-share:common"))
 }
 
@@ -34,5 +39,11 @@ compose.desktop {
     application {
         mainClass = "com.teamdev.jxbrowser.examples.screenshare.sender.MainKt"
         jvmArgs("-Dserver.port=${properties["port"] ?: DEFAULT_NODE_PORT}")
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = project.name
+            packageVersion = jxBrowserPackagingVersion()
+        }
     }
 }

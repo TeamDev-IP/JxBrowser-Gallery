@@ -30,6 +30,7 @@ import com.teamdev.jxbrowser.net.callback.InterceptUrlRequestCallback.Params
 import com.teamdev.jxbrowser.net.callback.InterceptUrlRequestCallback.Response
 import com.teamdev.jxbrowser.net.callback.InterceptUrlRequestCallback.Response.intercept
 import com.teamdev.jxbrowser.net.callback.InterceptUrlRequestCallback.Response.proceed
+import java.net.URI
 import java.net.URL
 import java.net.URLConnection
 
@@ -97,7 +98,7 @@ private fun RequestedUrl.isNotJarEntry() = startsWith("jar:").not()
  */
 private fun RequestedUrl.toJavaUrl(): URL {
     val javaSpec = replace("jar://file", "jar:file:")
-    return URL(javaSpec)
+    return URI(javaSpec).toURL()
 }
 
 /**

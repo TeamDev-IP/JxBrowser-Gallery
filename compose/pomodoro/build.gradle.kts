@@ -21,11 +21,19 @@
  */
 
 import gradle.compose.allowBackgroundExecution
+import gradle.jxBrowserPackagingVersion
 import gradle.web.BuildWeb
 import gradle.web.buildWebProject
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
+    id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.compose")
     `compose-app`
+}
+
+dependencies {
+    implementation(compose.desktop.currentOs)
 }
 
 compose.desktop {
@@ -33,6 +41,8 @@ compose.desktop {
         mainClass = "com.teamdev.jxbrowser.examples.pomodoro.MainKt"
         nativeDistributions {
             packageName = "Pomodoro"
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageVersion = jxBrowserPackagingVersion()
             macOS {
                 iconFile = iconForMacOS()
                 infoPlist {
