@@ -24,7 +24,7 @@ import {httpGet} from "./http";
 import {csvToArray} from "./parsing";
 import {newLeftPanel} from "./left-panel";
 import {newGrid} from "./grid";
-import {newDownloadDialog, openDownloadDialog} from "./download";
+import {newDownloadDialog, openDownloadDialog, openWaitingDialog} from "./download";
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -58,6 +58,7 @@ async function exportToPdf(downloadDialog) {
     exportButton.disabled = true;
     const buttonText = exportButton.innerText;
     exportButton.innerText = 'Generating PDF...';
+    openWaitingDialog(downloadDialog);
 
     const pdf = await generateAndFetchPdf();
     const url = window.URL.createObjectURL(pdf);

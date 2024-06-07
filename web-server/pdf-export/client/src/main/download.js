@@ -67,9 +67,20 @@ export function newDownloadDialog() {
 }
 
 /**
+ * Opens the PDF generation waiting dialog.
+ *
+ * @param dialog an object enclosing the dialog element
+ */
+export function openWaitingDialog(dialog) {
+    dialog.body.innerHTML = 'Generating the PDF file...';
+    const modal = Modal.getOrCreateInstance(dialog.element);
+    modal.show();
+}
+
+/**
  * Opens the file download dialog with a link to the passed file.
  *
- * @param dialog an object enclosing the download dialog element
+ * @param dialog an object enclosing the dialog element
  * @param url the URL of the file to download
  * @param filename the name under which the file should be saved
  */
