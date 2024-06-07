@@ -24,6 +24,9 @@ import {Grid, html} from "gridjs";
 import {newFiltersFor} from "./filters";
 import {DeduplicatingFormatter} from "./formatter";
 
+const paginationButtonCount = 4;
+let paginationDivPosition = null;
+
 /**
  * Creates a new grid visualizing the data about the dietary composition by region.
  *
@@ -53,73 +56,22 @@ export function newGrid(data, pageSize, showControls) {
         config.pagination = {
             summary: true,
             limit: pageSize,
-            buttonsCount: 4
+            buttonsCount: paginationButtonCount
         };
     }
     const grid = new Grid(config);
     const filters = [];
-    let paginationDivPosition = null;
     grid.config.store.subscribe(
         (state, prev) => renderStateListener(
             state,
             prev,
             () => formatter.clear(),
             () => {
-                const regionCells = document.getElementsByClassName('region-cell');
-                Array.from(regionCells).forEach(cell => {
-                    if (cell.innerText !== '') {
-                        const closestTr = cell.closest('.gridjs-tr');
-                        closestTr.setAttribute("style", "border-top: 1px solid #e5e7eb;");
-                    }
-                });
+                drawRowSectionDividers();
                 if (showControls && filters.length === 0) {
                     filters.push(createFilters(grid, data));
-
-                    const observer = new MutationObserver((mutations) => {
-                        mutations.forEach((mutation) => {
-                            if (mutation.type === 'childList') {
-                                if (showControls) {
-                                    const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
-                                    if (!paginationDivPosition) {
-                                        paginationDivPosition = paginationDiv.getBoundingClientRect();
-                                    }
-                                    paginationDiv.setAttribute(
-                                        "style",
-                                        `position: fixed;
-                        visibility: visible;
-                        top: ${paginationDivPosition.top}px; 
-                        left: ${paginationDivPosition.left}px;`);
-                                    const paginationButtons = document.getElementsByClassName('pagination-button');
-                                    const paginationButtonsArray = Array.from(paginationButtons);
-                                    paginationButtonsArray
-                                        .filter(button => button.innerText !== 'Previous')
-                                        .filter(button => button.innerText !== 'Next')
-                                        .forEach(button => button.classList.add('small-pagination-button'));
-
-                                    const targetLength = 8;
-                                    const realLength = paginationButtons.length;
-
-                                    const pageNumberButtons = paginationButtonsArray
-                                        .filter(button => button.innerText !== '...')
-                                        .filter(button => button.innerText !== 'Previous')
-                                        .filter(button => button.innerText !== 'Next');
-
-                                    const buttonsToHide = pageNumberButtons.slice(1, realLength - targetLength + 1);
-                                    paginationButtonsArray.filter(
-                                        button => !buttonsToHide.includes(button)
-                                    ).forEach(
-                                        button => button.setAttribute("style", "display: inline-block;")
-                                    );
-                                    buttonsToHide.forEach(
-                                        button => button.setAttribute("style", "display: none;")
-                                    );
-                                }
-                            }
-                        });
-                    });
-                    observer.observe(document, {childList: true, subtree: true});
+                    createPaginationControlsObserver(showControls);
                 }
-
                 if (window.javaPrinter) {
                     window.javaPrinter.print();
                 }
@@ -127,6 +79,59 @@ export function newGrid(data, pageSize, showControls) {
         )
     );
     return grid;
+}
+
+function drawRowSectionDividers() {
+    const regionCells = document.getElementsByClassName('region-cell');
+    Array.from(regionCells).forEach(cell => {
+        if (cell.innerText !== '') {
+            const closestTr = cell.closest('.gridjs-tr');
+            closestTr.setAttribute("style", "border-top: 1px solid #e5e7eb;");
+        }
+    });
+}
+
+function createPaginationControlsObserver(showControls) {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'childList') {
+                if (showControls) {
+                    fixatePaginationControls();
+                }
+            }
+        });
+    });
+    observer.observe(document, {childList: true, subtree: true});
+}
+
+function fixatePaginationControls() {
+    const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
+    if (!paginationDivPosition) {
+        paginationDivPosition = paginationDiv.getBoundingClientRect();
+    }
+    paginationDiv.setAttribute(
+        "style",
+        `position: fixed; 
+         visibility: visible; 
+         top: ${paginationDivPosition.top}px; 
+         left: ${paginationDivPosition.left}px;`
+    );
+    const buttons = Array.from(document.getElementsByClassName('pagination-button'));
+    buttons.filter(button => button.innerText !== 'Previous')
+           .filter(button => button.innerText !== 'Next')
+           .forEach(button => button.classList.add('small-pagination-button'));
+
+    const targetLength = paginationButtonCount + 4;
+    const realLength = buttons.length;
+
+    const pageNumberButtons = buttons.filter(button => button.innerText !== '...')
+                                     .filter(button => button.innerText !== 'Previous')
+                                     .filter(button => button.innerText !== 'Next');
+
+    const buttonsToHide = pageNumberButtons.slice(1, realLength - targetLength + 1);
+    buttons.filter(button => !buttonsToHide.includes(button))
+           .forEach(button => button.setAttribute("style", "display: inline-block;"));
+    buttonsToHide.forEach(button => button.setAttribute("style", "display: none;"));
 }
 
 /**
