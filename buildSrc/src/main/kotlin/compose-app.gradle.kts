@@ -20,15 +20,16 @@
  *  SOFTWARE.
  */
 
-import gradle.get
-import gradle.libs
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-
 plugins {
+    // Ideally, this section would also apply and configure
+    // the Gradle plugins for Compose.
+    // But due to https://github.com/gradle/gradle/issues/27099,
+    // they can only be applied down in particular Gradle modules.
+    //
+    // We expect this to be changed as soon as Gradle 8.9 RC1 is out.
+
     id("jvm-module")
     id("jxbrowser")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.compose")
 }
 
 repositories {
@@ -37,33 +38,5 @@ repositories {
 
 dependencies {
     implementation(jxbrowser.compose)
-    implementation(compose.desktop.currentOs)
     implementation(project(":jxbrowser-license"))
-}
-
-compose.desktop {
-    application {
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = project.name
-            packageVersion = jxBrowserVersion()
-        }
-    }
-}
-
-/**
- * Returns the version of JxBrowser.
- *
- * This method removes `-eap` prefix from the returned version, if any.
- * For example, if the currently used version is `8.0.0-eap.7-test`,
- * then the method would return just `8.0.0`.
- *
- * This is needed because Dmg version descriptor should match
- * the following format: `MAJOR[.MINOR][.PATCH]`.
- */
-private fun Project.jxBrowserVersion(): String {
-    val pattern = "(.*?)-eap".toRegex()
-    val version = libs.versions.jxbrowser.get()
-    val matchResult = pattern.find(version)
-    return matchResult?.groups?.get(1)?.value ?: version
 }
