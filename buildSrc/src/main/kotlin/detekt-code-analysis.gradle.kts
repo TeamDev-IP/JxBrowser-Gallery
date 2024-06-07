@@ -21,7 +21,7 @@
  */
 
 import io.gitlab.arturbosch.detekt.Detekt
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
 
 /**
  * This script-plugin sets up Kotlin code analyzing with Detekt.
@@ -43,7 +43,7 @@ detekt {
 
 tasks {
     withType<Detekt>().configureEach {
-        this.jvmTarget = JvmTarget.JVM_17.target
+        jvmTarget = JVM_17.target
         reports {
             html.required.set(true) // Only HTML report is generated.
             xml.required.set(false)
