@@ -72,43 +72,54 @@ export function newGrid(data, pageSize, showControls) {
                         closestTr.setAttribute("style", "border-top: 1px solid #e5e7eb;");
                     }
                 });
-                if (showControls) {
-                    if (filters.length === 0) {
-                        filters.push(createFilters(grid, data));
-                    }
-                    const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
-                    if (!paginationDivPosition) {
-                        paginationDivPosition = paginationDiv.getBoundingClientRect();
-                    }
-                    paginationDiv.setAttribute(
-                        "style",
-                        `position: fixed;
+                if (showControls && filters.length === 0) {
+                    filters.push(createFilters(grid, data));
+
+                    const observer = new MutationObserver((mutations) => {
+                        mutations.forEach((mutation) => {
+                            if (mutation.type === 'childList') {
+                                if (showControls) {
+                                    const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
+                                    if (!paginationDivPosition) {
+                                        paginationDivPosition = paginationDiv.getBoundingClientRect();
+                                    }
+                                    paginationDiv.setAttribute(
+                                        "style",
+                                        `position: fixed;
                         visibility: visible;
                         top: ${paginationDivPosition.top}px; 
                         left: ${paginationDivPosition.left}px;`);
-                    const paginationButtons = document.getElementsByClassName('pagination-button');
-                    const paginationButtonsArray = Array.from(paginationButtons);
-                    paginationButtonsArray
-                        .filter(button => button.innerText !== 'Previous')
-                        .filter(button => button.innerText !== 'Next')
-                        .forEach(button => button.classList.add('small-pagination-button'));
+                                    const paginationButtons = document.getElementsByClassName('pagination-button');
+                                    const paginationButtonsArray = Array.from(paginationButtons);
+                                    paginationButtonsArray
+                                        .filter(button => button.innerText !== 'Previous')
+                                        .filter(button => button.innerText !== 'Next')
+                                        .forEach(button => button.classList.add('small-pagination-button'));
 
-                    const targetLength = 8;
-                    const realLength = paginationButtons.length;
+                                    const targetLength = 8;
+                                    const realLength = paginationButtons.length;
 
-                    const pageNumberButtons = paginationButtonsArray
-                        .filter(button => button.innerText !== '...')
-                        .filter(button => button.innerText !== 'Previous')
-                        .filter(button => button.innerText !== 'Next');
+                                    const pageNumberButtons = paginationButtonsArray
+                                        .filter(button => button.innerText !== '...')
+                                        .filter(button => button.innerText !== 'Previous')
+                                        .filter(button => button.innerText !== 'Next');
 
-                    const buttonsToHide = pageNumberButtons.slice(1, realLength - targetLength + 1);
-                    paginationButtonsArray.forEach(
-                        button => button.setAttribute("style", "display: inline-block;")
-                    );
-                    buttonsToHide.forEach(
-                        button => button.setAttribute("style", "display: none;")
-                    );
+                                    const buttonsToHide = pageNumberButtons.slice(1, realLength - targetLength + 1);
+                                    paginationButtonsArray.filter(
+                                        button => !buttonsToHide.includes(button)
+                                    ).forEach(
+                                        button => button.setAttribute("style", "display: inline-block;")
+                                    );
+                                    buttonsToHide.forEach(
+                                        button => button.setAttribute("style", "display: none;")
+                                    );
+                                }
+                            }
+                        });
+                    });
+                    observer.observe(document, {childList: true, subtree: true});
                 }
+
                 if (window.javaPrinter) {
                     window.javaPrinter.print();
                 }
