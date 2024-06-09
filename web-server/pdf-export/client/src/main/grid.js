@@ -24,8 +24,18 @@ import {Grid, html} from "gridjs";
 import {newFiltersFor} from "./filters";
 import {DeduplicatingFormatter} from "./formatter";
 
-const paginationButtonCount = 4;
-let paginationDivPosition = null;
+/**
+ * The number of page buttons to show in the pagination control.
+ *
+ * Page buttons are the buttons that allow navigating to a specific page as opposed to
+ * the "Previous", "Next", or "..." buttons.
+ */
+const pageButtonsToShow = 4;
+
+/**
+ * The fixed position of the pagination controls on the page.
+ */
+let paginationControlsPosition = null;
 
 /**
  * Creates a new grid visualizing the data about the dietary composition by region.
@@ -56,7 +66,7 @@ export function newGrid(data, pageSize, showControls) {
         config.pagination = {
             summary: true,
             limit: pageSize,
-            buttonsCount: paginationButtonCount
+            buttonsCount: pageButtonsToShow
         };
     }
     const grid = new Grid(config);
@@ -69,8 +79,10 @@ export function newGrid(data, pageSize, showControls) {
             () => {
                 drawRowSectionDividers();
                 if (showControls && filters.length === 0) {
-                    filters.push(createFilters(grid, data));
-                    createPaginationControlsObserver(showControls);
+                    const filterControls = createFilters(grid, data);
+                    filters.push(filterControls);
+
+                    createPaginationFormatter();
                 }
                 if (window.javaPrinter) {
                     window.javaPrinter.print();
@@ -81,9 +93,12 @@ export function newGrid(data, pageSize, showControls) {
     return grid;
 }
 
+/**
+ * Creates the dividers that separate sections of data belonging to the same region and year.
+ */
 function drawRowSectionDividers() {
-    const regionCells = document.getElementsByClassName('region-cell');
-    Array.from(regionCells).forEach(cell => {
+    const regionCells = Array.from(document.getElementsByClassName('region-cell'));
+    regionCells.forEach(cell => {
         if (cell.innerText !== '') {
             const closestTr = cell.closest('.gridjs-tr');
             closestTr.setAttribute("style", "border-top: 1px solid #e5e7eb;");
@@ -91,47 +106,52 @@ function drawRowSectionDividers() {
     });
 }
 
-function createPaginationControlsObserver(showControls) {
+/**
+ * Creates an observer that fixes the positions of the pagination controls.
+ *
+ * The default controls provided by Grid.js tend to jump up and down as well as
+ * left-to-right upon the page switching. This observer reformats the controls
+ * to fix them in place for more convenient navigation.
+ */
+function createPaginationFormatter() {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             if (mutation.type === 'childList') {
-                if (showControls) {
-                    fixatePaginationControls();
-                }
+                fixatePaginationControls();
             }
         });
     });
     observer.observe(document, {childList: true, subtree: true});
 }
 
+/**
+ * Fixes the pagination controls position and dimensions.
+ */
 function fixatePaginationControls() {
     const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
-    if (!paginationDivPosition) {
-        paginationDivPosition = paginationDiv.getBoundingClientRect();
+    if (paginationDiv && !paginationControlsPosition) {
+        paginationControlsPosition = paginationDiv.getBoundingClientRect();
     }
-    paginationDiv.setAttribute(
-        "style",
-        `position: fixed; 
-         visibility: visible; 
-         top: ${paginationDivPosition.top}px; 
-         left: ${paginationDivPosition.left}px;`
-    );
-    const buttons = Array.from(document.getElementsByClassName('pagination-button'));
-    buttons.filter(button => button.innerText !== 'Previous')
-           .filter(button => button.innerText !== 'Next')
-           .forEach(button => button.classList.add('small-pagination-button'));
+    paginationDiv.style.position = 'fixed';
+    paginationDiv.style.top = `${paginationControlsPosition.top}px`;
+    paginationDiv.style.left = `${paginationControlsPosition.left}px`;
 
-    const targetLength = paginationButtonCount + 4;
-    const realLength = buttons.length;
+    const paginationButtons = Array.from(document.getElementsByClassName('pagination-button'));
+    paginationButtons.filter(button => button.innerText !== 'Previous')
+                     .filter(button => button.innerText !== 'Next')
+                     .filter(button => !button.classList.contains('small-pagination-button'))
+                     .forEach(button => button.classList.add('small-pagination-button'));
 
-    const pageNumberButtons = buttons.filter(button => button.innerText !== '...')
-                                     .filter(button => button.innerText !== 'Previous')
-                                     .filter(button => button.innerText !== 'Next');
+    const targetCount = pageButtonsToShow + 4;
+    const realCount = paginationButtons.length;
 
-    const buttonsToHide = pageNumberButtons.slice(1, realLength - targetLength + 1);
-    buttons.filter(button => !buttonsToHide.includes(button))
-           .forEach(button => button.setAttribute("style", "display: inline-block;"));
-    buttonsToHide.forEach(button => button.setAttribute("style", "display: none;"));
+    const pageNumberButtons = paginationButtons.filter(button => button.innerText !== '...')
+                                               .filter(button => button.innerText !== 'Previous')
+                                               .filter(button => button.innerText !== 'Next');
+
+    const buttonsToHide = pageNumberButtons.slice(1, realCount - targetCount + 1);
+    paginationButtons.forEach(button => button.style.display = 'inline-block');
+    buttonsToHide.forEach(button => button.style.display = 'none');
 }
 
 /**
