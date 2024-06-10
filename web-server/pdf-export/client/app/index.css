@@ -27,7 +27,7 @@
     justify-content: space-between;
     margin-left: 15px;
     margin-top: 15px;
-    width: 100%;
+    width: 95%;
 }
 
 #info-container {
@@ -58,7 +58,7 @@
 }
 
 .gridjs-table {
-    width: 80%;
+    width: 85%;
 }
 
 .gridjs-th {
@@ -80,6 +80,10 @@
 
 .gridjs-td:last-child {
     padding-right: 0;
+}
+
+.section-start {
+    border-top: 1px solid #e5e7eb;
 }
 
 .region-column {

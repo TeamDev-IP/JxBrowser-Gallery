@@ -25,15 +25,15 @@ import {newFiltersFor} from "./filters";
 import {DeduplicatingFormatter} from "./formatter";
 
 /**
- * The number of page buttons to show in the pagination controls section.
- *
- * Page buttons are the buttons that allow navigating to a specific page as opposed to
- * the "Previous", "Next", or "..." buttons.
+ * The number of buttons to show in the pagination controls section.
  */
-const pageButtonsToShow = 7;
+const paginationButtonCount = 7;
 
 /**
  * The fixed position of the pagination controls on the page.
+ *
+ * This variable is used to store the initial position of the pagination controls
+ * and fixate them in place while the table content changes.
  */
 let paginationControlsPosition = null;
 
@@ -66,7 +66,7 @@ export function newGrid(data, pageSize, showControls) {
         config.pagination = {
             summary: true,
             limit: pageSize,
-            buttonsCount: pageButtonsToShow
+            buttonsCount: paginationButtonCount
         };
     }
     const grid = new Grid(config);
@@ -101,7 +101,7 @@ function drawRowSectionDividers() {
     regionCells.forEach(cell => {
         if (cell.innerText !== '') {
             const closestTr = cell.closest('.gridjs-tr');
-            closestTr.setAttribute("style", "border-top: 1px solid #e5e7eb;");
+            closestTr.classList.add('section-start');
         }
     });
 }
@@ -110,8 +110,8 @@ function drawRowSectionDividers() {
  * Creates an observer that fixes the positions of the pagination controls.
  *
  * The default controls provided by Grid.js tend to jump up and down as well as
- * left-to-right upon the page switching. This observer reformats the controls
- * to fix them in place for more convenient navigation.
+ * left to right upon the page switching. This observer constantly reformats
+ * the controls to fix them in place for more convenient navigation.
  */
 function createPaginationFormatter() {
     const observer = new MutationObserver((mutations) => {
@@ -139,18 +139,17 @@ function fixatePaginationControls() {
     const paginationButtons = Array.from(document.getElementsByClassName('pagination-button'));
     paginationButtons.filter(button => button.innerText !== 'Previous')
                      .filter(button => button.innerText !== 'Next')
-                     .filter(button => !button.classList.contains('small-pagination-button'))
                      .forEach(button => button.classList.add('small-pagination-button'));
 
     paginationButtons.forEach(button => button.style.display = 'inline-block');
 
-    const targetCount = pageButtonsToShow + 2;
+    const targetCount = paginationButtonCount + 2;
     const realCount = paginationButtons.length;
     if (realCount <= targetCount) {
         return;
     }
-    const buttonsToHide = determineButtonsToHide(paginationButtons, realCount, targetCount);
-    buttonsToHide.forEach(button => button.style.display = 'none');
+    buttonsToHide(paginationButtons, realCount, targetCount)
+        .forEach(button => button.style.display = 'none');
 }
 
 /**
@@ -158,7 +157,7 @@ function fixatePaginationControls() {
  *
  * The removal algorithm aims to keep the current page button in the center, if possible.
  */
-function determineButtonsToHide(paginationButtons, realCount, targetCount) {
+function buttonsToHide(paginationButtons, realCount, targetCount) {
     const buttonText = paginationButtons.map(button => button.innerText);
     const firstBreak = buttonText.indexOf('...');
     const lastBreak = buttonText.lastIndexOf('...');
