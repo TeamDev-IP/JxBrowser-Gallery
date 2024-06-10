@@ -89,7 +89,7 @@ export function openDownloadDialog(dialog, url, filename) {
         `Download link: <a href="${url}" download="${filename}">${filename}</a>
                 <br><br>
                 Also, available on the server filesystem as
-                '<i>*project root*/web-server/pdf-export/server/exported/${filename}</i>'.`
+                '<i>&lt;project root&gt;/web-server/pdf-export/server/exported/${filename}</i>'.`
     const modal = Modal.getOrCreateInstance(dialog.element);
     modal.show();
 }
