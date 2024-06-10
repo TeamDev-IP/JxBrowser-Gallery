@@ -25,12 +25,12 @@ import {newFiltersFor} from "./filters";
 import {DeduplicatingFormatter} from "./formatter";
 
 /**
- * The number of page buttons to show in the pagination control.
+ * The number of page buttons to show in the pagination controls section.
  *
  * Page buttons are the buttons that allow navigating to a specific page as opposed to
  * the "Previous", "Next", or "..." buttons.
  */
-const pageButtonsToShow = 4;
+const pageButtonsToShow = 7;
 
 /**
  * The fixed position of the pagination controls on the page.
@@ -142,16 +142,50 @@ function fixatePaginationControls() {
                      .filter(button => !button.classList.contains('small-pagination-button'))
                      .forEach(button => button.classList.add('small-pagination-button'));
 
-    const targetCount = pageButtonsToShow + 4;
-    const realCount = paginationButtons.length;
-
-    const pageNumberButtons = paginationButtons.filter(button => button.innerText !== '...')
-                                               .filter(button => button.innerText !== 'Previous')
-                                               .filter(button => button.innerText !== 'Next');
-
-    const buttonsToHide = pageNumberButtons.slice(1, realCount - targetCount + 1);
     paginationButtons.forEach(button => button.style.display = 'inline-block');
+
+    const targetCount = pageButtonsToShow + 2;
+    const realCount = paginationButtons.length;
+    if (realCount <= targetCount) {
+        return;
+    }
+    const buttonsToHide = determineButtonsToHide(paginationButtons, realCount, targetCount);
     buttonsToHide.forEach(button => button.style.display = 'none');
+}
+
+/**
+ * Determines the buttons to hide when re-formatting the pagination controls.
+ *
+ * The removal algorithm aims to keep the current page button in the center, if possible.
+ */
+function determineButtonsToHide(paginationButtons, realCount, targetCount) {
+    const buttonText = paginationButtons.map(button => button.innerText);
+    const firstBreak = buttonText.indexOf('...');
+    const lastBreak = buttonText.lastIndexOf('...');
+    const buttonsToHide = [];
+    const buttonsToHideCount = realCount - targetCount;
+    if (firstBreak === -1) {
+        return [];
+    }
+    if (firstBreak === lastBreak) {
+        const buttonsAfterBreak = paginationButtons.length - firstBreak - 1;
+        if (buttonsAfterBreak > 2) {
+            for (let i = firstBreak + 1; i < firstBreak + buttonsToHideCount + 1; i++) {
+                buttonsToHide.push(paginationButtons[i]);
+            }
+        } else {
+            for (let i = firstBreak - buttonsToHideCount; i < firstBreak; i++) {
+                buttonsToHide.push(paginationButtons[i]);
+            }
+        }
+    } else {
+        const buttonsToRemoveOnEachSide = buttonsToHideCount / 2;
+        for (let i = 0; i < buttonsToRemoveOnEachSide; i++) {
+            buttonsToHide.push(paginationButtons[firstBreak + 1 + i]);
+            buttonsToHide.push(paginationButtons[lastBreak - 1 - i]);
+        }
+    }
+    return buttonsToHide;
 }
 
 /**
