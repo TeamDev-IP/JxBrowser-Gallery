@@ -85,11 +85,11 @@ from the Gallery's root folder:
 ```shell
    ./gradlew :web-server:chart-rendering:server:run
 ```
-After this, open `/server/chart-rendering/client/app/index.html` to launch 
-the client side of the application.
+After this, open the `<project root>/web-server/chart-rendering/client/app/index.html`
+file in a browser to access the client side of the application.
 
 The exported files are available for download in the browser and also appear 
-under the `{project root}/web-server/chart-rendering/server/images` directory 
+under the `<project root>/web-server/chart-rendering/server/images` directory 
 on the local file system.
 
 [chart.js]: https://www.chartjs.org/

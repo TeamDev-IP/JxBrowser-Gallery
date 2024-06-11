@@ -39,7 +39,7 @@ import java.io.IOException;
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 
 /**
- * A controller that exports charts to various image and non-image formats.
+ * A controller that exports charts to the PNG image format.
  *
  * <p>The process of rendering and exporting a chart is roughly the following:
  * <ol>
@@ -48,7 +48,7 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
  *   <li>A pre-created {@link Browser} instance loads the local URL denoting
  *       the saved HTML file.
  *   <li>The browser's bitmap, which now contains the rendered chart, is converted
- *       to {@code BufferedImage} and saved in the desired image format.
+ *       to {@code BufferedImage} and saved as PNG.
  *   <li>The saved file bytes are streamed back to the client as {@link SystemFile}.
  * </ol>
  *

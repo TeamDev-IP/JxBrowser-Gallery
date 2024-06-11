@@ -44,8 +44,8 @@ export function newDownloadDialog() {
     modalContent.appendChild(modalHeader);
 
     const modalTitle = document.createElement('h5');
+    modalTitle.id = 'download-dialog-title';
     modalTitle.className = 'modal-title';
-    modalTitle.innerText = 'Your file is ready';
     modalHeader.appendChild(modalTitle);
 
     const closeButton = document.createElement('button');
@@ -67,18 +67,33 @@ export function newDownloadDialog() {
 }
 
 /**
+ * Opens the PDF generation waiting dialog.
+ *
+ * @param dialog an object enclosing the dialog element
+ */
+export function openWaitingDialog(dialog) {
+    const title = document.getElementById('download-dialog-title');
+    title.innerText = 'Export started';
+    dialog.body.innerHTML = 'Generating the PDF file...';
+    const modal = Modal.getOrCreateInstance(dialog.element);
+    modal.show();
+}
+
+/**
  * Opens the file download dialog with a link to the passed file.
  *
- * @param dialog an object enclosing the download dialog element
+ * @param dialog an object enclosing the dialog element
  * @param url the URL of the file to download
  * @param filename the name under which the file should be saved
  */
 export function openDownloadDialog(dialog, url, filename) {
+    const title = document.getElementById('download-dialog-title');
+    title.innerText = 'Your file is ready';
     dialog.body.innerHTML =
         `Download link: <a href="${url}" download="${filename}">${filename}</a>
                 <br><br>
                 Also, available on the server filesystem as
-                '<i>*project root*/web-server/pdf-export/server/exported/${filename}</i>'.`
+                '<i>&lt;project root&gt;/web-server/pdf-export/server/exported/${filename}</i>'.`
     const modal = Modal.getOrCreateInstance(dialog.element);
     modal.show();
 }

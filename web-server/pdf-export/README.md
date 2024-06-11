@@ -92,10 +92,11 @@ from the Gallery's root folder:
    ./gradlew :web-server:pdf-export:server:run
 ```
 
-After this, open the URL specified in the console to access the server side of the application.
+After this, open the `<project root>/web-server/pdf-export/client/app/index.html` 
+file in a browser to access the client side of the application.
 
 The exported files are available for download in the browser and also appear
-under the `{project root}/web-server/pdf-export/server/exported` directory
+under the `<project root>/web-server/pdf-export/server/exported` directory
 on the local file system.
 
 [jxbrowser]: https://teamdev.com/jxbrowser

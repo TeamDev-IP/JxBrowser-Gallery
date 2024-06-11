@@ -25,6 +25,9 @@
 #content {
     display: flex;
     justify-content: space-between;
+    margin-left: 15px;
+    margin-top: 15px;
+    width: 95%;
 }
 
 #info-container {
@@ -36,7 +39,7 @@
     margin-left: 10px;
 }
 
-#print-button {
+#export-button {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -55,7 +58,7 @@
 }
 
 .gridjs-table {
-    width: 65%;
+    width: 85%;
 }
 
 .gridjs-th {
@@ -79,8 +82,16 @@
     padding-right: 0;
 }
 
+.section-start {
+    border-top: 1px solid #e5e7eb;
+}
+
 .region-column {
-    width: 250px;
+    width: 150px;
+}
+
+.code-column {
+    width: 100px;
 }
 
 .right-aligned {
@@ -88,7 +99,7 @@
 }
 
 .pagination-text {
-    margin-top: 30px;
+    margin-top: 15px;
     margin-left: 8px;
 }
 
@@ -96,6 +107,10 @@
     border: none;
     border-radius: 0;
     margin-right: 2px;
+}
+
+.small-pagination-button {
+    width: 32px;
 }
 
 .pagination-text b {
