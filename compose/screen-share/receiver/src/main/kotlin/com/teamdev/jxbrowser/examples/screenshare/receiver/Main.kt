@@ -25,12 +25,12 @@ package com.teamdev.jxbrowser.examples.screenshare.receiver
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.singleWindowApplication
-import com.teamdev.jxbrowser.compose.BrowserView
 import com.teamdev.jxbrowser.dsl.Engine
 import com.teamdev.jxbrowser.engine.Engine
 import com.teamdev.jxbrowser.engine.RenderingMode.OFF_SCREEN
 import com.teamdev.jxbrowser.examples.screenshare.common.SignalingServer
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
+import com.teamdev.jxbrowser.view.compose.BrowserView
 
 /**
  * A Compose application that displays the content of the shared screen.
@@ -49,9 +49,7 @@ fun main() = singleWindowApplication(title = "Screen Viewer") {
 }
 
 private fun createEngine(): Engine = Engine(OFF_SCREEN) {
-    options {
-        license = LicenseProvider.license
-    }
+    license = LicenseProvider.license
 }
 
 private val SIGNALING_SERVER = run {

@@ -28,7 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.application
-import com.teamdev.jxbrowser.compose.runtime.windowExceptionHandler
+import com.teamdev.jxbrowser.view.compose.runtime.windowExceptionHandler
 
 /**
  * An entry point for Pomodoro application.

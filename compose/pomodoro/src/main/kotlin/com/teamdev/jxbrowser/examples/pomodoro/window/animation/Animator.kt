@@ -32,7 +32,6 @@ import com.teamdev.jxbrowser.engine.Engine
 import com.teamdev.jxbrowser.engine.RenderingMode
 import com.teamdev.jxbrowser.examples.pomodoro.window.animation.network.InterceptJarRequestCallback
 import com.teamdev.jxbrowser.frame.Frame
-import com.teamdev.jxbrowser.license.JxBrowserLicense
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
 import com.teamdev.jxbrowser.net.Scheme
 import java.lang.Thread.sleep
@@ -142,11 +141,9 @@ class Animator : AutoCloseable {
  * Creates a new engine with the pre-configured [InterceptJarRequestCallback].
  */
 private fun createEngine() = Engine(RenderingMode.OFF_SCREEN) {
-    options {
-        license = LicenseProvider.license
-        schemes {
-            add(Scheme.JAR, InterceptJarRequestCallback())
-        }
+    license = LicenseProvider.license
+    schemes {
+        add(Scheme.JAR, InterceptJarRequestCallback())
     }
 }
 

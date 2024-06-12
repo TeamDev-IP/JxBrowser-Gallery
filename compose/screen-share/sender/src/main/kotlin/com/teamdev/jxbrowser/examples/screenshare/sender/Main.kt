@@ -72,9 +72,7 @@ fun main() = singleWindowApplication(
 }
 
 private fun createEngine(): Engine = Engine(OFF_SCREEN) {
-    options {
-        license = LicenseProvider.license
-    }
+    license = LicenseProvider.license
 }
 
 private val SIGNALING_SERVER = run {
