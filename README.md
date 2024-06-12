@@ -62,6 +62,16 @@ to declare the properties of module's dependencies, including the source/target
 version of Java.<br>
 The file is located at `gradle/libs.versions.toml`.
 
+Please note this project uses the latest available version of JxBrowser 8.
+Until JxBrowser 8.0.0 becomes publicly available, we use the latest 
+[8.0.0 EAP][jxbrowser-eap]. For more details on the release timeline,
+please consult the [roadmap][jxbrowser-roadmap].
+
+## Feedback
+
+Please [contact JxBrowser support][jxbrowser-support] for any questions,
+or issues with this project. We will be glad to help!
+
 ## Redistribution and licensing
 
 The source code of this repository is licensed under MIT.
@@ -70,3 +80,6 @@ The source code of this repository is licensed under MIT.
 [gradle-wrapper]: https://docs.gradle.org/current/userguide/gradle_wrapper.html
 [gradle-version-catalog]: https://docs.gradle.org/current/userguide/platforms.html#sub:conventional-dependencies-toml
 [jxbrowser-trial]: https://teamdev.com/jxbrowser/#evaluate
+[jxbrowser-eap]: https://teamdev.com/jxbrowser/release-notes/2024/v8-0-0-eap.html
+[jxbrowser-roadmap]: https://teamdev.com/jxbrowser/roadmap/#jxbrowser-8-0-0
+[jxbrowser-support]: https://teamdev.com/jxbrowser/#getting-help
