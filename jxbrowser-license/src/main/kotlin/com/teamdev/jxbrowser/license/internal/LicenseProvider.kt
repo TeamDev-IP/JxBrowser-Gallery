@@ -22,7 +22,7 @@
 
 package com.teamdev.jxbrowser.license.internal
 
-import com.teamdev.jxbrowser.license.JxBrowserLicense
+import com.teamdev.jxbrowser.dsl.JxBrowserLicense
 import com.teamdev.jxbrowser.engine.EngineOptions
 import com.teamdev.jxbrowser.dsl.engine.OptionsDsl
 

@@ -24,8 +24,8 @@ package com.teamdev.jxbrowser.gallery.pdf
 
 import com.teamdev.jxbrowser.browser.Browser
 import com.teamdev.jxbrowser.dsl.Engine
+import com.teamdev.jxbrowser.dsl.JxBrowserLicense
 import com.teamdev.jxbrowser.engine.RenderingMode
-import com.teamdev.jxbrowser.license.JxBrowserLicense
 import com.teamdev.jxbrowser.license.internal.LicenseProvider
 
 /**
@@ -34,9 +34,7 @@ import com.teamdev.jxbrowser.license.internal.LicenseProvider
 fun newBrowser(): Browser {
     val licenseKey = LicenseProvider.key
     val engine = Engine(RenderingMode.HARDWARE_ACCELERATED) {
-        options {
-            license = JxBrowserLicense(licenseKey)
-        }
+        license = JxBrowserLicense(licenseKey)
     }
     val browser = engine.newBrowser()
     return browser

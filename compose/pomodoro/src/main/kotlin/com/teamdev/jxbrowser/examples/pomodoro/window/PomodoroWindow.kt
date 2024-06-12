@@ -43,10 +43,10 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
-import com.teamdev.jxbrowser.compose.BrowserView
 import com.teamdev.jxbrowser.examples.pomodoro.window.timer.RemainingTime
 import com.teamdev.jxbrowser.examples.pomodoro.window.timer.TimerControls
 import com.teamdev.jxbrowser.examples.pomodoro.window.timer.TimerPicker
+import com.teamdev.jxbrowser.view.compose.BrowserView
 
 /**
  * Creates a window with the timers and their associated WebGL animations.
