@@ -19,7 +19,7 @@ for the Compose UI toolkit.
 — a system tray helper for Pomodoro users, featuring WebGL 3D models
 in a desktop app.
 
-* [Screen Sharing](compose/screen-share/README.md)
+* [Screen sharing](compose/screen-share/README.md)
 — an app to share a screen via WebRTC.
 
 ### Server-side rendering
@@ -75,6 +75,9 @@ or issues with this project. We will be glad to help!
 ## Redistribution and licensing
 
 The source code of this repository is licensed under MIT.
+
+Third-party libraries and other resources are distributed according to their
+respective licenses and terms.
 
 [gradle]: https://gradle.org
 [gradle-wrapper]: https://docs.gradle.org/current/userguide/gradle_wrapper.html
