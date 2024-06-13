@@ -82,13 +82,15 @@ export function newGrid(data, pageSize, showControls, keyword) {
                 () => formatter.clear(),
                 () => {
                     drawRowSectionDividers();
-                    if (!showControls) {
+                    if (showControls) {
+                        if (!initialized) {
+                            restyleSearchBar();
+                            createPaginationFormatter();
+                            initialized = true;
+                        }
+                        adjustSideSpaceSize();
+                    } else {
                         hideSearchBar();
-                    }
-                    if (showControls && !initialized) {
-                        restyleSearchBar();
-                        createPaginationFormatter();
-                        initialized = true;
                     }
                     if (window.javaPrinter) {
                         window.javaPrinter.print();
@@ -122,7 +124,8 @@ function hideSearchBar() {
 }
 
 /**
- * Restyles the search bar to make it more similar to the rest of the table controls.
+ * Restyles the native Grid.js search bar to make it more similar to the rest
+ * of the table controls.
  */
 function restyleSearchBar() {
     const search = searchBar();
@@ -169,8 +172,8 @@ function fixatePaginationControls() {
 
     const paginationButtons = Array.from(document.getElementsByClassName('pagination-button'));
     paginationButtons.filter(button => button.innerText !== 'Previous')
-                     .filter(button => button.innerText !== 'Next')
-                     .forEach(button => button.classList.add('small-pagination-button'));
+        .filter(button => button.innerText !== 'Next')
+        .forEach(button => button.classList.add('small-pagination-button'));
 
     paginationButtons.forEach(button => button.style.display = 'inline-block');
 
@@ -296,6 +299,18 @@ function renderStateListener(state, prevState, onPreRendered, onRendered) {
             onRendered();
         }
     }
+}
+
+/**
+ * Adjusts the height of the empty spaces so that they cover the whole
+ * (including scrollable) page height.
+ */
+function adjustSideSpaceSize() {
+    const leftSpace = document.getElementById('left-empty-space');
+    const rightSpace = document.getElementById('right-empty-space');
+    const documentHeight = document.documentElement.scrollHeight;
+    leftSpace.style.height = `${documentHeight}px`;
+    rightSpace.style.height = `${documentHeight}px`;
 }
 
 window.newGrid = newGrid;
