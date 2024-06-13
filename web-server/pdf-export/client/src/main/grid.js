@@ -157,7 +157,7 @@ function createPaginationFormatter() {
 }
 
 /**
- * Fixes the pagination controls position and dimensions.
+ * Fixes the pagination controls vertical position and dimensions.
  */
 function fixatePaginationControls() {
     const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
@@ -166,7 +166,6 @@ function fixatePaginationControls() {
     }
     paginationDiv.style.position = 'fixed';
     paginationDiv.style.top = `${paginationControlsPosition.top}px`;
-    paginationDiv.style.left = `${paginationControlsPosition.left}px`;
 
     const paginationButtons = Array.from(document.getElementsByClassName('pagination-button'));
     paginationButtons.filter(button => button.innerText !== 'Previous')
