@@ -1,4 +1,4 @@
-# Java Remote Screen Sharing via WebRTC
+# Java remote screen sharing via WebRTC
 
 This project demonstrates how to share a screen between two Java 
 applications using [WebRTC][webrtc] and [JxBrowser](jxbrowser).
