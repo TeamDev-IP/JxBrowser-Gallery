@@ -34,29 +34,20 @@ private const val TEMPLATE_RESOURCE = "/rendering/index.html"
 /**
  * Renders the "Dietary composition by region" table using the passed [Browser] instance.
  *
- * The specified [filterValues] are used to filter the table data before rendering.
+ * The specified [searchValue] is used to filter the table data before rendering.
  *
  * Once the table fully renders, the JS code on the page will call the PDF printing
  * functionality that has been configured via [configurePrinting].
  */
-fun renderTable(browser: Browser, filterValues: Iterable<String>) {
+fun renderTable(browser: Browser, searchValue: String) {
     val templateUrl = resourceUrl(TEMPLATE_RESOURCE)!!
     browser.navigation.loadUrlAndWait(templateUrl)
 
     val data = Dataset.DIETARY_COMPOSITION_BY_REGION.data()
-    val filters = filterValues.joinToString(prefix = "[", postfix = "]") { "'$it'" }
     val javaScript = """
         const csv = `$data`;
         const data = window.csvToArray(csv.trim());
-        const filterValues = $filters;
-        const filtered = data.filter(row => {
-            return filterValues.every((v, index) => {
-                return !v
-                    || row[index]
-                    && row[index].toLowerCase().includes(v.toLowerCase());
-            });
-        });
-        const grid = window.newGrid(filtered, null, false);
+        const grid = window.newGrid(data, null, false, '$searchValue');
         grid.render(document.getElementById('grid'));
     """
     browser.mainFrame!!.executeJavaScript<Unit>(javaScript)

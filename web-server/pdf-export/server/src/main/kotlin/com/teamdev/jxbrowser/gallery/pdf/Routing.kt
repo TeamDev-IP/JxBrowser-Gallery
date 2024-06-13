@@ -86,13 +86,8 @@ fun Application.configureRouting() {
             }
 
             val queryParams = call.request.queryParameters
-            val filterValues = listOf(
-                queryParams["region"] ?: "",
-                queryParams["code"] ?: "",
-                queryParams["year"] ?: "",
-                queryParams["type"] ?: ""
-            )
-            renderTable(browser, filterValues)
+            val searchValue = queryParams["search"] ?: ""
+            renderTable(browser, searchValue)
 
             countDownLatch.await(PRINT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             call.respondFile(pdfPath.toFile(), configure = OutgoingContent::configure)

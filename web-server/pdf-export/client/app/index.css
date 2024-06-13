@@ -55,14 +55,13 @@
     margin-right: auto;
 }
 
-.filter-input {
+.gridjs-search-input {
     border: none;
     text-overflow: ellipsis;
-    padding-right: 40px;
     padding-bottom: 5px;
 }
 
-.filter-input:focus {
+.gridjs-search-input:focus {
     outline: none;
     border: none;
 }

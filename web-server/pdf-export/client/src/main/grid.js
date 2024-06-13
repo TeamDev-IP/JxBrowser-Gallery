@@ -21,7 +21,6 @@
  */
 
 import {Grid, html} from "gridjs";
-import {newFiltersFor} from "./filters";
 import {DeduplicatingFormatter} from "./formatter";
 
 /**
@@ -47,9 +46,10 @@ let paginationControlsPosition = null;
  * @param pageSize the number of rows to show on a single page or `null`
  *                 to disable the pagination
  * @param showControls `true` to show the table controls, `false` otherwise
+ * @param keyword the keyword to search for in the table
  * @return the created {@link Grid} instance
  */
-export function newGrid(data, pageSize, showControls) {
+export function newGrid(data, pageSize, showControls, keyword) {
     const formatter = new DeduplicatingFormatter([0, 1, 2]);
     const config = {
         columns: columns(formatter),
@@ -60,7 +60,10 @@ export function newGrid(data, pageSize, showControls) {
             paginationSummary: 'pagination-text',
             paginationButton: 'btn btn-outline-dark btn-sm pagination-button'
         },
-        autoWidth: true
+        autoWidth: true,
+        search: {
+            keyword: keyword
+        }
     };
     if (pageSize) {
         config.pagination = {
@@ -70,25 +73,29 @@ export function newGrid(data, pageSize, showControls) {
         };
     }
     const grid = new Grid(config);
-    const filters = [];
+    let initialized = false;
     grid.config.store.subscribe(
-        (state, prev) => renderStateListener(
-            state,
-            prev,
-            () => formatter.clear(),
-            () => {
-                drawRowSectionDividers();
-                if (showControls && filters.length === 0) {
-                    const filterControls = createFilters(grid, data);
-                    filters.push(filterControls);
-
-                    createPaginationFormatter();
+        (state, prev) => {
+            renderStateListener(
+                state,
+                prev,
+                () => formatter.clear(),
+                () => {
+                    drawRowSectionDividers();
+                    if (!showControls) {
+                        hideSearchBar();
+                    }
+                    if (showControls && !initialized) {
+                        restyleSearchBar();
+                        createPaginationFormatter();
+                        initialized = true;
+                    }
+                    if (window.javaPrinter) {
+                        window.javaPrinter.print();
+                    }
                 }
-                if (window.javaPrinter) {
-                    window.javaPrinter.print();
-                }
-            }
-        )
+            );
+        }
     );
     return grid;
 }
@@ -104,6 +111,31 @@ function drawRowSectionDividers() {
             closestTr.classList.add('section-start');
         }
     });
+}
+
+/**
+ * Hides the search bar.
+ */
+function hideSearchBar() {
+    const search = searchBar();
+    search.style.display = 'none';
+}
+
+/**
+ * Restyles the search bar to make it more similar to the rest of the table controls.
+ */
+function restyleSearchBar() {
+    const search = searchBar();
+    search.type = '';
+    search.classList.add('small', 'text-muted');
+    search.placeholder = 'Search by keyword...';
+}
+
+/**
+ * Returns the search bar element.
+ */
+function searchBar() {
+    return Array.from(document.getElementsByClassName('gridjs-search-input'))[0];
 }
 
 /**
@@ -250,40 +282,6 @@ function columns(formatter) {
             }
         }
     ];
-}
-
-/**
- * Creates the filters that allow filtering the data in the grid.
- */
-function createFilters(grid, data) {
-    const headers = document.querySelectorAll('.gridjs-th');
-    const widths = Array.from(headers)
-        .map(header => header.offsetWidth);
-    const filterableColumns = [
-        {name: "Region", index: 0, width: widths[0]},
-        {name: "Code", index: 1, width: widths[1]},
-        {name: "Year", index: 2, width: widths[2], styles: ['right-aligned']},
-        {name: "Type", index: 3, width: widths[3]},
-    ];
-    const filters = newFiltersFor(filterableColumns, values => applyFilters(grid, data, values));
-    return filters;
-}
-
-/**
- * Applies the filter values to the dataset and re-renders the visualization.
- */
-function applyFilters(grid, data, filterValues) {
-    const filteredData = data.filter(row => {
-        return filterValues.every((v) => {
-            const filterValue = v.value.toLowerCase();
-            return !filterValue
-                || row[v.index]
-                && row[v.index].toLowerCase().includes(filterValue);
-        });
-    });
-    grid.updateConfig({
-        data: filteredData
-    }).forceRender();
 }
 
 /**
