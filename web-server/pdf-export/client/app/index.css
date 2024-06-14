@@ -73,10 +73,6 @@ html, body {
     border: none;
 }
 
-.gridjs-table {
-    width: 100%;
-}
-
 .gridjs-th {
     border-top: 1px solid #e5e7eb;
     border-bottom: 1px solid #e5e7eb;

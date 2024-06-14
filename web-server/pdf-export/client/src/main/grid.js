@@ -51,7 +51,8 @@ let paginationControlsPosition = null;
  * @param pageSize the number of rows to show on a single page or `null`
  *                 to disable the pagination
  * @param showControls `true` to show the table controls, `false` otherwise
- * @param keyword the keyword to search for in the table
+ * @param keyword the search keyword to filter the data by, empty string
+ *                to include the full data
  * @return the created {@link Grid} instance
  */
 export function newGrid(data, pageSize, showControls, keyword) {
@@ -92,7 +93,7 @@ export function newGrid(data, pageSize, showControls, keyword) {
 }
 
 /**
- * Returns the column configurations of the grid.
+ * Returns the column configuration of the grid.
  */
 function columns(formatter) {
     return [
@@ -185,7 +186,7 @@ function onRendered(showControls) {
 }
 
 /**
- * Creates the dividers that separate sections of data belonging to the same region and year.
+ * Draws the dividers that separate sections of data belonging to the same region and year.
  */
 function redrawRowSectionDividers() {
     const sectionStarts = Array.from(document.getElementsByClassName('section-start'));
@@ -203,14 +204,6 @@ function redrawRowSectionDividers() {
 }
 
 /**
- * Hides the search bar.
- */
-function hideSearchBar() {
-    const search = searchBar();
-    search.style.display = 'none';
-}
-
-/**
  * Restyles the native Grid.js search bar to make it more similar to the rest
  * of the table controls.
  */
@@ -219,6 +212,14 @@ function restyleSearchBar() {
     search.type = '';
     search.classList.add('small', 'text-muted');
     search.placeholder = 'Search by keyword...';
+}
+
+/**
+ * Hides the native Grid.js search bar.
+ */
+function hideSearchBar() {
+    const search = searchBar();
+    search.style.display = 'none';
 }
 
 /**
@@ -259,8 +260,8 @@ function fixatePaginationControls() {
 
     const paginationButtons = Array.from(document.getElementsByClassName('pagination-button'));
     paginationButtons.filter(button => button.innerText !== 'Previous')
-        .filter(button => button.innerText !== 'Next')
-        .forEach(button => button.classList.add('small-pagination-button'));
+                     .filter(button => button.innerText !== 'Next')
+                     .forEach(button => button.classList.add('small-pagination-button'));
 
     paginationButtons.forEach(button => button.style.display = 'inline-block');
 
