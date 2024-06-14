@@ -43,7 +43,7 @@ html, body {
 
 #grid-container {
     flex: 3;
-    min-width: 650px;
+    min-width: 750px;
     margin-top: 15px;
     margin-left: 15px;
     margin-right: 35px;
