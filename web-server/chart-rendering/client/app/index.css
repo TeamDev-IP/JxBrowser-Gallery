@@ -95,7 +95,7 @@ label {
 .info-container {
     max-height: 90%;
     overflow: auto;
-    margin-left: 25px;
+    margin-left: 55px;
 }
 
 .info-container::-webkit-scrollbar {
@@ -150,7 +150,7 @@ label {
 
 .canvas-container {
     flex: 4;
-    max-width: 80%;
+    max-width: 70%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
