@@ -81,7 +81,7 @@ export function newGrid(data, pageSize, showControls, keyword) {
                 prev,
                 () => formatter.clear(),
                 () => {
-                    drawRowSectionDividers();
+                    redrawRowSectionDividers();
                     if (showControls) {
                         if (!initialized) {
                             restyleSearchBar();
@@ -105,7 +105,12 @@ export function newGrid(data, pageSize, showControls, keyword) {
 /**
  * Creates the dividers that separate sections of data belonging to the same region and year.
  */
-function drawRowSectionDividers() {
+function redrawRowSectionDividers() {
+    const sectionStarts = Array.from(document.getElementsByClassName('section-start'));
+    sectionStarts.forEach(tr => {
+        tr.classList.remove('section-start');
+    });
+
     const regionCells = Array.from(document.getElementsByClassName('region-cell'));
     regionCells.forEach(cell => {
         if (cell.innerText !== '') {
@@ -222,6 +227,18 @@ function buttonsToHide(paginationButtons, realCount, targetCount) {
 }
 
 /**
+ * Adjusts the height of the empty spaces so that they cover the whole
+ * (including scrollable) page height.
+ */
+function adjustSideSpaceSize() {
+    const leftSpace = document.getElementById('left-empty-space');
+    const rightSpace = document.getElementById('right-empty-space');
+    const documentHeight = document.documentElement.scrollHeight;
+    leftSpace.style.height = `${documentHeight}px`;
+    rightSpace.style.height = `${documentHeight}px`;
+}
+
+/**
  * Returns the column configurations of the grid.
  */
 function columns(formatter) {
@@ -299,18 +316,6 @@ function renderStateListener(state, prevState, onPreRendered, onRendered) {
             onRendered();
         }
     }
-}
-
-/**
- * Adjusts the height of the empty spaces so that they cover the whole
- * (including scrollable) page height.
- */
-function adjustSideSpaceSize() {
-    const leftSpace = document.getElementById('left-empty-space');
-    const rightSpace = document.getElementById('right-empty-space');
-    const documentHeight = document.documentElement.scrollHeight;
-    leftSpace.style.height = `${documentHeight}px`;
-    rightSpace.style.height = `${documentHeight}px`;
 }
 
 window.newGrid = newGrid;
