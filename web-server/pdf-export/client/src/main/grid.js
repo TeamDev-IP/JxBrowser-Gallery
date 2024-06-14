@@ -172,6 +172,7 @@ function onRendered(showControls) {
         if (!initialized) {
             restyleSearchBar();
             createPaginationFormatter();
+            window.addEventListener('resize', adjustSideSpaceSize);
             initialized = true;
         }
         adjustSideSpaceSize();
