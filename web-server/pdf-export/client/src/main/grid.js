@@ -37,6 +37,11 @@ const paginationButtonCount = 7;
 let paginationControlsPosition = null;
 
 /**
+ * The observer that formats the pagination controls upon page changes.
+ */
+let paginationFormatter = null;
+
+/**
  * Creates a new grid visualizing the data about the dietary composition by region.
  *
  * The created grid is extended with the filtering capabilities as well as
@@ -85,7 +90,8 @@ export function newGrid(data, pageSize, showControls, keyword) {
                     if (showControls) {
                         if (!initialized) {
                             restyleSearchBar();
-                            createPaginationFormatter();
+                            paginationFormatter = createPaginationFormatter();
+                            createResizeListener();
                             initialized = true;
                         }
                         adjustSideSpaceSize();
@@ -162,18 +168,24 @@ function createPaginationFormatter() {
         });
     });
     observer.observe(document, {childList: true, subtree: true});
+    return observer;
 }
 
 /**
  * Fixes the pagination controls vertical position and dimensions.
+ *
+ * Avoids fixing the controls position if the page is not full-screen vertically
+ * to prevent the weird behavior when the page is scrolled.
  */
 function fixatePaginationControls() {
-    const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
-    if (paginationDiv && !paginationControlsPosition) {
-        paginationControlsPosition = paginationDiv.getBoundingClientRect();
+    if (isFullScreenVertically()) {
+        const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
+        if (paginationDiv && !paginationControlsPosition) {
+            paginationControlsPosition = paginationDiv.getBoundingClientRect();
+        }
+        paginationDiv.style.position = 'fixed';
+        paginationDiv.style.top = `${paginationControlsPosition.top}px`;
     }
-    paginationDiv.style.position = 'fixed';
-    paginationDiv.style.top = `${paginationControlsPosition.top}px`;
 
     const paginationButtons = Array.from(document.getElementsByClassName('pagination-button'));
     paginationButtons.filter(button => button.innerText !== 'Previous')
@@ -189,6 +201,29 @@ function fixatePaginationControls() {
     }
     buttonsToHide(paginationButtons, realCount, targetCount)
         .forEach(button => button.style.display = 'none');
+}
+
+/**
+ * Returns `true` if the page is full-screen vertically, `false` otherwise.
+ */
+function isFullScreenVertically() {
+    return !window.screenY;
+}
+
+/**
+ * Creates a listener that re-initializes the pagination formatter upon the window resize.
+ */
+function createResizeListener() {
+    window.addEventListener('resize', () => {
+        if (paginationFormatter) {
+            paginationFormatter.disconnect();
+            const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
+            if (paginationDiv) {
+                paginationDiv.style.position = 'static';
+            }
+            paginationFormatter = createPaginationFormatter();
+        }
+    });
 }
 
 /**
