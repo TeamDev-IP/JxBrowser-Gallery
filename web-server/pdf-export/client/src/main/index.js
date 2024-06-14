@@ -62,7 +62,7 @@ async function exportToPdf(downloadDialog) {
 
     const pdf = await generateAndFetchPdf();
     const url = window.URL.createObjectURL(pdf);
-    const filename = 'webpage.pdf';
+    const filename = 'dietary-composition-by-region.pdf';
     openDownloadDialog(downloadDialog, url, filename);
 
     exportButton.disabled = false;

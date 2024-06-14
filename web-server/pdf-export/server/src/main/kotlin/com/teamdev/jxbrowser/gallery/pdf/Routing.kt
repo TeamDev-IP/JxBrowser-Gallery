@@ -79,7 +79,7 @@ fun Application.configureRouting() {
          * The file is also saved locally to the `exported` directory.
          */
         get("/print/dietary-composition-by-region") {
-            val pdfPath = Paths.get("exported/webpage.pdf")
+            val pdfPath = Paths.get("exported/dietary-composition-by-region.pdf")
             val countDownLatch = CountDownLatch(1)
             browser.configurePrinting(pdfPath) {
                 countDownLatch.countDown()
