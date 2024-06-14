@@ -304,6 +304,7 @@ function createResizeListener() {
             if (paginationDiv) {
                 paginationDiv.style.position = 'static';
             }
+            fixatePaginationControls();
             paginationFormatter = createPaginationFormatter();
         }
     });
