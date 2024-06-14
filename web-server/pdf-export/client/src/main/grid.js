@@ -264,7 +264,7 @@ function fixatePaginationControls() {
         if (paginationDiv && !paginationControlsPosition) {
             paginationControlsPosition = paginationDiv.getBoundingClientRect();
         }
-        paginationDiv.style.position = 'fixed';
+        paginationDiv.style.position = 'absolute';
         paginationDiv.style.top = `${paginationControlsPosition.top}px`;
     }
 
@@ -288,7 +288,7 @@ function fixatePaginationControls() {
  * Returns `true` if the page is full-screen vertically, `false` otherwise.
  */
 function isFullScreenVertically() {
-    return !window.screenY;
+    return true;
 }
 
 /**
