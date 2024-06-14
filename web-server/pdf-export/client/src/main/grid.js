@@ -24,6 +24,11 @@ import {Grid, html} from "gridjs";
 import {DeduplicatingFormatter} from "./formatter";
 
 /**
+ * The flag indicating whether the grid has been initialized.
+ */
+let initialized = false;
+
+/**
  * The number of buttons to show in the pagination controls section.
  */
 const paginationButtonCount = 7;
@@ -78,34 +83,110 @@ export function newGrid(data, pageSize, showControls, keyword) {
         };
     }
     const grid = new Grid(config);
-    let initialized = false;
     grid.config.store.subscribe(
         (state, prev) => {
             renderStateListener(
                 state,
                 prev,
-                () => formatter.clear(),
-                () => {
-                    redrawRowSectionDividers();
-                    if (showControls) {
-                        if (!initialized) {
-                            restyleSearchBar();
-                            paginationFormatter = createPaginationFormatter();
-                            createResizeListener();
-                            initialized = true;
-                        }
-                        adjustSideSpaceSize();
-                    } else {
-                        hideSearchBar();
-                    }
-                    if (window.javaPrinter) {
-                        window.javaPrinter.print();
-                    }
-                }
+                () => onPreRendered(formatter),
+                () => onRendered(showControls)
             );
         }
     );
     return grid;
+}
+
+/**
+ * Returns the column configurations of the grid.
+ */
+function columns(formatter) {
+    return [
+        {
+            id: 'region',
+            name: html(
+                '<div class="region-column">' +
+                'Region' +
+                '</div>'
+            ),
+            formatter: (cell, row) => {
+                const formattedCell = formatter.format(row, 0);
+                return html(
+                    `<div class="region-cell">${formattedCell}</div>`
+                );
+            }
+        },
+        {
+            id: 'code',
+            name: html(
+                '<div class="code-column">' +
+                'Code' +
+                '</div>'
+            ),
+            formatter: (cell, row) => formatter.format(row, 1)
+        },
+        {
+            id: 'year',
+            name: html(
+                '<div class="right-aligned">' +
+                'Year' +
+                '</div>'
+            ),
+            formatter: (cell, row) => html(
+                '<div class="right-aligned">' +
+                `${formatter.format(row, 2)}` +
+                '</div>'
+            )
+        },
+        {
+            id: 'type',
+            name: 'Type',
+            formatter: (cell, row) => formatter.format(row, 3)
+        },
+        {
+            id: 'value',
+            name: html(
+                '<div class="right-aligned">' +
+                'Value' +
+                '</div>'
+            ),
+            formatter: (cell, row) => {
+                const formatted = formatter.format(row, 4);
+                return html(
+                    '<div class="right-aligned">' +
+                    `${((parseFloat(formatted) ? parseFloat(formatted) : 0).toFixed(1))} kcal` +
+                    '</div>'
+                );
+            }
+        }
+    ];
+}
+
+/**
+ * Clears the deduplication formatter upon the pre-rendering stage.
+ */
+function onPreRendered(formatter) {
+    formatter.clear();
+}
+
+/**
+ * Performs the necessary adjustments to the grid upon the rendering stage.
+ */
+function onRendered(showControls) {
+    redrawRowSectionDividers();
+    if (showControls) {
+        if (!initialized) {
+            restyleSearchBar();
+            paginationFormatter = createPaginationFormatter();
+            createResizeListener();
+            initialized = true;
+        }
+        adjustSideSpaceSize();
+    } else {
+        hideSearchBar();
+    }
+    if (window.javaPrinter) {
+        window.javaPrinter.print();
+    }
 }
 
 /**
@@ -271,71 +352,6 @@ function adjustSideSpaceSize() {
     const documentHeight = document.documentElement.scrollHeight;
     leftSpace.style.height = `${documentHeight}px`;
     rightSpace.style.height = `${documentHeight}px`;
-}
-
-/**
- * Returns the column configurations of the grid.
- */
-function columns(formatter) {
-    return [
-        {
-            id: 'region',
-            name: html(
-                '<div class="region-column">' +
-                'Region' +
-                '</div>'
-            ),
-            formatter: (cell, row) => {
-                const formattedCell = formatter.format(row, 0);
-                return html(
-                    `<div class="region-cell">${formattedCell}</div>`
-                );
-            }
-        },
-        {
-            id: 'code',
-            name: html(
-                '<div class="code-column">' +
-                'Code' +
-                '</div>'
-            ),
-            formatter: (cell, row) => formatter.format(row, 1)
-        },
-        {
-            id: 'year',
-            name: html(
-                '<div class="right-aligned">' +
-                'Year' +
-                '</div>'
-            ),
-            formatter: (cell, row) => html(
-                '<div class="right-aligned">' +
-                `${formatter.format(row, 2)}` +
-                '</div>'
-            )
-        },
-        {
-            id: 'type',
-            name: 'Type',
-            formatter: (cell, row) => formatter.format(row, 3)
-        },
-        {
-            id: 'value',
-            name: html(
-                '<div class="right-aligned">' +
-                'Value' +
-                '</div>'
-            ),
-            formatter: (cell, row) => {
-                const formatted = formatter.format(row, 4);
-                return html(
-                    '<div class="right-aligned">' +
-                    `${((parseFloat(formatted) ? parseFloat(formatted) : 0).toFixed(1))} kcal` +
-                    '</div>'
-                );
-            }
-        }
-    ];
 }
 
 /**
