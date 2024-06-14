@@ -22,7 +22,7 @@
 
 import {httpGet} from "./http";
 import {csvToArray} from "./parsing";
-import {newLeftPanel} from "./left-panel";
+import {newInfoPanel} from "./info-panel";
 import {newGrid} from "./grid";
 import {newDownloadDialog, openDownloadDialog, openWaitingDialog} from "./download";
 
@@ -43,7 +43,7 @@ function initializeWebpage() {
     const downloadDialog = newDownloadDialog();
     document.getElementById('download-dialog-container').appendChild(downloadDialog.element);
 
-    const infoPanel = newLeftPanel(parsedInfo, dataUrl, () => exportToPdf(downloadDialog));
+    const infoPanel = newInfoPanel(parsedInfo, dataUrl, () => exportToPdf(downloadDialog));
     document.getElementById('info-container').append(infoPanel);
 
     const grid = newGrid(data, 20, true, '');

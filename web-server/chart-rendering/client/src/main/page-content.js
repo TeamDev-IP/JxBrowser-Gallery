@@ -75,9 +75,6 @@ export function newTab(displayName, active) {
 export function populateTab(tabId, datasetInfo, datasetDataUrl, exportPng) {
     const content = document.getElementById(tabId);
 
-    const leftPanelContainer = leftPanel(datasetInfo, datasetDataUrl, exportPng);
-    content.appendChild(leftPanelContainer);
-
     const chartContainer = document.createElement('div');
     chartContainer.className = 'canvas-container';
 
@@ -87,6 +84,9 @@ export function populateTab(tabId, datasetInfo, datasetDataUrl, exportPng) {
     chartContainer.appendChild(canvas);
 
     content.appendChild(chartContainer);
+
+    const infoPanelContainer = infoPanel(datasetInfo, datasetDataUrl, exportPng);
+    content.appendChild(infoPanelContainer);
 }
 
 /**
@@ -121,7 +121,7 @@ function switchToTab(tabId) {
  * @param exportPng the function to call when the user clicks the "Export to PNG" button
  * @return the panel with the dataset information
  */
-function leftPanel(datasetInfo, datasetDataUrl, exportPng) {
+function infoPanel(datasetInfo, datasetDataUrl, exportPng) {
     const panel = document.createElement('div');
     panel.classList.add('left-panel');
 

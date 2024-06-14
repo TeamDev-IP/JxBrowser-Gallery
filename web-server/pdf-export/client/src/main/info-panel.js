@@ -28,7 +28,7 @@
  * @param printToPdf the function to call when the user clicks the "Print to PDF" button
  * @return the panel with the dataset information
  */
-export function newLeftPanel(datasetInfo, datasetDataUrl, printToPdf) {
+export function newInfoPanel(datasetInfo, datasetDataUrl, printToPdf) {
     const panel = document.createElement('div');
 
     const list = document.createElement('ul');
