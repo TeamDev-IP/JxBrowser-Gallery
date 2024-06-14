@@ -293,6 +293,8 @@ function isFullScreenVertically() {
 
 /**
  * Creates a listener that re-initializes the pagination formatter upon the window resize.
+ *
+ * This is done to prevent weird behavior of the pagination controls when the page is resized.
  */
 function createResizeListener() {
     window.addEventListener('resize', () => {
