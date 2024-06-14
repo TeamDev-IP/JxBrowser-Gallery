@@ -211,7 +211,7 @@ function restyleSearchBar() {
     const search = searchBar();
     search.type = '';
     search.classList.add('small', 'text-muted');
-    search.placeholder = 'Search by keyword...';
+    search.placeholder = 'Search...';
 }
 
 /**
