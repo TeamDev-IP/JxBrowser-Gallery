@@ -46,6 +46,10 @@
     padding-right: 0;
 }
 
+.section-start {
+    border-top: 1px solid #e5e7eb;
+}
+
 .region-column {
     width: 150px;
 }

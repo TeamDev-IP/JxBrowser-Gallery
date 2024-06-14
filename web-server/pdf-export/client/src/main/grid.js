@@ -21,8 +21,12 @@
  */
 
 import {Grid, html} from "gridjs";
-import {newFiltersFor} from "./filters";
 import {DeduplicatingFormatter} from "./formatter";
+
+/**
+ * The flag indicating whether the grid has been initialized.
+ */
+let initialized = false;
 
 /**
  * The number of buttons to show in the pagination controls section.
@@ -47,9 +51,11 @@ let paginationControlsPosition = null;
  * @param pageSize the number of rows to show on a single page or `null`
  *                 to disable the pagination
  * @param showControls `true` to show the table controls, `false` otherwise
+ * @param keyword the search keyword to filter the data by, empty string
+ *                to include the full data
  * @return the created {@link Grid} instance
  */
-export function newGrid(data, pageSize, showControls) {
+export function newGrid(data, pageSize, showControls, keyword) {
     const formatter = new DeduplicatingFormatter([0, 1, 2]);
     const config = {
         columns: columns(formatter),
@@ -60,7 +66,10 @@ export function newGrid(data, pageSize, showControls) {
             paginationSummary: 'pagination-text',
             paginationButton: 'btn btn-outline-dark btn-sm pagination-button'
         },
-        autoWidth: true
+        autoWidth: true,
+        search: {
+            keyword: keyword
+        }
     };
     if (pageSize) {
         config.pagination = {
@@ -70,125 +79,21 @@ export function newGrid(data, pageSize, showControls) {
         };
     }
     const grid = new Grid(config);
-    const filters = [];
     grid.config.store.subscribe(
-        (state, prev) => renderStateListener(
-            state,
-            prev,
-            () => formatter.clear(),
-            () => {
-                drawRowSectionDividers();
-                if (showControls && filters.length === 0) {
-                    const filterControls = createFilters(grid, data);
-                    filters.push(filterControls);
-
-                    createPaginationFormatter();
-                }
-                if (window.javaPrinter) {
-                    window.javaPrinter.print();
-                }
-            }
-        )
+        (state, prev) => {
+            renderStateListener(
+                state,
+                prev,
+                () => onPreRendered(formatter),
+                () => onRendered(showControls)
+            );
+        }
     );
     return grid;
 }
 
 /**
- * Creates the dividers that separate sections of data belonging to the same region and year.
- */
-function drawRowSectionDividers() {
-    const regionCells = Array.from(document.getElementsByClassName('region-cell'));
-    regionCells.forEach(cell => {
-        if (cell.innerText !== '') {
-            const closestTr = cell.closest('.gridjs-tr');
-            closestTr.classList.add('section-start');
-        }
-    });
-}
-
-/**
- * Creates an observer that fixes the positions of the pagination controls.
- *
- * The default controls provided by Grid.js tend to jump up and down as well as
- * left to right upon the page switching. This observer constantly reformats
- * the controls to fix them in place for more convenient navigation.
- */
-function createPaginationFormatter() {
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'childList') {
-                fixatePaginationControls();
-            }
-        });
-    });
-    observer.observe(document, {childList: true, subtree: true});
-}
-
-/**
- * Fixes the pagination controls position and dimensions.
- */
-function fixatePaginationControls() {
-    const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
-    if (paginationDiv && !paginationControlsPosition) {
-        paginationControlsPosition = paginationDiv.getBoundingClientRect();
-    }
-    paginationDiv.style.position = 'fixed';
-    paginationDiv.style.top = `${paginationControlsPosition.top}px`;
-    paginationDiv.style.left = `${paginationControlsPosition.left}px`;
-
-    const paginationButtons = Array.from(document.getElementsByClassName('pagination-button'));
-    paginationButtons.filter(button => button.innerText !== 'Previous')
-                     .filter(button => button.innerText !== 'Next')
-                     .forEach(button => button.classList.add('small-pagination-button'));
-
-    paginationButtons.forEach(button => button.style.display = 'inline-block');
-
-    const targetCount = paginationButtonCount + 2;
-    const realCount = paginationButtons.length;
-    if (realCount <= targetCount) {
-        return;
-    }
-    buttonsToHide(paginationButtons, realCount, targetCount)
-        .forEach(button => button.style.display = 'none');
-}
-
-/**
- * Determines the buttons to hide when re-formatting the pagination controls.
- *
- * The removal algorithm aims to keep the current page button in the center, if possible.
- */
-function buttonsToHide(paginationButtons, realCount, targetCount) {
-    const buttonText = paginationButtons.map(button => button.innerText);
-    const firstBreak = buttonText.indexOf('...');
-    const lastBreak = buttonText.lastIndexOf('...');
-    const buttonsToHide = [];
-    const buttonsToHideCount = realCount - targetCount;
-    if (firstBreak === -1) {
-        return [];
-    }
-    if (firstBreak === lastBreak) {
-        const buttonsAfterBreak = paginationButtons.length - firstBreak - 1;
-        if (buttonsAfterBreak > 2) {
-            for (let i = firstBreak + 1; i < firstBreak + buttonsToHideCount + 1; i++) {
-                buttonsToHide.push(paginationButtons[i]);
-            }
-        } else {
-            for (let i = firstBreak - buttonsToHideCount; i < firstBreak; i++) {
-                buttonsToHide.push(paginationButtons[i]);
-            }
-        }
-    } else {
-        const buttonsToRemoveOnEachSide = buttonsToHideCount / 2;
-        for (let i = 0; i < buttonsToRemoveOnEachSide; i++) {
-            buttonsToHide.push(paginationButtons[firstBreak + 1 + i]);
-            buttonsToHide.push(paginationButtons[lastBreak - 1 - i]);
-        }
-    }
-    return buttonsToHide;
-}
-
-/**
- * Returns the column configurations of the grid.
+ * Returns the column configuration of the grid.
  */
 function columns(formatter) {
     return [
@@ -253,37 +158,167 @@ function columns(formatter) {
 }
 
 /**
- * Creates the filters that allow filtering the data in the grid.
+ * Clears the deduplication formatter upon the pre-rendering stage.
  */
-function createFilters(grid, data) {
-    const headers = document.querySelectorAll('.gridjs-th');
-    const widths = Array.from(headers)
-        .map(header => header.offsetWidth);
-    const filterableColumns = [
-        {name: "Region", index: 0, width: widths[0]},
-        {name: "Code", index: 1, width: widths[1]},
-        {name: "Year", index: 2, width: widths[2], styles: ['right-aligned']},
-        {name: "Type", index: 3, width: widths[3]},
-    ];
-    const filters = newFiltersFor(filterableColumns, values => applyFilters(grid, data, values));
-    return filters;
+function onPreRendered(formatter) {
+    formatter.clear();
 }
 
 /**
- * Applies the filter values to the dataset and re-renders the visualization.
+ * Performs the necessary adjustments to the grid upon the rendering stage.
  */
-function applyFilters(grid, data, filterValues) {
-    const filteredData = data.filter(row => {
-        return filterValues.every((v) => {
-            const filterValue = v.value.toLowerCase();
-            return !filterValue
-                || row[v.index]
-                && row[v.index].toLowerCase().includes(filterValue);
+function onRendered(showControls) {
+    redrawRowSectionDividers();
+    if (showControls) {
+        if (!initialized) {
+            restyleSearchBar();
+            createPaginationFormatter();
+            window.addEventListener('resize', adjustSideSpaceSize);
+            initialized = true;
+        }
+        adjustSideSpaceSize();
+    } else {
+        hideSearchBar();
+    }
+    if (window.javaPrinter) {
+        window.javaPrinter.print();
+    }
+}
+
+/**
+ * Draws the dividers that separate sections of data belonging to the same region and year.
+ */
+function redrawRowSectionDividers() {
+    const sectionStarts = Array.from(document.getElementsByClassName('section-start'));
+    sectionStarts.forEach(tr => {
+        tr.classList.remove('section-start');
+    });
+
+    const regionCells = Array.from(document.getElementsByClassName('region-cell'));
+    regionCells.forEach(cell => {
+        if (cell.innerText !== '') {
+            const closestTr = cell.closest('.gridjs-tr');
+            closestTr.classList.add('section-start');
+        }
+    });
+}
+
+/**
+ * Restyles the native Grid.js search bar to make it more similar to the rest
+ * of the table controls.
+ */
+function restyleSearchBar() {
+    const search = searchBar();
+    search.type = '';
+    search.classList.add('small', 'text-muted');
+    search.placeholder = 'Search...';
+}
+
+/**
+ * Hides the native Grid.js search bar.
+ */
+function hideSearchBar() {
+    const search = searchBar();
+    search.style.display = 'none';
+}
+
+/**
+ * Returns the search bar element.
+ */
+function searchBar() {
+    return Array.from(document.getElementsByClassName('gridjs-search-input'))[0];
+}
+
+/**
+ * Creates an observer that fixes the positions of the pagination controls.
+ *
+ * The default controls provided by Grid.js tend to jump up and down as well as
+ * left to right upon the page switching. This observer constantly reformats
+ * the controls to fix them in place for more convenient navigation.
+ */
+function createPaginationFormatter() {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'childList') {
+                fixatePaginationControls();
+            }
         });
     });
-    grid.updateConfig({
-        data: filteredData
-    }).forceRender();
+    observer.observe(document, {childList: true, subtree: true});
+}
+
+/**
+ * Fixes the pagination controls vertical position and dimensions.
+ */
+function fixatePaginationControls() {
+    const paginationDiv = document.getElementsByClassName('gridjs-pagination')[0];
+    if (paginationDiv && !paginationControlsPosition) {
+        paginationControlsPosition = paginationDiv.getBoundingClientRect();
+    }
+    paginationDiv.style.position = 'absolute';
+    paginationDiv.style.top = `${paginationControlsPosition.top}px`;
+
+    const paginationButtons = Array.from(document.getElementsByClassName('pagination-button'));
+    paginationButtons.filter(button => button.innerText !== 'Previous')
+                     .filter(button => button.innerText !== 'Next')
+                     .forEach(button => button.classList.add('small-pagination-button'));
+
+    paginationButtons.forEach(button => button.style.display = 'inline-block');
+
+    const targetCount = paginationButtonCount + 2;
+    const realCount = paginationButtons.length;
+    if (realCount <= targetCount) {
+        return;
+    }
+    buttonsToHide(paginationButtons, realCount, targetCount)
+        .forEach(button => button.style.display = 'none');
+}
+
+/**
+ * Determines the buttons to hide when re-formatting the pagination controls.
+ *
+ * The removal algorithm aims to keep the current page button in the center, if possible.
+ */
+function buttonsToHide(paginationButtons, realCount, targetCount) {
+    const buttonText = paginationButtons.map(button => button.innerText);
+    const firstBreak = buttonText.indexOf('...');
+    const lastBreak = buttonText.lastIndexOf('...');
+    const buttonsToHide = [];
+    const buttonsToHideCount = realCount - targetCount;
+    if (firstBreak === -1) {
+        return [];
+    }
+    if (firstBreak === lastBreak) {
+        const buttonsAfterBreak = paginationButtons.length - firstBreak - 1;
+        if (buttonsAfterBreak > 2) {
+            for (let i = firstBreak + 1; i < firstBreak + buttonsToHideCount + 1; i++) {
+                buttonsToHide.push(paginationButtons[i]);
+            }
+        } else {
+            for (let i = firstBreak - buttonsToHideCount; i < firstBreak; i++) {
+                buttonsToHide.push(paginationButtons[i]);
+            }
+        }
+    } else {
+        const buttonsToRemoveOnEachSide = buttonsToHideCount / 2;
+        for (let i = 0; i < buttonsToRemoveOnEachSide; i++) {
+            buttonsToHide.push(paginationButtons[firstBreak + 1 + i]);
+            buttonsToHide.push(paginationButtons[lastBreak - 1 - i]);
+        }
+    }
+    return buttonsToHide;
+}
+
+/**
+ * Adjusts the height of the empty spaces so that they cover the whole
+ * (including scrollable) page height.
+ */
+function adjustSideSpaceSize() {
+    const leftSpace = document.getElementById('left-empty-space');
+    const rightSpace = document.getElementById('right-empty-space');
+    const documentHeight = document.documentElement.scrollHeight;
+    leftSpace.style.height = `${documentHeight}px`;
+    rightSpace.style.height = `${documentHeight}px`;
 }
 
 /**

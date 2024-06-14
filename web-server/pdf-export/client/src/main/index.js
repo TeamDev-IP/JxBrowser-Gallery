@@ -46,7 +46,7 @@ function initializeWebpage() {
     const infoPanel = newLeftPanel(parsedInfo, dataUrl, () => exportToPdf(downloadDialog));
     document.getElementById('info-container').append(infoPanel);
 
-    const grid = newGrid(data, 20, true);
+    const grid = newGrid(data, 20, true, '');
     grid.render(document.getElementById('grid'));
 }
 
@@ -62,7 +62,7 @@ async function exportToPdf(downloadDialog) {
 
     const pdf = await generateAndFetchPdf();
     const url = window.URL.createObjectURL(pdf);
-    const filename = 'webpage.pdf';
+    const filename = 'dietary-composition-by-region.pdf';
     openDownloadDialog(downloadDialog, url, filename);
 
     exportButton.disabled = false;
@@ -73,11 +73,8 @@ async function exportToPdf(downloadDialog) {
  * Sends a request to the server to print the currently displayed table to PDF.
  */
 async function generateAndFetchPdf() {
-    const filterInputs = document.querySelectorAll('.filter-input');
-    const queryString = Array.from(filterInputs)
-        .filter(f => f.value)
-        .map(filter => `${filter.columnName.toLowerCase()}=${filter.value}`)
-        .join('&');
+    const search = Array.from(document.getElementsByClassName('gridjs-search-input'))[0];
+    const queryString = `search=${search.value}`;
     const data = await fetch(
         `${SERVER_URL}/print/dietary-composition-by-region?${queryString}`
     ).then(r => r.blob());
