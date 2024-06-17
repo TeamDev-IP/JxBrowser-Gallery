@@ -74,6 +74,7 @@ label {
 
 #tabs {
     width: 50%;
+    margin-left: 10px;
 }
 
 #datasets {
@@ -86,6 +87,7 @@ label {
     height: 75vh;
     display: flex;
     justify-content: space-between;
+    margin-left: 10px;
 }
 
 .left-panel {
