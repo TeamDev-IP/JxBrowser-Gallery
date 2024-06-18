@@ -157,6 +157,7 @@ label {
 }
 
 .chart-canvas {
+    min-width: 400px;
     max-width: 65%;
     max-height: 100%;
     margin-right: 10px;
@@ -164,6 +165,7 @@ label {
 
 .controls-container {
     flex: 1;
+    min-width: 250px;
     max-width: 35%;
     display: flex;
     flex-direction: column;
