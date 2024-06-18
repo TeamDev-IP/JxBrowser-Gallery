@@ -183,7 +183,8 @@ export function drawPerCapitaEnergyUseChart(
                             return `${context.parsed.y} kWh`;
                         },
                         title: function (context) {
-                            return context[0].label.replace(/\s/g, '');
+                            return context[0].label.replace(/\s/g, '')
+                                                   .replace(',', '');
                         }
                     }
                 }
@@ -360,7 +361,8 @@ export function drawEnergyConsumptionBySourceChart(
                             return context.dataset.label + ': ' + `${context.parsed.y}`;
                         },
                         title: function (context) {
-                            return context[0].label.replace(/\s/g, '');
+                            return context[0].label.replace(/\s/g, '')
+                                                   .replace(',', '');
                         }
                     }
                 }
