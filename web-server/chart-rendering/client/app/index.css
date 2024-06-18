@@ -61,7 +61,7 @@ html, body {
 }
 
 label {
-    font-family: var(--md-ref-typeface-plain);
+    font-family: var(--md-ref-typeface-plain), sans-serif;
     font-size: 14px;
     color: var(--md-list-item-label-text-color);
 }
