@@ -136,6 +136,7 @@ label {
 
 .info-panel {
     flex: 1;
+    min-width: 200px;
 }
 
 .info-container {
