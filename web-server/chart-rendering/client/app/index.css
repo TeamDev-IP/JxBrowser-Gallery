@@ -112,7 +112,6 @@ label {
     flex-direction: column;
     align-items: start;
     margin-top: 30px;
-    overflow: hidden;
 }
 
 .controls-select {
