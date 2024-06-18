@@ -59,7 +59,7 @@ export function newTab(displayName, active) {
     }
 
     document.getElementById('tabs').appendChild(primaryTab);
-    document.getElementById('content').appendChild(contentDiv);
+    document.getElementById('tabs-container').appendChild(contentDiv);
 
     return contentDiv.id;
 }
@@ -123,7 +123,7 @@ function switchToTab(tabId) {
  */
 function infoPanel(datasetInfo, datasetDataUrl, exportPng) {
     const panel = document.createElement('div');
-    panel.classList.add('left-panel');
+    panel.classList.add('info-panel');
 
     const infoContainer = document.createElement('div');
     infoContainer.classList.add('info-container');
