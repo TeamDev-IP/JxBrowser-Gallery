@@ -95,6 +95,7 @@ private fun printHtmlCallback(destination: Path, onCompleted: () -> Unit): Print
             .settings()
             .pdfFilePath(destination.toAbsolutePath())
             .enablePrintingBackgrounds()
+            .disablePrintingHeaderFooter()
             .apply()
         printJob.on(PrintCompleted::class.java) { _ ->
             onCompleted()
