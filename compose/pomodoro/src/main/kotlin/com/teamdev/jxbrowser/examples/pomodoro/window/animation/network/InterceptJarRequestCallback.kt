@@ -22,7 +22,8 @@
 
 package com.teamdev.jxbrowser.examples.pomodoro.window.animation.network
 
-import com.teamdev.jxbrowser.net.HttpHeader
+import com.teamdev.jxbrowser.dsl.net.HttpHeader
+import com.teamdev.jxbrowser.dsl.net.UrlRequestJobOptions
 import com.teamdev.jxbrowser.net.HttpStatus
 import com.teamdev.jxbrowser.net.UrlRequestJob
 import com.teamdev.jxbrowser.net.callback.InterceptUrlRequestCallback
@@ -74,11 +75,8 @@ class InterceptJarRequestCallback : InterceptUrlRequestCallback {
     }
 
     private fun overrideResponseData(entry: JarEntry, params: Params): UrlRequestJob {
-        val header = HttpHeader.of("Content-Type", entry.mimeType)
-        val options = UrlRequestJob.Options
-            .newBuilder(HttpStatus.OK)
-            .addHttpHeader(header)
-            .build()
+        val contentType = HttpHeader("Content-Type", entry.mimeType)
+        val options = UrlRequestJobOptions(HttpStatus.OK, listOf(contentType))
         val job = params.newUrlRequestJob(options).apply {
             write(entry.data)
             complete()
