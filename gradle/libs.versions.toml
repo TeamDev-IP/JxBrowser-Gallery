@@ -1,6 +1,6 @@
 [versions]
 # Versions of JxBrowser and the related dependencies.
-jxbrowser = "8.0.0-eap.3" # https://europe-maven.pkg.dev/jxbrowser/eaps/com/teamdev/jxbrowser/jxbrowser-mac/maven-metadata.xml
+jxbrowser = "8.0.0-eap.6" # https://teamdev.com/jxbrowser/release-notes/
 jxbrowser-gradlePlugin = "1.0.2" # https://github.com/TeamDev-IP/JxBrowser-Gradle-Plugin/releases
 
 # Other platforms, libraries, and plugins.
