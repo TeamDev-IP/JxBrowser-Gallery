@@ -116,7 +116,8 @@ application {
 
 tasks.register<Exec>("installNpmPackages") {
     workingDir = file(wedAppLocationDir)
-    commandLine("npm", "install")
+    val isWindows = System.getProperty("os.name").startsWith("Windows")
+    commandLine(if (isWindows) "npm.cmd" else "npm", "install")
 }
 
 tasks.register<Exec>("generateJsProto") {
