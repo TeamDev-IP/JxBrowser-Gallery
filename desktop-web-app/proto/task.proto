@@ -1,0 +1,12 @@
+
+syntax = "proto3";
+
+package com.teamdev.jxbrowser;
+
+message Task {
+  string id = 1;
+  string title = 2;
+  string type = 3;
+  string status = 4;
+  uint32 priority = 5;
+}
