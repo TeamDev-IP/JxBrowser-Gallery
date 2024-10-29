@@ -25,6 +25,7 @@ rootProject.name = "jxbrowser-gallery"
 include(
     "jxbrowser-license",
 
+    "desktop-web-app",
     "compose:pomodoro",
 
     "compose:screen-share:server",

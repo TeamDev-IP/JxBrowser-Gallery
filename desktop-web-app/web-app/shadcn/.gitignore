@@ -1,0 +1,5 @@
+# The project dependencies
+node_modules
+
+# The web build directory
+dist
