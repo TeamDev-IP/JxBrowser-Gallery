@@ -58,6 +58,10 @@ dependencies {
     implementation("com.google.protobuf:protobuf-java:$protobufVersion")
 }
 
+val isWindows = System.getProperty("os.name").startsWith("Windows")
+val npmCommand = if (isWindows) "npm.cmd" else "npm"
+val npxCommand = if (isWindows) "npx.cmd" else "npm"
+
 tasks.register("startDevServer") {
     fun isSocketConnected(): Boolean {
         try {
@@ -77,7 +81,7 @@ tasks.register("startDevServer") {
         devServerThread = Thread {
             exec {
                 workingDir = file(wedAppLocationDir)
-                commandLine("npm", "run", "dev", "--", "--port=$port")
+                commandLine(npmCommand, "run", "dev", "--", "--port=$port")
             }
         }
         devServerThread.start()
@@ -116,13 +120,12 @@ application {
 
 tasks.register<Exec>("installNpmPackages") {
     workingDir = file(wedAppLocationDir)
-    val isWindows = System.getProperty("os.name").startsWith("Windows")
-    commandLine(if (isWindows) "npm.cmd" else "npm", "install")
+    commandLine(npmCommand, "install")
 }
 
 tasks.register<Exec>("generateJsProto") {
     workingDir = file(wedAppLocationDir)
-    commandLine("npx", "buf", "generate")
+    commandLine(npxCommand, "buf", "generate")
     dependsOn(tasks.named("installNpmPackages"))
 }
 
@@ -133,7 +136,7 @@ tasks.named("generateProto") {
 tasks.register<Exec>("buildWeb") {
     dependsOn(tasks.named("installNpmPackages"), tasks.named("generateJsProto"))
     workingDir = file(wedAppLocationDir)
-    commandLine("npm", "run", "build")
+    commandLine(npmCommand, "run", "build")
     doLast {
         copy {
             from("$wedAppLocationDir/dist")
