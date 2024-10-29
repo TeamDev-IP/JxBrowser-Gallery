@@ -129,7 +129,7 @@ tasks.register<Exec>("installNpmPackages") {
 }
 
 tasks.register<Exec>("buildWeb") {
-    dependsOn(tasks.named("installNpmPackages"))
+    dependsOn(tasks.named("installNpmPackages"), tasks.named("generateJsProto"))
     workingDir = file(wedAppLocationDir)
     commandLine("npm", "run", "build")
     doLast {
