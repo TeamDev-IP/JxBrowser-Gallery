@@ -8,10 +8,9 @@ TypeScript/React/shadcn frontend.
 
 - [Node.js](https://nodejs.org/en/download) version 20.11.0 or higher.
 
-## Configuring JxBrowser license
+## JxBrowser license
 
-Open `src/main/java/com/teamdev/jxbrowser/App.java`, find the `LICENSE_KEY` variable and set
-your JxBrowser license key.
+Replace the `LICENSE_KEY` variable in [App.java](src/main/java/com/teamdev/jxbrowser/App.java#L24) with your JxBrowser license key.
 
 ## Running the application
 
