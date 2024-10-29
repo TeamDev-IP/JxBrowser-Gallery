@@ -60,7 +60,7 @@ dependencies {
 
 val isWindows = System.getProperty("os.name").startsWith("Windows")
 val npmCommand = if (isWindows) "npm.cmd" else "npm"
-val npxCommand = if (isWindows) "npx.cmd" else "npm"
+val npxCommand = if (isWindows) "npx.cmd" else "npx"
 
 tasks.register("startDevServer") {
     fun isSocketConnected(): Boolean {
