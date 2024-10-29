@@ -8,14 +8,14 @@ repositories {
 
 plugins {
     java
+    jxbrowser
     id("com.google.protobuf") version "0.9.1"
     id("application")
-    jxbrowser
 }
-group = "org.teamdev.jxbrowser"
+group = "com.teamdev.jxbrowser.gallery"
 version = "1.0"
 
-val applicationName = "MyJxBrowserWebApp" // Set your own name here.
+val applicationName = "JxBrowserWebApp"
 val mainJar = "$applicationName-$version.jar"
 
 val wedAppLocationDir = "web-app/shadcn"
@@ -25,7 +25,7 @@ val port = 5173
 lateinit var devServerThread: Thread
 
 jxbrowser {
-    version = "7.41.2"
+    version = "8.0.0"
 }
 
 java {
@@ -40,7 +40,7 @@ val generatedProtoRootDir =
 sourceSets {
     main {
         proto {
-            srcDir("proto") // Set your custom .proto directory
+            srcDir("proto")
         }
         java.srcDir(generatedProtoRootDir)
     }
@@ -48,7 +48,7 @@ sourceSets {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:$protobufVersion" // specify protoc version
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
     }
 }
 
@@ -82,7 +82,7 @@ tasks.register("startDevServer") {
         }
         devServerThread.start()
         var connected = false
-        var attempts = 5 // 5 seconds
+        var attempts = 5
         while (!connected && attempts > 0) {
             println("Waiting from the dev server response...")
             Thread.sleep(1000)
@@ -114,18 +114,19 @@ application {
     mainClass.set("com.teamdev.jxbrowser.App")
 }
 
+tasks.register<Exec>("installNpmPackages") {
+    workingDir = file(wedAppLocationDir)
+    commandLine("npm", "install")
+}
+
 tasks.register<Exec>("generateJsProto") {
     workingDir = file(wedAppLocationDir)
     commandLine("npx", "buf", "generate")
+    dependsOn(tasks.named("installNpmPackages"))
 }
 
 tasks.named("generateProto") {
     dependsOn(tasks.named("generateJsProto"))
-}
-
-tasks.register<Exec>("installNpmPackages") {
-    workingDir = file(wedAppLocationDir)
-    commandLine("npm", "install")
 }
 
 tasks.register<Exec>("buildWeb") {

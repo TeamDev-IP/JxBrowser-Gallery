@@ -1,6 +1,5 @@
 package com.teamdev.jxbrowser;
 
-import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.browser.callback.InjectJsCallback;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
@@ -13,29 +12,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.URL;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 import static com.teamdev.jxbrowser.production.ApplicationContents.APP_URL;
 import static com.teamdev.jxbrowser.production.ApplicationContents.IS_PRODUCTION;
 import static com.teamdev.jxbrowser.production.ApplicationContents.SCHEME;
+import static javax.swing.SwingUtilities.invokeLater;
 
 public final class App {
 
     private static final String LICENSE_KEY = "";
 
     public static void main(String[] args) {
-        EngineOptions.Builder builder = EngineOptions.newBuilder(HARDWARE_ACCELERATED).licenseKey(LICENSE_KEY);
+        var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
+                .licenseKey(LICENSE_KEY);
         if (IS_PRODUCTION) {
-            builder.addScheme(SCHEME, new UrlRequestInterceptor());
+            optionsBuilder.addScheme(SCHEME, new UrlRequestInterceptor());
         }
-        Engine engine = Engine.newInstance(builder.build());
+        var engine = Engine.newInstance(optionsBuilder.build());
+        var browser = engine.newBrowser();
 
-        Browser browser = engine.newBrowser();
-
-        SwingUtilities.invokeLater(() -> {
-            BrowserView view = BrowserView.newInstance(browser);
-            JFrame frame = new JFrame("JxBrowser Web Application");
+        invokeLater(() -> {
+            var frame = new JFrame("JxBrowser WebApp");
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.addWindowListener(new WindowAdapter() {
                 @Override
@@ -44,14 +42,14 @@ public final class App {
                 }
             });
 
-            Taskbar taskbar = Taskbar.getTaskbar();
-            Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
-            URL imageResource = App.class.getClassLoader().getResource("leaf.png");
-            Image image = defaultToolkit.getImage(imageResource);
-            taskbar.setIconImage(image);
-            frame.setIconImage(image);
+            var imageResource = App.class.getClassLoader()
+                                         .getResource("leaf.png");
+            var image = Toolkit.getDefaultToolkit().getImage(imageResource);
 
-            frame.add(view, BorderLayout.CENTER);
+            frame.setIconImage(image);
+            Taskbar.getTaskbar().setIconImage(image);
+
+            frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
             frame.setSize(1280, 900);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);

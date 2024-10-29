@@ -1,49 +1,43 @@
 # Desktop web applications with JxBrowser
 
-This project demonstrates how to use JxBrowser with modern web UI frameworks such as Shadcn
-to create desktop applications.
+This project demonstrates how to use JxBrowser with modern web UI frameworks such
+as [shadcn/ui](https://ui.shadcn.com/) to create desktop applications with Java backend and
+TypeScript/React/shadcn frontend.
 
-## Development
+## Prerequisites
 
-### Working with code
+- [Node.js](https://nodejs.org/en/download) version 20.11.0 or higher.
 
-If you want to develop the application, you need to generate proto messages used for communication
-between Java and JavaScript. To edit or add your own messages, check out the `proto` directory:
+## Configuring JxBrowser license
 
-```bash
-./gradlew generateProto
-```
-
-This command will generate code for both Java and JavaScript.
-
-### Starting application
-
-To start the application, you first need to install required `npm` dependencies for the web
-application:
-
-```bash
-cd web-app/shadcn
-npm install
-```
-
-Then, open `src/main/java/com/teamdev/jxbrowser/App.java`, find the `LICENSE_KEY` variable and set
+Open `src/main/java/com/teamdev/jxbrowser/App.java`, find the `LICENSE_KEY` variable and set
 your JxBrowser license key.
 
-After this, you are ready to run the application in the development mode:
+## Running the application
+
+Run the application in the development mode:
 
 ```bash
-cd ..
 ./gradlew desktop-web-app:run
 ```
 
-This command will start the development web server and load it in JxBrowser. Also, it generates
-proto messages under the hood.
+This command will start a development web server with Hot-Module Reload (HMR) enabled and load its
+address in JxBrowser.
 
-## Production
+## Packaging
 
-To build application installer for macOS, use the following command:
+To build application installer for macOS (DMG), use the following command:
 
 ```bash
-cd ..
 ./gradlew desktop-web-app:clean desktop-web-app:packageDmg
+```
+
+## Protobuf
+
+This demo uses Protobuf for communication between Java and JavaScript. The Protobuf files are located in the `proto` directory.
+
+To generate proto messages for Java and JavaScript run the following command:
+
+```bash
+./gradlew desktop-web-app:generateProto
 ```
