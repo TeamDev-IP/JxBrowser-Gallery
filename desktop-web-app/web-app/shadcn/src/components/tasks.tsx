@@ -25,10 +25,10 @@ export function Tasks() {
 
     return (
         <div>
-            <div>
-                <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold tracking-tight">Welcome!</h2>
                 <p className="text-muted-foreground">
-                    Here&apos;s a list of your tasks for this month!
+                    Here&apos;s a list of your tasks for this month.
                 </p>
             </div>
             <Table>
@@ -53,7 +53,9 @@ export function Tasks() {
                     ))}
                 </TableBody>
             </Table>
-            <Button onClick={() => navigate("/new")}>Add new task</Button>
+            <div className="mt-8">
+                <Button onClick={() => navigate("/new")}>Add new task</Button>
+            </div>
         </div>
     )
 }

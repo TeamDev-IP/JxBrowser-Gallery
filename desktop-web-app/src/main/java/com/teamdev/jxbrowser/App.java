@@ -26,6 +26,9 @@ public final class App {
     public static void main(String[] args) {
         var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
                 .licenseKey(LICENSE_KEY);
+        // In production mode we load resources through the custom scheme and
+        // our URL request interceptor. It's required because the compiled React
+        // components cannot be loaded from the file system.
         if (IS_PRODUCTION) {
             optionsBuilder.addScheme(SCHEME, new UrlRequestInterceptor());
         }
@@ -33,7 +36,7 @@ public final class App {
         var browser = engine.newBrowser();
 
         invokeLater(() -> {
-            var frame = new JFrame("JxBrowser WebApp");
+            var frame = new JFrame("Desktop Web Application");
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.addWindowListener(new WindowAdapter() {
                 @Override
@@ -42,15 +45,15 @@ public final class App {
                 }
             });
 
-            var imageResource = App.class.getClassLoader()
-                                         .getResource("leaf.png");
-            var image = Toolkit.getDefaultToolkit().getImage(imageResource);
+            var appIconResource = App.class.getClassLoader()
+                                         .getResource("app-icon.png");
+            var appIcon = Toolkit.getDefaultToolkit().getImage(appIconResource);
 
-            frame.setIconImage(image);
-            Taskbar.getTaskbar().setIconImage(image);
+            frame.setIconImage(appIcon);
+            Taskbar.getTaskbar().setIconImage(appIcon);
 
             frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
-            frame.setSize(1280, 900);
+            frame.setSize(1050, 750);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });

@@ -7,7 +7,7 @@ function App() {
     return (
         <Router>
             <ThemeProvider>
-                <div className="container flex flex-col mt-16">
+                <div className="container flex flex-col mt-10">
                     <Routes>
                         <Route path={"/"} element={<Tasks/>}>
                         </Route>
