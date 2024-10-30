@@ -1,5 +1,6 @@
 package com.teamdev.jxbrowser;
 
+import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.browser.callback.InjectJsCallback;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
@@ -34,30 +35,6 @@ public final class App {
         }
         var engine = Engine.newInstance(optionsBuilder.build());
         var browser = engine.newBrowser();
-
-        invokeLater(() -> {
-            var frame = new JFrame("Desktop Web Application");
-            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    engine.close();
-                }
-            });
-
-            var appIconResource = App.class.getClassLoader()
-                                         .getResource("app-icon.png");
-            var appIcon = Toolkit.getDefaultToolkit().getImage(appIconResource);
-
-            frame.setIconImage(appIcon);
-            Taskbar.getTaskbar().setIconImage(appIcon);
-
-            frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
-            frame.setSize(1050, 750);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
-
         browser.set(InjectJsCallback.class, params -> {
             JsObject window = params.frame().executeJavaScript("window");
             if (window != null) {
@@ -65,7 +42,31 @@ public final class App {
             }
             return InjectJsCallback.Response.proceed();
         });
-
         browser.navigation().loadUrl(APP_URL);
+
+        invokeLater(() -> initializeUI(engine, browser));
+    }
+
+    private static void initializeUI(Engine engine, Browser browser) {
+        var frame = new JFrame("Desktop Web Application");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                engine.close();
+            }
+        });
+
+        var appIconResource = App.class.getClassLoader()
+                                     .getResource("app-icon.png");
+        var appIcon = Toolkit.getDefaultToolkit().getImage(appIconResource);
+
+        frame.setIconImage(appIcon);
+        Taskbar.getTaskbar().setIconImage(appIcon);
+
+        frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
+        frame.setSize(1050, 750);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
