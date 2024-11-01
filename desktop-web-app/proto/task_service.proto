@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package com.teamdev.jxbrowser.task;
+
+import "google/protobuf/empty.proto";
+import "task.proto";
+
+service TaskService {
+  rpc GetTasks(google.protobuf.Empty) returns (TasksResponse);
+  rpc AddTask(Task) returns (google.protobuf.Empty);
+}
+
+message TasksResponse {
+  repeated Task tasks = 1;
+}

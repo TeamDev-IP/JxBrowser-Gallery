@@ -1,17 +1,19 @@
 package com.teamdev.jxbrowser.task;
 
-import com.google.protobuf.AbstractMessageLite;
-import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Empty;
 import com.teamdev.jxbrowser.js.JsAccessible;
+import com.teamdev.jxbrowser.task.TaskOuterClass.Task;
+import com.teamdev.jxbrowser.task.TaskServiceGrpc.TaskServiceImplBase;
+import com.teamdev.jxbrowser.task.TaskServiceOuterClass.TasksResponse;
+import io.grpc.stub.StreamObserver;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.teamdev.jxbrowser.TaskOuterClass.Task;
 import static com.teamdev.jxbrowser.task.Tasks.createTask;
 
 @JsAccessible
-public final class TaskService {
+public final class TaskService extends TaskServiceImplBase {
 
     private static final List<Task> TASKS = new ArrayList<>() {
         {
@@ -26,13 +28,16 @@ public final class TaskService {
         }
     };
 
-    @SuppressWarnings("unused")
-    public List<byte[]> getTasks() {
-        return TASKS.stream().map(AbstractMessageLite::toByteArray).toList();
+    @Override
+    public void getTasks(Empty request, StreamObserver<TasksResponse> responseObserver) {
+        var builder = TasksResponse.newBuilder();
+        TASKS.forEach(builder::addTasks);
+        responseObserver.onNext(builder.build());
+        responseObserver.onCompleted();
     }
 
-    @SuppressWarnings("unused")
-    public void addTask(byte[] task) throws InvalidProtocolBufferException {
-        TASKS.add(Task.parseFrom(task));
+    @Override
+    public void addTask(Task task, StreamObserver<Empty> responseObserver) {
+        TASKS.add(task);
     }
 }

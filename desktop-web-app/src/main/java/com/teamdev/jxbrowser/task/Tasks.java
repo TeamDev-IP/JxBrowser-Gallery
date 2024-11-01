@@ -1,6 +1,6 @@
 package com.teamdev.jxbrowser.task;
 
-import com.teamdev.jxbrowser.TaskOuterClass.Task;
+import com.teamdev.jxbrowser.task.TaskOuterClass.Task;
 
 /**
  * A utility for creating {@link Task}.

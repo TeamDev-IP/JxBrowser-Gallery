@@ -1,3 +1,4 @@
+import com.google.protobuf.gradle.id
 import org.gradle.api.JavaVersion.VERSION_17
 import java.net.ConnectException
 import java.net.Socket
@@ -34,6 +35,7 @@ java {
 }
 
 val protobufVersion = "3.21.12"
+var grpcVersion = "1.67.1"
 val generatedProtoRootDir =
     project.layout.buildDirectory.dir("generated/source/proto")
 
@@ -49,6 +51,16 @@ sourceSets {
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:$protobufVersion"
+        plugins {
+            id("grpc") { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}" }
+        }
+        generateProtoTasks {
+            all().forEach { task ->
+                task.plugins {
+                    id("grpc") {}
+                }
+            }
+        }
     }
 }
 
@@ -56,6 +68,9 @@ dependencies {
     implementation(jxbrowser.currentPlatform)
     implementation(jxbrowser.swing)
     implementation("com.google.protobuf:protobuf-java:$protobufVersion")
+    runtimeOnly("io.grpc:grpc-netty-shaded:${grpcVersion}")
+    implementation("io.grpc:grpc-protobuf:${grpcVersion}")
+    implementation("io.grpc:grpc-stub:${grpcVersion}")
 }
 
 val isWindows = System.getProperty("os.name").startsWith("Windows")
