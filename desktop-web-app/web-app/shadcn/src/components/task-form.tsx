@@ -1,10 +1,10 @@
 import {Button} from "@/components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
-import taskService from "@/components/tasks.tsx";
-import {TaskSchema} from "../gen/task_pb.js";
-import {create, toBinary} from "@bufbuild/protobuf";
+// import taskService from "@/components/tasks.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {useState} from "react";
+import {create} from "@bufbuild/protobuf";
+import {TaskSchema} from "@/gen/task_pb.ts";
 
 export function TaskForm() {
     const navigate = useNavigate();
@@ -21,15 +21,12 @@ export function TaskForm() {
             <Input id={"Priority"} placeholder={"Priority"} onChange={(e) => setPriority(Number(e.target.value))}/>
             <br/>
             <Button onClick={() => {
-                const newTask = create(TaskSchema, {
+                create(TaskSchema, {
                     title,
                     type,
                     status: "To Do",
                     priority
                 });
-                const bytes: Uint8Array = toBinary(TaskSchema, newTask);
-                taskService.addTask(bytes.slice().buffer);
-
                 navigate("/");
             }}>Submit</Button>
         </div>

@@ -1,7 +1,7 @@
 
 syntax = "proto3";
 
-package com.teamdev.jxbrowser;
+package com.teamdev.jxbrowser.task;
 
 message Task {
   string id = 1;

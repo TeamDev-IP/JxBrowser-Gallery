@@ -1,26 +1,32 @@
 import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button.tsx";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
+} from "@/components/ui/table.tsx";
 import {useNavigate} from "react-router-dom";
-import { TaskSchema, Task } from "../gen/task_pb.js";
-import {fromBinary} from "@bufbuild/protobuf";
+import {Task} from "../gen/task_pb.js";
+import {TaskService} from "@/gen/task_service_pb.ts";
+import {createCallbackClient} from "@connectrpc/connect";
+import {createGrpcTransport} from "@connectrpc/connect-node";
 
-declare const taskService: {
-    getTasks: () => ArrayBuffer[]
-    addTask: (t: ArrayBuffer) => void
-}
-
-export default taskService;
+const transport = createGrpcTransport({
+    baseUrl: "http://localhost:50051",
+    // httpVersion: "2.0"
+});
 
 export function Tasks() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const navigate = useNavigate();
-
+    const callbackClient = createCallbackClient(TaskService, transport);
     useEffect(() => {
-        const tasks: Task[] = taskService.getTasks().map(taskBuffer => {
-            return fromBinary(TaskSchema, new Uint8Array(taskBuffer))
+        callbackClient.getTasks({}, (_err, res) => {
+            setTasks(res.tasks)
         });
-        setTasks(tasks)
     }, []);
 
     return (
