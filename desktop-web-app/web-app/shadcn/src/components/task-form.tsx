@@ -1,10 +1,10 @@
 import {Button} from "@/components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
-import {tasksClient} from "@/components/tasks.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {useState} from "react";
 import {create} from "@bufbuild/protobuf";
 import {TaskSchema} from "@/gen/task_pb.ts";
+import {addTask} from "@/rpc/task-service.ts";
 
 export function TaskForm() {
     const navigate = useNavigate();
@@ -28,9 +28,9 @@ export function TaskForm() {
                     status: "To Do",
                     priority
                 });
-                tasksClient.addTask(newTask, (_err, res) => {
-                    if (res.value) {
-                        navigate("/")
+                addTask(newTask, isAdded => {
+                    if (isAdded) {
+                        navigate("/");
                     }
                 });
             }}>Submit</Button>

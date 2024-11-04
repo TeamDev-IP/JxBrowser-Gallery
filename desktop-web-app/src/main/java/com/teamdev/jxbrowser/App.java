@@ -76,13 +76,15 @@ public final class App {
             return InjectJsCallback.Response.proceed();
         });
 
-//        browser.devTools().show();
+        if (!IS_PRODUCTION) {
+            browser.devTools().show();
+        }
 
         initRpc(browser);
     }
 
     private static void initRpc(Browser browser) throws InterruptedException, ExecutionException {
-        var sb = Server.builder().http(RPC_PORT);
+        var serverBuilder = Server.builder().http(RPC_PORT);
         var corsBuilder = CorsService.builder(APP_URL)
                 .allowRequestMethods(HttpMethod.POST)
                 .allowRequestHeaders(
@@ -93,13 +95,13 @@ public final class App {
                         GrpcHeaderNames.GRPC_MESSAGE,
                         GrpcHeaderNames.ARMERIA_GRPC_THROWABLEPROTO_BIN);
 
-        sb.service(GrpcService.builder()
+        serverBuilder.service(GrpcService.builder()
                         .addService(new TaskService())
                         .build(),
                 corsBuilder.newDecorator(),
                 LoggingService.newDecorator());
 
-        try (var server = sb.build()) {
+        try (var server = serverBuilder.build()) {
             server.start();
             browser.navigation().loadUrl(APP_URL);
             server.blockUntilShutdown();

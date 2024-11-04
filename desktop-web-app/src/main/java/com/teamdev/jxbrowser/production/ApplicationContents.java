@@ -15,6 +15,6 @@ public final class ApplicationContents {
                     .getParent();
     public static final Scheme SCHEME = com.teamdev.jxbrowser.net.Scheme.of("jxbrowser");
     public static final String CONTENT_ROOT = "web/";
-    public static final String APP_URL = IS_PRODUCTION ? "jxbrowser://my-app.com": "http://localhost:5173/";
+    public static final String APP_URL = IS_PRODUCTION ? "jxbrowser://my-app.com" : "http://localhost:5173";
     public static final String INDEX_HTML = "index.html";
 }

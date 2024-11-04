@@ -8,28 +8,15 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table.tsx";
+import {getTasks} from "@/rpc/task-service.ts";
 import {useNavigate} from "react-router-dom";
 import {Task} from "../gen/task_pb.js";
-import {TaskService} from "@/gen/task_service_pb.ts";
-import {createCallbackClient} from "@connectrpc/connect";
-import {createGrpcWebTransport} from "@connectrpc/connect-web";
-
-// A port for RPC communication passed obtained from the server side via
-// the JxBrowser Java-Js bridge.
-declare const rpcPort: Number
-
-const transport = createGrpcWebTransport({
-    baseUrl: `http://localhost:${rpcPort}`,
-});
-export const tasksClient = createCallbackClient(TaskService, transport);
 
 export function Tasks() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const navigate = useNavigate();
     useEffect(() => {
-        tasksClient.getTasks({}, (_err, res) => {
-            setTasks(res.tasks)
-        });
+        getTasks(tasks => setTasks(tasks))
     }, []);
 
     return (
