@@ -12,19 +12,22 @@ import {useNavigate} from "react-router-dom";
 import {Task} from "../gen/task_pb.js";
 import {TaskService} from "@/gen/task_service_pb.ts";
 import {createCallbackClient} from "@connectrpc/connect";
-import {createGrpcTransport} from "@connectrpc/connect-node";
+import {createGrpcWebTransport} from "@connectrpc/connect-web";
 
-const transport = createGrpcTransport({
-    baseUrl: "http://localhost:50051",
-    // httpVersion: "2.0"
+// A port for RPC communication passed obtained from the server side via
+// the JxBrowser Java-Js bridge.
+declare const rpcPort: Number
+
+const transport = createGrpcWebTransport({
+    baseUrl: `http://localhost:${rpcPort}`,
 });
+export const tasksClient = createCallbackClient(TaskService, transport);
 
 export function Tasks() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const navigate = useNavigate();
-    const callbackClient = createCallbackClient(TaskService, transport);
     useEffect(() => {
-        callbackClient.getTasks({}, (_err, res) => {
+        tasksClient.getTasks({}, (_err, res) => {
             setTasks(res.tasks)
         });
     }, []);

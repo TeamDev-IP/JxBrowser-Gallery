@@ -1,5 +1,6 @@
 package com.teamdev.jxbrowser.task;
 
+import com.google.protobuf.BoolValue;
 import com.google.protobuf.Empty;
 import com.teamdev.jxbrowser.js.JsAccessible;
 import com.teamdev.jxbrowser.task.TaskOuterClass.Task;
@@ -37,7 +38,11 @@ public final class TaskService extends TaskServiceImplBase {
     }
 
     @Override
-    public void addTask(Task task, StreamObserver<Empty> responseObserver) {
-        TASKS.add(task);
+    public void addTask(Task task, StreamObserver<BoolValue> responseObserver) {
+        BoolValue isAdded = BoolValue.newBuilder()
+                .setValue(TASKS.add(task))
+                .build();
+        responseObserver.onNext(isAdded);
+        responseObserver.onCompleted();
     }
 }

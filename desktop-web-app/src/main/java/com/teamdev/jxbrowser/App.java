@@ -1,5 +1,13 @@
 package com.teamdev.jxbrowser;
 
+import com.linecorp.armeria.common.HttpHeaderNames;
+import com.linecorp.armeria.common.HttpMethod;
+import com.linecorp.armeria.common.grpc.protocol.GrpcHeaderNames;
+import com.linecorp.armeria.server.Server;
+import com.linecorp.armeria.server.ServerBuilder;
+import com.linecorp.armeria.server.cors.CorsService;
+import com.linecorp.armeria.server.grpc.GrpcService;
+import com.linecorp.armeria.server.logging.LoggingService;
 import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.browser.callback.InjectJsCallback;
 import com.teamdev.jxbrowser.engine.Engine;
@@ -10,13 +18,13 @@ import com.teamdev.jxbrowser.logging.Logger;
 import com.teamdev.jxbrowser.production.UrlRequestInterceptor;
 import com.teamdev.jxbrowser.task.TaskService;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
-import io.grpc.ServerBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 import static com.teamdev.jxbrowser.production.ApplicationContents.APP_URL;
@@ -27,8 +35,9 @@ import static javax.swing.SwingUtilities.invokeLater;
 public final class App {
 
     private static final String LICENSE_KEY = "";
+    private static final int RPC_PORT = 50051;
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
         System.setProperty("jxbrowser.logging.file", "jxbrowser.log");
         Logger.level(Level.DEBUG);
         var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
@@ -68,7 +77,7 @@ public final class App {
             JsObject window = params.frame()
                                     .executeJavaScript("window");
             if (window != null) {
-                window.putProperty("rpcPort", 50051);
+                window.putProperty("rpcPort", RPC_PORT);
             }
             return InjectJsCallback.Response.proceed();
         });
@@ -78,12 +87,28 @@ public final class App {
         initRpc(browser);
     }
 
-    private static void initRpc(Browser browser) throws IOException, InterruptedException {
-        var server = ServerBuilder.forPort(50051)
-                                  .addService(new TaskService())
-                                  .build()
-                                  .start();
-        browser.navigation().loadUrl(APP_URL);
-        server.awaitTermination();
+    private static void initRpc(Browser browser) throws InterruptedException, ExecutionException {
+        ServerBuilder sb = Server.builder().http(RPC_PORT);
+        var corsBuilder = CorsService.builder("http://localhost:5173")
+                .allowRequestMethods(HttpMethod.POST)
+                .allowRequestHeaders(
+                        HttpHeaderNames.CONTENT_TYPE,
+                        HttpHeaderNames.of("x-grpc-web"),
+                        HttpHeaderNames.of("x-user-agent"))
+                .exposeHeaders(GrpcHeaderNames.GRPC_STATUS,
+                        GrpcHeaderNames.GRPC_MESSAGE,
+                        GrpcHeaderNames.ARMERIA_GRPC_THROWABLEPROTO_BIN);
+
+        sb.service(GrpcService.builder()
+                        .addService(new TaskService())
+                        .build(),
+                corsBuilder.newDecorator(),
+                LoggingService.newDecorator());
+
+        try (var server = sb.build()) {
+            server.start();
+            browser.navigation().loadUrl(APP_URL);
+            server.blockUntilShutdown();
+        }
     }
 }

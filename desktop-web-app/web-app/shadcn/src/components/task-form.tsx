@@ -1,6 +1,6 @@
 import {Button} from "@/components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
-// import taskService from "@/components/tasks.tsx";
+import {tasksClient} from "@/components/tasks.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {useState} from "react";
 import {create} from "@bufbuild/protobuf";
@@ -18,16 +18,21 @@ export function TaskForm() {
             <br/>
             <Input id={"Type"} placeholder={"Type"} onChange={(e) => setType(e.target.value)}/>
             <br/>
-            <Input id={"Priority"} placeholder={"Priority"} onChange={(e) => setPriority(Number(e.target.value))}/>
+            <Input id={"Priority"} placeholder={"Priority"}
+                   onChange={(e) => setPriority(Number(e.target.value))}/>
             <br/>
             <Button onClick={() => {
-                create(TaskSchema, {
+                const newTask = create(TaskSchema, {
                     title,
                     type,
                     status: "To Do",
                     priority
                 });
-                navigate("/");
+                tasksClient.addTask(newTask, (_err, res) => {
+                    if (res.value) {
+                        navigate("/")
+                    }
+                });
             }}>Submit</Button>
         </div>
     )

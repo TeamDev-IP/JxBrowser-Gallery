@@ -67,10 +67,10 @@ protobuf {
 dependencies {
     implementation(jxbrowser.currentPlatform)
     implementation(jxbrowser.swing)
+    implementation("com.linecorp.armeria:armeria-grpc:1.30.1")
+    implementation("com.linecorp.armeria:armeria:1.30.1")
+    implementation("com.linecorp.armeria:armeria-grpc-protocol:1.30.1")
     implementation("com.google.protobuf:protobuf-java:$protobufVersion")
-    runtimeOnly("io.grpc:grpc-netty-shaded:${grpcVersion}")
-    implementation("io.grpc:grpc-protobuf:${grpcVersion}")
-    implementation("io.grpc:grpc-stub:${grpcVersion}")
 }
 
 val isWindows = System.getProperty("os.name").startsWith("Windows")
