@@ -153,6 +153,7 @@ tasks.register<Exec>("buildWeb") {
     workingDir = file(wedAppLocationDir)
     commandLine(npmCommand, "run", "build")
     doLast {
+        delete("src/main/resources/web")
         copy {
             from("$wedAppLocationDir/dist")
             into("src/main/resources/web")
@@ -166,9 +167,11 @@ tasks.jar {
     manifest {
         attributes["Main-Class"] = application.mainClass.get()
     }
-
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from({
-        configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }
+        configurations.runtimeClasspath.get().map {
+            if (it.isDirectory) it else zipTree(it)
+        }
     })
 
     doLast {

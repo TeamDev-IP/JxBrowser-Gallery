@@ -4,7 +4,6 @@ import com.linecorp.armeria.common.HttpHeaderNames;
 import com.linecorp.armeria.common.HttpMethod;
 import com.linecorp.armeria.common.grpc.protocol.GrpcHeaderNames;
 import com.linecorp.armeria.server.Server;
-import com.linecorp.armeria.server.ServerBuilder;
 import com.linecorp.armeria.server.cors.CorsService;
 import com.linecorp.armeria.server.grpc.GrpcService;
 import com.linecorp.armeria.server.logging.LoggingService;
@@ -23,7 +22,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
@@ -37,7 +35,7 @@ public final class App {
     private static final String LICENSE_KEY = "";
     private static final int RPC_PORT = 50051;
 
-    public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
         System.setProperty("jxbrowser.logging.file", "jxbrowser.log");
         Logger.level(Level.DEBUG);
         var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
@@ -58,14 +56,11 @@ public final class App {
                 }
             });
 
-            var imageResource = App.class.getClassLoader()
-                                         .getResource("leaf.png");
-            var image = Toolkit.getDefaultToolkit()
-                               .getImage(imageResource);
+            var imageResource = App.class.getClassLoader().getResource("leaf.png");
+            var image = Toolkit.getDefaultToolkit().getImage(imageResource);
 
             frame.setIconImage(image);
-            Taskbar.getTaskbar()
-                   .setIconImage(image);
+            Taskbar.getTaskbar().setIconImage(image);
 
             frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
             frame.setSize(1280, 900);
@@ -74,22 +69,21 @@ public final class App {
         });
 
         browser.set(InjectJsCallback.class, params -> {
-            JsObject window = params.frame()
-                                    .executeJavaScript("window");
+            JsObject window = params.frame().executeJavaScript("window");
             if (window != null) {
                 window.putProperty("rpcPort", RPC_PORT);
             }
             return InjectJsCallback.Response.proceed();
         });
 
-        browser.devTools().show();
+//        browser.devTools().show();
 
         initRpc(browser);
     }
 
     private static void initRpc(Browser browser) throws InterruptedException, ExecutionException {
-        ServerBuilder sb = Server.builder().http(RPC_PORT);
-        var corsBuilder = CorsService.builder("http://localhost:5173")
+        var sb = Server.builder().http(RPC_PORT);
+        var corsBuilder = CorsService.builder(APP_URL)
                 .allowRequestMethods(HttpMethod.POST)
                 .allowRequestHeaders(
                         HttpHeaderNames.CONTENT_TYPE,
