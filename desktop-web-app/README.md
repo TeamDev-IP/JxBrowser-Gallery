@@ -7,6 +7,8 @@ TypeScript/React/shadcn frontend.
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/en/download) version 20.11.0 or higher.
+- Wix Toolset (Windows only) version 3.1 or higher if you are planning to package an installer. 
+  We tested with [3.14.1](https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm).
 
 ## JxBrowser license
 

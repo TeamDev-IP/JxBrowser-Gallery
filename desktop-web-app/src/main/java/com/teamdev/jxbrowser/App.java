@@ -22,12 +22,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.concurrent.ExecutionException;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 import static com.teamdev.jxbrowser.production.ApplicationContents.APP_URL;
 import static com.teamdev.jxbrowser.production.ApplicationContents.IS_PRODUCTION;
 import static com.teamdev.jxbrowser.production.ApplicationContents.SCHEME;
+import static java.awt.Taskbar.Feature.ICON_IMAGE;
 import static javax.swing.SwingUtilities.invokeLater;
 
 public final class App {
@@ -35,7 +35,7 @@ public final class App {
     private static final String LICENSE_KEY = "";
     private static final int RPC_PORT = 50051;
 
-    public static void main(String[] args) throws InterruptedException, ExecutionException {
+    public static void main(String[] args) throws InterruptedException {
         System.setProperty("jxbrowser.logging.file", "jxbrowser.log");
         Logger.level(Level.DEBUG);
         var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
@@ -60,7 +60,10 @@ public final class App {
             var image = Toolkit.getDefaultToolkit().getImage(imageResource);
 
             frame.setIconImage(image);
-            Taskbar.getTaskbar().setIconImage(image);
+            if (Taskbar.isTaskbarSupported() &&
+                    Taskbar.getTaskbar().isSupported(ICON_IMAGE)) {
+                Taskbar.getTaskbar().setIconImage(image);
+            }
 
             frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
             frame.setSize(1280, 900);
@@ -83,7 +86,7 @@ public final class App {
         initRpc(browser);
     }
 
-    private static void initRpc(Browser browser) throws InterruptedException, ExecutionException {
+    private static void initRpc(Browser browser) throws InterruptedException {
         var serverBuilder = Server.builder().http(RPC_PORT);
         var corsBuilder = CorsService.builder(APP_URL)
                 .allowRequestMethods(HttpMethod.POST)

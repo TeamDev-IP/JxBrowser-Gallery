@@ -201,3 +201,21 @@ tasks.register<Exec>("packageDmg") {
         "--icon", "src/main/resources/app.icns",
     )
 }
+
+tasks.register<Exec>("packageExe") {
+    dependsOn(tasks.build)
+
+    commandLine(
+        "jpackage",
+        "--input", "./build/dist",
+        "--main-jar", mainJar,
+        "--name", applicationName,
+        "--app-version", version,
+        "--type", "exe",
+        "--main-class", application.mainClass.get(),
+        "--dest", "./build/installer",
+        "--win-dir-chooser",
+        "--win-menu",
+        "--win-shortcut-prompt"
+    )
+}
