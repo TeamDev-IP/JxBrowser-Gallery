@@ -32,7 +32,7 @@ interface ItemProps {
 export function NavigationItem(props: ItemProps) {
     return (
         <SidebarMenuItem key={props.title}>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton isActive={window.location.pathname === props.url} asChild>
                 <a href={props.url}>
                     <props.icon/>
                     <span>{props.title}</span>
