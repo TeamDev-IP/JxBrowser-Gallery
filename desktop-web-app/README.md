@@ -27,10 +27,18 @@ address in JxBrowser.
 
 ## Packaging
 
-To build application installer for macOS (DMG), use the following command:
+To build application installer, use the following commands:
+
+- macOS (DMG)
 
 ```bash
 ./gradlew desktop-web-app:clean desktop-web-app:packageDmg
+```
+
+- Windows (EXE)
+
+```bash
+gradlew.bat desktop-web-app:clean desktop-web-app:packageExe
 ```
 
 ## Protobuf
