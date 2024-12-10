@@ -47,11 +47,23 @@ export function Account() {
     return (
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Account</h1>
-            <Separator className="my-4 h-[2px] w-full"/>
-            <Avatar className="hover:bg-accent relative w-[150px] h-[150px]">
-                <AvatarImage width={420} height={420} src="https://github.com/shadcn.png"/>
-                <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
+            <Separator className="my-4 h-[1px] w-full"/>
+            <div className="w-full flex justify-center items-center">
+                <div
+                    className="w-[150px] h-[150px] flex relative justify-center items-center group">
+                    <Avatar
+                        className="group-hover:opacity-50 transition-colors duration-200 w-[150px] h-[150px] object-cover">
+                        <AvatarImage width={420} height={420} src="https://github.com/shadcn.png"/>
+                        <AvatarFallback>JD</AvatarFallback>
+                    </Avatar>
+                    <div className={cn(
+                        "absolute inset-0 flex items-center justify-center text-white text-sm font-medium opacity-0 transition-opacity group-hover:opacity-100"
+                    )}
+                    >
+                        <Pencil/>
+                    </div>
+                </div>
+            </div>
             <div className="w-full items-center space-y-2">
                 <p>Email</p>
                 <div className="w-full flex items-center space-x-4 justify-between ">
