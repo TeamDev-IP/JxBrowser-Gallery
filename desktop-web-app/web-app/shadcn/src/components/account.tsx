@@ -20,14 +20,14 @@
  *  SOFTWARE.
  */
 
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Eye, Pencil, PenLine} from "lucide-react";
+import {Eye, PenLine} from "lucide-react";
 import {Separator} from "@/components/ui/separator.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Toggle} from "@/components/ui/toggle.tsx";
 import {Combobox, Option} from "@/components/combobox.tsx";
-import {cn} from "@/lib/utils.ts";
 import {GreenSwitch} from "@/components/green-switch.tsx";
+import {EditableAvatar} from "@/components/editable-avatar.tsx";
+import {EditableInput} from "@/components/editable-input.tsx";
 
 const authentications: Option[] = [
     {
@@ -49,47 +49,16 @@ export function Account() {
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Account</h1>
             <Separator className="my-4 h-[1px] w-full"/>
-            <div className="w-full flex justify-center items-center">
-                <div
-                    className="w-[150px] h-[150px] flex relative justify-center items-center group">
-                    <Avatar
-                        className="group-hover:opacity-50 transition-colors duration-200 w-[150px] h-[150px] object-cover">
-                        <AvatarImage width={420} height={420} src="https://github.com/shadcn.png"/>
-                        <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <div className={cn(
-                        "absolute inset-0 flex items-center justify-center text-white text-sm font-medium opacity-0 transition-opacity group-hover:opacity-100"
-                    )}
-                    >
-                        <Pencil/>
-                    </div>
-                </div>
-            </div>
-            <div className="w-full items-center space-y-2">
-                <p>Email</p>
-                <div className="w-full flex items-center space-x-4 justify-between ">
-                    <Input disabled={false} value={"john@mail.com"}/>
-                    <Toggle className={"bg-accent"}>
-                        <PenLine/>
-                    </Toggle>
-                </div>
-            </div>
-            <div className="w-full items-center space-y-2">
-                <p>Full name</p>
-                <div className="w-full flex items-center space-x-4 justify-between ">
-                    <Input disabled value={"John Doe"}/>
-                    <Toggle className={"bg-accent"}>
-                        <PenLine/>
-                    </Toggle>
-                </div>
-            </div>
+            <EditableAvatar/>
+            <EditableInput title={"Email"} defaultValue={"johndoe@mail.com"} id={"email"}/>
+            <EditableInput title={"Full name"} defaultValue={"John Doe"} id={"fullname"}/>
             <div className="w-full items-center space-y-2">
                 <p>Password</p>
                 <div className="w-full flex items-center justify-between ">
                     <div className="flex w-full space-x-4">
                         <Input type={"password"} className="relative flex" disabled
                                value={"password"}/>
-                        <Toggle>
+                        <Toggle className={"bg-accent"}>
                             <Eye className="right-4 top-4 z-10"/>
                         </Toggle>
                         <Toggle className={"bg-accent"}>
