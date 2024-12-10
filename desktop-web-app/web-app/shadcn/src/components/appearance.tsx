@@ -30,7 +30,7 @@ export function Appearance() {
     return (
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Appearance</h1>
-            <Separator className="my-4 h-[2px] w-full"/>
+            <Separator className="my-4 h-[1px] w-full"/>
             <div className="items-center flex space-y-2 flex-wrap gap-4">
                 <div>
                     <p>Theme</p>

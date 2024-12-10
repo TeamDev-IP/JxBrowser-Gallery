@@ -21,12 +21,13 @@
  */
 
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Eye, PenLine} from "lucide-react";
+import {Eye, Pencil, PenLine} from "lucide-react";
 import {Separator} from "@/components/ui/separator.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Toggle} from "@/components/ui/toggle.tsx";
-import {Switch} from "@/components/ui/switch.tsx";
 import {Combobox, Option} from "@/components/combobox.tsx";
+import {cn} from "@/lib/utils.ts";
+import {GreenSwitch} from "@/components/green-switch.tsx";
 
 const authentications: Option[] = [
     {
@@ -67,9 +68,9 @@ export function Account() {
             <div className="w-full items-center space-y-2">
                 <p>Email</p>
                 <div className="w-full flex items-center space-x-4 justify-between ">
-                    <Input disabled value={"john@mail.com"}/>
-                    <Toggle className={"bg-gray-800"}>
-                        <PenLine />
+                    <Input disabled={false} value={"john@mail.com"}/>
+                    <Toggle className={"bg-accent"}>
+                        <PenLine/>
                     </Toggle>
                 </div>
             </div>
@@ -77,8 +78,8 @@ export function Account() {
                 <p>Full name</p>
                 <div className="w-full flex items-center space-x-4 justify-between ">
                     <Input disabled value={"John Doe"}/>
-                    <Toggle className={"bg-gray-800"}>
-                        <PenLine />
+                    <Toggle className={"bg-accent"}>
+                        <PenLine/>
                     </Toggle>
                 </div>
             </div>
@@ -88,11 +89,11 @@ export function Account() {
                     <div className="flex w-full space-x-4">
                         <Input type={"password"} className="relative flex" disabled
                                value={"password"}/>
-                        <Toggle className={"bg-gray-800"}>
+                        <Toggle>
                             <Eye className="right-4 top-4 z-10"/>
                         </Toggle>
-                        <Toggle className={"bg-gray-800"}>
-                            <PenLine />
+                        <Toggle className={"bg-accent"}>
+                            <PenLine/>
                         </Toggle>
                     </div>
                 </div>
@@ -113,10 +114,7 @@ export function Account() {
                         Allow authentication via fingerprints or Face ID.
                     </p>
                 </div>
-                <div className="px-5">
-                    <Switch
-                        className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-700"/>
-                </div>
+                <GreenSwitch/>
             </div>
         </div>
     )

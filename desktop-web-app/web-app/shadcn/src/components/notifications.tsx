@@ -21,13 +21,13 @@
  */
 
 import {Separator} from "@/components/ui/separator.tsx";
-import {Switch} from "@/components/ui/switch.tsx";
+import {GreenSwitch} from "@/components/green-switch.tsx";
 
 export function Notifications() {
     return (
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Notifications</h1>
-            <Separator className="my-4 h-[2px] w-full"/>
+            <Separator className="my-4 h-[1px] w-full"/>
             <div className="w-full inline-flex items-center justify-between">
                 <div className="w-[70%]">
                     <p>Email notifications</p>
@@ -36,10 +36,7 @@ export function Notifications() {
                         grouped together and sent based on their urgency.
                     </p>
                 </div>
-                <div className="px-5">
-                    <Switch
-                        className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-700"/>
-                </div>
+                <GreenSwitch/>
             </div>
             <div className="w-full inline-flex items-center justify-between">
                 <div>
@@ -48,10 +45,7 @@ export function Notifications() {
                         Receive personal notifications on the desktop.
                     </p>
                 </div>
-                <div className="px-5">
-                    <Switch
-                        className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-700"/>
-                </div>
+                <GreenSwitch/>
             </div>
         </div>
     );
