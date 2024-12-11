@@ -26,8 +26,11 @@ import {Slider} from "@/components/ui/slider.tsx";
 import {cn} from "@/lib/utils.ts";
 import {AspectRatio} from "@/components/ui/aspect-ratio.tsx";
 import {useState} from "react";
+import {useTheme} from "@/components/theme-provider.tsx";
 
 export function Appearance() {
+    const { setTheme } = useTheme()
+
     const [isLight, setIsLight] = useState(true);
     const [isDark, setIsDark] = useState(false);
     const [isSystem, setIsSystem] = useState(false);
@@ -53,6 +56,8 @@ export function Appearance() {
                             setIsLight(true)
                             setIsDark(false)
                             setIsSystem(false)
+
+                            setTheme("light")
                         }} ratio={16 / 14}
                                      className={`rounded-3xl ${!isLight ? "hover:border-gray-400" : ""} bg-accent ${isLight ? "border-green-700" : ""} sm:border-spacing-4 md:border-spacing-6 lg:border-spacing-8 sm:border-4 md:border-8 lg:border-8`}>
                             <img alt={"Light"} src={"/images/light-theme.png"}
@@ -68,6 +73,8 @@ export function Appearance() {
                             setIsLight(false)
                             setIsDark(true)
                             setIsSystem(false)
+
+                            setTheme("dark")
                         }} ratio={16 / 14}
                                      className={`rounded-3xl ${!isDark ? "hover:border-gray-400" : ""} bg-accent ${isDark ? "border-green-700" : ""} sm:border-spacing-4 md:border-spacing-6 lg:border-spacing-8 sm:border-4 md:border-8 lg:border-8`}>
                             <img alt={"Light"} src={"/images/dark-theme.png"}
@@ -83,6 +90,8 @@ export function Appearance() {
                             setIsLight(false)
                             setIsDark(false)
                             setIsSystem(true)
+
+                            setTheme("system")
                         }} ratio={16 / 14}
                                      className={`rounded-3xl ${!isSystem ? "hover:border-gray-400" : ""} bg-accent sm:border-spacing-4 ${isSystem ? "border-green-700" : ""} md:border-spacing-6 lg:border-spacing-8 sm:border-4 md:border-8 lg:border-8`}>
                             <img alt={"Light"} src={"/images/system-theme.png"}
