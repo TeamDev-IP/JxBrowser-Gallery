@@ -3,7 +3,6 @@ import org.gradle.api.JavaVersion.VERSION_17
 import java.net.ConnectException
 import java.net.Socket
 
-
 repositories {
     mavenCentral()
 }

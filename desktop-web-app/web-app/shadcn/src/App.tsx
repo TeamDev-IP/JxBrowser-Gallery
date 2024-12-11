@@ -7,8 +7,7 @@ import {
     SidebarGroupContent,
     SidebarGroupLabel,
     SidebarMenu,
-    SidebarProvider,
-    SidebarTrigger
+    SidebarProvider
 } from "@/components/ui/sidebar.tsx";
 import {Account} from "@/components/account.tsx";
 import {General} from "@/components/general.tsx";
@@ -21,8 +20,8 @@ function App() {
     return (
         <Router>
             <ThemeProvider>
-                <SidebarProvider className="space-y-4 space-x-4 ">
-                    <Sidebar side="left" className="space-y-8 space-x-6 " collapsible="offcanvas">
+                <SidebarProvider className="space-y-4 space-x-4" >
+                    <Sidebar side="left">
                         <SidebarContent className="p-4">
                             <SidebarGroup/>
                             <SidebarGroupContent>
@@ -44,9 +43,8 @@ function App() {
                             <SidebarGroup/>
                         </SidebarContent>
                     </Sidebar>
-                    <main className="w-full">
-                        <SidebarTrigger/>
-                        <div className=" w-full px-20 py-10 sm:w-3/4 md:w-1/2 lg:w-4/5">
+                    <main className="w-full p-8">
+                        <div className="w-full">
                             <Routes>
                                 <Route path={"/"} element={<Account/>}/>
                                 <Route path={"/prefs/general"} element={<General/>}/>
