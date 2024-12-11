@@ -52,7 +52,8 @@ export function EditablePassword({defaultValue}: Props) {
                 {editable ?
                     <div className={"flex space-x-4"}>
                         <Toggle id={"confirm-change"} onClick={() => {
-                            setValue(document.getElementById("password")?.value)
+                            const input = document.getElementById("password");
+                            setValue((input as HTMLInputElement).value)
                             setEditable(false)
                         }}
                                 className="bg-green-500 hover:data-[state=on]:bg-green-700 hover:data-[state=off]:bg-green-700 data-[state=on]:bg-green-500">
