@@ -3,6 +3,7 @@ import org.gradle.api.JavaVersion.VERSION_17
 import java.net.ConnectException
 import java.net.Socket
 
+
 repositories {
     mavenCentral()
 }
@@ -96,7 +97,7 @@ tasks.register("startDevServer") {
         devServerThread = Thread {
             exec {
                 workingDir = file(wedAppLocationDir)
-                commandLine(npmCommand, "run", "dev", "--", "--port=$port")
+                commandLine(npmCommand, "run", "dev", "--", "--port=$port", "--strictPort")
             }
         }
         devServerThread.start()
@@ -105,7 +106,7 @@ tasks.register("startDevServer") {
         while (!connected && attempts > 0) {
             println("Waiting from the dev server response...")
             Thread.sleep(1000)
-            connected = true
+            connected = devServerThread.isAlive && isSocketConnected()
             attempts--
         }
         if (!connected) {
