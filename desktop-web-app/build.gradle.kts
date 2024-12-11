@@ -12,6 +12,7 @@ plugins {
     jxbrowser
     id("com.google.protobuf") version "0.9.1"
     id("application")
+    `desktop-web-app`
 }
 group = "com.teamdev.jxbrowser.gallery"
 version = "1.0"

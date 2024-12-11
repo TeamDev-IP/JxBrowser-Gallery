@@ -12,6 +12,7 @@ import com.teamdev.jxbrowser.browser.callback.InjectJsCallback;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.js.JsObject;
+import com.teamdev.jxbrowser.license.internal.LicenseProvider;
 import com.teamdev.jxbrowser.logging.Level;
 import com.teamdev.jxbrowser.logging.Logger;
 import com.teamdev.jxbrowser.production.UrlRequestInterceptor;
@@ -32,14 +33,13 @@ import static javax.swing.SwingUtilities.invokeLater;
 
 public final class App {
 
-    private static final String LICENSE_KEY = "";
     private static final int RPC_PORT = 50051;
 
     public static void main(String[] args) throws InterruptedException {
         System.setProperty("jxbrowser.logging.file", "jxbrowser.log");
         Logger.level(Level.DEBUG);
         var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
-                .licenseKey(LICENSE_KEY);
+                .licenseKey(LicenseProvider.INSTANCE.getKey());
         if (IS_PRODUCTION) {
             optionsBuilder.addScheme(SCHEME, new UrlRequestInterceptor());
         }
@@ -56,13 +56,17 @@ public final class App {
                 }
             });
 
-            var imageResource = App.class.getClassLoader().getResource("leaf.png");
-            var image = Toolkit.getDefaultToolkit().getImage(imageResource);
+            var imageResource = App.class.getClassLoader()
+                                         .getResource("leaf.png");
+            var image = Toolkit.getDefaultToolkit()
+                               .getImage(imageResource);
 
             frame.setIconImage(image);
             if (Taskbar.isTaskbarSupported() &&
-                    Taskbar.getTaskbar().isSupported(ICON_IMAGE)) {
-                Taskbar.getTaskbar().setIconImage(image);
+                    Taskbar.getTaskbar()
+                           .isSupported(ICON_IMAGE)) {
+                Taskbar.getTaskbar()
+                       .setIconImage(image);
             }
 
             frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
@@ -72,7 +76,8 @@ public final class App {
         });
 
         browser.set(InjectJsCallback.class, params -> {
-            JsObject window = params.frame().executeJavaScript("window");
+            JsObject window = params.frame()
+                                    .executeJavaScript("window");
             if (window != null) {
                 window.putProperty("rpcPort", RPC_PORT);
             }
@@ -80,14 +85,16 @@ public final class App {
         });
 
         if (!IS_PRODUCTION) {
-            browser.devTools().show();
+            browser.devTools()
+                   .show();
         }
 
         initRpc(browser);
     }
 
     private static void initRpc(Browser browser) throws InterruptedException {
-        var serverBuilder = Server.builder().http(RPC_PORT);
+        var serverBuilder = Server.builder()
+                .http(RPC_PORT);
         var corsBuilder = CorsService.builder(APP_URL)
                 .allowRequestMethods(HttpMethod.POST)
                 .allowRequestHeaders(
@@ -106,7 +113,8 @@ public final class App {
 
         try (var server = serverBuilder.build()) {
             server.start();
-            browser.navigation().loadUrl(APP_URL);
+            browser.navigation()
+                   .loadUrl(APP_URL);
             server.blockUntilShutdown();
         }
     }
