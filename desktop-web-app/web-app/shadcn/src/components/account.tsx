@@ -20,14 +20,12 @@
  *  SOFTWARE.
  */
 
-import {Eye, PenLine} from "lucide-react";
 import {Separator} from "@/components/ui/separator.tsx";
-import {Input} from "@/components/ui/input.tsx";
-import {Toggle} from "@/components/ui/toggle.tsx";
 import {Combobox, Option} from "@/components/combobox.tsx";
 import {GreenSwitch} from "@/components/green-switch.tsx";
 import {EditableAvatar} from "@/components/editable-avatar.tsx";
-import {EditableInput} from "@/components/editable-input.tsx";
+import {EditableLabel} from "@/components/editable-label.tsx";
+import {EditablePassword} from "@/components/editable-password.tsx";
 
 const authentications: Option[] = [
     {
@@ -50,23 +48,9 @@ export function Account() {
             <h1 className="text-2xl font-semibold">Account</h1>
             <Separator className="my-4 h-[1px] w-full"/>
             <EditableAvatar/>
-            <EditableInput title={"Email"} defaultValue={"johndoe@mail.com"} id={"email"}/>
-            <EditableInput title={"Full name"} defaultValue={"John Doe"} id={"fullname"}/>
-            <div className="w-full items-center space-y-2">
-                <p>Password</p>
-                <div className="w-full flex items-center justify-between ">
-                    <div className="flex w-full space-x-4">
-                        <Input type={"password"} className="relative flex" disabled
-                               value={"password"}/>
-                        <Toggle className={"bg-accent"}>
-                            <Eye className="right-4 top-4 z-10"/>
-                        </Toggle>
-                        <Toggle className={"bg-accent"}>
-                            <PenLine/>
-                        </Toggle>
-                    </div>
-                </div>
-            </div>
+            <EditableLabel title={"Email"} defaultValue={"johndoe@mail.com"} id={"email"}/>
+            <EditableLabel title={"Full name"} defaultValue={"John Doe"} id={"fullname"}/>
+            <EditablePassword defaultValue={"Test123$"}/>
             <div className="w-full inline-flex items-center space-y-2 justify-between">
                 <div className="w-[70%]">
                     <p>Two-factor authentication</p>
