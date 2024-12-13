@@ -20,102 +20,72 @@
  *  SOFTWARE.
  */
 
-import {Label} from "@/components/ui/label.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
-import {Slider} from "@/components/ui/slider.tsx";
-import {cn} from "@/lib/utils.ts";
-import {AspectRatio} from "@/components/ui/aspect-ratio.tsx";
 import {useState} from "react";
 import {useTheme} from "@/components/theme-provider.tsx";
+import {Laptop, Moon, Sun} from "lucide-react";
+import {ThemeBox} from "@/components/theme-box.tsx";
+import {Input} from "@/components/ui/input.tsx";
 
 export function Appearance() {
-    const { setTheme } = useTheme()
+    const {theme} = useTheme()
 
-    const [isLight, setIsLight] = useState(true);
-    const [isDark, setIsDark] = useState(false);
-    const [isSystem, setIsSystem] = useState(false);
+    const [isLight, setIsLight] = useState(theme === "light");
+    const [isDark, setIsDark] = useState(theme === "dark");
+    const [isSystem, setIsSystem] = useState(theme === "system");
 
     const [font, setFont] = useState(18);
+
     return (
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Appearance</h1>
             <Separator className="my-4 h-[1px] w-full"/>
-            <div className="items-center space-y-4 flex-wrap gap-4">
+            <div className="items-center flex-wrap space-y-4">
                 <div>
                     <p>Theme</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground text-gray-500">
                         Select a color theme for the app: light, dark, or match your system
                         settings.
                     </p>
                 </div>
 
                 <div
-                    className="flex flex-wrap sm:gap-x-4 md:gap-x-8 lg:gap-x-12 justify-center items-center">
-                    <div className={"sm:w-[20%] md:w-[15%] lg:w-[10%]"}>
-                        <AspectRatio onClick={() => {
-                            setIsLight(true)
-                            setIsDark(false)
-                            setIsSystem(false)
-
-                            setTheme("light")
-                        }} ratio={16 / 14}
-                                     className={`rounded-3xl ${!isLight ? "hover:border-gray-400" : ""} bg-accent ${isLight ? "border-green-700" : ""} sm:border-spacing-4 md:border-spacing-6 lg:border-spacing-8 sm:border-4 md:border-8 lg:border-8`}>
-                            <img alt={"Light"} src={"/images/light-theme.png"}
-                                 className={"rounded-2xl"}></img>
-                        </AspectRatio>
-                        <span className="block w-full p-2 text-center font-normal">
-                      Light
-                    </span>
-                    </div>
-
-                    <div className={"sm:w-[20%] md:w-[15%] lg:w-[10%]"}>
-                        <AspectRatio onClick={() => {
-                            setIsLight(false)
-                            setIsDark(true)
-                            setIsSystem(false)
-
-                            setTheme("dark")
-                        }} ratio={16 / 14}
-                                     className={`rounded-3xl ${!isDark ? "hover:border-gray-400" : ""} bg-accent ${isDark ? "border-green-700" : ""} sm:border-spacing-4 md:border-spacing-6 lg:border-spacing-8 sm:border-4 md:border-8 lg:border-8`}>
-                            <img alt={"Light"} src={"/images/dark-theme.png"}
-                                 className={"rounded-2xl"}></img>
-                        </AspectRatio>
-                        <span className="block w-full p-2 text-center font-normal">
-                              Dark
-                            </span>
-                    </div>
-
-                    <div className={"sm:w-[20%] md:w-[15%] lg:w-[10%]"}>
-                        <AspectRatio onClick={() => {
-                            setIsLight(false)
-                            setIsDark(false)
-                            setIsSystem(true)
-
-                            setTheme("system")
-                        }} ratio={16 / 14}
-                                     className={`rounded-3xl ${!isSystem ? "hover:border-gray-400" : ""} bg-accent sm:border-spacing-4 ${isSystem ? "border-green-700" : ""} md:border-spacing-6 lg:border-spacing-8 sm:border-4 md:border-8 lg:border-8`}>
-                            <img alt={"Light"} src={"/images/system-theme.png"}
-                                 className={"rounded-2xl"}></img>
-                        </AspectRatio>
-                        <span className="block w-full p-2 text-center font-normal">
-                              System
-                            </span>
-                    </div>
+                    className="flex flex-col md:flex-row sm:gap-x-4 md:gap-x-8 lg:gap-x-12 gap-y-4 justify-center items-center px-4">
+                    <ThemeBox title="Light" theme="light" isSelected={isLight} onClick={() => {
+                        setIsLight(true)
+                        setIsDark(false)
+                        setIsSystem(false)
+                    }} icon={Sun}/>
+                    <ThemeBox title="Dark" theme="dark" isSelected={isDark} onClick={() => {
+                        setIsLight(false)
+                        setIsDark(true)
+                        setIsSystem(false)
+                    }} icon={Moon}/>
+                    <ThemeBox title="System" theme="system" isSelected={isSystem} onClick={() => {
+                        setIsLight(false)
+                        setIsDark(false)
+                        setIsSystem(true)
+                    }} icon={Laptop}/>
                 </div>
             </div>
             <div className="w-full flex flex-wrap items-center space-y-2 justify-between">
-                <div>
+                <div className="w-[30%] md:w-[50%] lg:w-[60%]">
                     <p>Font size</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground text-gray-500">
                         Adjust the size of the text in the application for better readability.
                     </p>
                 </div>
-                <div className="inline-flex space-x-4 justify-between w-[30%]">
-                    <Slider onValueChange={(e) => {
-                        setFont(e[0])
-                    }} defaultValue={[18]} max={40} min={14} step={2}
-                            className={cn("w-[90%]")}/>
-                    <Label>{font}</Label>
+                <div className=" items-center gap-2">
+                    <Input
+                        type="number"
+                        defaultValue={font}
+                        min={14}
+                        max={24}
+                        step={2}
+                        onChange={(e) => setFont(Number(e.target.value))}
+                        className="text-center"
+                        aria-label="Font size input"
+                    />
                 </div>
             </div>
         </div>

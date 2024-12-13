@@ -25,7 +25,6 @@ import {Combobox, Option} from "@/components/combobox.tsx";
 import {GreenSwitch} from "@/components/green-switch.tsx";
 import {EditableAvatar} from "@/components/editable-avatar.tsx";
 import {EditableLabel} from "@/components/editable-label.tsx";
-import {EditablePassword} from "@/components/editable-password.tsx";
 
 const authentications: Option[] = [
     {
@@ -50,20 +49,19 @@ export function Account() {
             <EditableAvatar/>
             <EditableLabel title={"Email"} defaultValue={"johndoe@mail.com"} id={"email"}/>
             <EditableLabel title={"Full name"} defaultValue={"John Doe"} id={"fullname"}/>
-            <EditablePassword defaultValue={"Test123$"}/>
             <div className="w-full inline-flex items-center space-y-2 justify-between">
-                <div className="w-[70%]">
+                <div className="w-[30%] md:w-[50%] lg:w-[60%]">
                     <p>Two-factor authentication</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground text-gray-500">
                         Select an extra layer of security by requiring a code when logging in.
                     </p>
                 </div>
                 <Combobox options={authentications} defaultOption={"Email"}/>
             </div>
             <div className="w-full inline-flex items-center justify-between">
-                <div>
+                <div className="w-[30%] md:w-[50%] lg:w-[60%]">
                     <p>Biometric authentication</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground text-gray-500">
                         Allow authentication via fingerprints or Face ID.
                     </p>
                 </div>

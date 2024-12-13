@@ -49,7 +49,7 @@ export function General() {
             <h1 className="text-2xl font-semibold">General</h1>
             <Separator className="my-4 h-[1px] w-full"/>
             <div className="w-full inline-flex items-center justify-between">
-                <div>
+                <div className={"w-[30%] md:w-[50%] lg:w-[60%]"}>
                     <p>Launch at startup</p>
                     <p className="text-sm text-muted-foreground">
                         Enable this option to automatically start the application when your device
@@ -59,7 +59,7 @@ export function General() {
                 <GreenSwitch/>
             </div>
             <div className="w-full inline-flex items-center space-y-2 justify-between">
-                <div>
+                <div className={"w-[30%] md:w-[50%] lg:w-[60%]"}>
                     <p>Language</p>
                     <p className="text-sm text-muted-foreground">
                         Choose the language for the application’s interface.
@@ -68,7 +68,7 @@ export function General() {
                 <Combobox options={languages} defaultOption={"English"}/>
             </div>
             <div className="w-full inline-flex items-center justify-between">
-                <div>
+                <div className={"w-[30%] md:w-[50%] lg:w-[60%]"}>
                     <p>Check for updates automatically</p>
                     <p className="text-sm text-muted-foreground">
                         Allow to check for updates in the background.

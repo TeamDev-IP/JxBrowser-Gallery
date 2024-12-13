@@ -48,7 +48,7 @@ export function Combobox({options, defaultOption}: ComboboxProps) {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[150px] justify-between"
+                    className="w-[120px] justify-between"
                 >
                     {value
                         ? options.find((it) => it.value === value)?.label
@@ -56,12 +56,13 @@ export function Combobox({options, defaultOption}: ComboboxProps) {
                     <ChevronsUpDown className="opacity-50"/>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[150px] p-0">
+            <PopoverContent className="w-[120px] p-0">
                 <Command>
                     <CommandList>
                         <CommandGroup>
                             {options.map((it) => (
                                 <CommandItem
+                                    className={"h-[30px] "}
                                     key={it.value}
                                     value={it.value}
                                     onSelect={(currentValue) => {

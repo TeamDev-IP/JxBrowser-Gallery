@@ -20,23 +20,30 @@
  *  SOFTWARE.
  */
 
-
-import {Input} from "@/components/ui/input.tsx";
+import {LucideIcon} from "lucide-react";
+import {Theme, useTheme} from "@/components/theme-provider.tsx";
 
 interface Props {
     title: string
-    defaultValue: string
-    id: string
+    theme: string
+    icon: LucideIcon
+    isSelected: boolean
+    onClick: () => void
 }
 
-export function EditableLabel({title, defaultValue, id}: Props) {
+export function ThemeBox(props: Props) {
+    const {setTheme} = useTheme()
     return (
-        <div className="w-full items-center space-y-2">
-            <div className="w-full flex items-center space-x-4 justify-between">
-                <p>{title}</p>
-                <Input autoFocus={true} className={"w-[30%] md:w-[40%] lg:w-[30%]"} id={id}
-                       defaultValue={defaultValue}/>
-            </div>
+        <div onClick={() => {
+            props.onClick();
+            setTheme(props.theme as Theme)
+        }}
+            className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ? "border-green-500" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-4`}>
+            <props.icon className={"text-right"}/>
+            <span className="justify-end text-center text-sm">
+                      {props.title}
+            </span>
         </div>
-    );
+
+    )
 }

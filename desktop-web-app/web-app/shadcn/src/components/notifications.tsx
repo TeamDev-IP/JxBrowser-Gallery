@@ -29,7 +29,7 @@ export function Notifications() {
             <h1 className="text-2xl font-semibold">Notifications</h1>
             <Separator className="my-4 h-[1px] w-full"/>
             <div className="w-full inline-flex items-center justify-between">
-                <div className="w-[70%]">
+                <div className={"w-[30%] md:w-[50%] lg:w-[60%]"}>
                     <p>Email notifications</p>
                     <p className="text-sm text-muted-foreground">
                         Receive an email digest for unread notifications. Notifications will be
@@ -39,7 +39,7 @@ export function Notifications() {
                 <GreenSwitch/>
             </div>
             <div className="w-full inline-flex items-center justify-between">
-                <div>
+                <div className={"w-[30%] md:w-[50%] lg:w-[60%]"}>
                     <p>Desktop notifications</p>
                     <p className="text-sm text-muted-foreground">
                         Receive personal notifications on the desktop.

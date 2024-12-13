@@ -24,7 +24,7 @@ import {Switch} from "@/components/ui/switch.tsx";
 
 export function GreenSwitch() {
     return (
-        <div className="px-5">
+        <div>
             <Switch
                 className="hover:opacity-70 data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-accent"/>
         </div>

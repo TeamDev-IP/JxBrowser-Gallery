@@ -20,8 +20,8 @@ function App() {
     return (
         <Router>
             <ThemeProvider>
-                <SidebarProvider className="space-y-4 space-x-4" >
-                    <Sidebar side="left">
+                <SidebarProvider className="space-y-2 space-x-2 h-screen">
+                    <Sidebar collapsible={"none"} side="left">
                         <SidebarContent className="p-4">
                             <SidebarGroup/>
                             <SidebarGroupContent>

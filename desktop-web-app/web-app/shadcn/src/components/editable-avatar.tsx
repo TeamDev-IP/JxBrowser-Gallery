@@ -27,11 +27,12 @@ import {Upload} from "lucide-react";
 
 export function EditableAvatar() {
     return (
-        <div className="w-full flex justify-center">
+        <div className="w-full items-center flex justify-between">
+            <p>Avatar</p>
             <div
-                className="w-[150px] h-[150px] flex relative justify-center items-center group">
+                className="flex relative justify-center items-center group">
                 <Avatar
-                    className="group-hover:opacity-50 transition-colors duration-200 w-[150px] h-[150px] object-cover">
+                    className="group-hover:opacity-50 transition-colors duration-200 object-cover">
                     <AvatarImage src="https://github.com/shadcn.png"/>
                     <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
