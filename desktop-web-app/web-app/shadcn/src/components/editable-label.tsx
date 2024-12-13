@@ -34,7 +34,7 @@ export function EditableLabel({title, defaultValue, id}: Props) {
         <div className="w-full items-center space-y-2">
             <div className="w-full flex items-center space-x-4 justify-between">
                 <p>{title}</p>
-                <Input autoFocus={true} className={"w-[30%] md:w-[40%] lg:w-[30%]"} id={id}
+                <Input className={"w-[30%] md:w-[40%] lg:w-[30%]"} id={id}
                        defaultValue={defaultValue}/>
             </div>
         </div>
