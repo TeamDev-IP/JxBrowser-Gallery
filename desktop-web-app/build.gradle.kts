@@ -1,7 +1,8 @@
 import com.google.protobuf.gradle.id
+import okio.IOException
 import org.gradle.api.JavaVersion.VERSION_17
-import java.net.ConnectException
-import java.net.Socket
+import java.net.InetAddress
+import java.net.ServerSocket
 
 repositories {
     mavenCentral()
@@ -80,12 +81,14 @@ val npxCommand = if (isWindows) "npx.cmd" else "npx"
 
 tasks.register("startDevServer") {
     fun isSocketConnected(): Boolean {
+        println("-------------------")
         try {
             println("Connecting to $host:$port")
-            val socket = Socket(host, port)
-            return socket.isConnected
-        } catch (e: ConnectException) {
+            val socket = ServerSocket(port, 50, InetAddress.getLocalHost())
+            socket.close()
             return false
+        } catch (e: IOException) {
+            return true
         }
     }
     doLast {
@@ -104,7 +107,7 @@ tasks.register("startDevServer") {
         var connected = false
         var attempts = 5
         while (!connected && attempts > 0) {
-            println("Waiting from the dev server response...")
+            println("Waiting the dev server to respond...")
             Thread.sleep(1000)
             connected = devServerThread.isAlive && isSocketConnected()
             attempts--
