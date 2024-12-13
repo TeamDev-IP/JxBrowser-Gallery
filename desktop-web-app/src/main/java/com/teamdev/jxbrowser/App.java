@@ -71,6 +71,8 @@ public final class App {
 
             frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
             frame.setSize(1280, 900);
+            frame.setMinimumSize(new Dimension(720, 480));
+            frame.setMaximumSize(new Dimension(1280, 900));
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
