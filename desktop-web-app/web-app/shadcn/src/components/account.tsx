@@ -25,6 +25,7 @@ import {Combobox, Option} from "@/components/combobox.tsx";
 import {GreenSwitch} from "@/components/green-switch.tsx";
 import {EditableAvatar} from "@/components/editable-avatar.tsx";
 import {EditableLabel} from "@/components/editable-label.tsx";
+import {GuidingLine} from "@/components/guiding-line.tsx";
 
 const authentications: Option[] = [
     {
@@ -45,12 +46,15 @@ export function Account() {
     return (
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Account</h1>
-            <Separator className="my-4 h-[1px] w-full"/>
+            <Separator className="my-2 h-[1px] w-full"/>
             <EditableAvatar/>
+            <GuidingLine/>
             <EditableLabel title={"Email"} defaultValue={"johndoe@mail.com"} id={"email"}/>
+            <GuidingLine/>
             <EditableLabel title={"Full name"} defaultValue={"John Doe"} id={"fullname"}/>
+            <GuidingLine/>
             <div className="w-full inline-flex items-center space-y-2 justify-between">
-                <div className="w-[30%] md:w-[50%] lg:w-[60%]">
+                <div className="pr-8">
                     <p>Two-factor authentication</p>
                     <p className="text-sm text-muted-foreground text-gray-500">
                         Select an extra layer of security by requiring a code when logging in.
@@ -58,8 +62,9 @@ export function Account() {
                 </div>
                 <Combobox options={authentications} defaultOption={"Email"}/>
             </div>
+            <GuidingLine/>
             <div className="w-full inline-flex items-center justify-between">
-                <div className="w-[30%] md:w-[50%] lg:w-[60%]">
+                <div className="pr-8">
                     <p>Biometric authentication</p>
                     <p className="text-sm text-muted-foreground text-gray-500">
                         Allow authentication via fingerprints or Face ID.
@@ -67,6 +72,7 @@ export function Account() {
                 </div>
                 <GreenSwitch/>
             </div>
+            <GuidingLine/>
         </div>
     )
 }
