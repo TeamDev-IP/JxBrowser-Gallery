@@ -32,9 +32,9 @@ interface Props {
 export function EditableLabel({title, defaultValue, id}: Props) {
     return (
         <div className="w-full items-center space-y-2">
-            <div className="w-full flex items-center space-x-4 justify-between">
+            <div className="w-full sm:flex items-center space-y-1 justify-between">
                 <p>{title}</p>
-                <Input className={"w-[30%] md:w-[40%] lg:w-[30%]"} id={id}
+                <Input className={"xs:w-full sm:w-[50%] lg:w-[30%]"} id={id}
                        defaultValue={defaultValue}/>
             </div>
         </div>
