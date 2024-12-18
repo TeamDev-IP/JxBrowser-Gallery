@@ -51,7 +51,7 @@ export function Appearance() {
                 </div>
 
                 <div
-                    className="flex flex-col md:flex-row sm:gap-x-4 md:gap-x-8 lg:gap-x-12 gap-y-4 justify-center items-center px-4">
+                    className="flex flex-col sm:flex-row gap-x-2 gap-y-2 justify-center items-center">
                     <ThemeBox title="Light" theme="light" isSelected={isLight} onClick={() => {
                         setIsLight(true)
                         setIsDark(false)
@@ -69,8 +69,9 @@ export function Appearance() {
                     }} icon={Laptop}/>
                 </div>
             </div>
-            <div className="w-full flex flex-wrap items-center space-y-2 justify-between">
-                <div className="w-[30%] md:w-[50%] lg:w-[60%]">
+            <GuidingLine/>
+            <div className="w-full flex items-center space-y-2 justify-between">
+                <div className="pr-8">
                     <p>Font size</p>
                     <p className="text-sm text-muted-foreground text-gray-500">
                         Adjust the size of the text in the application for better readability.
@@ -84,7 +85,7 @@ export function Appearance() {
                         max={24}
                         step={2}
                         onChange={(e) => setFont(Number(e.target.value))}
-                        className="text-center"
+                        className="text-center w-[70px]"
                         aria-label="Font size input"
                     />
                 </div>
