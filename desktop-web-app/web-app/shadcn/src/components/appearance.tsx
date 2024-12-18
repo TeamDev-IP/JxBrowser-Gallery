@@ -26,6 +26,7 @@ import {useTheme} from "@/components/theme-provider.tsx";
 import {Laptop, Moon, Sun} from "lucide-react";
 import {ThemeBox} from "@/components/theme-box.tsx";
 import {Input} from "@/components/ui/input.tsx";
+import {GuidingLine} from "@/components/guiding-line.tsx";
 
 export function Appearance() {
     const {theme} = useTheme()
@@ -75,7 +76,7 @@ export function Appearance() {
                         Adjust the size of the text in the application for better readability.
                     </p>
                 </div>
-                <div className=" items-center gap-2">
+                <div className="items-center">
                     <Input
                         type="number"
                         defaultValue={font}
@@ -88,6 +89,7 @@ export function Appearance() {
                     />
                 </div>
             </div>
+            <GuidingLine/>
         </div>
     )
 }

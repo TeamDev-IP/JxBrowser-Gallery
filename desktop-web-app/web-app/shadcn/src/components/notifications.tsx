@@ -22,6 +22,7 @@
 
 import {Separator} from "@/components/ui/separator.tsx";
 import {GreenSwitch} from "@/components/green-switch.tsx";
+import {GuidingLine} from "@/components/guiding-line.tsx";
 
 export function Notifications() {
     return (
@@ -29,7 +30,7 @@ export function Notifications() {
             <h1 className="text-2xl font-semibold">Notifications</h1>
             <Separator className="my-4 h-[1px] w-full"/>
             <div className="w-full inline-flex items-center justify-between">
-                <div className={"w-[30%] md:w-[50%] lg:w-[60%]"}>
+                <div className="pr-8">
                     <p>Email notifications</p>
                     <p className="text-sm text-muted-foreground">
                         Receive an email digest for unread notifications. Notifications will be
@@ -38,8 +39,9 @@ export function Notifications() {
                 </div>
                 <GreenSwitch/>
             </div>
+            <GuidingLine/>
             <div className="w-full inline-flex items-center justify-between">
-                <div className={"w-[30%] md:w-[50%] lg:w-[60%]"}>
+                <div className="pr-8">
                     <p>Desktop notifications</p>
                     <p className="text-sm text-muted-foreground">
                         Receive personal notifications on the desktop.
@@ -47,6 +49,7 @@ export function Notifications() {
                 </div>
                 <GreenSwitch/>
             </div>
+            <GuidingLine/>
         </div>
     );
 }
