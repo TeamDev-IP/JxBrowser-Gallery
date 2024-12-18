@@ -81,7 +81,6 @@ val npxCommand = if (isWindows) "npx.cmd" else "npx"
 
 tasks.register("startDevServer") {
     fun isSocketConnected(): Boolean {
-        println("-------------------")
         try {
             println("Connecting to $host:$port")
             val socket = ServerSocket(port, 50, InetAddress.getLocalHost())
