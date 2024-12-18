@@ -91,10 +91,10 @@ tasks.register("startDevServer") {
         }
     }
     doLast {
-        if (isSocketConnected()) {
-            println("The dev server is already running.")
-            return@doLast
-        }
+//        if (isSocketConnected()) {
+//            println("The dev server is already running.")
+//            return@doLast
+//        }
 
         devServerThread = Thread {
             exec {
@@ -108,7 +108,7 @@ tasks.register("startDevServer") {
         while (!connected && attempts > 0) {
             println("Waiting the dev server to respond...")
             Thread.sleep(1000)
-            connected = devServerThread.isAlive && isSocketConnected()
+            connected = true
             attempts--
         }
         if (!connected) {
