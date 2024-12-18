@@ -28,7 +28,7 @@ function App() {
                                 <NavigationItem title={"Account"} url={"/"} icon={SquareUser}/>
                             </SidebarMenu>
                         </SidebarGroupContent>
-                        <SidebarGroupLabel>Preferences</SidebarGroupLabel>
+                        <SidebarGroupLabel className={"pt-3"}>Preferences</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
                                 <NavigationItem title={"General"} url={"/prefs/general"}
