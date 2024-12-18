@@ -38,7 +38,7 @@ export function ThemeBox(props: Props) {
             props.onClick();
             setTheme(props.theme as Theme)
         }}
-            className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ? "border-green-500" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-4`}>
+            className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ? "border-green-500" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-2`}>
             <props.icon className={"text-right"}/>
             <span className="justify-end text-center text-sm">
                       {props.title}
