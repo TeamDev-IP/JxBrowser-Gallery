@@ -47,7 +47,7 @@ public final class App {
         var browser = engine.newBrowser();
 
         invokeLater(() -> {
-            var frame = new JFrame("JxBrowser WebApp");
+            var frame = new JFrame("JxBrowser+Shadcn");
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.addWindowListener(new WindowAdapter() {
                 @Override
@@ -70,8 +70,8 @@ public final class App {
             }
 
             frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
-            frame.setSize(1280, 900);
-            frame.setMinimumSize(new Dimension(720, 480));
+            frame.setSize(640, 560);
+            frame.setMinimumSize(new Dimension(640, 560));
             frame.setMaximumSize(new Dimension(1280, 900));
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
