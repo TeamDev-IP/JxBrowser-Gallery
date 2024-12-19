@@ -47,13 +47,14 @@ export function Combobox({options, defaultOption}: ComboboxProps) {
                 <Button
                     variant="outline"
                     role="combobox"
+                    size="sm"
                     aria-expanded={open}
                     className="w-[120px] justify-between"
                 >
                     {value
                         ? options.find((it) => it.value === value)?.label
                         : defaultOption}
-                    <ChevronsUpDown className="opacity-50"/>
+                    <ChevronsUpDown className="h-4 opacity-50"/>
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[120px] p-0">

@@ -29,27 +29,25 @@ export function Notifications() {
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Notifications</h1>
             <Separator className="my-4 h-[1px] w-full"/>
-            <div className="w-full inline-flex items-center justify-between">
+            <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">
-                    <p>Email notifications</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm">Email notifications</p>
+                    <p className="text-xs text-muted-foreground">
                         Receive an email digest for unread notifications. Notifications will be
                         grouped together and sent based on their urgency.
                     </p>
                 </div>
                 <GreenSwitch/>
             </div>
-            <GuidingLine/>
-            <div className="w-full inline-flex items-center justify-between">
+            <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">
-                    <p>Desktop notifications</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm">Desktop notifications</p>
+                    <p className="text-xs text-muted-foreground">
                         Receive personal notifications on the desktop.
                     </p>
                 </div>
                 <GreenSwitch/>
             </div>
-            <GuidingLine/>
         </div>
     );
 }

@@ -49,37 +49,34 @@ export function General() {
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">General</h1>
             <Separator className="my-4 h-[1px] w-full"/>
-            <div className="w-full inline-flex items-center justify-between">
+            <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">
-                    <p>Launch at startup</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm">Launch at startup</p>
+                    <p className="text-xs text-muted-foreground">
                         Enable this option to automatically start the application when your device
                         boots up.
                     </p>
                 </div>
                 <GreenSwitch/>
             </div>
-            <GuidingLine/>
-            <div className="w-full inline-flex items-center space-y-2 justify-between">
+            <div className="w-full inline-flex items-center space-y-2 justify-between py-1">
                 <div className="pr-8">
-                    <p>Language</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm">Language</p>
+                    <p className="text-xs text-muted-foreground">
                         Choose the language for the application’s interface.
                     </p>
                 </div>
                 <Combobox options={languages} defaultOption={"English"}/>
             </div>
-            <GuidingLine/>
-            <div className="w-full inline-flex items-center justify-between">
+            <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">
-                    <p>Check for updates automatically</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm">Check for updates automatically</p>
+                    <p className="text-xs text-muted-foreground">
                         Allow to check for updates in the background.
                     </p>
                 </div>
                 <GreenSwitch/>
             </div>
-            <GuidingLine/>
         </div>
     );
 }

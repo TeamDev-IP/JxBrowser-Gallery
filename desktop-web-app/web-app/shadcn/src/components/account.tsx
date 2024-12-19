@@ -48,31 +48,27 @@ export function Account() {
             <h1 className="text-2xl font-semibold">Account</h1>
             <Separator className="my-2 h-[1px] w-full"/>
             <EditableAvatar/>
-            <GuidingLine/>
             <EditableLabel title={"Email"} defaultValue={"johndoe@mail.com"} id={"email"}/>
-            <GuidingLine/>
             <EditableLabel title={"Full name"} defaultValue={"John Doe"} id={"fullname"}/>
             <GuidingLine/>
-            <div className="w-full inline-flex items-center space-y-2 justify-between">
+            <div className="w-full inline-flex items-center space-y-2 justify-between py-1">
                 <div className="pr-8">
-                    <p>Two-factor authentication</p>
-                    <p className="text-sm text-muted-foreground text-gray-500">
+                    <p className="text-sm">Two-factor authentication</p>
+                    <p className="text-xs text-muted-foreground text-gray-500">
                         Select an extra layer of security by requiring a code when logging in.
                     </p>
                 </div>
                 <Combobox options={authentications} defaultOption={"Email"}/>
             </div>
-            <GuidingLine/>
-            <div className="w-full inline-flex items-center justify-between">
+            <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">
-                    <p>Biometric authentication</p>
-                    <p className="text-sm text-muted-foreground text-gray-500">
+                    <p className="text-sm">Biometric authentication</p>
+                    <p className="text-xs text-muted-foreground text-gray-500">
                         Allow authentication via fingerprints or Face ID.
                     </p>
                 </div>
                 <GreenSwitch/>
             </div>
-            <GuidingLine/>
         </div>
     )
 }

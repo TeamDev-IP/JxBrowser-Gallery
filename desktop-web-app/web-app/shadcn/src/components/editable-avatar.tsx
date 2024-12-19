@@ -28,7 +28,7 @@ import {Upload} from "lucide-react";
 export function EditableAvatar() {
     return (
         <div className="w-full items-center flex justify-between">
-            <p>Avatar</p>
+            <p className="text-sm">Profile picture</p>
             <div
                 className="flex relative justify-center items-center group">
                 <Avatar

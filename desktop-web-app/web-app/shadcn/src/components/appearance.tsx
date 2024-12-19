@@ -41,12 +41,11 @@ export function Appearance() {
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Appearance</h1>
             <Separator className="my-4 h-[1px] w-full"/>
-            <div className="items-center flex-wrap space-y-4">
+            <div className="items-center flex-wrap space-y-4 py-1">
                 <div>
-                    <p>Theme</p>
-                    <p className="text-sm text-muted-foreground text-gray-500">
-                        Select a color theme for the app: light, dark, or match your system
-                        settings.
+                    <p className="text-sm">Theme</p>
+                    <p className="text-xs text-muted-foreground text-gray-500">
+                        The color theme for the application: light, dark, or match your system&nbsp;settings.
                     </p>
                 </div>
 
@@ -69,11 +68,10 @@ export function Appearance() {
                     }} icon={Laptop}/>
                 </div>
             </div>
-            <GuidingLine/>
-            <div className="w-full flex items-center space-y-2 justify-between">
+            <div className="w-full flex items-center space-y-2 justify-between py-2">
                 <div className="pr-8">
-                    <p>Font size</p>
-                    <p className="text-sm text-muted-foreground text-gray-500">
+                    <p className="text-sm">Font size</p>
+                    <p className="text-xs text-muted-foreground text-gray-500">
                         Adjust the size of the text in the application for better readability.
                     </p>
                 </div>
@@ -85,12 +83,11 @@ export function Appearance() {
                         max={24}
                         step={2}
                         onChange={(e) => setFont(Number(e.target.value))}
-                        className="text-center w-[70px]"
+                        className="text-center w-[70px] text-sm"
                         aria-label="Font size input"
                     />
                 </div>
             </div>
-            <GuidingLine/>
         </div>
     )
 }
