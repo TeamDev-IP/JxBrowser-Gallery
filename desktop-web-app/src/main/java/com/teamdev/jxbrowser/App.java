@@ -56,17 +56,12 @@ public final class App {
                 }
             });
 
-            var imageResource = App.class.getClassLoader()
-                                         .getResource("leaf.png");
-            var image = Toolkit.getDefaultToolkit()
-                               .getImage(imageResource);
+            var imageResource = App.class.getClassLoader().getResource("settings.png");
+            var image = Toolkit.getDefaultToolkit().getImage(imageResource);
 
             frame.setIconImage(image);
-            if (Taskbar.isTaskbarSupported() &&
-                    Taskbar.getTaskbar()
-                           .isSupported(ICON_IMAGE)) {
-                Taskbar.getTaskbar()
-                       .setIconImage(image);
+            if (Taskbar.isTaskbarSupported() && Taskbar.getTaskbar().isSupported(ICON_IMAGE)) {
+                Taskbar.getTaskbar().setIconImage(image);
             }
 
             frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
@@ -78,8 +73,7 @@ public final class App {
         });
 
         browser.set(InjectJsCallback.class, params -> {
-            JsObject window = params.frame()
-                                    .executeJavaScript("window");
+            JsObject window = params.frame().executeJavaScript("window");
             if (window != null) {
                 window.putProperty("rpcPort", RPC_PORT);
             }
@@ -87,8 +81,7 @@ public final class App {
         });
 
         if (!IS_PRODUCTION) {
-            browser.devTools()
-                   .show();
+            browser.devTools().show();
         }
 
         initRpc(browser);
@@ -115,8 +108,7 @@ public final class App {
 
         try (var server = serverBuilder.build()) {
             server.start();
-            browser.navigation()
-                   .loadUrl(APP_URL);
+            browser.navigation().loadUrl(APP_URL);
             server.blockUntilShutdown();
         }
     }
