@@ -17,6 +17,12 @@ module.exports = {
     		}
     	},
     	extend: {
+			fontSize: {
+				sm: ['var(--font-size-sm, 0.875rem)', { lineHeight: '1.25rem' }],
+				xs: ['var(--font-size-xs, 0.75rem)', { lineHeight: '1rem' }],
+				lg: ['var(--font-size-lg, 1.125rem)', { lineHeight: '1.75rem' }],
+				'2xl': ['var(--font-size-2xl, 1.5rem)', { lineHeight: '2rem' }],
+			},
 			screens: {
 				'xs': '520px'
 			},

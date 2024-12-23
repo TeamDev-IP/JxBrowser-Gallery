@@ -58,7 +58,7 @@ export function Account() {
                         Select an extra layer of security by requiring a code when logging in.
                     </p>
                 </div>
-                <Combobox options={authentications} defaultOption={"Email"}/>
+                <Combobox options={authentications} defaultOption={authentications[0].value}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">

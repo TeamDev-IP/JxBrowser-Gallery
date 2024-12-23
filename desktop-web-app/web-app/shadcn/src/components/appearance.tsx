@@ -25,8 +25,22 @@ import {useState} from "react";
 import {useTheme} from "@/components/theme-provider.tsx";
 import {Laptop, Moon, Sun} from "lucide-react";
 import {ThemeBox} from "@/components/theme-box.tsx";
-import {Input} from "@/components/ui/input.tsx";
-import {GuidingLine} from "@/components/guiding-line.tsx";
+import {Combobox, Option} from "@/components/combobox.tsx";
+
+const fonts: Option[] = [
+    {
+        value: "small",
+        label: "Small",
+    },
+    {
+        value: "default",
+        label: "Default",
+    },
+    {
+        value: "large",
+        label: "Large",
+    },
+]
 
 export function Appearance() {
     const {theme} = useTheme()
@@ -35,7 +49,13 @@ export function Appearance() {
     const [isDark, setIsDark] = useState(theme === "dark");
     const [isSystem, setIsSystem] = useState(theme === "system");
 
-    const [font, setFont] = useState(18);
+    function adjustFontSize(factor: number) {
+        const style = document.documentElement.style;
+        style.setProperty('--font-size-sm', `${0.875 * factor}rem`);
+        style.setProperty('--font-size-xs', `${0.75 * factor}rem`);
+        style.setProperty('--font-size-lg', `${1.125 * factor}rem`);
+        style.setProperty('--font-size-2xl', `${1.5 * factor}rem`);
+    }
 
     return (
         <div className="space-y-4">
@@ -45,7 +65,8 @@ export function Appearance() {
                 <div>
                     <p className="text-sm">Theme</p>
                     <p className="text-xs text-muted-foreground text-gray-500">
-                        The color theme for the application: light, dark, or match your system&nbsp;settings.
+                        The color theme for the application: light, dark, or match your
+                        system&nbsp;settings.
                     </p>
                 </div>
 
@@ -75,18 +96,15 @@ export function Appearance() {
                         Adjust the size of the text in the application for better readability.
                     </p>
                 </div>
-                <div className="items-center">
-                    <Input
-                        type="number"
-                        defaultValue={font}
-                        min={14}
-                        max={24}
-                        step={2}
-                        onChange={(e) => setFont(Number(e.target.value))}
-                        className="text-center w-[70px] text-sm"
-                        aria-label="Font size input"
-                    />
-                </div>
+                <Combobox options={fonts} onClick={(value)=> {
+                    if (value==="small") {
+                        adjustFontSize(0.8);
+                    }else if(value === "default") {
+                        adjustFontSize(1.0);
+                    } else {
+                        adjustFontSize(1.2);
+                    }
+                }} defaultOption={fonts[1].value}/>
             </div>
         </div>
     )

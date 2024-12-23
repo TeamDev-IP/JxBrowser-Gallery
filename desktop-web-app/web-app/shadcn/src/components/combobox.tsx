@@ -35,25 +35,24 @@ export declare type Option = {
 interface ComboboxProps {
     options: Option[],
     defaultOption: string
+    onClick: (value: string) => void
 }
 
-export function Combobox({options, defaultOption}: ComboboxProps) {
+export function Combobox({options, defaultOption, onClick}: ComboboxProps) {
     const [open, setOpen] = useState(false)
-    const [value, setValue] = useState("")
+    const [value, setValue] = useState(defaultOption)
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
+            <PopoverTrigger className={"w-[130px]"} asChild>
                 <Button
                     variant="outline"
                     role="combobox"
                     size="sm"
                     aria-expanded={open}
-                    className="w-[120px] justify-between"
+                    className="min-w-[120px] justify-between"
                 >
-                    {value
-                        ? options.find((it) => it.value === value)?.label
-                        : defaultOption}
+                    {options.find((it) => it.value === value)?.label}
                     <ChevronsUpDown className="h-4 opacity-50"/>
                 </Button>
             </PopoverTrigger>
@@ -63,11 +62,12 @@ export function Combobox({options, defaultOption}: ComboboxProps) {
                         <CommandGroup>
                             {options.map((it) => (
                                 <CommandItem
-                                    className={"h-[30px] "}
+                                    className={"h-[30px]"}
                                     key={it.value}
                                     value={it.value}
                                     onSelect={(currentValue) => {
                                         setValue(currentValue === value ? "" : currentValue)
+                                        onClick(currentValue)
                                         setOpen(false)
                                     }}
                                 >

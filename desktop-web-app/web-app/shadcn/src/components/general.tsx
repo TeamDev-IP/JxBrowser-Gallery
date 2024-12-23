@@ -23,7 +23,6 @@
 import {Separator} from "@/components/ui/separator.tsx";
 import {Combobox, Option} from "@/components/combobox.tsx";
 import {GreenSwitch} from "@/components/green-switch.tsx";
-import {GuidingLine} from "@/components/guiding-line.tsx";
 
 const languages: Option[] = [
     {
@@ -66,7 +65,7 @@ export function General() {
                         Choose the language for the application’s interface.
                     </p>
                 </div>
-                <Combobox options={languages} defaultOption={"English"}/>
+                <Combobox options={languages} defaultOption={languages[0].value}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">
