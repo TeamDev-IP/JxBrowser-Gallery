@@ -15,8 +15,8 @@ import com.teamdev.jxbrowser.js.JsObject;
 import com.teamdev.jxbrowser.license.internal.LicenseProvider;
 import com.teamdev.jxbrowser.logging.Level;
 import com.teamdev.jxbrowser.logging.Logger;
+import com.teamdev.jxbrowser.preferences.AppPreferencesService;
 import com.teamdev.jxbrowser.production.UrlRequestInterceptor;
-import com.teamdev.jxbrowser.task.TaskService;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
 
 import javax.swing.*;
@@ -39,7 +39,8 @@ public final class App {
         System.setProperty("jxbrowser.logging.file", "jxbrowser.log");
         Logger.level(Level.DEBUG);
         var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
-                .licenseKey(LicenseProvider.INSTANCE.getKey());
+                .licenseKey(LicenseProvider.INSTANCE.getKey())
+                .addScheme(SCHEME, new UrlRequestInterceptor());
         if (IS_PRODUCTION) {
             optionsBuilder.addScheme(SCHEME, new UrlRequestInterceptor());
         }
@@ -88,8 +89,7 @@ public final class App {
     }
 
     private static void initRpc(Browser browser) throws InterruptedException {
-        var serverBuilder = Server.builder()
-                .http(RPC_PORT);
+        var serverBuilder = Server.builder().http(RPC_PORT);
         var corsBuilder = CorsService.builder(APP_URL)
                 .allowRequestMethods(HttpMethod.POST)
                 .allowRequestHeaders(
@@ -101,7 +101,7 @@ public final class App {
                         GrpcHeaderNames.ARMERIA_GRPC_THROWABLEPROTO_BIN);
 
         serverBuilder.service(GrpcService.builder()
-                        .addService(new TaskService())
+                        .addService(new AppPreferencesService())
                         .build(),
                 corsBuilder.newDecorator(),
                 LoggingService.newDecorator());
