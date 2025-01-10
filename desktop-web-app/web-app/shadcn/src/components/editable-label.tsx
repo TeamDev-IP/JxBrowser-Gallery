@@ -22,21 +22,55 @@
 
 
 import {Input} from "@/components/ui/input.tsx";
+import {ChangeEventHandler, useState} from "react";
+
+export enum EditableLabelType {
+    EMAIL,
+    TEXT
+}
 
 interface Props {
     title: string
     defaultValue: string
     id: string
+    type: EditableLabelType,
+    onChange: (value: string) => void
 }
 
-export function EditableLabel({title, defaultValue, id}: Props) {
+export function EditableLabel({title, defaultValue, id, type, onChange}: Props) {
+    const [isValid, setIsValid] = useState(true);
+
+    const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+        const value = e.target.value;
+        if (type === EditableLabelType.EMAIL) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isValid = emailRegex.test(value);
+            setIsValid(isValid);
+        }
+    };
     return (
         <div className="w-full items-center space-y-2">
             <div className="w-full sm:flex items-center space-y-1 justify-between">
                 <p className="text-sm">{title}</p>
-                <Input className={"xs:w-full sm:w-[50%] lg:w-[30%] text-sm"}
-                       id={id}
-                       defaultValue={defaultValue}/>
+                <div className={"xs:w-full sm:w-[50%] lg:w-[30%]"}>
+                    <Input type={type === EditableLabelType.EMAIL ? "email" : "text"}
+                           className={`w-full text-sm ${!isValid && "bg-red-300"}`}
+                           id={id}
+                           onBlur={(event) => {
+                               if (isValid) {
+                                   onChange(event.target.value)
+                               } else {
+                                   event.target.value = defaultValue;
+                                   setIsValid(true);
+                               }
+                           }}
+                           onChange={handleInputChange}
+                           defaultValue={defaultValue}/>
+                    {!isValid && (
+                        <span
+                            className="text-xs text-red-500">Please enter a valid email address.</span>
+                    )}
+                </div>
             </div>
         </div>
     );

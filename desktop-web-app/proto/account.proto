@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.teamdev.jxbrowser.preferences;
+
+message Account {
+//  ProfilePicture profile_picture = 1;
+  string email = 2;
+  string full_name = 3;
+  TwoFactorAuthentication two_factor_authentication = 4;
+  bool biometric_authentication = 5;
+}
+
+message ProfilePicture {
+  string extension = 1;
+  string src = 2;
+  bytes content = 3;
+}
+
+enum TwoFactorAuthentication {
+  EMAIL = 0;
+  SMS = 1;
+  PASS_KEY = 2;
+}

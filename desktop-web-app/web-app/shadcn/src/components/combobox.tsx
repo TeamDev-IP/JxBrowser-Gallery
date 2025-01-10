@@ -33,14 +33,15 @@ export declare type Option = {
 }
 
 interface ComboboxProps {
-    options: Option[],
+    options: string[],
     defaultOption: string
-    onClick: (value: string) => void
+    onSelect: (value: string) => void
 }
 
-export function Combobox({options, defaultOption, onClick}: ComboboxProps) {
+export function Combobox({options, defaultOption, onSelect}: ComboboxProps) {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState(defaultOption)
+    const [wasChanged, setWasChanged] = useState(false)
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -52,7 +53,7 @@ export function Combobox({options, defaultOption, onClick}: ComboboxProps) {
                     aria-expanded={open}
                     className="min-w-[120px] justify-between"
                 >
-                    {options.find((it) => it.value === value)?.label}
+                    {wasChanged ? value : defaultOption}
                     <ChevronsUpDown className="h-4 opacity-50"/>
                 </Button>
             </PopoverTrigger>
@@ -63,19 +64,20 @@ export function Combobox({options, defaultOption, onClick}: ComboboxProps) {
                             {options.map((it) => (
                                 <CommandItem
                                     className={"h-[30px]"}
-                                    key={it.value}
-                                    value={it.value}
+                                    key={it}
+                                    value={it}
                                     onSelect={(currentValue) => {
                                         setValue(currentValue === value ? "" : currentValue)
-                                        onClick(currentValue)
+                                        onSelect(currentValue)
+                                        setWasChanged(true);
                                         setOpen(false)
                                     }}
                                 >
-                                    {it.label}
+                                    {it}
                                     <Check
                                         className={cn(
                                             "ml-auto",
-                                            value === it.value ? "opacity-100" : "opacity-0"
+                                            value === it ? "opacity-100" : "opacity-0"
                                         )}
                                     />
                                 </CommandItem>

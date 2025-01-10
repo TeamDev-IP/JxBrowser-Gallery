@@ -9,7 +9,7 @@ import {
     SidebarMenu,
     SidebarProvider
 } from "@/components/ui/sidebar.tsx";
-import {Account} from "@/components/account.tsx";
+import {UserAccount} from "@/components/user-account.tsx";
 import {General} from "@/components/general.tsx";
 import {Appearance} from "@/components/appearance.tsx";
 import {NavigationItem} from "@/components/navigation-item.tsx";
@@ -46,7 +46,7 @@ function App() {
                     <div className="w-full">
                         <Router>
                             <Routes>
-                                <Route path={"/"} element={<Account/>}/>
+                                <Route path={"/"} element={<UserAccount/>}/>
                                 <Route path={"/prefs/general"} element={<General/>}/>
                                 <Route path={"/prefs/appearance"} element={<Appearance/>}/>
                                 <Route path={"/prefs/notifications"} element={<Notifications/>}/>

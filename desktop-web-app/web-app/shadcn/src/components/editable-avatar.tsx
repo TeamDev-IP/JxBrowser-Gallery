@@ -24,18 +24,42 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {cn} from "@/lib/utils.ts";
 import {Upload} from "lucide-react";
+import {useRef} from "react";
 
-export function EditableAvatar() {
+interface AvatarProps {
+    pictureSrc: string
+    fallback: string
+    onChange: (file: File) => void
+}
+
+export function EditableAvatar({pictureSrc, fallback, onChange}: AvatarProps) {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
     return (
         <div className="w-full items-center flex justify-between">
             <p className="text-sm">Profile picture</p>
-            <div
-                className="flex relative justify-center items-center group">
+            <div onClick={() => {
+                console.log("avatar.clicked")
+                fileInputRef.current?.click();
+            }}
+                 className="flex relative justify-center items-center group">
                 <Avatar
                     className="group-hover:opacity-50 transition-colors duration-200 object-cover">
-                    <AvatarImage src="https://github.com/shadcn.png"/>
-                    <AvatarFallback>JD</AvatarFallback>
+                    <AvatarImage src={pictureSrc}/>
+                    <AvatarFallback>{fallback}</AvatarFallback>
                 </Avatar>
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        const file = event.target.files?.[0];
+                        if (file) {
+                            onChange(file);
+                        }
+                    }}
+                />
                 <div className={cn(
                     "absolute inset-0 flex items-center justify-center text-white text-sm font-medium opacity-0 transition-opacity group-hover:opacity-100"
                 )}>

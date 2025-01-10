@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package com.teamdev.jxbrowser.preferences;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "account.proto";
+
+service AppPreferencesService {
+  rpc GetAccount(google.protobuf.Empty) returns (Account);
+  rpc SetAccount(Account) returns (google.protobuf.BoolValue);
+  rpc SetProfilePicture(ProfilePicture) returns (google.protobuf.Empty);
+  rpc GetProfilePicture(google.protobuf.Empty) returns (google.protobuf.BytesValue);
+}

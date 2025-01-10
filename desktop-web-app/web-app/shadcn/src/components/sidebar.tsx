@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/sidebar.tsx";
 import {Bell, Settings, SquareUser, SunMoon} from "lucide-react";
 import {NavigationItem} from "@/components/navigation-item.tsx";
-import {Account} from "@/components/account.tsx";
+import {UserAccount} from "@/components/userAccount.tsx";
 import {Route, Routes} from "react-router-dom";
 import {Appearance} from "@/components/appearance.tsx";
 import {General} from "@/components/general.tsx";
@@ -67,7 +67,7 @@ export function LeftSidebar() {
                 <SidebarTrigger/>
                 <div className=" w-full px-20 py-10 sm:w-3/4 md:w-1/2 lg:w-3/4">
                     <Routes>
-                        <Route path={"/"} element={<Account/>}/>
+                        <Route path={"/"} element={<UserAccount/>}/>
                         <Route path={"/prefs/general"} element={<General/>}/>
                         <Route path={"/prefs/appearance"} element={<Appearance/>}/>
                         <Route path={"/prefs/notifications"} element={<Notifications/>}/>
