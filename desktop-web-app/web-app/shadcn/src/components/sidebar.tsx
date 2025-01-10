@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/sidebar.tsx";
 import {Bell, Settings, SquareUser, SunMoon} from "lucide-react";
 import {NavigationItem} from "@/components/navigation-item.tsx";
-import {UserAccount} from "@/components/userAccount.tsx";
+import {UserAccount} from "@/components/user-account.tsx";
 import {Route, Routes} from "react-router-dom";
 import {Appearance} from "@/components/appearance.tsx";
 import {General} from "@/components/general.tsx";

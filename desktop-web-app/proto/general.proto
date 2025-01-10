@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package com.teamdev.jxbrowser.preferences;
+
+message General {
+  bool launch_at_startup = 1;
+  Language language = 2;
+  bool check_for_updates = 3;
+}
+
+enum Language {
+  ENGLISH = 0;
+  GERMAN = 1;
+  FRENCH = 2;
+}

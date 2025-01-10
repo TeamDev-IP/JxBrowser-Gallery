@@ -2,6 +2,7 @@ import {createGrpcWebTransport} from "@connectrpc/connect-web";
 import {createCallbackClient} from "@connectrpc/connect";
 import {Account, ProfilePicture} from "@/gen/account_pb.ts";
 import {AppPreferencesService} from "@/gen/app_preferences_pb.ts";
+import {General} from "@/gen/general_pb.ts";
 
 // A port for RPC communication passed obtained from the server side via
 // the JxBrowser Java-Js bridge.
@@ -36,9 +37,23 @@ function getProfilePicture(callback?: (src: Uint8Array) => void) {
     });
 }
 
+function setGeneral(newGeneralPrefs: General, callback?: () => void) {
+    appPreferencesClient.setGeneral(newGeneralPrefs, (_err) => {
+        callback && callback();
+    });
+}
+
+function getGeneral(callback?: (generalPrefs: General) => void) {
+    appPreferencesClient.getGeneral({}, (_err, res) => {
+        callback && callback(res);
+    });
+}
+
 export {
     getAccount,
     setAccount,
     setProfilePicture,
-    getProfilePicture
+    getProfilePicture,
+    setGeneral,
+    getGeneral
 }

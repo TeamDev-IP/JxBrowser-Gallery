@@ -34,14 +34,12 @@ export declare type Option = {
 
 interface ComboboxProps {
     options: string[],
-    defaultOption: string
+    currentOption: string
     onSelect: (value: string) => void
 }
 
-export function Combobox({options, defaultOption, onSelect}: ComboboxProps) {
+export function Combobox({options, currentOption, onSelect}: ComboboxProps) {
     const [open, setOpen] = useState(false)
-    const [value, setValue] = useState(defaultOption)
-    const [wasChanged, setWasChanged] = useState(false)
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -53,7 +51,7 @@ export function Combobox({options, defaultOption, onSelect}: ComboboxProps) {
                     aria-expanded={open}
                     className="min-w-[120px] justify-between"
                 >
-                    {wasChanged ? value : defaultOption}
+                    {currentOption}
                     <ChevronsUpDown className="h-4 opacity-50"/>
                 </Button>
             </PopoverTrigger>
@@ -67,9 +65,7 @@ export function Combobox({options, defaultOption, onSelect}: ComboboxProps) {
                                     key={it}
                                     value={it}
                                     onSelect={(currentValue) => {
-                                        setValue(currentValue === value ? "" : currentValue)
                                         onSelect(currentValue)
-                                        setWasChanged(true);
                                         setOpen(false)
                                     }}
                                 >
@@ -77,7 +73,7 @@ export function Combobox({options, defaultOption, onSelect}: ComboboxProps) {
                                     <Check
                                         className={cn(
                                             "ml-auto",
-                                            value === it ? "opacity-100" : "opacity-0"
+                                            currentOption === it ? "opacity-100" : "opacity-0"
                                         )}
                                     />
                                 </CommandItem>

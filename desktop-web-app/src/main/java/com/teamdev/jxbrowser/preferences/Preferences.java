@@ -23,11 +23,13 @@
 package com.teamdev.jxbrowser.preferences;
 
 import com.teamdev.jxbrowser.preferences.AccountOuterClass.Account;
+import com.teamdev.jxbrowser.preferences.GeneralOuterClass.General;
 
 public final class Preferences {
 
     private byte[] profilePicture;
     private Account account;
+    private General general;
 
     public byte[] profilePicture() {
         return profilePicture;
@@ -43,5 +45,13 @@ public final class Preferences {
 
     public void account(Account account) {
         this.account = account;
+    }
+
+    public General general() {
+        return general;
+    }
+
+    public void general(General general) {
+        this.general = general;
     }
 }

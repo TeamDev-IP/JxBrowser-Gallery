@@ -22,7 +22,6 @@
 
 package com.teamdev.jxbrowser.preferences;
 
-import com.google.protobuf.BoolValue;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.BytesValue;
 import com.google.protobuf.Empty;
@@ -35,10 +34,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import static com.teamdev.jxbrowser.preferences.AccountOuterClass.TwoFactorAuthentication.EMAIL;
-import static com.teamdev.jxbrowser.preferences.AppPreferencesFile.APP_PREFERENCES_FILE;
+import static com.teamdev.jxbrowser.preferences.PreferencesFile.APP_PREFERENCES_FILE;
 
-public final class AppPreferencesService extends AppPreferencesServiceImplBase {
-    private static Preferences appPreferences;
+public final class PreferencesService extends AppPreferencesServiceImplBase {
+
+    private static final Preferences appPreferences;
 
     static {
         if (!APP_PREFERENCES_FILE.exists()) {
@@ -52,12 +52,12 @@ public final class AppPreferencesService extends AppPreferencesServiceImplBase {
                         .build();
                 appPreferences = new Preferences();
                 appPreferences.account(user);
-                AppPreferencesFile.write(appPreferences);
+                PreferencesFile.write(appPreferences);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         } else {
-            appPreferences = AppPreferencesFile.read();
+            appPreferences = PreferencesFile.read();
         }
     }
 
@@ -68,12 +68,9 @@ public final class AppPreferencesService extends AppPreferencesServiceImplBase {
     }
 
     @Override
-    public void setAccount(Account request, StreamObserver<BoolValue> responseObserver) {
+    public void setAccount(Account request, StreamObserver<Empty> responseObserver) {
         appPreferences.account(request);
-        AppPreferencesFile.write(appPreferences);
-        responseObserver.onNext(BoolValue.newBuilder()
-                .setValue(true)
-                .build());
+        PreferencesFile.write(appPreferences);
         responseObserver.onCompleted();
     }
 
@@ -81,7 +78,7 @@ public final class AppPreferencesService extends AppPreferencesServiceImplBase {
     public void setProfilePicture(ProfilePicture request, StreamObserver<Empty> responseObserver) {
         byte[] content = request.getContent().toByteArray();
         appPreferences.profilePicture(content);
-        AppPreferencesFile.write(appPreferences);
+        PreferencesFile.write(appPreferences);
         responseObserver.onCompleted();
     }
 
@@ -90,6 +87,19 @@ public final class AppPreferencesService extends AppPreferencesServiceImplBase {
         responseObserver.onNext(BytesValue.newBuilder()
                 .setValue(ByteString.copyFrom(appPreferences.profilePicture()))
                 .build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void setGeneral(GeneralOuterClass.General request, StreamObserver<Empty> responseObserver) {
+        appPreferences.general(request);
+        PreferencesFile.write(appPreferences);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getGeneral(Empty request, StreamObserver<GeneralOuterClass.General> responseObserver) {
+        responseObserver.onNext(appPreferences.general());
         responseObserver.onCompleted();
     }
 }

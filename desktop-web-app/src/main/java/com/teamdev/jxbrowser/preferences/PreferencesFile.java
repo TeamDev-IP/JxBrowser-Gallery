@@ -29,11 +29,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public final class AppPreferencesFile {
+public final class PreferencesFile {
 
     static final File APP_PREFERENCES_FILE = new File("preferences.json");
 
-    private AppPreferencesFile() {
+    private PreferencesFile() {
 
     }
 

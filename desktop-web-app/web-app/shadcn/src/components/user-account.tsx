@@ -32,7 +32,7 @@ import {
     getProfilePicture,
     setAccount,
     setProfilePicture
-} from "@/rpc/account-service.ts";
+} from "@/rpc/app-preferences-service.ts";
 import {AccountSchema, ProfilePictureSchema, TwoFactorAuthentication} from "@/gen/account_pb.ts";
 import {create} from "@bufbuild/protobuf";
 
@@ -57,7 +57,7 @@ function twoFactorAuthenticationString(value: TwoFactorAuthentication): string {
     } else if (value === TwoFactorAuthentication.PASS_KEY) {
         return "Passkey";
     } else {
-        return "";
+        throw new TypeError("Incorrect two-factor authentication.");
     }
 }
 
@@ -147,13 +147,16 @@ export function UserAccount() {
                 <Combobox onSelect={value => {
                     if (twoFactorAuthenticationString(TwoFactorAuthentication.EMAIL) === value) {
                         updateAccountData({twoFactorAuthentication: TwoFactorAuthentication.EMAIL});
+                        setUserTwoFactorAuthentication(TwoFactorAuthentication.EMAIL);
                     } else if (twoFactorAuthenticationString(TwoFactorAuthentication.SMS) === value) {
                         updateAccountData({twoFactorAuthentication: TwoFactorAuthentication.SMS});
+                        setUserTwoFactorAuthentication(TwoFactorAuthentication.SMS);
                     } else {
                         updateAccountData({twoFactorAuthentication: TwoFactorAuthentication.PASS_KEY});
+                        setUserTwoFactorAuthentication(TwoFactorAuthentication.PASS_KEY);
                     }
                 }} options={authentications}
-                          defaultOption={twoFactorAuthenticationString(userTwoFactorAuthentication)}/>
+                          currentOption={twoFactorAuthenticationString(userTwoFactorAuthentication)}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">

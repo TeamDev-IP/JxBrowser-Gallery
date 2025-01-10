@@ -5,10 +5,15 @@ package com.teamdev.jxbrowser.preferences;
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/empty.proto";
 import "account.proto";
+import "general.proto";
 
 service AppPreferencesService {
   rpc GetAccount(google.protobuf.Empty) returns (Account);
-  rpc SetAccount(Account) returns (google.protobuf.BoolValue);
+  rpc SetAccount(Account) returns (google.protobuf.Empty);
+
   rpc SetProfilePicture(ProfilePicture) returns (google.protobuf.Empty);
   rpc GetProfilePicture(google.protobuf.Empty) returns (google.protobuf.BytesValue);
+
+  rpc SetGeneral(General) returns (google.protobuf.Empty);
+  rpc GetGeneral(google.protobuf.Empty) returns (General);
 }

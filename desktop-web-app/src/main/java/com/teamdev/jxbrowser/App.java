@@ -15,7 +15,7 @@ import com.teamdev.jxbrowser.js.JsObject;
 import com.teamdev.jxbrowser.license.internal.LicenseProvider;
 import com.teamdev.jxbrowser.logging.Level;
 import com.teamdev.jxbrowser.logging.Logger;
-import com.teamdev.jxbrowser.preferences.AppPreferencesService;
+import com.teamdev.jxbrowser.preferences.PreferencesService;
 import com.teamdev.jxbrowser.production.UrlRequestInterceptor;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
 
@@ -101,7 +101,7 @@ public final class App {
                         GrpcHeaderNames.ARMERIA_GRPC_THROWABLEPROTO_BIN);
 
         serverBuilder.service(GrpcService.builder()
-                        .addService(new AppPreferencesService())
+                        .addService(new PreferencesService())
                         .build(),
                 corsBuilder.newDecorator(),
                 LoggingService.newDecorator());
