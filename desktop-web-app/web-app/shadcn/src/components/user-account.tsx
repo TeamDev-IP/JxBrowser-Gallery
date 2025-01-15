@@ -35,29 +35,49 @@ import {
 } from "@/rpc/app-preferences-service.ts";
 import {AccountSchema, ProfilePictureSchema, TwoFactorAuthentication} from "@/gen/account_pb.ts";
 import {create} from "@bufbuild/protobuf";
+import {
+    biometricAuthenticationFromStorage,
+    saveBiometricAuthenticationInStorage,
+    saveTfaInStorage,
+    tfaEmail,
+    tfaFromStorage,
+    TfaMethod,
+    tfaPasskey,
+    tfaSms
+} from "@/storage/authentications.ts";
 
-const authentications: string[] = [
-    twoFactorAuthenticationString(TwoFactorAuthentication.EMAIL),
-    twoFactorAuthenticationString(TwoFactorAuthentication.SMS),
-    twoFactorAuthenticationString(TwoFactorAuthentication.PASS_KEY),
+const authentications: TfaMethod[] = [
+    tfaEmail,
+    tfaSms,
+    tfaPasskey
 ]
 
-type UpdateAccountData = {
+type UpdateAccountParams = {
     fullName?: string;
     email?: string;
-    twoFactorAuthentication?: TwoFactorAuthentication;
+    twoFactorAuthentication?: TfaMethod;
     biometricAuthentication?: boolean
 };
 
-function twoFactorAuthenticationString(value: TwoFactorAuthentication): string {
+function tfaMethod(value: TwoFactorAuthentication): TfaMethod {
     if (value === TwoFactorAuthentication.EMAIL) {
-        return "Email";
+        return tfaEmail;
     } else if (value === TwoFactorAuthentication.SMS) {
-        return "SMS";
+        return tfaSms;
     } else if (value === TwoFactorAuthentication.PASS_KEY) {
-        return "Passkey";
+        return tfaPasskey;
     } else {
         throw new TypeError("Incorrect two-factor authentication.");
+    }
+}
+
+function tfaEnum(value: TfaMethod): TwoFactorAuthentication {
+    if (value === tfaEmail) {
+        return TwoFactorAuthentication.EMAIL;
+    } else if (value === tfaSms) {
+        return TwoFactorAuthentication.SMS;
+    } else {
+        return TwoFactorAuthentication.PASS_KEY;
     }
 }
 
@@ -66,22 +86,31 @@ export function UserAccount() {
     const [userFullName, setUserFullName] = useState<string>("");
     const [userEmail, setUserEmail] = useState<string>("");
     const [userTwoFactorAuthentication, setUserTwoFactorAuthentication] =
-        useState<TwoFactorAuthentication>(TwoFactorAuthentication.EMAIL);
-    const [userBiometricAuthentication, setUserBiometricAuthentication] = useState<boolean>(false);
+        useState<TfaMethod>(tfaFromStorage());
+    const [userBiometricAuthentication, setUserBiometricAuthentication] =
+        useState<boolean>(biometricAuthenticationFromStorage());
+
+    const pictureDataUri = (contentBytes: Uint8Array) => {
+        const base64String = btoa(
+            String.fromCharCode(...contentBytes)
+        );
+        return `data:image/png;base64,${base64String}`;
+    }
 
     useEffect(() => {
         getAccount(account => {
             setUserEmail(account.email);
             setUserFullName(account.fullName);
-            setUserTwoFactorAuthentication(account.twoFactorAuthentication);
+
+            const tfaMethodValue = tfaMethod(account.twoFactorAuthentication);
+            setUserTwoFactorAuthentication(tfaMethodValue);
             setUserBiometricAuthentication(account.biometricAuthentication);
+
+            saveTfaInStorage(tfaMethodValue);
+            saveBiometricAuthenticationInStorage(account.biometricAuthentication);
         });
         getProfilePicture(contentBytes => {
-            const base64String = btoa(
-                String.fromCharCode(...contentBytes)
-            );
-            const pictureDataUri = `data:image/png;base64,${base64String}`;
-            setUserProfilePicture(pictureDataUri);
+            setUserProfilePicture(pictureDataUri(contentBytes));
         })
     }, []);
 
@@ -90,14 +119,16 @@ export function UserAccount() {
                                    email = userEmail,
                                    twoFactorAuthentication = userTwoFactorAuthentication,
                                    biometricAuthentication = userBiometricAuthentication
-                               }: UpdateAccountData) => {
+                               }: UpdateAccountParams) => {
         const newAccount = create(AccountSchema, {
             fullName,
             email,
-            twoFactorAuthentication,
+            twoFactorAuthentication: tfaEnum(twoFactorAuthentication),
             biometricAuthentication
         });
         setAccount(newAccount);
+        saveTfaInStorage(twoFactorAuthentication);
+        saveBiometricAuthenticationInStorage(biometricAuthentication);
     };
 
     return (
@@ -112,30 +143,23 @@ export function UserAccount() {
                         content: new Uint8Array(reader.result as ArrayBuffer)
                     });
                     setProfilePicture(newProfilePicture, () => {
-                        const base64String = btoa(
-                            String.fromCharCode(...newProfilePicture.content)
-                        );
-                        const pictureDataUri = `data:image/png;base64,${base64String}`;
-                        setUserProfilePicture(pictureDataUri);
+                        setUserProfilePicture(pictureDataUri(newProfilePicture.content));
                     })
                 };
                 reader.readAsArrayBuffer(file);
-            }}
-                            pictureSrc={userProfilePicture}
+            }} pictureSrc={userProfilePicture}
                             fallback={userFullName.split(" ").map(it => it[0]).join("")}/>
             <EditableLabel title={"Email"} type={EditableLabelType.EMAIL}
                            onChange={(value) => {
                                setUserEmail(value);
                                updateAccountData({email: value});
-                           }}
-                           defaultValue={userEmail} id={"email"}/>
+                           }} defaultValue={userEmail} id={"email"}/>
             <EditableLabel title={"Full name"} type={EditableLabelType.TEXT}
                            defaultValue={userFullName}
                            onChange={(value) => {
                                setUserFullName(value);
                                updateAccountData({fullName: value});
-                           }
-                           } id={"fullname"}/>
+                           }} id={"fullname"}/>
             <GuidingLine/>
             <div className="w-full inline-flex items-center space-y-2 justify-between py-1">
                 <div className="pr-8">
@@ -145,18 +169,10 @@ export function UserAccount() {
                     </p>
                 </div>
                 <Combobox onSelect={value => {
-                    if (twoFactorAuthenticationString(TwoFactorAuthentication.EMAIL) === value) {
-                        updateAccountData({twoFactorAuthentication: TwoFactorAuthentication.EMAIL});
-                        setUserTwoFactorAuthentication(TwoFactorAuthentication.EMAIL);
-                    } else if (twoFactorAuthenticationString(TwoFactorAuthentication.SMS) === value) {
-                        updateAccountData({twoFactorAuthentication: TwoFactorAuthentication.SMS});
-                        setUserTwoFactorAuthentication(TwoFactorAuthentication.SMS);
-                    } else {
-                        updateAccountData({twoFactorAuthentication: TwoFactorAuthentication.PASS_KEY});
-                        setUserTwoFactorAuthentication(TwoFactorAuthentication.PASS_KEY);
-                    }
+                    updateAccountData({twoFactorAuthentication: value as TfaMethod});
+                    setUserTwoFactorAuthentication(value as TfaMethod);
                 }} options={authentications}
-                          currentOption={twoFactorAuthenticationString(userTwoFactorAuthentication)}/>
+                          currentOption={userTwoFactorAuthentication}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">

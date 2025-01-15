@@ -27,41 +27,70 @@ import {useEffect, useState} from "react";
 import {GeneralSchema, Language} from "@/gen/general_pb.ts";
 import {getGeneral, setGeneral} from "@/rpc/app-preferences-service.ts";
 import {create} from "@bufbuild/protobuf";
+import {
+    checkForUpdatesFromStorage,
+    englishLanguage,
+    frenchLanguage,
+    germanLanguage,
+    languageFromStorage,
+    LanguageOption,
+    launchAtStartupFromStorage,
+    saveCheckForUpdatesInStorage,
+    saveLanguageInStorage,
+    saveLaunchAtStartupInStorage
+} from "@/storage/general.ts";
 
-const languages: string[] = [
-    languageString(Language.ENGLISH),
-    languageString(Language.GERMAN),
-    languageString(Language.FRENCH),
+const languages: LanguageOption[] = [
+    englishLanguage,
+    germanLanguage,
+    frenchLanguage
 ]
 
-function languageString(value: Language): string {
+function languageString(value: Language): LanguageOption {
     if (value === Language.ENGLISH) {
-        return "English";
+        return englishLanguage;
     } else if (value === Language.GERMAN) {
-        return "German";
+        return germanLanguage;
     } else if (value === Language.FRENCH) {
-        return "French";
+        return frenchLanguage;
     } else {
         throw new TypeError("Incorrect language.");
     }
 }
 
+function languageEnum(value: LanguageOption): Language {
+    if (value === englishLanguage) {
+        return Language.ENGLISH;
+    } else if (value === germanLanguage) {
+        return Language.GERMAN;
+    } else {
+        return Language.FRENCH;
+    }
+}
+
 type GeneralPreferences = {
     launchAtStartup?: boolean;
-    language?: Language;
+    language?: LanguageOption;
     checkForUpdates?: boolean;
 };
 
 export function General() {
-    const [launchAtStartupPref, setLaunchAtStartupPref] = useState<boolean>(false);
-    const [languagePref, setLanguagePref] = useState<Language>(Language.ENGLISH);
-    const [checkForUpdatesPref, setCheckForUpdatesPref] = useState<boolean>(false);
+    const [launchAtStartupPref, setLaunchAtStartupPref] =
+        useState<boolean>(launchAtStartupFromStorage());
+    const [languagePref, setLanguagePref] =
+        useState<LanguageOption>(languageFromStorage());
+    const [checkForUpdatesPref, setCheckForUpdatesPref] =
+        useState<boolean>(checkForUpdatesFromStorage());
 
     useEffect(() => {
         getGeneral(generalPrefs => {
             setLaunchAtStartupPref(generalPrefs.launchAtStartup);
-            setLanguagePref(generalPrefs.language);
+            setLanguagePref(languageString(generalPrefs.language));
             setCheckForUpdatesPref(generalPrefs.checkForUpdates);
+
+            saveLaunchAtStartupInStorage(generalPrefs.launchAtStartup);
+            saveCheckForUpdatesInStorage(generalPrefs.checkForUpdates);
+            saveLanguageInStorage(languageString(generalPrefs.language))
         });
     }, []);
 
@@ -72,9 +101,12 @@ export function General() {
                            }: GeneralPreferences) => {
         const newGeneralPrefs = create(GeneralSchema, {
             launchAtStartup,
-            language,
+            language: languageEnum(language),
             checkForUpdates
         });
+        saveLanguageInStorage(language);
+        saveCheckForUpdatesInStorage(checkForUpdates);
+        saveLaunchAtStartupInStorage(launchAtStartup);
         setGeneral(newGeneralPrefs);
     };
 
@@ -102,18 +134,10 @@ export function General() {
                         Choose the language for the application’s interface.
                     </p>
                 </div>
-                <Combobox options={languages} currentOption={languageString(languagePref)}
+                <Combobox options={languages} currentOption={languagePref}
                           onSelect={value => {
-                              if (languageString(Language.ENGLISH) === value) {
-                                  updateGeneral({language: Language.ENGLISH});
-                                  setLanguagePref(Language.ENGLISH);
-                              } else if (languageString(Language.GERMAN) === value) {
-                                  updateGeneral({language: Language.GERMAN});
-                                  setLanguagePref(Language.GERMAN);
-                              } else {
-                                  updateGeneral({language: Language.FRENCH});
-                                  setLanguagePref(Language.FRENCH);
-                              }
+                              updateGeneral({language: value as LanguageOption});
+                              setLanguagePref(value as LanguageOption);
                           }}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
