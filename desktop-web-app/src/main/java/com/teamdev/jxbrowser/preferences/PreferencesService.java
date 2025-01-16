@@ -102,4 +102,17 @@ public final class PreferencesService extends AppPreferencesServiceImplBase {
         responseObserver.onNext(appPreferences.general());
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void setAppearance(AppearanceOuterClass.Appearance request, StreamObserver<Empty> responseObserver) {
+        appPreferences.appearance(request);
+        PreferencesFile.write(appPreferences);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getAppearance(Empty request, StreamObserver<AppearanceOuterClass.Appearance> responseObserver) {
+        responseObserver.onNext(appPreferences.appearance());
+        responseObserver.onCompleted();
+    }
 }

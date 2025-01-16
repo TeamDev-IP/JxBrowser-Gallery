@@ -3,6 +3,7 @@ import {createCallbackClient} from "@connectrpc/connect";
 import {Account, ProfilePicture} from "@/gen/account_pb.ts";
 import {AppPreferencesService} from "@/gen/app_preferences_pb.ts";
 import {General} from "@/gen/general_pb.ts";
+import {Appearance} from "@/gen/appearance_pb.ts";
 
 // A port for RPC communication passed obtained from the server side via
 // the JxBrowser Java-Js bridge.
@@ -19,9 +20,9 @@ function getAccount(callback: (account: Account) => void) {
     });
 }
 
-function setAccount(newAccount: Account, callback?: (added: boolean) => void) {
-    appPreferencesClient.setAccount(newAccount, (_err, res) => {
-        callback && callback(res.value);
+function setAccount(newAccount: Account, callback?: () => void) {
+    appPreferencesClient.setAccount(newAccount, (_err) => {
+        callback && callback();
     });
 }
 
@@ -49,11 +50,25 @@ function getGeneral(callback?: (generalPrefs: General) => void) {
     });
 }
 
+function setAppearance(newAppearancePrefs: Appearance, callback?: () => void) {
+    appPreferencesClient.setAppearance(newAppearancePrefs, (_err) => {
+        callback && callback();
+    });
+}
+
+function getAppearance(callback?: (appearancePrefs: Appearance) => void) {
+    appPreferencesClient.getAppearance({}, (_err, res) => {
+        callback && callback(res);
+    });
+}
+
 export {
     getAccount,
     setAccount,
     setProfilePicture,
     getProfilePicture,
     setGeneral,
-    getGeneral
+    getGeneral,
+    setAppearance,
+    getAppearance
 }

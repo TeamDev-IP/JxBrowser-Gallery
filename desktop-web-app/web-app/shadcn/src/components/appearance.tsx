@@ -21,41 +21,78 @@
  */
 
 import {Separator} from "@/components/ui/separator.tsx";
-import {useState} from "react";
-import {useTheme} from "@/components/theme-provider.tsx";
+import {useEffect, useState} from "react";
 import {Laptop, Moon, Sun} from "lucide-react";
 import {ThemeBox} from "@/components/theme-box.tsx";
-import {Combobox, Option} from "@/components/combobox.tsx";
+import {Combobox} from "@/components/combobox.tsx";
+import {AppearanceSchema, FontSize, Theme} from "@/gen/appearance_pb.ts";
+import {getAppearance, setAppearance} from "@/rpc/app-preferences-service.ts";
+import {create} from "@bufbuild/protobuf";
+import {themeEnum, themeOption, useTheme} from "@/components/theme-provider.tsx";
+import {
+    defaultFontSize,
+    FontSizeOption,
+    largeFontSize,
+    saveFontSizeInStorage,
+    smallFontSize
+} from "@/storage/appearance.ts";
+import {useFontSize} from "@/components/font-size-provider.tsx";
 
-const fonts: Option[] = [
-    {
-        value: "small",
-        label: "Small",
-    },
-    {
-        value: "default",
-        label: "Default",
-    },
-    {
-        value: "large",
-        label: "Large",
-    },
+const fontsSizes: FontSizeOption[] = [
+    smallFontSize,
+    defaultFontSize,
+    largeFontSize
 ]
 
-export function Appearance() {
-    const {theme} = useTheme()
-
-    const [isLight, setIsLight] = useState(theme === "light");
-    const [isDark, setIsDark] = useState(theme === "dark");
-    const [isSystem, setIsSystem] = useState(theme === "system");
-
-    function adjustFontSize(factor: number) {
-        const style = document.documentElement.style;
-        style.setProperty('--font-size-sm', `${0.875 * factor}rem`);
-        style.setProperty('--font-size-xs', `${0.75 * factor}rem`);
-        style.setProperty('--font-size-lg', `${1.125 * factor}rem`);
-        style.setProperty('--font-size-2xl', `${1.5 * factor}rem`);
+function fromFontSize(value: FontSize): FontSizeOption {
+    if (value === FontSize.SMALL) {
+        return "Small";
+    } else if (value === FontSize.DEFAULT) {
+        return "Default";
+    } else if (value === FontSize.LARGE) {
+        return "Large";
+    } else {
+        throw new TypeError("Incorrect font size.");
     }
+}
+
+function toFontSize(value: FontSizeOption): FontSize {
+    if (value === smallFontSize) {
+        return FontSize.SMALL;
+    } else if (value === defaultFontSize) {
+        return FontSize.DEFAULT;
+    } else {
+        return FontSize.LARGE;
+    }
+}
+
+export function Appearance() {
+    const {theme, setTheme} = useTheme();
+    const {fontSize, setFontSize} = useFontSize();
+
+    const [uiTheme, setUiTheme] = useState<Theme>(themeEnum(theme));
+    const [uiFontSize, setUiFontSize] = useState<FontSizeOption>(fontSize);
+
+    useEffect(() => {
+        getAppearance(appearance => {
+            setUiTheme(appearance.theme);
+            setTheme(themeOption(appearance.theme));
+            setFontSize(fromFontSize(appearance.fontSize));
+            saveFontSizeInStorage(fromFontSize((appearance.fontSize)));
+        });
+    }, []);
+
+    useEffect(() => {
+        const newAppearance = create(AppearanceSchema, {
+            theme: uiTheme,
+            fontSize: toFontSize(uiFontSize)
+        });
+        setAppearance(newAppearance, () => {
+            console.log("setAppearance " + uiFontSize)
+            setTheme(themeOption(uiTheme));
+            setFontSize(uiFontSize);
+        });
+    }, [uiTheme, uiFontSize]);
 
     return (
         <div className="space-y-4">
@@ -72,21 +109,18 @@ export function Appearance() {
 
                 <div
                     className="flex flex-col sm:flex-row gap-x-2 gap-y-2 justify-center items-center">
-                    <ThemeBox title="Light" theme="light" isSelected={isLight} onClick={() => {
-                        setIsLight(true)
-                        setIsDark(false)
-                        setIsSystem(false)
-                    }} icon={Sun}/>
-                    <ThemeBox title="Dark" theme="dark" isSelected={isDark} onClick={() => {
-                        setIsLight(false)
-                        setIsDark(true)
-                        setIsSystem(false)
-                    }} icon={Moon}/>
-                    <ThemeBox title="System" theme="system" isSelected={isSystem} onClick={() => {
-                        setIsLight(false)
-                        setIsDark(false)
-                        setIsSystem(true)
-                    }} icon={Laptop}/>
+                    <ThemeBox title="Light" theme="light" isSelected={uiTheme === Theme.LIGHT}
+                              onClick={() => {
+                                  setUiTheme(Theme.LIGHT);
+                              }} icon={Sun}/>
+                    <ThemeBox title="Dark" theme="dark" isSelected={uiTheme === Theme.DARK}
+                              onClick={() => {
+                                  setUiTheme(Theme.DARK);
+                              }} icon={Moon}/>
+                    <ThemeBox title="System" theme="system" isSelected={uiTheme === Theme.SYSTEM}
+                              onClick={() => {
+                                  setUiTheme(Theme.SYSTEM);
+                              }} icon={Laptop}/>
                 </div>
             </div>
             <div className="w-full flex items-center space-y-2 justify-between py-2">
@@ -96,15 +130,9 @@ export function Appearance() {
                         Adjust the size of the text in the application for better readability.
                     </p>
                 </div>
-                <Combobox options={fonts} onClick={(value)=> {
-                    if (value==="small") {
-                        adjustFontSize(0.8);
-                    }else if(value === "default") {
-                        adjustFontSize(1.0);
-                    } else {
-                        adjustFontSize(1.2);
-                    }
-                }} defaultOption={fonts[1].value}/>
+                <Combobox options={fontsSizes} onSelect={(value) => {
+                    setUiFontSize(value as FontSizeOption);
+                }} currentOption={fontSize}/>
             </div>
         </div>
     )

@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 TeamDev
+ *  Copyright (c) 2025 TeamDev
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -20,48 +20,26 @@
  *  SOFTWARE.
  */
 
-package com.teamdev.jxbrowser.preferences;
+export type FontSizeOption = "Small" | "Default" | "Large";
 
-import com.teamdev.jxbrowser.preferences.AccountOuterClass.Account;
-import com.teamdev.jxbrowser.preferences.AppearanceOuterClass.Appearance;
-import com.teamdev.jxbrowser.preferences.GeneralOuterClass.General;
+const smallFontSize: FontSizeOption = "Small";
+const defaultFontSize: FontSizeOption = "Default";
+const largeFontSize: FontSizeOption = "Large";
 
-public final class Preferences {
+const fontSizeKey = "font-size";
 
-    private byte[] profilePicture;
-    private Account account;
-    private General general;
-    private Appearance appearance;
+function fontSizeFromStorage() {
+    return localStorage.getItem(fontSizeKey) as FontSizeOption || defaultFontSize;
+}
 
-    public byte[] profilePicture() {
-        return profilePicture;
-    }
+function saveFontSizeInStorage(option: FontSizeOption) {
+    localStorage.setItem(fontSizeKey, option);
+}
 
-    public void profilePicture(byte[] profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
-    public Account account() {
-        return account;
-    }
-
-    public void account(Account account) {
-        this.account = account;
-    }
-
-    public General general() {
-        return general;
-    }
-
-    public void general(General general) {
-        this.general = general;
-    }
-
-    public Appearance appearance() {
-        return appearance;
-    }
-
-    public void appearance(Appearance appearance) {
-        this.appearance = appearance;
-    }
+export {
+    smallFontSize,
+    defaultFontSize,
+    largeFontSize,
+    fontSizeFromStorage,
+    saveFontSizeInStorage
 }

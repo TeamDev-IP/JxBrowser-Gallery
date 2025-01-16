@@ -6,6 +6,7 @@ import "google/protobuf/wrappers.proto";
 import "google/protobuf/empty.proto";
 import "account.proto";
 import "general.proto";
+import "appearance.proto";
 
 service AppPreferencesService {
   rpc GetAccount(google.protobuf.Empty) returns (Account);
@@ -16,4 +17,7 @@ service AppPreferencesService {
 
   rpc SetGeneral(General) returns (google.protobuf.Empty);
   rpc GetGeneral(google.protobuf.Empty) returns (General);
+
+  rpc SetAppearance(Appearance) returns (google.protobuf.Empty);
+  rpc GetAppearance(google.protobuf.Empty) returns (Appearance);
 }
