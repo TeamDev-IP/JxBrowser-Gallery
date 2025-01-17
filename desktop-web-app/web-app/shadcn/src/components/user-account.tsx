@@ -26,7 +26,7 @@ import {GreenSwitch} from "@/components/green-switch.tsx";
 import {EditableAvatar} from "@/components/editable-avatar.tsx";
 import {EditableLabel, EditableLabelType} from "@/components/editable-label.tsx";
 import {GuidingLine} from "@/components/guiding-line.tsx";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {
     getAccount,
     getProfilePicture,
@@ -45,6 +45,7 @@ import {
     tfaPasskey,
     tfaSms
 } from "@/storage/authentications.ts";
+import {imageToDataUri} from "@/components/converter/image.ts";
 
 const authentications: TfaMethod[] = [
     tfaEmail,
@@ -143,7 +144,7 @@ export function UserAccount() {
                         content: new Uint8Array(reader.result as ArrayBuffer)
                     });
                     setProfilePicture(newProfilePicture, () => {
-                        setUserProfilePicture(pictureDataUri(newProfilePicture.content));
+                        setUserProfilePicture(imageToDataUri(newProfilePicture.content));
                     })
                 };
                 reader.readAsArrayBuffer(file);

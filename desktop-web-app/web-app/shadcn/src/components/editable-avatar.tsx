@@ -39,7 +39,6 @@ export function EditableAvatar({pictureSrc, fallback, onChange}: AvatarProps) {
         <div className="w-full items-center flex justify-between">
             <p className="text-sm">Profile picture</p>
             <div onClick={() => {
-                console.log("avatar.clicked")
                 fileInputRef.current?.click();
             }}
                  className="flex relative justify-center items-center group">
@@ -51,9 +50,9 @@ export function EditableAvatar({pictureSrc, fallback, onChange}: AvatarProps) {
                 <input
                     type="file"
                     ref={fileInputRef}
-                    accept="image/*"
+                    accept="image/png"
                     className="hidden"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    onChange={event => {
                         const file = event.target.files?.[0];
                         if (file) {
                             onChange(file);
