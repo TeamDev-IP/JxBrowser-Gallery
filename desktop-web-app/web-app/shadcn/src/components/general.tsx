@@ -68,12 +68,6 @@ function languageEnum(value: LanguageOption): Language {
     }
 }
 
-type GeneralPreferences = {
-    launchAtStartup?: boolean;
-    language?: LanguageOption;
-    checkForUpdates?: boolean;
-};
-
 export function General() {
     const [launchAtStartupPref, setLaunchAtStartupPref] =
         useState<boolean>(launchAtStartupFromStorage());
@@ -94,21 +88,17 @@ export function General() {
         });
     }, []);
 
-    const updateGeneral = ({
-                               launchAtStartup = launchAtStartupPref,
-                               language = languagePref,
-                               checkForUpdates = checkForUpdatesPref,
-                           }: GeneralPreferences) => {
+    useEffect(() => {
         const newGeneralPrefs = create(GeneralSchema, {
-            launchAtStartup,
-            language: languageEnum(language),
-            checkForUpdates
+            launchAtStartup: launchAtStartupPref,
+            language: languageEnum(languagePref),
+            checkForUpdates: checkForUpdatesPref
         });
-        saveLanguageInStorage(language);
-        saveCheckForUpdatesInStorage(checkForUpdates);
-        saveLaunchAtStartupInStorage(launchAtStartup);
+        saveLanguageInStorage(languagePref);
+        saveCheckForUpdatesInStorage(checkForUpdatesPref);
+        saveLaunchAtStartupInStorage(launchAtStartupPref);
         setGeneral(newGeneralPrefs);
-    };
+    }, [launchAtStartupPref, languagePref, checkForUpdatesPref]);
 
     return (
         <div className="space-y-4">
@@ -122,10 +112,7 @@ export function General() {
                         boots up.
                     </p>
                 </div>
-                <GreenSwitch isChecked={launchAtStartupPref} onChange={value => {
-                    setLaunchAtStartupPref(value);
-                    updateGeneral({launchAtStartup: value});
-                }}/>
+                <GreenSwitch isChecked={launchAtStartupPref} onChange={setLaunchAtStartupPref}/>
             </div>
             <div className="w-full inline-flex items-center space-y-2 justify-between py-1">
                 <div className="pr-8">
@@ -136,7 +123,6 @@ export function General() {
                 </div>
                 <Combobox options={languages} currentOption={languagePref}
                           onSelect={value => {
-                              updateGeneral({language: value as LanguageOption});
                               setLanguagePref(value as LanguageOption);
                           }}/>
             </div>
@@ -147,10 +133,7 @@ export function General() {
                         Allow to check for updates in the background.
                     </p>
                 </div>
-                <GreenSwitch isChecked={checkForUpdatesPref} onChange={value => {
-                    setCheckForUpdatesPref(value);
-                    updateGeneral({checkForUpdates: value});
-                }}/>
+                <GreenSwitch isChecked={checkForUpdatesPref} onChange={setCheckForUpdatesPref}/>
             </div>
         </div>
     );

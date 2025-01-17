@@ -53,13 +53,6 @@ const authentications: TfaMethod[] = [
     tfaPasskey
 ]
 
-type UpdateAccountParams = {
-    fullName?: string;
-    email?: string;
-    twoFactorAuthentication?: TfaMethod;
-    biometricAuthentication?: boolean
-};
-
 function tfaMethod(value: TwoFactorAuthentication): TfaMethod {
     if (value === TwoFactorAuthentication.EMAIL) {
         return tfaEmail;
@@ -90,13 +83,7 @@ export function UserAccount() {
         useState<TfaMethod>(tfaFromStorage());
     const [userBiometricAuthentication, setUserBiometricAuthentication] =
         useState<boolean>(biometricAuthenticationFromStorage());
-
-    const pictureDataUri = (contentBytes: Uint8Array) => {
-        const base64String = btoa(
-            String.fromCharCode(...contentBytes)
-        );
-        return `data:image/png;base64,${base64String}`;
-    }
+    const isInitialized = useRef(false);
 
     useEffect(() => {
         getAccount(account => {
@@ -109,28 +96,26 @@ export function UserAccount() {
 
             saveTfaInStorage(tfaMethodValue);
             saveBiometricAuthenticationInStorage(account.biometricAuthentication);
+            isInitialized.current = true;
         });
         getProfilePicture(contentBytes => {
-            setUserProfilePicture(pictureDataUri(contentBytes));
+            setUserProfilePicture(imageToDataUri(contentBytes));
         })
     }, []);
 
-    const updateAccountData = ({
-                                   fullName = userFullName,
-                                   email = userEmail,
-                                   twoFactorAuthentication = userTwoFactorAuthentication,
-                                   biometricAuthentication = userBiometricAuthentication
-                               }: UpdateAccountParams) => {
-        const newAccount = create(AccountSchema, {
-            fullName,
-            email,
-            twoFactorAuthentication: tfaEnum(twoFactorAuthentication),
-            biometricAuthentication
-        });
-        setAccount(newAccount);
-        saveTfaInStorage(twoFactorAuthentication);
-        saveBiometricAuthenticationInStorage(biometricAuthentication);
-    };
+    useEffect(() => {
+        if (isInitialized.current) {
+            const newAccount = create(AccountSchema, {
+                fullName: userFullName,
+                email: userEmail,
+                twoFactorAuthentication: tfaEnum(userTwoFactorAuthentication),
+                biometricAuthentication: userBiometricAuthentication
+            });
+            setAccount(newAccount);
+            saveTfaInStorage(userTwoFactorAuthentication);
+            saveBiometricAuthenticationInStorage(userBiometricAuthentication);
+        }
+    }, [userFullName, userEmail, userTwoFactorAuthentication, userBiometricAuthentication]);
 
     return (
         <div className="space-y-4">
@@ -151,16 +136,10 @@ export function UserAccount() {
             }} pictureSrc={userProfilePicture}
                             fallback={userFullName.split(" ").map(it => it[0]).join("")}/>
             <EditableLabel title={"Email"} type={EditableLabelType.EMAIL}
-                           onChange={(value) => {
-                               setUserEmail(value);
-                               updateAccountData({email: value});
-                           }} defaultValue={userEmail} id={"email"}/>
+                           onChange={setUserEmail} defaultValue={userEmail} id={"email"}/>
             <EditableLabel title={"Full name"} type={EditableLabelType.TEXT}
                            defaultValue={userFullName}
-                           onChange={(value) => {
-                               setUserFullName(value);
-                               updateAccountData({fullName: value});
-                           }} id={"fullname"}/>
+                           onChange={setUserFullName} id={"fullname"}/>
             <GuidingLine/>
             <div className="w-full inline-flex items-center space-y-2 justify-between py-1">
                 <div className="pr-8">
@@ -170,7 +149,6 @@ export function UserAccount() {
                     </p>
                 </div>
                 <Combobox onSelect={value => {
-                    updateAccountData({twoFactorAuthentication: value as TfaMethod});
                     setUserTwoFactorAuthentication(value as TfaMethod);
                 }} options={authentications}
                           currentOption={userTwoFactorAuthentication}/>
@@ -182,10 +160,7 @@ export function UserAccount() {
                         Allow authentication via fingerprints or Face ID.
                     </p>
                 </div>
-                <GreenSwitch onChange={checked => {
-                    setUserBiometricAuthentication(checked);
-                    updateAccountData({biometricAuthentication: checked});
-                }} isChecked={userBiometricAuthentication}/>
+                <GreenSwitch onChange={setUserBiometricAuthentication} isChecked={userBiometricAuthentication}/>
             </div>
         </div>
     )
