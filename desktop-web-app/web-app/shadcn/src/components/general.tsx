@@ -23,7 +23,7 @@
 import {Separator} from "@/components/ui/separator.tsx";
 import {Combobox} from "@/components/combobox.tsx";
 import {GreenSwitch} from "@/components/green-switch.tsx";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {GeneralSchema, Language} from "@/gen/general_pb.ts";
 import {getGeneral, setGeneral} from "@/rpc/app-preferences-service.ts";
 import {create} from "@bufbuild/protobuf";
@@ -75,6 +75,7 @@ export function General() {
         useState<LanguageOption>(languageFromStorage());
     const [checkForUpdatesPref, setCheckForUpdatesPref] =
         useState<boolean>(checkForUpdatesFromStorage());
+    const isInitialized = useRef(false);
 
     useEffect(() => {
         getGeneral(generalPrefs => {
@@ -85,10 +86,14 @@ export function General() {
             saveLaunchAtStartupInStorage(generalPrefs.launchAtStartup);
             saveCheckForUpdatesInStorage(generalPrefs.checkForUpdates);
             saveLanguageInStorage(languageString(generalPrefs.language))
+            isInitialized.current = true;
         });
     }, []);
 
     useEffect(() => {
+        if (!isInitialized.current) {
+            return;
+        }
         const newGeneralPrefs = create(GeneralSchema, {
             launchAtStartup: launchAtStartupPref,
             language: languageEnum(languagePref),

@@ -21,7 +21,7 @@
  */
 
 import {Separator} from "@/components/ui/separator.tsx";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Laptop, Moon, Sun} from "lucide-react";
 import {ThemeBox} from "@/components/theme-box.tsx";
 import {Combobox} from "@/components/combobox.tsx";
@@ -72,6 +72,7 @@ export function Appearance() {
 
     const [uiTheme, setUiTheme] = useState<Theme>(themeEnum(theme));
     const [uiFontSize, setUiFontSize] = useState<FontSizeOption>(fontSize);
+    const isInitialized = useRef(false);
 
     useEffect(() => {
         getAppearance(appearance => {
@@ -79,16 +80,19 @@ export function Appearance() {
             setTheme(themeOption(appearance.theme));
             setFontSize(fromFontSize(appearance.fontSize));
             saveFontSizeInStorage(fromFontSize((appearance.fontSize)));
+            isInitialized.current = true;
         });
     }, []);
 
     useEffect(() => {
+        if (!isInitialized.current) {
+            return;
+        }
         const newAppearance = create(AppearanceSchema, {
             theme: uiTheme,
             fontSize: toFontSize(uiFontSize)
         });
         setAppearance(newAppearance, () => {
-            console.log("setAppearance " + uiFontSize)
             setTheme(themeOption(uiTheme));
             setFontSize(uiFontSize);
         });

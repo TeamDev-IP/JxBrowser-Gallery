@@ -23,7 +23,7 @@
 import {Separator} from "@/components/ui/separator.tsx";
 
 import {GreenSwitch} from "@/components/green-switch.tsx";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {
     desktopNotificationsKeyFromStorage,
     emailNotificationsFromStorage,
@@ -39,18 +39,22 @@ export function Notifications() {
         useState<boolean>(desktopNotificationsKeyFromStorage());
     const [emailEnabled, setEmailEnabled] =
         useState<boolean>(emailNotificationsFromStorage());
+    const isInitialized = useRef(false);
 
     useEffect(() => {
         getNotifications(notifications => {
             setEmailEnabled(notifications.emailEnabled);
             setDesktopEnabled(notifications.desktopEnabled);
-
             saveEmailNotificationsInStorage(notifications.emailEnabled);
             saveDesktopNotificationsKeyInStorage(notifications.desktopEnabled);
+            isInitialized.current = true;
         })
     }, []);
 
     useEffect(() => {
+        if (!isInitialized.current) {
+            return;
+        }
         const newNotificationsPrefs = create(NotificationsSchema, {
             emailEnabled,
             desktopEnabled,

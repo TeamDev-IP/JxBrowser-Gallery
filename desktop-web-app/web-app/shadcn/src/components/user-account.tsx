@@ -100,21 +100,23 @@ export function UserAccount() {
         });
         getProfilePicture(contentBytes => {
             setUserProfilePicture(imageToDataUri(contentBytes));
-        })
+        });
     }, []);
 
     useEffect(() => {
-        if (isInitialized.current) {
-            const newAccount = create(AccountSchema, {
-                fullName: userFullName,
-                email: userEmail,
-                twoFactorAuthentication: tfaEnum(userTwoFactorAuthentication),
-                biometricAuthentication: userBiometricAuthentication
-            });
-            setAccount(newAccount);
-            saveTfaInStorage(userTwoFactorAuthentication);
-            saveBiometricAuthenticationInStorage(userBiometricAuthentication);
+        if (!isInitialized.current) {
+            return;
         }
+        const newAccount = create(AccountSchema, {
+            fullName: userFullName,
+            email: userEmail,
+            twoFactorAuthentication: tfaEnum(userTwoFactorAuthentication),
+            biometricAuthentication: userBiometricAuthentication
+        });
+        console.log("new ");
+        setAccount(newAccount);
+        saveTfaInStorage(userTwoFactorAuthentication);
+        saveBiometricAuthenticationInStorage(userBiometricAuthentication);
     }, [userFullName, userEmail, userTwoFactorAuthentication, userBiometricAuthentication]);
 
     return (
@@ -160,7 +162,8 @@ export function UserAccount() {
                         Allow authentication via fingerprints or Face ID.
                     </p>
                 </div>
-                <GreenSwitch onChange={setUserBiometricAuthentication} isChecked={userBiometricAuthentication}/>
+                <GreenSwitch onChange={setUserBiometricAuthentication}
+                             isChecked={userBiometricAuthentication}/>
             </div>
         </div>
     )
