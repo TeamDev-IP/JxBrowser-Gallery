@@ -115,4 +115,17 @@ public final class PreferencesService extends AppPreferencesServiceImplBase {
         responseObserver.onNext(appPreferences.appearance());
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void setNotifications(NotificationsOuterClass.Notifications request, StreamObserver<Empty> responseObserver) {
+        appPreferences.notifications(request);
+        PreferencesFile.write(appPreferences);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getNotifications(Empty request, StreamObserver<NotificationsOuterClass.Notifications> responseObserver) {
+        responseObserver.onNext(appPreferences.notifications());
+        responseObserver.onCompleted();
+    }
 }

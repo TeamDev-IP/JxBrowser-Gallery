@@ -25,6 +25,7 @@ package com.teamdev.jxbrowser.preferences;
 import com.teamdev.jxbrowser.preferences.AccountOuterClass.Account;
 import com.teamdev.jxbrowser.preferences.AppearanceOuterClass.Appearance;
 import com.teamdev.jxbrowser.preferences.GeneralOuterClass.General;
+import com.teamdev.jxbrowser.preferences.NotificationsOuterClass.Notifications;
 
 public final class Preferences {
 
@@ -32,6 +33,7 @@ public final class Preferences {
     private Account account;
     private General general;
     private Appearance appearance;
+    Notifications notifications;
 
     public byte[] profilePicture() {
         return profilePicture;
@@ -63,5 +65,13 @@ public final class Preferences {
 
     public void appearance(Appearance appearance) {
         this.appearance = appearance;
+    }
+
+    public Notifications notifications() {
+        return notifications;
+    }
+
+    public void notifications(Notifications notifications) {
+        this.notifications = notifications;
     }
 }

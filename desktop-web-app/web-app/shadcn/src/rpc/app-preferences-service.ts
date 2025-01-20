@@ -4,6 +4,7 @@ import {Account, ProfilePicture} from "@/gen/account_pb.ts";
 import {AppPreferencesService} from "@/gen/app_preferences_pb.ts";
 import {General} from "@/gen/general_pb.ts";
 import {Appearance} from "@/gen/appearance_pb.ts";
+import {Notifications} from "@/gen/notifications_pb.ts";
 
 // A port for RPC communication passed obtained from the server side via
 // the JxBrowser Java-Js bridge.
@@ -62,6 +63,18 @@ function getAppearance(callback?: (appearancePrefs: Appearance) => void) {
     });
 }
 
+function setNotifications(newNotifications: Notifications, callback?: () => void) {
+    appPreferencesClient.setNotifications(newNotifications, (_err) => {
+        callback && callback();
+    });
+}
+
+function getNotifications(callback?: (notificationPrefs: Notifications) => void) {
+    appPreferencesClient.getNotifications({}, (_err, res) => {
+        callback && callback(res);
+    });
+}
+
 export {
     getAccount,
     setAccount,
@@ -70,5 +83,7 @@ export {
     setGeneral,
     getGeneral,
     setAppearance,
-    getAppearance
+    getAppearance,
+    setNotifications,
+    getNotifications
 }

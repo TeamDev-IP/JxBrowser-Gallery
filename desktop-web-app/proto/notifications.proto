@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package com.teamdev.jxbrowser.preferences;
+
+message Notifications {
+  bool email_enabled = 1;
+  bool desktop_enabled = 2;
+}

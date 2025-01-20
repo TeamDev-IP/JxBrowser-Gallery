@@ -21,10 +21,45 @@
  */
 
 import {Separator} from "@/components/ui/separator.tsx";
+
 import {GreenSwitch} from "@/components/green-switch.tsx";
-import {GuidingLine} from "@/components/guiding-line.tsx";
+import {useEffect, useState} from "react";
+import {
+    desktopNotificationsKeyFromStorage,
+    emailNotificationsFromStorage,
+    saveDesktopNotificationsKeyInStorage,
+    saveEmailNotificationsInStorage
+} from "@/storage/notifications.ts";
+import {getNotifications, setNotifications} from "@/rpc/app-preferences-service.ts";
+import {create} from "@bufbuild/protobuf";
+import {NotificationsSchema} from "@/gen/notifications_pb.ts";
 
 export function Notifications() {
+    const [desktopEnabled, setDesktopEnabled] =
+        useState<boolean>(desktopNotificationsKeyFromStorage());
+    const [emailEnabled, setEmailEnabled] =
+        useState<boolean>(emailNotificationsFromStorage());
+
+    useEffect(() => {
+        getNotifications(notifications => {
+            setEmailEnabled(notifications.emailEnabled);
+            setDesktopEnabled(notifications.desktopEnabled);
+
+            saveEmailNotificationsInStorage(notifications.emailEnabled);
+            saveDesktopNotificationsKeyInStorage(notifications.desktopEnabled);
+        })
+    }, []);
+
+    useEffect(() => {
+        const newNotificationsPrefs = create(NotificationsSchema, {
+            emailEnabled,
+            desktopEnabled,
+        });
+        setNotifications(newNotificationsPrefs);
+        saveEmailNotificationsInStorage(emailEnabled);
+        saveDesktopNotificationsKeyInStorage(desktopEnabled);
+    }, [desktopEnabled, emailEnabled]);
+
     return (
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Notifications</h1>
@@ -37,7 +72,7 @@ export function Notifications() {
                         grouped together and sent based on their urgency.
                     </p>
                 </div>
-                <GreenSwitch/>
+                <GreenSwitch onChange={setEmailEnabled} isChecked={emailEnabled}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">
@@ -46,7 +81,7 @@ export function Notifications() {
                         Receive personal notifications on the desktop.
                     </p>
                 </div>
-                <GreenSwitch/>
+                <GreenSwitch onChange={setDesktopEnabled} isChecked={desktopEnabled}/>
             </div>
         </div>
     );
