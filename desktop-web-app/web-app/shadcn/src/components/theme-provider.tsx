@@ -53,26 +53,28 @@ export function ThemeProvider({
     const [theme, setTheme] = useState<ThemeOption>(
         () => (localStorage.getItem(storageKey) as ThemeOption) || defaultTheme)
 
+    const setRootTheme = (theme: ThemeOption) => {
+        const root = window.document.documentElement;
+        root.classList.remove("light", "dark");
+        if (theme === "system") {
+            const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+                .matches
+                ? "dark"
+                : "light";
+
+            root.classList.add(systemTheme);
+            return;
+        }
+        root.classList.add(theme);
+    }
+    setRootTheme(theme);
     useEffect(() => {
         getAppearance(appearancePrefs => {
             setTheme(themeOption(appearancePrefs.theme));
             localStorage.setItem(storageKey, themeOption(appearancePrefs.theme));
         });
     }, []);
-    useEffect(() => {
-        const root = window.document.documentElement
-        root.classList.remove("light", "dark")
-        if (theme === "system") {
-            const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-                .matches
-                ? "dark"
-                : "light"
-
-            root.classList.add(systemTheme)
-            return
-        }
-        root.classList.add(theme)
-    }, [theme])
+    useEffect(() => setRootTheme(theme), [theme])
 
     const value = {
         theme,
