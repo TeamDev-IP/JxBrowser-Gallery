@@ -1,8 +1,14 @@
 import React, {createContext, useContext, useEffect, useState} from "react"
 import {getAppearance} from "@/rpc/app-preferences-service.ts";
 import {Theme} from "@/gen/appearance_pb.ts";
-
-export type ThemeOption = "dark" | "light" | "system"
+import {
+    darkTheme,
+    lightTheme,
+    saveThemeInStorage,
+    systemTheme,
+    themeFromStorage,
+    ThemeOption
+} from "@/storage/theme.ts";
 
 type ThemeProviderProps = {
     children: React.ReactNode
@@ -16,7 +22,7 @@ type ThemeProviderState = {
 }
 
 const initialState: ThemeProviderState = {
-    theme: "system",
+    theme: systemTheme,
     setTheme: () => null,
 }
 
@@ -24,20 +30,20 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 export function themeOption(value: Theme): ThemeOption {
     if (value === Theme.LIGHT) {
-        return "light";
+        return lightTheme;
     } else if (value === Theme.DARK) {
-        return "dark";
+        return darkTheme;
     } else if (value === Theme.SYSTEM) {
-        return "system";
+        return systemTheme;
     } else {
         throw new TypeError("Incorrect two-factor authentication.");
     }
 }
 
 export function themeEnum(value: ThemeOption): Theme {
-    if (value === "light") {
+    if (value === lightTheme) {
         return Theme.LIGHT;
-    } else if (value === "dark") {
+    } else if (value === darkTheme) {
         return Theme.DARK;
     } else {
         return Theme.SYSTEM;
@@ -46,12 +52,9 @@ export function themeEnum(value: ThemeOption): Theme {
 
 export function ThemeProvider({
                                   children,
-                                  defaultTheme = "system",
-                                  storageKey = "vite-ui-theme",
                                   ...props
                               }: ThemeProviderProps) {
-    const [theme, setTheme] = useState<ThemeOption>(
-        () => (localStorage.getItem(storageKey) as ThemeOption) || defaultTheme)
+    const [theme, setTheme] = useState<ThemeOption>(themeFromStorage());
 
     const setRootTheme = (theme: ThemeOption) => {
         const root = window.document.documentElement;
@@ -71,15 +74,15 @@ export function ThemeProvider({
     useEffect(() => {
         getAppearance(appearancePrefs => {
             setTheme(themeOption(appearancePrefs.theme));
-            localStorage.setItem(storageKey, themeOption(appearancePrefs.theme));
+            saveThemeInStorage(themeOption(appearancePrefs.theme));
         });
     }, []);
-    useEffect(() => setRootTheme(theme), [theme])
+    useEffect(() => setRootTheme(theme), [theme]);
 
     const value = {
         theme,
         setTheme: (theme: ThemeOption) => {
-            localStorage.setItem(storageKey, theme);
+            saveThemeInStorage(theme);
             setTheme(theme);
         },
     }
@@ -88,14 +91,14 @@ export function ThemeProvider({
         <ThemeProviderContext.Provider {...props} value={value}>
             {children}
         </ThemeProviderContext.Provider>
-    )
+    );
 }
 
 export const useTheme = () => {
-    const context = useContext(ThemeProviderContext)
+    const context = useContext(ThemeProviderContext);
 
     if (context === undefined)
-        throw new Error("useTheme must be used within a ThemeProvider")
+        throw new Error("useTheme must be used within a ThemeProvider");
 
-    return context
+    return context;
 }
