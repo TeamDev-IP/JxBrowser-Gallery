@@ -38,7 +38,6 @@ import com.teamdev.jxbrowser.license.internal.LicenseProvider;
 import com.teamdev.jxbrowser.logging.Level;
 import com.teamdev.jxbrowser.logging.Logger;
 import com.teamdev.jxbrowser.preferences.PreferencesService;
-import com.teamdev.jxbrowser.production.ApplicationContents;
 import com.teamdev.jxbrowser.production.UrlRequestInterceptor;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
 
@@ -60,7 +59,6 @@ public final class App {
     private static final int RPC_PORT = 50051;
 
     public static void main(String[] args) throws InterruptedException {
-        System.out.println(ApplicationContents.APPLICATION_RESOURCES_DIR.toString());
         System.setProperty("jxbrowser.logging.file", "jxbrowser.log");
         Logger.level(Level.DEBUG);
         var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)

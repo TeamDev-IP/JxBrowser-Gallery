@@ -21,10 +21,7 @@
  */
 
 import com.google.protobuf.gradle.id
-import okio.IOException
 import org.gradle.api.JavaVersion.VERSION_17
-import java.net.InetAddress
-import java.net.ServerSocket
 
 repositories {
     mavenCentral()
@@ -104,56 +101,10 @@ val isWindows = System.getProperty("os.name").startsWith("Windows")
 val npmCommand = if (isWindows) "npm.cmd" else "npm"
 val npxCommand = if (isWindows) "npx.cmd" else "npx"
 
-tasks.register("startDevServer") {
-    fun isSocketConnected(): Boolean {
-        try {
-            println("Connecting to $host:$port")
-            val socket = ServerSocket(port, 50, InetAddress.getLocalHost())
-            socket.close()
-            return false
-        } catch (e: IOException) {
-            return true
-        }
-    }
-    doLast {
-//        if (isSocketConnected()) {
-//            println("The dev server is already running.")
-//            return@doLast
-//        }
-
-        devServerThread = Thread {
-            exec {
-                workingDir = file(wedAppLocationDir)
-                commandLine(npmCommand, "run", "dev", "--", "--port=$port", "--strictPort")
-            }
-        }
-        devServerThread.start()
-        var connected = false
-        var attempts = 5
-        while (!connected && attempts > 0) {
-            println("Waiting the dev server to respond...")
-            Thread.sleep(1000)
-            connected = true
-            attempts--
-        }
-        if (!connected) {
-            error("The dev server hasn't started.")
-        }
-    }
-}
-
-tasks.register("stopDevServer") {
-    doLast {
-        println("Stopping the dev server...")
-        if (::devServerThread.isInitialized && devServerThread.isAlive) {
-            devServerThread.interrupt()
-        }
-        println("The dev server stopped.")
-    }
-}
-
-tasks.named<JavaExec>("run") {
-    dependsOn(tasks.named("startDevServer")).finalizedBy(tasks.named("stopDevServer"))
+tasks.register<Exec>("startDevServer") {
+    dependsOn(tasks.named("installNpmPackages"))
+    workingDir = file(wedAppLocationDir)
+    commandLine(npmCommand, "run", "dev", "--", "--port=$port", "--strictPort")
 }
 
 application {

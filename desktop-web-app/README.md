@@ -2,7 +2,7 @@
 
 This project demonstrates how to use JxBrowser with modern web UI frameworks such
 as [shadcn/ui](https://ui.shadcn.com/) to create desktop applications with Java backend and
-TypeScript/React/shadcn frontend.
+TypeScript/React/ShadCN frontend.
 
 ## Prerequisites
 
@@ -16,14 +16,19 @@ Replace the `LICENSE_KEY` variable in [App.java](src/main/java/com/teamdev/jxbro
 
 ## Running the application
 
-Run the application in the development mode:
+To run the application in the development mode, you first need to start Vite development server:
+
+```bash
+./gradlew desktop-web-app:startDevServer
+```
+
+This command will start a development web server with Hot-Module Reload (HMR).
+
+Then open another terminal and run the following command to start the application:
 
 ```bash
 ./gradlew desktop-web-app:run
 ```
-
-This command will start a development web server with Hot-Module Reload (HMR) enabled and load its
-address in JxBrowser.
 
 ## Packaging
 
