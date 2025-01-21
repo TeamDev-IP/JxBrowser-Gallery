@@ -23,17 +23,17 @@
 import {LucideIcon} from "lucide-react";
 
 interface ThemeProps {
-    title: string
-    theme: string
-    icon: LucideIcon
-    isSelected: boolean
-    onClick: () => void
+    title: string;
+    theme: string;
+    icon: LucideIcon;
+    isSelected: boolean;
+    onClick: () => void;
 }
 
 export function ThemeBox(props: ThemeProps) {
     return (
         <div onClick={props.onClick}
-             className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ? 
+             className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ?
                  "border-green-500" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-2`}>
             <props.icon className={"text-right"}/>
             <span className="justify-end text-center text-sm">
@@ -41,5 +41,5 @@ export function ThemeBox(props: ThemeProps) {
             </span>
         </div>
 
-    )
+    );
 }

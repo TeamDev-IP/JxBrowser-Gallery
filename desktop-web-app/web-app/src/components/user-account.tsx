@@ -55,7 +55,7 @@ const authentications: TfaMethod[] = [
     emailTfa,
     smsTfa,
     passkeyTfa
-]
+];
 
 export function UserAccount() {
     const [userProfilePicture, setUserProfilePicture] = useState<string>("");
@@ -113,7 +113,7 @@ export function UserAccount() {
                     });
                     setProfilePicture(newProfilePicture, () => {
                         setUserProfilePicture(imageToDataUri(newProfilePicture.content));
-                    })
+                    });
                 };
                 reader.readAsArrayBuffer(file);
             }} pictureSrc={userProfilePicture}
@@ -147,5 +147,5 @@ export function UserAccount() {
                              isChecked={userBiometricAuthentication}/>
             </div>
         </div>
-    )
+    );
 }

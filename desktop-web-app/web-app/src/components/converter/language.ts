@@ -25,9 +25,9 @@ import {Language} from "@/gen/general_pb.ts";
 
 export type LanguageOption = "English" | "German" | "French"
 
-const englishLanguage: LanguageOption = "English"
-const germanLanguage: LanguageOption = "German"
-const frenchLanguage: LanguageOption = "French"
+const englishLanguage: LanguageOption = "English";
+const germanLanguage: LanguageOption = "German";
+const frenchLanguage: LanguageOption = "French";
 
 function fromLanguage(value: Language): LanguageOption {
     if (value === Language.ENGLISH) {
@@ -57,4 +57,4 @@ export {
     englishLanguage,
     germanLanguage,
     frenchLanguage,
-}
+};

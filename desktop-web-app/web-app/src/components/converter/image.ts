@@ -29,4 +29,4 @@ function imageToDataUri(contentBytes: Uint8Array) {
 
 export {
     imageToDataUri
-}
+};

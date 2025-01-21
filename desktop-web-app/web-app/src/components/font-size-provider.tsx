@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-import React, {createContext, useContext, useEffect, useState} from "react"
+import React, {createContext, useContext, useEffect, useState} from "react";
 import {getAppearance} from "@/rpc/app-preferences-service.ts";
 import {fontSizeFromStorage, saveFontSizeInStorage,} from "@/storage/appearance.ts";
 import {
@@ -42,7 +42,7 @@ type FontSizeProviderState = {
 const initialState: FontSizeProviderState = {
     fontSize: defaultFontSize,
     setFontSize: () => null,
-}
+};
 
 const FontSizeProviderContext = createContext<FontSizeProviderState>(initialState);
 
@@ -69,7 +69,7 @@ export function FontSizeProvider({
             style.setProperty('--font-size-xs', `${0.75 * scaleFactor}rem`);
             style.setProperty('--font-size-lg', `${1.125 * scaleFactor}rem`);
             style.setProperty('--font-size-2xl', `${1.5 * scaleFactor}rem`);
-        }
+        };
         if (fontSize === smallFontSize) {
             adjustFontSize(smallScaleFactor);
         } else if (fontSize === defaultFontSize) {
@@ -77,7 +77,7 @@ export function FontSizeProvider({
         } else {
             adjustFontSize(largeScaleFactor);
         }
-    }, [fontSize])
+    }, [fontSize]);
 
     const value = {
         fontSize,
@@ -85,20 +85,20 @@ export function FontSizeProvider({
             saveFontSizeInStorage(fontSize);
             setFontSize(fontSize);
         },
-    }
+    };
 
     return (
         <FontSizeProviderContext.Provider {...props} value={value}>
             {children}
         </FontSizeProviderContext.Provider>
-    )
+    );
 }
 
 export const useFontSize = () => {
-    const context = useContext(FontSizeProviderContext)
+    const context = useContext(FontSizeProviderContext);
 
     if (context === undefined)
-        throw new Error("useFontSize must be used within a FontSizeProvider")
+        throw new Error("useFontSize must be used within a FontSizeProvider");
 
-    return context
-}
+    return context;
+};

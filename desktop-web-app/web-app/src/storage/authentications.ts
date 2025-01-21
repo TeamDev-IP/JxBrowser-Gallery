@@ -39,7 +39,7 @@ function saveTfaInStorage(tfaMethod: TfaMethod) {
 }
 
 function saveBiometricAuthenticationInStorage(isEnabled: boolean) {
-    localStorage.setItem(biometricAuthenticationKey, isEnabled ? "true" : "false")
+    localStorage.setItem(biometricAuthenticationKey, isEnabled ? "true" : "false");
 }
 
 export {
@@ -47,5 +47,5 @@ export {
     biometricAuthenticationFromStorage,
     saveTfaInStorage,
     saveBiometricAuthenticationInStorage,
-}
+};
 

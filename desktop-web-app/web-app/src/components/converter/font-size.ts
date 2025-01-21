@@ -56,4 +56,4 @@ export {
     largeFontSize,
     fromFontSize,
     toFontSize
-}
+};

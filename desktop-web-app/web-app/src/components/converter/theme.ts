@@ -57,5 +57,5 @@ export {
     lightTheme,
     darkTheme,
     systemTheme
-}
+};
 

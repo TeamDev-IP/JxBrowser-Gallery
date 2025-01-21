@@ -23,5 +23,5 @@
 import {Separator} from "@/components/ui/separator.tsx";
 
 export function GuidingLine() {
-    return <Separator className="my-2 h-[1px] w-full"/>
+    return <Separator className="my-2 h-[1px] w-full"/>;
 }

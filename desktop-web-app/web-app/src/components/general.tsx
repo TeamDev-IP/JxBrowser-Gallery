@@ -48,7 +48,7 @@ const languages: LanguageOption[] = [
     englishLanguage,
     germanLanguage,
     frenchLanguage
-]
+];
 
 export function General() {
     const [launchAtStartupPref, setLaunchAtStartupPref] =
@@ -69,7 +69,7 @@ export function General() {
 
             saveLaunchAtStartupInStorage(generalPrefs.launchAtStartup);
             saveCheckForUpdatesInStorage(generalPrefs.checkForUpdates);
-            saveLanguageInStorage(language)
+            saveLanguageInStorage(language);
             isInitialized.current = true;
         });
     }, []);

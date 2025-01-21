@@ -27,9 +27,9 @@ import {Upload} from "lucide-react";
 import {useRef} from "react";
 
 interface AvatarProps {
-    pictureSrc: string
-    fallback: string
-    onChange: (file: File) => void
+    pictureSrc: string;
+    fallback: string;
+    onChange: (file: File) => void;
 }
 
 export function EditableAvatar({pictureSrc, fallback, onChange}: AvatarProps) {

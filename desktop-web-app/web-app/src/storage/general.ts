@@ -57,6 +57,6 @@ export {
     saveCheckForUpdatesInStorage,
     languageFromStorage,
     saveLanguageInStorage
-}
+};
 
 

@@ -29,7 +29,7 @@ export enum EditableLabelType {
     TEXT
 }
 
-interface Props {
+interface LabelProps {
     title: string
     defaultValue: string
     id: string
@@ -37,7 +37,7 @@ interface Props {
     onChange: (value: string) => void
 }
 
-export function EditableLabel({title, defaultValue, id, type, onChange}: Props) {
+export function EditableLabel({title, defaultValue, id, type, onChange}: LabelProps) {
     const [isValid, setIsValid] = useState(true);
 
     const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -58,7 +58,7 @@ export function EditableLabel({title, defaultValue, id, type, onChange}: Props) 
                            id={id}
                            onBlur={(event) => {
                                if (isValid) {
-                                   onChange(event.target.value)
+                                   onChange(event.target.value);
                                } else {
                                    event.target.value = defaultValue;
                                    setIsValid(true);

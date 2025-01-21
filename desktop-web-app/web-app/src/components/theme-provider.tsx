@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-import React, {createContext, useContext, useEffect, useState} from "react"
+import React, {createContext, useContext, useEffect, useState} from "react";
 import {getAppearance} from "@/rpc/app-preferences-service.ts";
 import {fromTheme, systemTheme, ThemeOption} from "@/components/converter/theme.ts";
 import {saveThemeInStorage, themeFromStorage} from "@/storage/appearance.ts";
@@ -39,9 +39,9 @@ type ThemeProviderState = {
 const initialState: ThemeProviderState = {
     theme: systemTheme,
     setTheme: () => null,
-}
+};
 
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({
                                   children,
@@ -62,7 +62,7 @@ export function ThemeProvider({
             return;
         }
         root.classList.add(theme);
-    }
+    };
     setRootTheme(theme);
     useEffect(() => {
         getAppearance(appearancePrefs => {
@@ -79,7 +79,7 @@ export function ThemeProvider({
             saveThemeInStorage(theme);
             setTheme(theme);
         },
-    }
+    };
 
     return (
         <ThemeProviderContext.Provider {...props} value={value}>
@@ -95,4 +95,4 @@ export const useTheme = () => {
         throw new Error("useTheme must be used within a ThemeProvider");
 
     return context;
-}
+};

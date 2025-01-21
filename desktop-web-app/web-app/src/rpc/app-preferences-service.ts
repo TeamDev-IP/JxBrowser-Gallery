@@ -30,7 +30,7 @@ import {Notifications} from "@/gen/notifications_pb.ts";
 
 // A port for RPC communication passed obtained from the server side via
 // the JxBrowser Java-Js bridge.
-declare const rpcPort: Number
+declare const rpcPort: Number;
 
 const transport = createGrpcWebTransport({
     baseUrl: `http://localhost:${rpcPort}`,
@@ -39,7 +39,7 @@ const appPreferencesClient = createCallbackClient(AppPreferencesService, transpo
 
 function getAccount(callback: (account: Account) => void) {
     appPreferencesClient.getAccount({}, (_err, res) => {
-        callback(res)
+        callback(res);
     });
 }
 
@@ -108,4 +108,4 @@ export {
     getAppearance,
     setNotifications,
     getNotifications
-}
+};

@@ -48,7 +48,7 @@ export function Notifications() {
             saveEmailNotificationsInStorage(notifications.emailEnabled);
             saveDesktopNotificationsKeyInStorage(notifications.desktopEnabled);
             isInitialized.current = true;
-        })
+        });
     }, []);
 
     useEffect(() => {

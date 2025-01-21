@@ -61,7 +61,7 @@ function App() {
                 </SidebarProvider>
             </FontSizeProvider>
         </ThemeProvider>
-    )
+    );
 }
 
-export default App
+export default App;

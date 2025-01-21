@@ -45,7 +45,7 @@ const fontsSizes: FontSizeOption[] = [
     smallFontSize,
     defaultFontSize,
     largeFontSize
-]
+];
 
 export function Appearance() {
     const {theme, setTheme} = useTheme();
@@ -121,5 +121,5 @@ export function Appearance() {
                 }} currentOption={fontSize}/>
             </div>
         </div>
-    )
+    );
 }

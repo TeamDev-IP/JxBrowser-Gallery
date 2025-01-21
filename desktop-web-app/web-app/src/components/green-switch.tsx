@@ -23,11 +23,11 @@
 import {Switch} from "@/components/ui/switch.tsx";
 
 interface SwitchProps {
-    isChecked: boolean
-    onChange: (value: boolean) => void
+    isChecked: boolean;
+    onChange: (value: boolean) => void;
 }
 
 export function GreenSwitch({isChecked, onChange}: SwitchProps) {
     return <Switch checked={isChecked} onCheckedChange={onChange}
-                   className="hover:opacity-70 data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-neutral-200"/>
+                   className="hover:opacity-70 data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-neutral-200"/>;
 }

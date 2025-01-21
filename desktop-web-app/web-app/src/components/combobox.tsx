@@ -78,5 +78,5 @@ export function Combobox({options, currentOption, onSelect}: ComboboxProps) {
                 </Command>
             </PopoverContent>
         </Popover>
-    )
+    );
 }

@@ -48,4 +48,4 @@ export {
     saveFontSizeInStorage,
     themeFromStorage,
     saveThemeInStorage
-}
+};

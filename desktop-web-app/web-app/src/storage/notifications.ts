@@ -44,4 +44,4 @@ export {
     saveEmailNotificationsInStorage,
     desktopNotificationsKeyFromStorage,
     saveDesktopNotificationsKeyInStorage
-}
+};
