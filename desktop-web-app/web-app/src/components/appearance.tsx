@@ -75,7 +75,7 @@ export function Appearance() {
             fontSize: toFontSize(uiFontSize)
         });
         setAppearance(newAppearance, () => {
-            setTheme(uiTheme);
+            setTheme(fromTheme(uiTheme));
             setFontSize(uiFontSize);
         });
     }, [uiTheme, uiFontSize]);

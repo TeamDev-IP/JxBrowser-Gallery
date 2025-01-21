@@ -7,7 +7,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
-    "baseUrl": "../../test1/web-app",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
@@ -29,6 +29,6 @@
     "noUncheckedSideEffectImports": true
   },
   "include": [
-    "../../test1/web-app/src"
+    "src"
   ]
 }
