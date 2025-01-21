@@ -1,4 +1,3 @@
-import {ThemeProvider} from "@/components/theme-provider";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {
     Sidebar,
@@ -16,6 +15,7 @@ import {NavigationItem} from "@/components/navigation-item.tsx";
 import {Bell, Settings, SquareUser, SunMoon} from "lucide-react";
 import {Notifications} from "@/components/notifications.tsx";
 import {FontSizeProvider} from "@/components/font-size-provider.tsx";
+import {ThemeProvider} from "@/components/theme-provider.tsx";
 
 function App() {
     return (

@@ -21,7 +21,7 @@ version = "1.0"
 val applicationName = "JxBrowserWebApp"
 val mainJar = "$applicationName-$version.jar"
 
-val wedAppLocationDir = "web-app/shadcn"
+val wedAppLocationDir = "web-app/"
 
 val host = "localhost"
 val port = 5173

@@ -30,11 +30,11 @@ const largeFontSize: FontSizeOption = "Large";
 
 function fromFontSize(value: FontSize): FontSizeOption {
     if (value === FontSize.SMALL) {
-        return "Small";
+        return smallFontSize;
     } else if (value === FontSize.DEFAULT) {
-        return "Default";
+        return defaultFontSize;
     } else if (value === FontSize.LARGE) {
-        return "Large";
+        return largeFontSize;
     } else {
         throw new TypeError("Incorrect font size.");
     }
@@ -57,4 +57,3 @@ export {
     fromFontSize,
     toFontSize
 }
-
