@@ -16,6 +16,7 @@ import com.teamdev.jxbrowser.license.internal.LicenseProvider;
 import com.teamdev.jxbrowser.logging.Level;
 import com.teamdev.jxbrowser.logging.Logger;
 import com.teamdev.jxbrowser.preferences.PreferencesService;
+import com.teamdev.jxbrowser.production.ApplicationContents;
 import com.teamdev.jxbrowser.production.UrlRequestInterceptor;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
 
@@ -26,6 +27,7 @@ import java.awt.event.WindowEvent;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 import static com.teamdev.jxbrowser.production.ApplicationContents.APP_URL;
+import static com.teamdev.jxbrowser.production.ApplicationContents.CHROMIUM_USER_DATA_DIR;
 import static com.teamdev.jxbrowser.production.ApplicationContents.IS_PRODUCTION;
 import static com.teamdev.jxbrowser.production.ApplicationContents.SCHEME;
 import static java.awt.Taskbar.Feature.ICON_IMAGE;
@@ -36,11 +38,12 @@ public final class App {
     private static final int RPC_PORT = 50051;
 
     public static void main(String[] args) throws InterruptedException {
+        System.out.println(ApplicationContents.APPLICATION_RESOURCES_DIR.toString());
         System.setProperty("jxbrowser.logging.file", "jxbrowser.log");
         Logger.level(Level.DEBUG);
         var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
-                .licenseKey(LicenseProvider.INSTANCE.getKey())
-                .addScheme(SCHEME, new UrlRequestInterceptor());
+                .userDataDir(CHROMIUM_USER_DATA_DIR)
+                .licenseKey(LicenseProvider.INSTANCE.getKey());
         if (IS_PRODUCTION) {
             optionsBuilder.addScheme(SCHEME, new UrlRequestInterceptor());
         }

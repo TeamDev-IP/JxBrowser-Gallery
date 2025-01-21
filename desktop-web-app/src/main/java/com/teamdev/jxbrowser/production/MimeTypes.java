@@ -5,8 +5,6 @@ import com.teamdev.jxbrowser.internal.Lazy;
 import com.teamdev.jxbrowser.net.MimeType;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -29,16 +27,16 @@ public final class MimeTypes {
     }
 
     public static MimeType mimeType(String fileName) {
-        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+        var extension = fileName.substring(fileName.lastIndexOf(".") + 1);
         return extToMime.get().getOrDefault(extension.toLowerCase(Locale.ENGLISH), OCTET_STREAM);
     }
 
     private static Map<String, MimeType> createMap() {
         ImmutableMap.Builder<String, MimeType> mapBuilder = ImmutableMap.builder();
-        Properties properties = new Properties();
-        URL propertiesUrl = MimeTypes.class.getClassLoader().getResource("ext-to-mimetype.properties");
+        var properties = new Properties();
+        var propertiesUrl = MimeTypes.class.getClassLoader().getResource("ext-to-mimetype.properties");
         if (propertiesUrl != null) {
-            try (InputStream inputStream = propertiesUrl.openStream()) {
+            try (var inputStream = propertiesUrl.openStream()) {
                 properties.load(inputStream);
                 properties.forEach((key, value) -> mapBuilder.put(key.toString(),
                         MimeType.of(value.toString())));

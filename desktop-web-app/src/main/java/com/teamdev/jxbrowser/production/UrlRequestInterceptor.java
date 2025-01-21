@@ -12,26 +12,28 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import static com.teamdev.jxbrowser.production.ApplicationContents.*;
+import static com.teamdev.jxbrowser.production.ApplicationContents.APPLICATION_LOCATION;
+import static com.teamdev.jxbrowser.production.ApplicationContents.APP_URL;
+import static com.teamdev.jxbrowser.production.ApplicationContents.CONTENT_ROOT;
 
 public final class UrlRequestInterceptor implements InterceptUrlRequestCallback {
 
     private static final String CONTENT_TYPE = "Content-Type";
+    public static final String INDEX_HTML = "index.html";
 
     @Override
     public Response on(Params params) {
-        String url = params.urlRequest().url();
-        System.out.println("InterceptUrlRequestCallback " + url);
+        var url = params.urlRequest().url();
         if (url.contains(APP_URL)) {
-            URI uri = URI.create(url);
+            var uri = URI.create(url);
             String filePath;
             if (uri.getPath().equals("/")) {
                 filePath = CONTENT_ROOT + INDEX_HTML;
             } else {
                 filePath = CONTENT_ROOT + uri.getPath();
             }
-            Path pathOnDisk = Paths.get(APPLICATION_LOCATION, filePath);
-            UrlRequestJob job = getUrlRequestJob(params, filePath);
+            var pathOnDisk = Paths.get(APPLICATION_LOCATION, filePath);
+            var job = getUrlRequestJob(params, filePath);
             try {
                 readFile(pathOnDisk, job);
                 job.complete();
@@ -44,14 +46,14 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
     }
 
     private static UrlRequestJob getUrlRequestJob(InterceptUrlRequestCallback.Params params, String file) {
-        UrlRequestJob.Options.Builder builder = UrlRequestJob.Options.newBuilder(HttpStatus.OK);
+        var builder = UrlRequestJob.Options.newBuilder(HttpStatus.OK);
         builder.addHttpHeader(getContentType(file));
         return params.newUrlRequestJob(builder.build());
     }
 
     private static void readFile(Path filePath, UrlRequestJob job) throws IOException {
         try (FileInputStream stream = new FileInputStream(filePath.toFile())) {
-            byte[] buffer = new byte[4096];
+            var buffer = new byte[4096];
             int bytesRead;
             while ((bytesRead = stream.read(buffer)) > 0) {
                 if (bytesRead != buffer.length) {
