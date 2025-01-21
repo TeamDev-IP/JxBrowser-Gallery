@@ -20,32 +20,41 @@
  *  SOFTWARE.
  */
 
-import {defaultFontSize, FontSizeOption} from "@/components/converter/font-size.ts";
-import {systemTheme, ThemeOption} from "@/components/converter/theme.ts";
 
-const fontSizeKey = "font-size";
-const themeKey = "vite-ui-theme";
+import {Language} from "@/gen/general_pb.ts";
 
-function themeFromStorage() {
-    return localStorage.getItem(themeKey) as ThemeOption || systemTheme;
+export type LanguageOption = "English" | "German" | "French"
 
+const englishLanguage: LanguageOption = "English"
+const germanLanguage: LanguageOption = "German"
+const frenchLanguage: LanguageOption = "French"
+
+function fromLanguage(value: Language): LanguageOption {
+    if (value === Language.ENGLISH) {
+        return englishLanguage;
+    } else if (value === Language.GERMAN) {
+        return germanLanguage;
+    } else if (value === Language.FRENCH) {
+        return frenchLanguage;
+    } else {
+        throw new TypeError("Incorrect language.");
+    }
 }
 
-function saveThemeInStorage(language: ThemeOption) {
-    localStorage.setItem(themeKey, language);
-}
-
-function fontSizeFromStorage() {
-    return localStorage.getItem(fontSizeKey) as FontSizeOption || defaultFontSize;
-}
-
-function saveFontSizeInStorage(option: FontSizeOption) {
-    localStorage.setItem(fontSizeKey, option);
+function toLanguage(value: LanguageOption): Language {
+    if (value === englishLanguage) {
+        return Language.ENGLISH;
+    } else if (value === germanLanguage) {
+        return Language.GERMAN;
+    } else {
+        return Language.FRENCH;
+    }
 }
 
 export {
-    fontSizeFromStorage,
-    saveFontSizeInStorage,
-    themeFromStorage,
-    saveThemeInStorage
+    toLanguage,
+    fromLanguage,
+    englishLanguage,
+    germanLanguage,
+    frenchLanguage,
 }

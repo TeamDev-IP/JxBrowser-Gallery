@@ -20,32 +20,40 @@
  *  SOFTWARE.
  */
 
-import {defaultFontSize, FontSizeOption} from "@/components/converter/font-size.ts";
-import {systemTheme, ThemeOption} from "@/components/converter/theme.ts";
+import {TwoFactorAuthentication} from "@/gen/account_pb.ts";
 
-const fontSizeKey = "font-size";
-const themeKey = "vite-ui-theme";
+export type TfaMethod = "Email" | "SMS" | "Passkey"
 
-function themeFromStorage() {
-    return localStorage.getItem(themeKey) as ThemeOption || systemTheme;
+const emailTfa: TfaMethod = "Email";
+const smsTfa: TfaMethod = "SMS";
+const passkeyTfa: TfaMethod = "Passkey";
 
+function fromTfa(value: TwoFactorAuthentication): TfaMethod {
+    if (value === TwoFactorAuthentication.EMAIL) {
+        return emailTfa;
+    } else if (value === TwoFactorAuthentication.SMS) {
+        return smsTfa;
+    } else if (value === TwoFactorAuthentication.PASS_KEY) {
+        return passkeyTfa;
+    } else {
+        throw new TypeError("Incorrect two-factor authentication.");
+    }
 }
 
-function saveThemeInStorage(language: ThemeOption) {
-    localStorage.setItem(themeKey, language);
-}
-
-function fontSizeFromStorage() {
-    return localStorage.getItem(fontSizeKey) as FontSizeOption || defaultFontSize;
-}
-
-function saveFontSizeInStorage(option: FontSizeOption) {
-    localStorage.setItem(fontSizeKey, option);
+function toTfa(value: TfaMethod): TwoFactorAuthentication {
+    if (value === emailTfa) {
+        return TwoFactorAuthentication.EMAIL;
+    } else if (value === smsTfa) {
+        return TwoFactorAuthentication.SMS;
+    } else {
+        return TwoFactorAuthentication.PASS_KEY;
+    }
 }
 
 export {
-    fontSizeFromStorage,
-    saveFontSizeInStorage,
-    themeFromStorage,
-    saveThemeInStorage
+    emailTfa,
+    smsTfa,
+    passkeyTfa,
+    fromTfa,
+    toTfa
 }

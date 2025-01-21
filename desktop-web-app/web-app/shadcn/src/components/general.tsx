@@ -24,49 +24,31 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {Combobox} from "@/components/combobox.tsx";
 import {GreenSwitch} from "@/components/green-switch.tsx";
 import {useEffect, useRef, useState} from "react";
-import {GeneralSchema, Language} from "@/gen/general_pb.ts";
+import {GeneralSchema} from "@/gen/general_pb.ts";
 import {getGeneral, setGeneral} from "@/rpc/app-preferences-service.ts";
 import {create} from "@bufbuild/protobuf";
 import {
     checkForUpdatesFromStorage,
-    englishLanguage,
-    frenchLanguage,
-    germanLanguage,
     languageFromStorage,
-    LanguageOption,
     launchAtStartupFromStorage,
     saveCheckForUpdatesInStorage,
     saveLanguageInStorage,
     saveLaunchAtStartupInStorage
 } from "@/storage/general.ts";
+import {
+    englishLanguage,
+    frenchLanguage,
+    fromLanguage,
+    germanLanguage,
+    LanguageOption,
+    toLanguage
+} from "@/components/converter/language.ts";
 
 const languages: LanguageOption[] = [
     englishLanguage,
     germanLanguage,
     frenchLanguage
 ]
-
-function languageString(value: Language): LanguageOption {
-    if (value === Language.ENGLISH) {
-        return englishLanguage;
-    } else if (value === Language.GERMAN) {
-        return germanLanguage;
-    } else if (value === Language.FRENCH) {
-        return frenchLanguage;
-    } else {
-        throw new TypeError("Incorrect language.");
-    }
-}
-
-function languageEnum(value: LanguageOption): Language {
-    if (value === englishLanguage) {
-        return Language.ENGLISH;
-    } else if (value === germanLanguage) {
-        return Language.GERMAN;
-    } else {
-        return Language.FRENCH;
-    }
-}
 
 export function General() {
     const [launchAtStartupPref, setLaunchAtStartupPref] =
@@ -79,13 +61,15 @@ export function General() {
 
     useEffect(() => {
         getGeneral(generalPrefs => {
+            const language = fromLanguage(generalPrefs.language);
+
             setLaunchAtStartupPref(generalPrefs.launchAtStartup);
-            setLanguagePref(languageString(generalPrefs.language));
+            setLanguagePref(language);
             setCheckForUpdatesPref(generalPrefs.checkForUpdates);
 
             saveLaunchAtStartupInStorage(generalPrefs.launchAtStartup);
             saveCheckForUpdatesInStorage(generalPrefs.checkForUpdates);
-            saveLanguageInStorage(languageString(generalPrefs.language))
+            saveLanguageInStorage(language)
             isInitialized.current = true;
         });
     }, []);
@@ -96,7 +80,7 @@ export function General() {
         }
         const newGeneralPrefs = create(GeneralSchema, {
             launchAtStartup: launchAtStartupPref,
-            language: languageEnum(languagePref),
+            language: toLanguage(languagePref),
             checkForUpdates: checkForUpdatesPref
         });
         saveLanguageInStorage(languagePref);

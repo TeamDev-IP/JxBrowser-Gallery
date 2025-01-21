@@ -25,18 +25,21 @@ import {useEffect, useRef, useState} from "react";
 import {Laptop, Moon, Sun} from "lucide-react";
 import {ThemeBox} from "@/components/theme-box.tsx";
 import {Combobox} from "@/components/combobox.tsx";
-import {AppearanceSchema, FontSize, Theme} from "@/gen/appearance_pb.ts";
+import {AppearanceSchema, Theme} from "@/gen/appearance_pb.ts";
 import {getAppearance, setAppearance} from "@/rpc/app-preferences-service.ts";
 import {create} from "@bufbuild/protobuf";
-import {themeEnum, themeOption, useTheme} from "@/components/theme-provider.tsx";
+import {useTheme} from "@/components/theme-provider.tsx";
+import {saveFontSizeInStorage,} from "@/storage/appearance.ts";
+import {useFontSize} from "@/components/font-size-provider.tsx";
 import {
     defaultFontSize,
     FontSizeOption,
+    fromFontSize,
     largeFontSize,
-    saveFontSizeInStorage,
-    smallFontSize
-} from "@/storage/appearance.ts";
-import {useFontSize} from "@/components/font-size-provider.tsx";
+    smallFontSize,
+    toFontSize
+} from "@/components/converter/font-size.ts";
+import {fromTheme, toTheme} from "@/components/converter/theme.ts";
 
 const fontsSizes: FontSizeOption[] = [
     smallFontSize,
@@ -44,42 +47,21 @@ const fontsSizes: FontSizeOption[] = [
     largeFontSize
 ]
 
-function fromFontSize(value: FontSize): FontSizeOption {
-    if (value === FontSize.SMALL) {
-        return "Small";
-    } else if (value === FontSize.DEFAULT) {
-        return "Default";
-    } else if (value === FontSize.LARGE) {
-        return "Large";
-    } else {
-        throw new TypeError("Incorrect font size.");
-    }
-}
-
-function toFontSize(value: FontSizeOption): FontSize {
-    if (value === smallFontSize) {
-        return FontSize.SMALL;
-    } else if (value === defaultFontSize) {
-        return FontSize.DEFAULT;
-    } else {
-        return FontSize.LARGE;
-    }
-}
-
 export function Appearance() {
     const {theme, setTheme} = useTheme();
     const {fontSize, setFontSize} = useFontSize();
 
-    const [uiTheme, setUiTheme] = useState<Theme>(themeEnum(theme));
+    const [uiTheme, setUiTheme] = useState<Theme>(toTheme(theme));
     const [uiFontSize, setUiFontSize] = useState<FontSizeOption>(fontSize);
     const isInitialized = useRef(false);
 
     useEffect(() => {
         getAppearance(appearance => {
             setUiTheme(appearance.theme);
-            setTheme(themeOption(appearance.theme));
-            setFontSize(fromFontSize(appearance.fontSize));
-            saveFontSizeInStorage(fromFontSize((appearance.fontSize)));
+            setTheme(fromTheme(appearance.theme));
+            const fontSize = fromFontSize(appearance.fontSize);
+            setFontSize(fontSize);
+            saveFontSizeInStorage(fontSize);
             isInitialized.current = true;
         });
     }, []);
@@ -93,7 +75,7 @@ export function Appearance() {
             fontSize: toFontSize(uiFontSize)
         });
         setAppearance(newAppearance, () => {
-            setTheme(themeOption(uiTheme));
+            setTheme(uiTheme);
             setFontSize(uiFontSize);
         });
     }, [uiTheme, uiFontSize]);

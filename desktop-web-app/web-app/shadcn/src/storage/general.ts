@@ -20,15 +20,11 @@
  *  SOFTWARE.
  */
 
-export type LanguageOption = "English" | "German" | "French"
+import {englishLanguage, LanguageOption} from "@/components/converter/language.ts";
 
-const englishLanguage: LanguageOption = "English"
-const germanLanguage: LanguageOption = "German"
-const frenchLanguage: LanguageOption = "French"
-
-const launchAtStartupKey = "general.launchAtStartup";
-const checkForUpdatesKey = "general.checkForUpdates";
-const languageKey = "general.language";
+const launchAtStartupKey = "launch-at-startup";
+const checkForUpdatesKey = "check-for-updates";
+const languageKey = "language";
 
 function launchAtStartupFromStorage() {
     return localStorage.getItem(launchAtStartupKey) === "true" || false;
@@ -47,7 +43,7 @@ function saveCheckForUpdatesInStorage(isEnabled: boolean) {
 }
 
 function languageFromStorage() {
-    return localStorage.getItem(languageKey) as LanguageOption || "";
+    return localStorage.getItem(languageKey) as LanguageOption || englishLanguage;
 }
 
 function saveLanguageInStorage(language: LanguageOption) {
@@ -55,9 +51,6 @@ function saveLanguageInStorage(language: LanguageOption) {
 }
 
 export {
-    englishLanguage,
-    germanLanguage,
-    frenchLanguage,
     launchAtStartupFromStorage,
     saveLaunchAtStartupInStorage,
     checkForUpdatesFromStorage,

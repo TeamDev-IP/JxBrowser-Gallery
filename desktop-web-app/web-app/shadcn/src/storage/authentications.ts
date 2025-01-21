@@ -20,17 +20,14 @@
  *  SOFTWARE.
  */
 
-export type TfaMethod = "Email" | "SMS" | "Passkey"
 
-const tfaEmail: TfaMethod = "Email";
-const tfaSms: TfaMethod = "SMS";
-const tfaPasskey: TfaMethod = "Passkey";
+import {emailTfa, TfaMethod} from "@/components/converter/tfa-method.ts";
 
-const twoFactorAuthenticationKey = "account.twoFactorAuthentication";
-const biometricAuthenticationKey = "account.biometricAuthentication";
+const twoFactorAuthenticationKey = "two-factor-authentication";
+const biometricAuthenticationKey = "biometric-authentication";
 
 function tfaFromStorage() {
-    return localStorage.getItem(twoFactorAuthenticationKey) as TfaMethod || "";
+    return localStorage.getItem(twoFactorAuthenticationKey) as TfaMethod || emailTfa;
 }
 
 function biometricAuthenticationFromStorage() {
@@ -50,8 +47,5 @@ export {
     biometricAuthenticationFromStorage,
     saveTfaInStorage,
     saveBiometricAuthenticationInStorage,
-    tfaEmail,
-    tfaPasskey,
-    tfaSms
 }
 

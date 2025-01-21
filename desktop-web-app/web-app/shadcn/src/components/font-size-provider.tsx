@@ -22,14 +22,13 @@
 
 import React, {createContext, useContext, useEffect, useState} from "react"
 import {getAppearance} from "@/rpc/app-preferences-service.ts";
-import {FontSize} from "@/gen/appearance_pb.ts";
+import {fontSizeFromStorage, saveFontSizeInStorage,} from "@/storage/appearance.ts";
 import {
     defaultFontSize,
-    fontSizeFromStorage,
     FontSizeOption,
-    saveFontSizeInStorage,
+    fromFontSize,
     smallFontSize
-} from "@/storage/appearance.ts";
+} from "@/components/converter/font-size.ts";
 
 type FontSizeProviderProps = {
     children: React.ReactNode
@@ -47,17 +46,9 @@ const initialState: FontSizeProviderState = {
 
 const FontSizeProviderContext = createContext<FontSizeProviderState>(initialState);
 
-function fromFontSize(value: FontSize): FontSizeOption {
-    if (value === FontSize.SMALL) {
-        return "Small";
-    } else if (value === FontSize.DEFAULT) {
-        return "Default";
-    } else if (value === FontSize.LARGE) {
-        return "Large";
-    } else {
-        throw new TypeError("Incorrect font size.");
-    }
-}
+const smallScaleFactor = 0.8;
+const defaultScaleFactor = 1.0;
+const largeScaleFactor = 1.2;
 
 export function FontSizeProvider({
                                      children,
@@ -80,11 +71,11 @@ export function FontSizeProvider({
             style.setProperty('--font-size-2xl', `${1.5 * scaleFactor}rem`);
         }
         if (fontSize === smallFontSize) {
-            adjustFontSize(0.8);
+            adjustFontSize(smallScaleFactor);
         } else if (fontSize === defaultFontSize) {
-            adjustFontSize(1.0);
+            adjustFontSize(defaultScaleFactor);
         } else {
-            adjustFontSize(1.2);
+            adjustFontSize(largeScaleFactor);
         }
     }, [fontSize])
 

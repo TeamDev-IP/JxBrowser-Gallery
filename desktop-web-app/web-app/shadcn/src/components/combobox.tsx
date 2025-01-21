@@ -27,11 +27,6 @@ import {Check, ChevronsUpDown} from "lucide-react";
 import {Command, CommandGroup, CommandItem, CommandList} from "@/components/ui/command.tsx";
 import {cn} from "@/lib/utils.ts";
 
-export declare type Option = {
-    value: string,
-    label: string
-}
-
 interface ComboboxProps {
     options: string[],
     currentOption: string
@@ -39,7 +34,7 @@ interface ComboboxProps {
 }
 
 export function Combobox({options, currentOption, onSelect}: ComboboxProps) {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -65,8 +60,8 @@ export function Combobox({options, currentOption, onSelect}: ComboboxProps) {
                                     key={it}
                                     value={it}
                                     onSelect={(currentValue) => {
-                                        onSelect(currentValue)
-                                        setOpen(false)
+                                        onSelect(currentValue);
+                                        setOpen(false);
                                     }}
                                 >
                                     {it}

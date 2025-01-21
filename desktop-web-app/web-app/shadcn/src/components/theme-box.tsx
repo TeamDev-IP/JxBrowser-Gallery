@@ -21,9 +21,8 @@
  */
 
 import {LucideIcon} from "lucide-react";
-import {Theme, useTheme} from "@/components/theme-provider.tsx";
 
-interface Props {
+interface ThemeProps {
     title: string
     theme: string
     icon: LucideIcon
@@ -31,14 +30,11 @@ interface Props {
     onClick: () => void
 }
 
-export function ThemeBox(props: Props) {
-    const {setTheme} = useTheme()
+export function ThemeBox(props: ThemeProps) {
     return (
-        <div onClick={() => {
-            props.onClick();
-            setTheme(props.theme as Theme)
-        }}
-            className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ? "border-green-500" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-2`}>
+        <div onClick={props.onClick}
+             className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ? 
+                 "border-green-500" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-2`}>
             <props.icon className={"text-right"}/>
             <span className="justify-end text-center text-sm">
                       {props.title}

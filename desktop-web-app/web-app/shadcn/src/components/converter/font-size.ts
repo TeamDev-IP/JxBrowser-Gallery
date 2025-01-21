@@ -20,32 +20,41 @@
  *  SOFTWARE.
  */
 
-import {defaultFontSize, FontSizeOption} from "@/components/converter/font-size.ts";
-import {systemTheme, ThemeOption} from "@/components/converter/theme.ts";
+import {FontSize} from "@/gen/appearance_pb.ts";
 
-const fontSizeKey = "font-size";
-const themeKey = "vite-ui-theme";
+export type FontSizeOption = "Small" | "Default" | "Large";
 
-function themeFromStorage() {
-    return localStorage.getItem(themeKey) as ThemeOption || systemTheme;
+const smallFontSize: FontSizeOption = "Small";
+const defaultFontSize: FontSizeOption = "Default";
+const largeFontSize: FontSizeOption = "Large";
 
+function fromFontSize(value: FontSize): FontSizeOption {
+    if (value === FontSize.SMALL) {
+        return "Small";
+    } else if (value === FontSize.DEFAULT) {
+        return "Default";
+    } else if (value === FontSize.LARGE) {
+        return "Large";
+    } else {
+        throw new TypeError("Incorrect font size.");
+    }
 }
 
-function saveThemeInStorage(language: ThemeOption) {
-    localStorage.setItem(themeKey, language);
-}
-
-function fontSizeFromStorage() {
-    return localStorage.getItem(fontSizeKey) as FontSizeOption || defaultFontSize;
-}
-
-function saveFontSizeInStorage(option: FontSizeOption) {
-    localStorage.setItem(fontSizeKey, option);
+function toFontSize(value: FontSizeOption): FontSize {
+    if (value === smallFontSize) {
+        return FontSize.SMALL;
+    } else if (value === defaultFontSize) {
+        return FontSize.DEFAULT;
+    } else {
+        return FontSize.LARGE;
+    }
 }
 
 export {
-    fontSizeFromStorage,
-    saveFontSizeInStorage,
-    themeFromStorage,
-    saveThemeInStorage
+    smallFontSize,
+    defaultFontSize,
+    largeFontSize,
+    fromFontSize,
+    toFontSize
 }
+

@@ -33,47 +33,29 @@ import {
     setAccount,
     setProfilePicture
 } from "@/rpc/app-preferences-service.ts";
-import {AccountSchema, ProfilePictureSchema, TwoFactorAuthentication} from "@/gen/account_pb.ts";
+import {AccountSchema, ProfilePictureSchema} from "@/gen/account_pb.ts";
 import {create} from "@bufbuild/protobuf";
 import {
     biometricAuthenticationFromStorage,
     saveBiometricAuthenticationInStorage,
     saveTfaInStorage,
-    tfaEmail,
     tfaFromStorage,
-    TfaMethod,
-    tfaPasskey,
-    tfaSms
 } from "@/storage/authentications.ts";
 import {imageToDataUri} from "@/components/converter/image.ts";
+import {
+    emailTfa,
+    fromTfa,
+    passkeyTfa,
+    smsTfa,
+    TfaMethod,
+    toTfa
+} from "@/components/converter/tfa-method.ts";
 
 const authentications: TfaMethod[] = [
-    tfaEmail,
-    tfaSms,
-    tfaPasskey
+    emailTfa,
+    smsTfa,
+    passkeyTfa
 ]
-
-function tfaMethod(value: TwoFactorAuthentication): TfaMethod {
-    if (value === TwoFactorAuthentication.EMAIL) {
-        return tfaEmail;
-    } else if (value === TwoFactorAuthentication.SMS) {
-        return tfaSms;
-    } else if (value === TwoFactorAuthentication.PASS_KEY) {
-        return tfaPasskey;
-    } else {
-        throw new TypeError("Incorrect two-factor authentication.");
-    }
-}
-
-function tfaEnum(value: TfaMethod): TwoFactorAuthentication {
-    if (value === tfaEmail) {
-        return TwoFactorAuthentication.EMAIL;
-    } else if (value === tfaSms) {
-        return TwoFactorAuthentication.SMS;
-    } else {
-        return TwoFactorAuthentication.PASS_KEY;
-    }
-}
 
 export function UserAccount() {
     const [userProfilePicture, setUserProfilePicture] = useState<string>("");
@@ -90,11 +72,11 @@ export function UserAccount() {
             setUserEmail(account.email);
             setUserFullName(account.fullName);
 
-            const tfaMethodValue = tfaMethod(account.twoFactorAuthentication);
-            setUserTwoFactorAuthentication(tfaMethodValue);
+            const tfaMethod = fromTfa(account.twoFactorAuthentication);
+            setUserTwoFactorAuthentication(tfaMethod);
             setUserBiometricAuthentication(account.biometricAuthentication);
 
-            saveTfaInStorage(tfaMethodValue);
+            saveTfaInStorage(tfaMethod);
             saveBiometricAuthenticationInStorage(account.biometricAuthentication);
             isInitialized.current = true;
         });
@@ -110,10 +92,9 @@ export function UserAccount() {
         const newAccount = create(AccountSchema, {
             fullName: userFullName,
             email: userEmail,
-            twoFactorAuthentication: tfaEnum(userTwoFactorAuthentication),
+            twoFactorAuthentication: toTfa(userTwoFactorAuthentication),
             biometricAuthentication: userBiometricAuthentication
         });
-        console.log("new ");
         setAccount(newAccount);
         saveTfaInStorage(userTwoFactorAuthentication);
         saveBiometricAuthenticationInStorage(userBiometricAuthentication);

@@ -1,14 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from "react"
 import {getAppearance} from "@/rpc/app-preferences-service.ts";
-import {Theme} from "@/gen/appearance_pb.ts";
-import {
-    darkTheme,
-    lightTheme,
-    saveThemeInStorage,
-    systemTheme,
-    themeFromStorage,
-    ThemeOption
-} from "@/storage/theme.ts";
+import {fromTheme, systemTheme, ThemeOption} from "@/components/converter/theme.ts";
+import {saveThemeInStorage, themeFromStorage} from "@/storage/appearance.ts";
 
 type ThemeProviderProps = {
     children: React.ReactNode
@@ -27,28 +20,6 @@ const initialState: ThemeProviderState = {
 }
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
-
-export function themeOption(value: Theme): ThemeOption {
-    if (value === Theme.LIGHT) {
-        return lightTheme;
-    } else if (value === Theme.DARK) {
-        return darkTheme;
-    } else if (value === Theme.SYSTEM) {
-        return systemTheme;
-    } else {
-        throw new TypeError("Incorrect two-factor authentication.");
-    }
-}
-
-export function themeEnum(value: ThemeOption): Theme {
-    if (value === lightTheme) {
-        return Theme.LIGHT;
-    } else if (value === darkTheme) {
-        return Theme.DARK;
-    } else {
-        return Theme.SYSTEM;
-    }
-}
 
 export function ThemeProvider({
                                   children,
@@ -73,8 +44,9 @@ export function ThemeProvider({
     setRootTheme(theme);
     useEffect(() => {
         getAppearance(appearancePrefs => {
-            setTheme(themeOption(appearancePrefs.theme));
-            saveThemeInStorage(themeOption(appearancePrefs.theme));
+            const theme = fromTheme(appearancePrefs.theme);
+            setTheme(theme);
+            saveThemeInStorage(theme);
         });
     }, []);
     useEffect(() => setRootTheme(theme), [theme]);

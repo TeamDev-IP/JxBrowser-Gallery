@@ -20,27 +20,3 @@
  *  SOFTWARE.
  */
 
-
-export type ThemeOption = "dark" | "light" | "system";
-
-const lightTheme: ThemeOption = "light";
-const darkTheme: ThemeOption = "dark";
-const systemTheme: ThemeOption = "system";
-
-const themeKey = "vite-ui-theme";
-
-function themeFromStorage() {
-    return localStorage.getItem(themeKey) as ThemeOption || systemTheme;
-}
-
-function saveThemeInStorage(language: ThemeOption) {
-    localStorage.setItem(themeKey, language);
-}
-
-export {
-    themeFromStorage,
-    saveThemeInStorage,
-    lightTheme,
-    darkTheme,
-    systemTheme
-}

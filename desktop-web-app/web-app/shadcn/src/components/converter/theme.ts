@@ -20,32 +20,42 @@
  *  SOFTWARE.
  */
 
-import {defaultFontSize, FontSizeOption} from "@/components/converter/font-size.ts";
-import {systemTheme, ThemeOption} from "@/components/converter/theme.ts";
 
-const fontSizeKey = "font-size";
-const themeKey = "vite-ui-theme";
+import {Theme} from "@/gen/appearance_pb.ts";
 
-function themeFromStorage() {
-    return localStorage.getItem(themeKey) as ThemeOption || systemTheme;
+export type ThemeOption = "dark" | "light" | "system";
 
+const lightTheme: ThemeOption = "light";
+const darkTheme: ThemeOption = "dark";
+const systemTheme: ThemeOption = "system";
+
+function fromTheme(value: Theme): ThemeOption {
+    if (value === Theme.LIGHT) {
+        return lightTheme;
+    } else if (value === Theme.DARK) {
+        return darkTheme;
+    } else if (value === Theme.SYSTEM) {
+        return systemTheme;
+    } else {
+        throw new TypeError("Incorrect two-factor authentication.");
+    }
 }
 
-function saveThemeInStorage(language: ThemeOption) {
-    localStorage.setItem(themeKey, language);
-}
-
-function fontSizeFromStorage() {
-    return localStorage.getItem(fontSizeKey) as FontSizeOption || defaultFontSize;
-}
-
-function saveFontSizeInStorage(option: FontSizeOption) {
-    localStorage.setItem(fontSizeKey, option);
+function toTheme(value: ThemeOption): Theme {
+    if (value === lightTheme) {
+        return Theme.LIGHT;
+    } else if (value === darkTheme) {
+        return Theme.DARK;
+    } else {
+        return Theme.SYSTEM;
+    }
 }
 
 export {
-    fontSizeFromStorage,
-    saveFontSizeInStorage,
-    themeFromStorage,
-    saveThemeInStorage
+    fromTheme,
+    toTheme,
+    lightTheme,
+    darkTheme,
+    systemTheme
 }
+

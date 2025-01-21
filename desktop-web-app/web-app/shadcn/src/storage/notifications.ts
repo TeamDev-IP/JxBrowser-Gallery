@@ -45,5 +45,3 @@ export {
     desktopNotificationsKeyFromStorage,
     saveDesktopNotificationsKeyInStorage
 }
-
-
