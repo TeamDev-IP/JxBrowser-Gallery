@@ -51,24 +51,24 @@ const languages: LanguageOption[] = [
 ];
 
 export function General() {
-    const [launchAtStartupPref, setLaunchAtStartupPref] =
+    const [launchAtStartup, setLaunchAtStartup] =
         useState<boolean>(launchAtStartupFromStorage());
-    const [languagePref, setLanguagePref] =
+    const [language, setLanguage] =
         useState<LanguageOption>(languageFromStorage());
-    const [checkForUpdatesPref, setCheckForUpdatesPref] =
+    const [checkForUpdates, setCheckForUpdates] =
         useState<boolean>(checkForUpdatesFromStorage());
     const isInitialized = useRef(false);
 
     useEffect(() => {
-        getGeneral(generalPrefs => {
-            const language = fromLanguage(generalPrefs.language);
+        getGeneral(general => {
+            const language = fromLanguage(general.language);
 
-            setLaunchAtStartupPref(generalPrefs.launchAtStartup);
-            setLanguagePref(language);
-            setCheckForUpdatesPref(generalPrefs.checkForUpdates);
+            setLaunchAtStartup(general.launchAtStartup);
+            setLanguage(language);
+            setCheckForUpdates(general.checkForUpdates);
 
-            saveLaunchAtStartupInStorage(generalPrefs.launchAtStartup);
-            saveCheckForUpdatesInStorage(generalPrefs.checkForUpdates);
+            saveLaunchAtStartupInStorage(general.launchAtStartup);
+            saveCheckForUpdatesInStorage(general.checkForUpdates);
             saveLanguageInStorage(language);
             isInitialized.current = true;
         });
@@ -78,16 +78,16 @@ export function General() {
         if (!isInitialized.current) {
             return;
         }
-        const newGeneralPrefs = create(GeneralSchema, {
-            launchAtStartup: launchAtStartupPref,
-            language: toLanguage(languagePref),
-            checkForUpdates: checkForUpdatesPref
+        const newGeneral = create(GeneralSchema, {
+            launchAtStartup,
+            language: toLanguage(language),
+            checkForUpdates
         });
-        saveLanguageInStorage(languagePref);
-        saveCheckForUpdatesInStorage(checkForUpdatesPref);
-        saveLaunchAtStartupInStorage(launchAtStartupPref);
-        setGeneral(newGeneralPrefs);
-    }, [launchAtStartupPref, languagePref, checkForUpdatesPref]);
+        saveLanguageInStorage(language);
+        saveCheckForUpdatesInStorage(checkForUpdates);
+        saveLaunchAtStartupInStorage(launchAtStartup);
+        setGeneral(newGeneral);
+    }, [launchAtStartup, language, checkForUpdates]);
 
     return (
         <div className="space-y-4">
@@ -101,7 +101,7 @@ export function General() {
                         boots up.
                     </p>
                 </div>
-                <GreenSwitch isChecked={launchAtStartupPref} onChange={setLaunchAtStartupPref}/>
+                <GreenSwitch isChecked={launchAtStartup} onChange={setLaunchAtStartup}/>
             </div>
             <div className="w-full inline-flex items-center space-y-2 justify-between py-1">
                 <div className="pr-8">
@@ -110,9 +110,9 @@ export function General() {
                         Choose the language for the application’s interface.
                     </p>
                 </div>
-                <Combobox options={languages} currentOption={languagePref}
+                <Combobox options={languages} currentOption={language}
                           onSelect={value => {
-                              setLanguagePref(value as LanguageOption);
+                              setLanguage(value as LanguageOption);
                           }}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
@@ -122,7 +122,7 @@ export function General() {
                         Allow to check for updates in the background.
                     </p>
                 </div>
-                <GreenSwitch isChecked={checkForUpdatesPref} onChange={setCheckForUpdatesPref}/>
+                <GreenSwitch isChecked={checkForUpdates} onChange={setCheckForUpdates}/>
             </div>
         </div>
     );

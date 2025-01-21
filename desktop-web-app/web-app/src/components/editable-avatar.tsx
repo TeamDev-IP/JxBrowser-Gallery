@@ -20,19 +20,18 @@
  *  SOFTWARE.
  */
 
-
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {cn} from "@/lib/utils.ts";
 import {Upload} from "lucide-react";
 import {useRef} from "react";
 
 interface AvatarProps {
-    pictureSrc: string;
+    pictureDataUri: string;
     fallback: string;
     onChange: (file: File) => void;
 }
 
-export function EditableAvatar({pictureSrc, fallback, onChange}: AvatarProps) {
+export function EditableAvatar({pictureDataUri, fallback, onChange}: AvatarProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (
@@ -44,7 +43,7 @@ export function EditableAvatar({pictureSrc, fallback, onChange}: AvatarProps) {
                  className="flex relative justify-center items-center group">
                 <Avatar
                     className="group-hover:opacity-50 transition-colors duration-200 object-cover">
-                    <AvatarImage src={pictureSrc}/>
+                    <AvatarImage src={pictureDataUri}/>
                     <AvatarFallback>{fallback}</AvatarFallback>
                 </Avatar>
                 <input

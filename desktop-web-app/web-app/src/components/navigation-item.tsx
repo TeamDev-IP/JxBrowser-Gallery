@@ -23,13 +23,13 @@
 import {SidebarMenuButton, SidebarMenuItem} from "@/components/ui/sidebar.tsx";
 import {LucideIcon} from "lucide-react";
 
-interface ItemProps {
+interface NavigationItemProps {
     title: string;
     url: string;
     icon: LucideIcon;
 }
 
-export function NavigationItem(props: ItemProps) {
+export function NavigationItem(props: NavigationItemProps) {
     return (
         <SidebarMenuItem key={props.title}>
             <SidebarMenuButton isActive={window.location.pathname === props.url} asChild>

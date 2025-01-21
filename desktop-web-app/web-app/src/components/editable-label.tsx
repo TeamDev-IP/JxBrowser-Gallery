@@ -20,7 +20,6 @@
  *  SOFTWARE.
  */
 
-
 import {Input} from "@/components/ui/input.tsx";
 import {ChangeEventHandler, useState} from "react";
 

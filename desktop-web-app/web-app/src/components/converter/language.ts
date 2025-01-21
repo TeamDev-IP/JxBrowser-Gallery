@@ -20,7 +20,6 @@
  *  SOFTWARE.
  */
 
-
 import {Language} from "@/gen/general_pb.ts";
 
 export type LanguageOption = "English" | "German" | "French"

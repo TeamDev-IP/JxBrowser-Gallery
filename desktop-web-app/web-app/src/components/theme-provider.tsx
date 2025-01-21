@@ -49,7 +49,7 @@ export function ThemeProvider({
                               }: ThemeProviderProps) {
     const [theme, setTheme] = useState<ThemeOption>(themeFromStorage());
 
-    const setRootTheme = (theme: ThemeOption) => {
+    const setRootTheme = () => {
         const root = window.document.documentElement;
         root.classList.remove("light", "dark");
         if (theme === "system") {
@@ -63,15 +63,15 @@ export function ThemeProvider({
         }
         root.classList.add(theme);
     };
-    setRootTheme(theme);
+    setRootTheme();
     useEffect(() => {
-        getAppearance(appearancePrefs => {
-            const theme = fromTheme(appearancePrefs.theme);
+        getAppearance(appearance => {
+            const theme = fromTheme(appearance.theme);
             setTheme(theme);
             saveThemeInStorage(theme);
         });
     }, []);
-    useEffect(() => setRootTheme(theme), [theme]);
+    useEffect(setRootTheme, [theme]);
 
     const value = {
         theme,

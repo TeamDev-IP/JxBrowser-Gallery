@@ -56,14 +56,8 @@ export function FontSizeProvider({
                                  }: FontSizeProviderProps) {
     const [fontSize, setFontSize] = useState<FontSizeOption>(fontSizeFromStorage());
 
-    useEffect(() => {
-        getAppearance(appearancePrefs => {
-            setFontSize(fromFontSize(appearancePrefs.fontSize));
-            saveFontSizeInStorage(fromFontSize(appearancePrefs.fontSize));
-        });
-    }, []);
-    useEffect(() => {
-        const adjustFontSize = (scaleFactor: number) => {
+    const adjustFontSize = () => {
+        const setFontSizeStyles = (scaleFactor: number) => {
             const style = document.documentElement.style;
             style.setProperty('--font-size-sm', `${0.875 * scaleFactor}rem`);
             style.setProperty('--font-size-xs', `${0.75 * scaleFactor}rem`);
@@ -71,13 +65,22 @@ export function FontSizeProvider({
             style.setProperty('--font-size-2xl', `${1.5 * scaleFactor}rem`);
         };
         if (fontSize === smallFontSize) {
-            adjustFontSize(smallScaleFactor);
+            setFontSizeStyles(smallScaleFactor);
         } else if (fontSize === defaultFontSize) {
-            adjustFontSize(defaultScaleFactor);
+            setFontSizeStyles(defaultScaleFactor);
         } else {
-            adjustFontSize(largeScaleFactor);
+            setFontSizeStyles(largeScaleFactor);
         }
-    }, [fontSize]);
+    }
+
+    adjustFontSize();
+    useEffect(() => {
+        getAppearance(appearance => {
+            setFontSize(fromFontSize(appearance.fontSize));
+            saveFontSizeInStorage(fromFontSize(appearance.fontSize));
+        });
+    }, []);
+    useEffect(adjustFontSize, [fontSize]);
 
     const value = {
         fontSize,

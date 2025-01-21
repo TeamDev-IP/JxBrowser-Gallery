@@ -20,7 +20,6 @@
  *  SOFTWARE.
  */
 
-import {Separator} from "@/components/ui/separator.tsx";
 import {Combobox} from "@/components/combobox.tsx";
 import {GreenSwitch} from "@/components/green-switch.tsx";
 import {EditableAvatar} from "@/components/editable-avatar.tsx";
@@ -58,30 +57,30 @@ const authentications: TfaMethod[] = [
 ];
 
 export function UserAccount() {
-    const [userProfilePicture, setUserProfilePicture] = useState<string>("");
-    const [userFullName, setUserFullName] = useState<string>("");
-    const [userEmail, setUserEmail] = useState<string>("");
-    const [userTwoFactorAuthentication, setUserTwoFactorAuthentication] =
+    const [profilePictureDataUri, setProfilePictureDataUri] = useState<string>("");
+    const [fullName, setFullName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [twoFactorAuthentication, setTwoFactorAuthentication] =
         useState<TfaMethod>(tfaFromStorage());
-    const [userBiometricAuthentication, setUserBiometricAuthentication] =
+    const [biometricAuthentication, setBiometricAuthentication] =
         useState<boolean>(biometricAuthenticationFromStorage());
     const isInitialized = useRef(false);
 
     useEffect(() => {
         getAccount(account => {
-            setUserEmail(account.email);
-            setUserFullName(account.fullName);
+            setEmail(account.email);
+            setFullName(account.fullName);
 
             const tfaMethod = fromTfa(account.twoFactorAuthentication);
-            setUserTwoFactorAuthentication(tfaMethod);
-            setUserBiometricAuthentication(account.biometricAuthentication);
+            setTwoFactorAuthentication(tfaMethod);
+            setBiometricAuthentication(account.biometricAuthentication);
 
             saveTfaInStorage(tfaMethod);
             saveBiometricAuthenticationInStorage(account.biometricAuthentication);
             isInitialized.current = true;
         });
         getProfilePicture(contentBytes => {
-            setUserProfilePicture(imageToDataUri(contentBytes));
+            setProfilePictureDataUri(imageToDataUri(contentBytes));
         });
     }, []);
 
@@ -90,20 +89,20 @@ export function UserAccount() {
             return;
         }
         const newAccount = create(AccountSchema, {
-            fullName: userFullName,
-            email: userEmail,
-            twoFactorAuthentication: toTfa(userTwoFactorAuthentication),
-            biometricAuthentication: userBiometricAuthentication
+            fullName,
+            email,
+            twoFactorAuthentication: toTfa(twoFactorAuthentication),
+            biometricAuthentication
         });
         setAccount(newAccount);
-        saveTfaInStorage(userTwoFactorAuthentication);
-        saveBiometricAuthenticationInStorage(userBiometricAuthentication);
-    }, [userFullName, userEmail, userTwoFactorAuthentication, userBiometricAuthentication]);
+        saveTfaInStorage(twoFactorAuthentication);
+        saveBiometricAuthenticationInStorage(biometricAuthentication);
+    }, [fullName, email, twoFactorAuthentication, biometricAuthentication]);
 
     return (
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Account</h1>
-            <Separator className="my-2 h-[1px] w-full"/>
+            <GuidingLine/>
             <EditableAvatar onChange={file => {
                 const reader = new FileReader();
                 reader.onload = () => {
@@ -112,17 +111,17 @@ export function UserAccount() {
                         content: new Uint8Array(reader.result as ArrayBuffer)
                     });
                     setProfilePicture(newProfilePicture, () => {
-                        setUserProfilePicture(imageToDataUri(newProfilePicture.content));
+                        setProfilePictureDataUri(imageToDataUri(newProfilePicture.content));
                     });
                 };
                 reader.readAsArrayBuffer(file);
-            }} pictureSrc={userProfilePicture}
-                            fallback={userFullName.split(" ").map(it => it[0]).join("")}/>
+            }} pictureDataUri={profilePictureDataUri}
+                            fallback={fullName.split(" ").map(it => it[0]).join("")}/>
             <EditableLabel title={"Email"} type={EditableLabelType.EMAIL}
-                           onChange={setUserEmail} defaultValue={userEmail} id={"email"}/>
+                           onChange={setEmail} defaultValue={email} id={"email"}/>
             <EditableLabel title={"Full name"} type={EditableLabelType.TEXT}
-                           defaultValue={userFullName}
-                           onChange={setUserFullName} id={"fullname"}/>
+                           defaultValue={fullName}
+                           onChange={setFullName} id={"fullname"}/>
             <GuidingLine/>
             <div className="w-full inline-flex items-center space-y-2 justify-between py-1">
                 <div className="pr-8">
@@ -132,9 +131,9 @@ export function UserAccount() {
                     </p>
                 </div>
                 <Combobox onSelect={value => {
-                    setUserTwoFactorAuthentication(value as TfaMethod);
+                    setTwoFactorAuthentication(value as TfaMethod);
                 }} options={authentications}
-                          currentOption={userTwoFactorAuthentication}/>
+                          currentOption={twoFactorAuthentication}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">
@@ -143,8 +142,8 @@ export function UserAccount() {
                         Allow authentication via fingerprints or Face ID.
                     </p>
                 </div>
-                <GreenSwitch onChange={setUserBiometricAuthentication}
-                             isChecked={userBiometricAuthentication}/>
+                <GreenSwitch onChange={setBiometricAuthentication}
+                             isChecked={biometricAuthentication}/>
             </div>
         </div>
     );

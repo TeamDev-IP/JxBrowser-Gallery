@@ -20,7 +20,6 @@
  *  SOFTWARE.
  */
 
-
 import {Theme} from "@/gen/appearance_pb.ts";
 
 export type ThemeOption = "dark" | "light" | "system";

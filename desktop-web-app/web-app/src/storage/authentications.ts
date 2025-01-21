@@ -20,7 +20,6 @@
  *  SOFTWARE.
  */
 
-
 import {emailTfa, TfaMethod} from "@/components/converter/tfa-method.ts";
 
 const twoFactorAuthenticationKey = "two-factor-authentication";

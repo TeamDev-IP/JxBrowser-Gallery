@@ -37,9 +37,9 @@ const transport = createGrpcWebTransport({
 });
 const appPreferencesClient = createCallbackClient(AppPreferencesService, transport);
 
-function getAccount(callback: (account: Account) => void) {
+function getAccount(callback?: (account: Account) => void) {
     appPreferencesClient.getAccount({}, (_err, res) => {
-        callback(res);
+        callback && callback(res);
     });
 }
 

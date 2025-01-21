@@ -55,11 +55,11 @@ export function Notifications() {
         if (!isInitialized.current) {
             return;
         }
-        const newNotificationsPrefs = create(NotificationsSchema, {
+        const newNotifications = create(NotificationsSchema, {
             emailEnabled,
             desktopEnabled,
         });
-        setNotifications(newNotificationsPrefs);
+        setNotifications(newNotifications);
         saveEmailNotificationsInStorage(emailEnabled);
         saveDesktopNotificationsKeyInStorage(desktopEnabled);
     }, [desktopEnabled, emailEnabled]);
