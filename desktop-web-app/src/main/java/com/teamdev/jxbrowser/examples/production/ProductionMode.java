@@ -20,41 +20,15 @@
  *  SOFTWARE.
  */
 
-package com.teamdev.jxbrowser.preferences;
+package com.teamdev.jxbrowser.examples.production;
 
-import com.google.gson.Gson;
+public final class ProductionMode {
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import static com.teamdev.jxbrowser.production.ApplicationContents.APPLICATION_RESOURCES_DIR;
-
-public final class PreferencesFile {
-
-    static final File APP_PREFERENCES_FILE =
-            new File(APPLICATION_RESOURCES_DIR.toFile(), "preferences.json");
-
-    private PreferencesFile() {
-
+    private ProductionMode() {
+        // Prevents instance creation.
     }
 
-    public static Preferences read() {
-        Gson gson = new Gson();
-        try (FileReader reader = new FileReader(APP_PREFERENCES_FILE)) {
-            return gson.fromJson(reader, Preferences.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void write(Preferences preferences) {
-        Gson gson = new Gson();
-        try (FileWriter writer = new FileWriter(APP_PREFERENCES_FILE)) {
-            gson.toJson(preferences, writer);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static boolean isEnabled() {
+        return System.getProperty("app.dev.mode") == null;
     }
 }

@@ -109,7 +109,7 @@ tasks.register<Exec>("startDevServer") {
 
 application {
     applicationDefaultJvmArgs = listOf("-Dapp.dev.mode=true")
-    mainClass.set("com.teamdev.jxbrowser.App")
+    mainClass.set("com.teamdev.jxbrowser.examples.App")
 }
 
 tasks.register<Exec>("installNpmPackages") {

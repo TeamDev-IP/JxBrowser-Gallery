@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-package com.teamdev.jxbrowser.production;
+package com.teamdev.jxbrowser.examples.production;
 
 import com.teamdev.jxbrowser.net.HttpHeader;
 import com.teamdev.jxbrowser.net.HttpStatus;
@@ -34,14 +34,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import static com.teamdev.jxbrowser.production.ApplicationContents.APPLICATION_LOCATION;
-import static com.teamdev.jxbrowser.production.ApplicationContents.APP_URL;
-import static com.teamdev.jxbrowser.production.ApplicationContents.CONTENT_ROOT;
+import static com.teamdev.jxbrowser.examples.AppContents.APP_LOCATION;
+import static com.teamdev.jxbrowser.examples.AppContents.APP_URL;
 
 public final class UrlRequestInterceptor implements InterceptUrlRequestCallback {
 
     private static final String CONTENT_TYPE = "Content-Type";
-    public static final String INDEX_HTML = "index.html";
+    private static final String INDEX_HTML = "index.html";
+    private static final String CONTENT_ROOT = "web/";
+    private static final int BUFFER_SIZE = 4096;
 
     @Override
     public Response on(Params params) {
@@ -54,7 +55,7 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
             } else {
                 filePath = CONTENT_ROOT + uri.getPath();
             }
-            var pathOnDisk = Paths.get(APPLICATION_LOCATION, filePath);
+            var pathOnDisk = Paths.get(APP_LOCATION, filePath);
             var job = getUrlRequestJob(params, filePath);
             try {
                 readFile(pathOnDisk, job);
@@ -75,7 +76,7 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
 
     private static void readFile(Path filePath, UrlRequestJob job) throws IOException {
         try (FileInputStream stream = new FileInputStream(filePath.toFile())) {
-            var buffer = new byte[4096];
+            var buffer = new byte[BUFFER_SIZE];
             int bytesRead;
             while ((bytesRead = stream.read(buffer)) > 0) {
                 if (bytesRead != buffer.length) {
@@ -87,6 +88,6 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
     }
 
     private static HttpHeader getContentType(String file) {
-        return HttpHeader.of(CONTENT_TYPE, MimeTypes.mimeType(file).value());
+        return HttpHeader.of(CONTENT_TYPE, com.teamdev.jxbrowser.examples.production.MimeTypes.mimeType(file).value());
     }
 }

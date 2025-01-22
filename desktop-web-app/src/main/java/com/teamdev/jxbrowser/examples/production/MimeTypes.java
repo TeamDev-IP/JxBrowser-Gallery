@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-package com.teamdev.jxbrowser.production;
+package com.teamdev.jxbrowser.examples.production;
 
 import com.teamdev.jxbrowser.deps.com.google.common.collect.ImmutableMap;
 import com.teamdev.jxbrowser.internal.Lazy;
@@ -48,6 +48,9 @@ public final class MimeTypes {
     private MimeTypes() {
     }
 
+    /**
+     * Returns a mime type based on the extension of {@code fileName}.
+     */
     public static MimeType mimeType(String fileName) {
         var extension = fileName.substring(fileName.lastIndexOf(".") + 1);
         return extToMime.get().getOrDefault(extension.toLowerCase(Locale.ENGLISH), OCTET_STREAM);

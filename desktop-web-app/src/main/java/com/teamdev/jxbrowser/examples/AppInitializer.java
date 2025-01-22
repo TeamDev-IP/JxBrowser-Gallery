@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-package com.teamdev.jxbrowser;
+package com.teamdev.jxbrowser.examples;
 
 import com.linecorp.armeria.common.HttpHeaderNames;
 import com.linecorp.armeria.common.HttpMethod;
@@ -33,12 +33,14 @@ import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.browser.callback.InjectJsCallback;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
+import com.teamdev.jxbrowser.examples.preferences.PreferencesService;
+import com.teamdev.jxbrowser.examples.production.ProductionMode;
+import com.teamdev.jxbrowser.examples.production.UrlRequestInterceptor;
 import com.teamdev.jxbrowser.js.JsObject;
 import com.teamdev.jxbrowser.license.internal.LicenseProvider;
 import com.teamdev.jxbrowser.logging.Level;
 import com.teamdev.jxbrowser.logging.Logger;
-import com.teamdev.jxbrowser.preferences.PreferencesService;
-import com.teamdev.jxbrowser.production.UrlRequestInterceptor;
+import com.teamdev.jxbrowser.net.Scheme;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
 
 import javax.swing.*;
@@ -47,29 +49,45 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
-import static com.teamdev.jxbrowser.production.ApplicationContents.APP_URL;
-import static com.teamdev.jxbrowser.production.ApplicationContents.CHROMIUM_USER_DATA_DIR;
-import static com.teamdev.jxbrowser.production.ApplicationContents.IS_PRODUCTION;
-import static com.teamdev.jxbrowser.production.ApplicationContents.SCHEME;
+import static com.teamdev.jxbrowser.examples.AppContents.APP_RESOURCES_DIR;
+import static com.teamdev.jxbrowser.examples.AppContents.APP_URL;
+import static com.teamdev.jxbrowser.examples.AppContents.CHROMIUM_USER_DATA_DIR;
 import static java.awt.Taskbar.Feature.ICON_IMAGE;
 import static javax.swing.SwingUtilities.invokeLater;
 
-public final class App {
+public final class AppInitializer {
 
     private static final int RPC_PORT = 50051;
+    public static final Scheme SCHEME = com.teamdev.jxbrowser.net.Scheme.of("jxbrowser");
+    public static final String APP_IMAGE = "settings.png";
 
-    public static void main(String[] args) throws InterruptedException {
-        System.setProperty("jxbrowser.logging.file", "jxbrowser.log");
+    public void initialize() throws InterruptedException {
+        setupLogging();
+        Engine engine = createEngine();
+        Browser browser = engine.newBrowser();
+        setupUI(engine, browser);
+        setupBrowserCallbacks(browser);
+        initializeRpc(browser);
+    }
+
+    private static void setupLogging() {
+        String logFile = APP_RESOURCES_DIR.resolve("jxbrowser.log").toString();
+        System.setProperty("jxbrowser.logging.file", logFile);
         Logger.level(Level.DEBUG);
+    }
+
+    private static Engine createEngine() {
         var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
                 .userDataDir(CHROMIUM_USER_DATA_DIR)
                 .licenseKey(LicenseProvider.INSTANCE.getKey());
-        if (IS_PRODUCTION) {
+        if (ProductionMode.isEnabled()) {
             optionsBuilder.addScheme(SCHEME, new UrlRequestInterceptor());
         }
-        var engine = Engine.newInstance(optionsBuilder.build());
-        var browser = engine.newBrowser();
 
+        return Engine.newInstance(optionsBuilder.build());
+    }
+
+    private static void setupUI(Engine engine, Browser browser) {
         invokeLater(() -> {
             var frame = new JFrame("MyApp Preferences");
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -80,14 +98,7 @@ public final class App {
                 }
             });
 
-            var imageResource = App.class.getClassLoader().getResource("settings.png");
-            var image = Toolkit.getDefaultToolkit().getImage(imageResource);
-
-            frame.setIconImage(image);
-            if (Taskbar.isTaskbarSupported() && Taskbar.getTaskbar().isSupported(ICON_IMAGE)) {
-                Taskbar.getTaskbar().setIconImage(image);
-            }
-
+            setAppIcon(frame);
             frame.add(BrowserView.newInstance(browser), BorderLayout.CENTER);
             frame.setSize(640, 600);
             frame.setMinimumSize(new Dimension(640, 560));
@@ -95,7 +106,22 @@ public final class App {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
+    }
 
+    private static void setAppIcon(JFrame frame) {
+        var imageResource = AppInitializer.class.getClassLoader()
+                                                .getResource(APP_IMAGE);
+        if (imageResource != null) {
+            var image = Toolkit.getDefaultToolkit().getImage(imageResource);
+            frame.setIconImage(image);
+            if (Taskbar.isTaskbarSupported() &&
+                    Taskbar.getTaskbar().isSupported(ICON_IMAGE)) {
+                Taskbar.getTaskbar().setIconImage(image);
+            }
+        }
+    }
+
+    private static void setupBrowserCallbacks(Browser browser) {
         browser.set(InjectJsCallback.class, params -> {
             JsObject window = params.frame().executeJavaScript("window");
             if (window != null) {
@@ -104,14 +130,12 @@ public final class App {
             return InjectJsCallback.Response.proceed();
         });
 
-        if (!IS_PRODUCTION) {
+        if (!ProductionMode.isEnabled()) {
             browser.devTools().show();
         }
-
-        initRpc(browser);
     }
 
-    private static void initRpc(Browser browser) throws InterruptedException {
+    private static void initializeRpc(Browser browser) throws InterruptedException {
         var serverBuilder = Server.builder().http(RPC_PORT);
         var corsBuilder = CorsService.builder(APP_URL)
                 .allowRequestMethods(HttpMethod.POST)
