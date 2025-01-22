@@ -22,10 +22,10 @@
 
 package com.teamdev.jxbrowser.examples.preferences;
 
-import com.teamdev.jxbrowser.examples.preferences.AccountOuterClass.Account;
-import com.teamdev.jxbrowser.examples.preferences.AppearanceOuterClass.Appearance;
-import com.teamdev.jxbrowser.examples.preferences.GeneralOuterClass.General;
-import com.teamdev.jxbrowser.examples.preferences.NotificationsOuterClass.Notifications;
+import com.teamdev.jxbrowser.preferences.AccountOuterClass.Account;
+import com.teamdev.jxbrowser.preferences.AppearanceOuterClass.Appearance;
+import com.teamdev.jxbrowser.preferences.GeneralOuterClass.General;
+import com.teamdev.jxbrowser.preferences.NotificationsOuterClass.Notifications;
 
 /**
  * An entity containing

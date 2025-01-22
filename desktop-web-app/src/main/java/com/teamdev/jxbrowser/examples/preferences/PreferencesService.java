@@ -25,16 +25,19 @@ package com.teamdev.jxbrowser.examples.preferences;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.BytesValue;
 import com.google.protobuf.Empty;
-import com.teamdev.jxbrowser.examples.preferences.AccountOuterClass.Account;
-import com.teamdev.jxbrowser.examples.preferences.AccountOuterClass.ProfilePicture;
-import com.teamdev.jxbrowser.examples.preferences.AppPreferencesServiceGrpc.AppPreferencesServiceImplBase;
+import com.teamdev.jxbrowser.preferences.AccountOuterClass.Account;
+import com.teamdev.jxbrowser.preferences.AccountOuterClass.ProfilePicture;
+import com.teamdev.jxbrowser.preferences.AppPreferencesServiceGrpc.AppPreferencesServiceImplBase;
+import com.teamdev.jxbrowser.preferences.AppearanceOuterClass.Appearance;
+import com.teamdev.jxbrowser.preferences.GeneralOuterClass.General;
+import com.teamdev.jxbrowser.preferences.NotificationsOuterClass.Notifications;
 import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static com.teamdev.jxbrowser.examples.preferences.AccountOuterClass.TwoFactorAuthentication.EMAIL;
 import static com.teamdev.jxbrowser.examples.preferences.PreferencesFile.APP_PREFERENCES_FILE;
+import static com.teamdev.jxbrowser.preferences.AccountOuterClass.TwoFactorAuthentication.EMAIL;
 
 public final class PreferencesService extends AppPreferencesServiceImplBase {
 
@@ -91,40 +94,40 @@ public final class PreferencesService extends AppPreferencesServiceImplBase {
     }
 
     @Override
-    public void setGeneral(com.teamdev.jxbrowser.examples.preferences.GeneralOuterClass.General request, StreamObserver<Empty> responseObserver) {
+    public void setGeneral(General request, StreamObserver<Empty> responseObserver) {
         appPreferences.general(request);
         PreferencesFile.write(appPreferences);
         responseObserver.onCompleted();
     }
 
     @Override
-    public void getGeneral(Empty request, StreamObserver<GeneralOuterClass.General> responseObserver) {
+    public void getGeneral(Empty request, StreamObserver<General> responseObserver) {
         responseObserver.onNext(appPreferences.general());
         responseObserver.onCompleted();
     }
 
     @Override
-    public void setAppearance(com.teamdev.jxbrowser.examples.preferences.AppearanceOuterClass.Appearance request, StreamObserver<Empty> responseObserver) {
+    public void setAppearance(Appearance request, StreamObserver<Empty> responseObserver) {
         appPreferences.appearance(request);
         PreferencesFile.write(appPreferences);
         responseObserver.onCompleted();
     }
 
     @Override
-    public void getAppearance(Empty request, StreamObserver<AppearanceOuterClass.Appearance> responseObserver) {
+    public void getAppearance(Empty request, StreamObserver<Appearance> responseObserver) {
         responseObserver.onNext(appPreferences.appearance());
         responseObserver.onCompleted();
     }
 
     @Override
-    public void setNotifications(com.teamdev.jxbrowser.examples.preferences.NotificationsOuterClass.Notifications request, StreamObserver<Empty> responseObserver) {
+    public void setNotifications(Notifications request, StreamObserver<Empty> responseObserver) {
         appPreferences.notifications(request);
         PreferencesFile.write(appPreferences);
         responseObserver.onCompleted();
     }
 
     @Override
-    public void getNotifications(Empty request, StreamObserver<NotificationsOuterClass.Notifications> responseObserver) {
+    public void getNotifications(Empty request, StreamObserver<Notifications> responseObserver) {
         responseObserver.onNext(appPreferences.notifications());
         responseObserver.onCompleted();
     }
