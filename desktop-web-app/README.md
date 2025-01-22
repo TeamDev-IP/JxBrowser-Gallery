@@ -4,15 +4,60 @@ This project demonstrates how to use JxBrowser with modern web UI frameworks suc
 as [shadcn/ui](https://ui.shadcn.com/) to create desktop applications with Java backend and
 TypeScript/React/ShadCN frontend.
 
+![img.png](.github/readme-resources/screenshot.png)
+
+### Summary
+
+#### Problem
+
+Nowadays, developing and supporting desktop applications based on traditional solutions like
+Swing/JavaFX/SWT can be challenging. They become extremely hard to scale and maintain due to 
+lack of experienced developers in this area. That is why an increasing number of old legacy 
+applications switch to web-based UI to eliminate everyday maintenance challenges and improve 
+scalability and user experience.
+
+Using modern browsers like Chromium makes this transition toward web-based UIs easier. This browser
+allows to render web content seamlessly, and support the latest HTML/CSS/JavaScript, ensuring 
+compatibility with modern UI frameworks. These frameworks use advanced CSS, responsive design,
+and rich component libraries.
+
+#### Solution
+
+This example demonstrates how to create a desktop application that uses a modern ShadCN framework
+for building UI. The showcased application is a web server that utilizes the JxBrowser API
+to render web UI from the [web-app](/web-app) directory. 
+
+Rendering web UI is different depending on the mode, production or development.
+
+In the development mode, you can start a local Vite server that will host the web application.
+
+However, the Vite server isn't designed for production use. In this case, we will need an
+approach based on intercepting URL requests and registering a custom scheme for loading web UI
+resources.
+
+To sum up, here is a short list of benefits:
+
+1. Full automation of rendering.
+2. Advanced CSS, responsive design, and rich library of pre-designed components.
+3. Web technologies' modular design makes it easy to update, scale, and improve 
+the UI as needs change.
+
+### Description
+
+The project is a desktop application that uses web UI on ShadCN to display regular 
+application preferences.
+
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/en/download) version 20.11.0 or higher.
-- Wix Toolset (Windows only) version 3.1 or higher if you are planning to package an installer. 
+- Java 17 or higher.
+- [Node.js](https://nodejs.org/en/download) 20.11.0 or higher.
+- Wix Toolset (Windows only) version 3.1 or higher if you are planning to package an installer.
   We tested with [3.14.1](https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm).
 
 ## JxBrowser license
 
-Replace the `LICENSE_KEY` variable in [App.java](src/main/java/com/teamdev/jxbrowser/App.java#L24) with your JxBrowser license key.
+Replace the `LICENSE_KEY` variable in [App.java](src/main/java/com/teamdev/jxbrowser/App.java#L24)
+with your JxBrowser license key.
 
 ## Running the application
 
@@ -32,7 +77,7 @@ Then open another terminal and run the following command to start the applicatio
 
 ## Packaging
 
-To build application installer, use the following commands:
+To build application installer for production, use the following commands:
 
 - macOS (DMG)
 
@@ -48,7 +93,8 @@ gradlew.bat desktop-web-app:clean desktop-web-app:packageExe
 
 ## Protobuf
 
-This demo uses Protobuf for communication between Java and JavaScript. The Protobuf files are located in the `proto` directory.
+This demo uses Protobuf for communication between Java and JavaScript. The Protobuf files are
+located in the `proto` directory.
 
 To generate proto messages for Java and JavaScript run the following command:
 
