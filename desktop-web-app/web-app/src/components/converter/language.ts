@@ -32,7 +32,7 @@ const germanLanguage: LanguageOption = "German";
 const frenchLanguage: LanguageOption = "French";
 
 /**
- * Converts a {@link Language} to a LanguageOption.
+ * Converts {@link Language} to LanguageOption.
  */
 function fromLanguage(value: Language): LanguageOption {
     if (value === Language.ENGLISH) {
@@ -47,7 +47,7 @@ function fromLanguage(value: Language): LanguageOption {
 }
 
 /**
- * Converts a LanguageOption to a {@link Language}.
+ * Converts LanguageOption to {@link Language}.
  */
 function toLanguage(value: LanguageOption): Language {
     if (value === englishLanguage) {

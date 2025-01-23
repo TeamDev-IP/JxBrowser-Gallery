@@ -32,7 +32,7 @@ const defaultFontSize: FontSizeOption = "Default";
 const largeFontSize: FontSizeOption = "Large";
 
 /**
- * Converts a {@link FontSize} to a FontSizeOption.
+ * Converts {@link FontSize} to FontSizeOption.
  */
 function fromFontSize(value: FontSize): FontSizeOption {
     if (value === FontSize.SMALL) {
@@ -47,7 +47,7 @@ function fromFontSize(value: FontSize): FontSizeOption {
 }
 
 /**
- * Converts a FontSizeOption to a {@link FontSize}.
+ * Converts FontSizeOption to {@link FontSize}.
  */
 function toFontSize(value: FontSizeOption): FontSize {
     if (value === smallFontSize) {

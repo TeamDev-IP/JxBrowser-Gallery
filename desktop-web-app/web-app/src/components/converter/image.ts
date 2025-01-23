@@ -21,7 +21,7 @@
  */
 
 /**
- * Converts the provided bytes to a data URI string.
+ * Converts the provided image bytes to a data URI string.
  */
 function imageToDataUri(contentBytes: Uint8Array) {
     const base64String = btoa(

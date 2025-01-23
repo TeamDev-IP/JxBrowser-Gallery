@@ -32,7 +32,7 @@ const darkTheme: ThemeOption = "dark";
 const systemTheme: ThemeOption = "system";
 
 /**
- * Converts a {@link Theme} to a ThemeOption.
+ * Converts {@link Theme} to ThemeOption.
  */
 function fromTheme(value: Theme): ThemeOption {
     if (value === Theme.LIGHT) {
@@ -47,7 +47,7 @@ function fromTheme(value: Theme): ThemeOption {
 }
 
 /**
- * Converts a ThemeOption to a {@link Theme}.
+ * Converts ThemeOption to {@link Theme}.
  */
 function toTheme(value: ThemeOption): Theme {
     if (value === lightTheme) {

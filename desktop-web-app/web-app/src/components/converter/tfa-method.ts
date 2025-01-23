@@ -32,7 +32,7 @@ const smsTfa: TfaMethod = "SMS";
 const passkeyTfa: TfaMethod = "Passkey";
 
 /**
- * Converts a {@link TwoFactorAuthentication} to a TfaMethod.
+ * Converts {@link TwoFactorAuthentication} to TfaMethod.
  */
 function fromTfa(value: TwoFactorAuthentication): TfaMethod {
     if (value === TwoFactorAuthentication.EMAIL) {
@@ -47,7 +47,7 @@ function fromTfa(value: TwoFactorAuthentication): TfaMethod {
 }
 
 /**
- * Converts a TwoFactorAuthentication to a {@link TfaMethod}.
+ * Converts TwoFactorAuthentication to {@link TfaMethod}.
  */
 function toTfa(value: TfaMethod): TwoFactorAuthentication {
     if (value === emailTfa) {
