@@ -25,17 +25,24 @@ import {getAppearance} from "@/rpc/app-preferences-service.ts";
 import {fromTheme, systemTheme, ThemeOption} from "@/components/converter/theme.ts";
 import {saveThemeInStorage, themeFromStorage} from "@/storage/appearance.ts";
 
+/**
+ * The ThemeProvider's properties.
+ */
 type ThemeProviderProps = {
     children: React.ReactNode
-    defaultTheme?: ThemeOption
-    storageKey?: string
 }
 
+/**
+ * The state for the ThemeProvider component.
+ */
 type ThemeProviderState = {
-    theme: ThemeOption
+    theme: ThemeOption,
     setTheme: (theme: ThemeOption) => void
 }
 
+/**
+ * The initial state for ThemeProviderContext.
+ */
 const initialState: ThemeProviderState = {
     theme: systemTheme,
     setTheme: () => null,
@@ -43,12 +50,20 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
+/**
+ * Provides a context to dynamically manage and apply a theme for the application.
+ *
+ * @param children the React nodes that will have access to the theme context
+ * @constructor
+ */
 export function ThemeProvider({
                                   children,
-                                  ...props
                               }: ThemeProviderProps) {
     const [theme, setTheme] = useState<ThemeOption>(themeFromStorage());
 
+    /**
+     * Applies the current theme to the root element by adding the appropriate class.
+     */
     const setRootTheme = () => {
         const root = window.document.documentElement;
         root.classList.remove("light", "dark");
@@ -82,12 +97,15 @@ export function ThemeProvider({
     };
 
     return (
-        <ThemeProviderContext.Provider {...props} value={value}>
+        <ThemeProviderContext.Provider value={value}>
             {children}
         </ThemeProviderContext.Provider>
     );
 }
 
+/**
+ * A custom hook that provides access to the current theme and a function to update it.
+ */
 export const useTheme = () => {
     const context = useContext(ThemeProviderContext);
 

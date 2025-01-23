@@ -24,17 +24,22 @@ syntax = "proto3";
 
 package com.teamdev.jxbrowser.preferences;
 
+// Preferences for the application's appearance.
 message Appearance {
+  // The font size for the application's interface.
   FontSize font_size = 1;
+  // The theme for the application.
   Theme theme = 2;
 }
 
+// The font sizes available in the application.
 enum FontSize {
   SMALL = 0;
   DEFAULT = 1;
   LARGE = 2;
 }
 
+// The themes available in the application.
 enum Theme {
   LIGHT = 0;
   DARK = 1;

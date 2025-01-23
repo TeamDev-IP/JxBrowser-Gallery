@@ -28,7 +28,7 @@ import com.teamdev.jxbrowser.preferences.GeneralOuterClass.General;
 import com.teamdev.jxbrowser.preferences.NotificationsOuterClass.Notifications;
 
 /**
- * An entity containing
+ * The application preferences.
  */
 public final class Preferences {
 

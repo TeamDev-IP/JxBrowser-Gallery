@@ -22,6 +22,11 @@
 
 import {Separator} from "@/components/ui/separator.tsx";
 
+/**
+ * A component used for separating blocks.
+ *
+ * @constructor
+ */
 export function GuidingLine() {
     return <Separator className="my-2 h-[1px] w-full"/>;
 }

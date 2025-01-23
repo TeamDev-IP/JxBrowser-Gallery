@@ -34,6 +34,11 @@ import {getNotifications, setNotifications} from "@/rpc/app-preferences-service.
 import {create} from "@bufbuild/protobuf";
 import {NotificationsSchema} from "@/gen/notifications_pb.ts";
 
+/**
+ * A component that allows managing the notification preferences.
+ *
+ * @constructor
+ */
 export function Notifications() {
     const [desktopEnabled, setDesktopEnabled] =
         useState<boolean>(desktopNotificationsKeyFromStorage());

@@ -28,6 +28,9 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * A utility containing information about application location and its resources.
+ */
 public final class AppContents {
     public static final String APP_LOCATION =
             new File(AppContents.class

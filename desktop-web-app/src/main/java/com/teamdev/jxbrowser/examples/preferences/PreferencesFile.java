@@ -31,6 +31,9 @@ import java.io.IOException;
 
 import static com.teamdev.jxbrowser.examples.AppContents.APP_RESOURCES_DIR;
 
+/**
+ * A utility for reading from and writing to the preferences file.
+ */
 public final class PreferencesFile {
 
     static final File APP_PREFERENCES_FILE =
@@ -40,6 +43,9 @@ public final class PreferencesFile {
 
     }
 
+    /**
+     * Reads {@link Preferences} from the preferences file.
+     */
     public static Preferences read() {
         Gson gson = new Gson();
         try (FileReader reader = new FileReader(APP_PREFERENCES_FILE)) {
@@ -49,6 +55,9 @@ public final class PreferencesFile {
         }
     }
 
+    /**
+     * Writes updated {@link Preferences} to the preferences file.
+     */
     public static void write(Preferences preferences) {
         Gson gson = new Gson();
         try (FileWriter writer = new FileWriter(APP_PREFERENCES_FILE)) {

@@ -39,6 +39,11 @@ import {Notifications} from "@/components/notifications.tsx";
 import {FontSizeProvider} from "@/components/font-size-provider.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";
 
+/**
+ * The main application component.
+ *
+ * @constructor
+ */
 function App() {
     return (
         <ThemeProvider>

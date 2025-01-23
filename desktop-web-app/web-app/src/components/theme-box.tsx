@@ -22,14 +22,33 @@
 
 import {LucideIcon} from "lucide-react";
 
+/**
+ * The theme box's properties.
+ */
 interface ThemeProps {
+    /**
+     * The theme's title.
+     */
     title: string;
-    theme: string;
+    /**
+     * The theme's icon.
+     */
     icon: LucideIcon;
+    /**
+     * Indicates is the theme is selected right now.
+     */
     isSelected: boolean;
+    /**
+     * A callback that is invoked when the user selects the theme.
+     */
     onClick: () => void;
 }
 
+/**
+ *
+ * @param props
+ * @constructor
+ */
 export function ThemeBox(props: ThemeProps) {
     return (
         <div onClick={props.onClick}

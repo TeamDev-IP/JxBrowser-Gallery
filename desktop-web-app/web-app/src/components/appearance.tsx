@@ -41,12 +41,20 @@ import {
 } from "@/components/converter/font-size.ts";
 import {fromTheme, toTheme} from "@/components/converter/theme.ts";
 
+/**
+ * Available font size options.
+ */
 const fontsSizes: FontSizeOption[] = [
     smallFontSize,
     defaultFontSize,
-    largeFontSize
+    largeFontSize,
 ];
 
+/**
+ * A component that allows managing the appearance preferences.
+ *
+ * @constructor
+ */
 export function Appearance() {
     const {theme, setTheme} = useTheme();
     const {fontSize, setFontSize} = useFontSize();
@@ -92,18 +100,17 @@ export function Appearance() {
                         system&nbsp;settings.
                     </p>
                 </div>
-
                 <div
                     className="flex flex-col sm:flex-row gap-x-2 gap-y-2 justify-center items-center">
-                    <ThemeBox title="Light" theme="light" isSelected={uiTheme === Theme.LIGHT}
+                    <ThemeBox title="Light" isSelected={uiTheme === Theme.LIGHT}
                               onClick={() => {
                                   setUiTheme(Theme.LIGHT);
                               }} icon={Sun}/>
-                    <ThemeBox title="Dark" theme="dark" isSelected={uiTheme === Theme.DARK}
+                    <ThemeBox title="Dark" isSelected={uiTheme === Theme.DARK}
                               onClick={() => {
                                   setUiTheme(Theme.DARK);
                               }} icon={Moon}/>
-                    <ThemeBox title="System" theme="system" isSelected={uiTheme === Theme.SYSTEM}
+                    <ThemeBox title="System" isSelected={uiTheme === Theme.SYSTEM}
                               onClick={() => {
                                   setUiTheme(Theme.SYSTEM);
                               }} icon={Laptop}/>

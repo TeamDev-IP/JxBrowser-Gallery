@@ -22,6 +22,9 @@
 
 package com.teamdev.jxbrowser.examples;
 
+/**
+ * An application that displays preferences.
+ */
 public final class App {
 
     public static void main(String[] args) throws InterruptedException {

@@ -23,7 +23,6 @@
 package com.teamdev.jxbrowser.examples.preferences;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.BytesValue;
 import com.google.protobuf.Empty;
 import com.teamdev.jxbrowser.preferences.AccountOuterClass.Account;
 import com.teamdev.jxbrowser.preferences.AccountOuterClass.ProfilePicture;
@@ -39,6 +38,9 @@ import java.nio.file.Files;
 import static com.teamdev.jxbrowser.examples.preferences.PreferencesFile.APP_PREFERENCES_FILE;
 import static com.teamdev.jxbrowser.preferences.AccountOuterClass.TwoFactorAuthentication.EMAIL;
 
+/**
+ * A service for reading and updating preferences.
+ */
 public final class PreferencesService extends AppPreferencesServiceImplBase {
 
     private static final Preferences appPreferences;
@@ -86,9 +88,9 @@ public final class PreferencesService extends AppPreferencesServiceImplBase {
     }
 
     @Override
-    public void getProfilePicture(Empty request, StreamObserver<BytesValue> responseObserver) {
-        responseObserver.onNext(BytesValue.newBuilder()
-                .setValue(ByteString.copyFrom(appPreferences.profilePicture()))
+    public void getProfilePicture(Empty request, StreamObserver<ProfilePicture> responseObserver) {
+        responseObserver.onNext(ProfilePicture.newBuilder()
+                .setContent(ByteString.copyFrom(appPreferences.profilePicture()))
                 .build());
         responseObserver.onCompleted();
     }

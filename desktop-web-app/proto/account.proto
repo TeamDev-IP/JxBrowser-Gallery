@@ -24,21 +24,30 @@ syntax = "proto3";
 
 package com.teamdev.jxbrowser.preferences;
 
+// A user account.
 message Account {
+  // The user's email address.
   string email = 1;
+  // The user's full name.
   string full_name = 2;
+  // The method of two-factor authentication.
   TwoFactorAuthentication two_factor_authentication = 3;
+  // 	Indicates if biometric authentication is enabled.
   bool biometric_authentication = 4;
 }
 
+// Contains data for a user's profile picture.
 message ProfilePicture {
-  string extension = 1;
-  string src = 2;
-  bytes content = 3;
+  // 	The binary content of the profile picture.
+  bytes content = 1;
 }
 
+// The types of two-factor authentication supported.
 enum TwoFactorAuthentication {
+  // Two-factor authentication via email.
   EMAIL = 0;
+  // Two-factor authentication via SMS.
   SMS = 1;
+  // Two-factor authentication via passkey.
   PASS_KEY = 2;
 }

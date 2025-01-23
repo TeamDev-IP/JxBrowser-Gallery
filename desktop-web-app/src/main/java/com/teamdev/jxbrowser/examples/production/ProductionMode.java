@@ -22,6 +22,9 @@
 
 package com.teamdev.jxbrowser.examples.production;
 
+/**
+ * A utility indicating if the application is running in the production mode.
+ */
 public final class ProductionMode {
 
     private ProductionMode() {

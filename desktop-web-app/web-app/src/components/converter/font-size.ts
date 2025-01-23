@@ -22,12 +22,18 @@
 
 import {FontSize} from "@/gen/appearance_pb.ts";
 
+/**
+ * The font size options as human-readable strings.
+ */
 export type FontSizeOption = "Small" | "Default" | "Large";
 
 const smallFontSize: FontSizeOption = "Small";
 const defaultFontSize: FontSizeOption = "Default";
 const largeFontSize: FontSizeOption = "Large";
 
+/**
+ * Converts a {@link FontSize} to a FontSizeOption.
+ */
 function fromFontSize(value: FontSize): FontSizeOption {
     if (value === FontSize.SMALL) {
         return smallFontSize;
@@ -40,6 +46,9 @@ function fromFontSize(value: FontSize): FontSizeOption {
     }
 }
 
+/**
+ * Converts a FontSizeOption to a {@link FontSize}.
+ */
 function toFontSize(value: FontSizeOption): FontSize {
     if (value === smallFontSize) {
         return FontSize.SMALL;

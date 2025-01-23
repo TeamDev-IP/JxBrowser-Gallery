@@ -20,21 +20,39 @@
  *  SOFTWARE.
  */
 
+/**
+ * A key for the email notifications in the local storage.
+ */
 const emailNotificationsKey = "email-notifications";
+/**
+ * A key for the desktop notifications in the local storage.
+ */
 const desktopNotificationsKey = "desktop-notifications";
 
+/**
+ * Returns true if the email notifications are enabled.
+ */
 function emailNotificationsFromStorage() {
     return localStorage.getItem(emailNotificationsKey) === "true" || false;
 }
 
+/**
+ * Saves "true" to the local storage if the email notifications are enabled.
+ */
 function saveEmailNotificationsInStorage(isEnabled: boolean) {
     localStorage.setItem(emailNotificationsKey, isEnabled ? "true" : "false");
 }
 
+/**
+ * Returns true if the desktop notifications are enabled.
+ */
 function desktopNotificationsKeyFromStorage() {
     return localStorage.getItem(desktopNotificationsKey) === "true" || false;
 }
 
+/**
+ * Saves "true" to the local storage if the desktop notifications are enabled.
+ */
 function saveDesktopNotificationsKeyInStorage(isEnabled: boolean) {
     localStorage.setItem(desktopNotificationsKey, isEnabled ? "true" : "false");
 }

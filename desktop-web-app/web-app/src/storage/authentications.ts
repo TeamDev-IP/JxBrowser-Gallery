@@ -22,21 +22,39 @@
 
 import {emailTfa, TfaMethod} from "@/components/converter/tfa-method.ts";
 
+/**
+ * A key for the two-factor authentication in the local storage.
+ */
 const twoFactorAuthenticationKey = "two-factor-authentication";
+/**
+ * A key for the biometric authentication in the local storage.
+ */
 const biometricAuthenticationKey = "biometric-authentication";
 
+/**
+ * Reads the two-factor authentication method from the local storage.
+ */
 function tfaFromStorage() {
     return localStorage.getItem(twoFactorAuthenticationKey) as TfaMethod || emailTfa;
 }
 
-function biometricAuthenticationFromStorage() {
-    return localStorage.getItem(biometricAuthenticationKey) === "true" || false;
-}
-
+/**
+ * Saves a new two-factor authentication method to the local storage.
+ */
 function saveTfaInStorage(tfaMethod: TfaMethod) {
     localStorage.setItem(twoFactorAuthenticationKey, tfaMethod);
 }
 
+/**
+ * Checks from the local storage if the biometric authentication is enabled.
+ */
+function biometricAuthenticationFromStorage() {
+    return localStorage.getItem(biometricAuthenticationKey) === "true" || false;
+}
+
+/**
+ * Saves "true" to the local storage if the biometric authentication is enabled.
+ */
 function saveBiometricAuthenticationInStorage(isEnabled: boolean) {
     localStorage.setItem(biometricAuthenticationKey, isEnabled ? "true" : "false");
 }

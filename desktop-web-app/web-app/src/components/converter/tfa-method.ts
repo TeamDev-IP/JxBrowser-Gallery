@@ -22,12 +22,18 @@
 
 import {TwoFactorAuthentication} from "@/gen/account_pb.ts";
 
+/**
+ * The two-factor authentication methods as human-readable strings.
+ */
 export type TfaMethod = "Email" | "SMS" | "Passkey"
 
 const emailTfa: TfaMethod = "Email";
 const smsTfa: TfaMethod = "SMS";
 const passkeyTfa: TfaMethod = "Passkey";
 
+/**
+ * Converts a {@link TwoFactorAuthentication} to a TfaMethod.
+ */
 function fromTfa(value: TwoFactorAuthentication): TfaMethod {
     if (value === TwoFactorAuthentication.EMAIL) {
         return emailTfa;
@@ -40,6 +46,9 @@ function fromTfa(value: TwoFactorAuthentication): TfaMethod {
     }
 }
 
+/**
+ * Converts a TwoFactorAuthentication to a {@link TfaMethod}.
+ */
 function toTfa(value: TfaMethod): TwoFactorAuthentication {
     if (value === emailTfa) {
         return TwoFactorAuthentication.EMAIL;

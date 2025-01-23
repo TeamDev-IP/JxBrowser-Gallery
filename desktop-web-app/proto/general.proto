@@ -24,12 +24,17 @@ syntax = "proto3";
 
 package com.teamdev.jxbrowser.preferences;
 
+// General application preferences configured by the user.
 message General {
+  // Indicates if the application should launch at system startup.
   bool launch_at_startup = 1;
+  // The preferred language for the application.
   Language language = 2;
+  // Indicates if the application should automatically check for updates.
   bool check_for_updates = 3;
 }
 
+// The available languages for the application.
 enum Language {
   ENGLISH = 0;
   GERMAN = 1;

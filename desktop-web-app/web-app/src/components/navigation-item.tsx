@@ -22,18 +22,51 @@
 
 import {SidebarMenuButton, SidebarMenuItem} from "@/components/ui/sidebar.tsx";
 import {LucideIcon} from "lucide-react";
+import {useEffect, useState} from "react";
 
+/**
+ * The navigation item's properties.
+ */
 interface NavigationItemProps {
+    /**
+     * The item's title.
+     */
     title: string;
+    /**
+     * The URL to be navigated to.
+     */
     url: string;
+    /**
+     * The item's icon.
+     */
     icon: LucideIcon;
 }
 
+/**
+ * A navigation item in the sidebar for switching between preferences.
+ *
+ * @param props the preferences for the item
+ * @constructor
+ */
 export function NavigationItem(props: NavigationItemProps) {
+    // console.log(window.location)
+    // console.log("----")
+    // console.log(`#${props.url}`)
+    const [isSelected, setSelected] = useState(window.location.hash === `#${props.url}`);
+    useEffect(() => {
+        console.log("useEffect " + props.url)
+    });
     return (
         <SidebarMenuItem key={props.title}>
-            <SidebarMenuButton isActive={window.location.pathname === props.url} asChild>
-                <a href={props.url}>
+            <SidebarMenuButton isActive={isSelected} onClick={() => {
+                console.log("onclick")
+                window.location.hash = `${props.url}`;
+                console.log(window.location.hash === `#${props.url}`)
+                console.log(window.location.pathname)
+                setSelected(true)
+
+            }} asChild>
+                <a href={`#${props.url}`}>
                     <props.icon/>
                     <span>{props.title}</span>
                 </a>

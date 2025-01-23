@@ -37,60 +37,115 @@ const transport = createGrpcWebTransport({
 });
 const appPreferencesClient = createCallbackClient(AppPreferencesService, transport);
 
+/**
+ * Sends a request for the account info.
+ *
+ * @param callback a callback that is invoked when the account info has been received
+ */
 function getAccount(callback?: (account: Account) => void) {
     appPreferencesClient.getAccount({}, (_err, res) => {
         callback && callback(res);
     });
 }
 
+/**
+ * Sends a request to update the account info.
+ *
+ * @param newAccount the updated account info
+ * @param callback a callback that is invoked when the account has been updated
+ */
 function setAccount(newAccount: Account, callback?: () => void) {
     appPreferencesClient.setAccount(newAccount, (_err) => {
         callback && callback();
     });
 }
 
+/**
+ * Sends a request to update the user's profile picture.
+ *
+ * @param newProfilePicture the updated picture
+ * @param callback a callback that is invoked when the picture has been updated
+ */
 function setProfilePicture(newProfilePicture: ProfilePicture, callback?: () => void) {
     appPreferencesClient.setProfilePicture(newProfilePicture, (_err) => {
         callback && callback();
     });
 }
 
+/**
+ * Sends a request for the user's profile picture.
+ *
+ * @param callback a callback that is invoked when the account info has been received
+ */
 function getProfilePicture(callback?: (src: Uint8Array) => void) {
     appPreferencesClient.getProfilePicture({}, (_err, res) => {
-        callback && callback(res.value);
+        callback && callback(res.content);
     });
 }
 
-function setGeneral(newGeneralPrefs: General, callback?: () => void) {
-    appPreferencesClient.setGeneral(newGeneralPrefs, (_err) => {
+/**
+ * Sends a request to update the general preferences.
+ *
+ * @param newGeneral the updated preferences
+ * @param callback a callback that is invoked when the preferences have been updated
+ */
+function setGeneral(newGeneral: General, callback?: () => void) {
+    appPreferencesClient.setGeneral(newGeneral, (_err) => {
         callback && callback();
     });
 }
 
-function getGeneral(callback?: (generalPrefs: General) => void) {
+/**
+ * Sends a request for the general preferences.
+ *
+ * @param callback a callback that is invoked when the preferences have been received
+ */
+function getGeneral(callback?: (general: General) => void) {
     appPreferencesClient.getGeneral({}, (_err, res) => {
         callback && callback(res);
     });
 }
 
-function setAppearance(newAppearancePrefs: Appearance, callback?: () => void) {
-    appPreferencesClient.setAppearance(newAppearancePrefs, (_err) => {
+/**
+ * Sends a request to update the appearance preferences.
+ *
+ * @param newAppearance the updated preferences
+ * @param callback a callback that is invoked when the preferences have been updated
+ */
+function setAppearance(newAppearance: Appearance, callback?: () => void) {
+    appPreferencesClient.setAppearance(newAppearance, (_err) => {
         callback && callback();
     });
 }
 
+/**
+ * Sends a request for the appearance preferences.
+ *
+ * @param callback a callback that is invoked when the preferences have been received
+ */
 function getAppearance(callback?: (appearancePrefs: Appearance) => void) {
     appPreferencesClient.getAppearance({}, (_err, res) => {
         callback && callback(res);
     });
 }
 
+/**
+ * Sends a request to update the notification preferences.
+ *
+ * @param newNotifications the updated preferences
+ * @param callback a callback that is invoked when the preferences have been updated
+ */
 function setNotifications(newNotifications: Notifications, callback?: () => void) {
     appPreferencesClient.setNotifications(newNotifications, (_err) => {
         callback && callback();
     });
 }
 
+/**
+ * Sends a request for the notification preferences.
+ *
+ * @param callback a callback that is invoked when the preferences have been received
+ */
 function getNotifications(callback?: (notificationPrefs: Notifications) => void) {
     appPreferencesClient.getNotifications({}, (_err, res) => {
         callback && callback(res);

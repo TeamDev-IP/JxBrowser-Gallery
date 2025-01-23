@@ -44,12 +44,19 @@ import {
     toLanguage
 } from "@/components/converter/language.ts";
 
+/**
+ * Available language options.
+ */
 const languages: LanguageOption[] = [
     englishLanguage,
     germanLanguage,
     frenchLanguage
 ];
 
+/**
+ * A component that allows managing general application preferences.
+ * @constructor
+ */
 export function General() {
     const [launchAtStartup, setLaunchAtStartup] =
         useState<boolean>(launchAtStartupFromStorage());

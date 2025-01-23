@@ -23,7 +23,7 @@
 import {Combobox} from "@/components/combobox.tsx";
 import {GreenSwitch} from "@/components/green-switch.tsx";
 import {EditableAvatar} from "@/components/editable-avatar.tsx";
-import {EditableLabel, EditableLabelType} from "@/components/editable-label.tsx";
+import {EditableInput} from "@/components/editable-input.tsx";
 import {GuidingLine} from "@/components/guiding-line.tsx";
 import {useEffect, useRef, useState} from "react";
 import {
@@ -50,12 +50,20 @@ import {
     toTfa
 } from "@/components/converter/tfa-method.ts";
 
+/**
+ * Available two-factor authentication methods.
+ */
 const authentications: TfaMethod[] = [
     emailTfa,
     smsTfa,
     passkeyTfa
 ];
 
+/**
+ * A component that allows managing the user's account.
+ *
+ * @constructor
+ */
 export function UserAccount() {
     const [profilePictureDataUri, setProfilePictureDataUri] = useState<string>("");
     const [fullName, setFullName] = useState<string>("");
@@ -79,9 +87,7 @@ export function UserAccount() {
             saveBiometricAuthenticationInStorage(account.biometricAuthentication);
             isInitialized.current = true;
         });
-        getProfilePicture(contentBytes => {
-            setProfilePictureDataUri(imageToDataUri(contentBytes));
-        });
+        getProfilePicture(contentBytes => setProfilePictureDataUri(imageToDataUri(contentBytes)));
     }, []);
 
     useEffect(() => {
@@ -107,7 +113,6 @@ export function UserAccount() {
                 const reader = new FileReader();
                 reader.onload = () => {
                     const newProfilePicture = create(ProfilePictureSchema, {
-                        extension: file.name.split(".").pop(),
                         content: new Uint8Array(reader.result as ArrayBuffer)
                     });
                     setProfilePicture(newProfilePicture, () => {
@@ -117,10 +122,10 @@ export function UserAccount() {
                 reader.readAsArrayBuffer(file);
             }} pictureDataUri={profilePictureDataUri}
                             fallback={fullName.split(" ").map(it => it[0]).join("")}/>
-            <EditableLabel title={"Email"} type={EditableLabelType.EMAIL}
-                           onChange={setEmail} defaultValue={email} id={"email"}/>
-            <EditableLabel title={"Full name"} type={EditableLabelType.TEXT}
-                           defaultValue={fullName}
+            <EditableInput title={"Email"} isEmail={true}
+                           onChange={setEmail} value={email} id={"email"}/>
+            <EditableInput title={"Full name"} isEmail={false}
+                           value={fullName}
                            onChange={setFullName} id={"fullname"}/>
             <GuidingLine/>
             <div className="w-full inline-flex items-center space-y-2 justify-between py-1">

@@ -37,6 +37,12 @@ import java.util.Arrays;
 import static com.teamdev.jxbrowser.examples.AppContents.APP_LOCATION;
 import static com.teamdev.jxbrowser.examples.AppContents.APP_URL;
 
+/**
+ * A request interceptor for loading web resources.
+ *
+ * <p>It intercepts requests with the {@code jxbrowser://} scheme and loads HTML/CSS/JS files
+ * of the built web resources.
+ */
 public final class UrlRequestInterceptor implements InterceptUrlRequestCallback {
 
     private static final String CONTENT_TYPE = "Content-Type";
@@ -56,7 +62,7 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
                 filePath = CONTENT_ROOT + uri.getPath();
             }
             var pathOnDisk = Paths.get(APP_LOCATION, filePath);
-            var job = getUrlRequestJob(params, filePath);
+            var job = urlRequestJob(params, filePath);
             try {
                 readFile(pathOnDisk, job);
                 job.complete();
@@ -68,9 +74,9 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
         return InterceptUrlRequestCallback.Response.proceed();
     }
 
-    private static UrlRequestJob getUrlRequestJob(InterceptUrlRequestCallback.Params params, String file) {
+    private static UrlRequestJob urlRequestJob(InterceptUrlRequestCallback.Params params, String file) {
         var builder = UrlRequestJob.Options.newBuilder(HttpStatus.OK);
-        builder.addHttpHeader(getContentType(file));
+        builder.addHttpHeader(contentType(file));
         return params.newUrlRequestJob(builder.build());
     }
 
@@ -87,7 +93,7 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
         }
     }
 
-    private static HttpHeader getContentType(String file) {
-        return HttpHeader.of(CONTENT_TYPE, com.teamdev.jxbrowser.examples.production.MimeTypes.mimeType(file).value());
+    private static HttpHeader contentType(String file) {
+        return HttpHeader.of(CONTENT_TYPE, MimeTypes.mimeType(file).value());
     }
 }

@@ -22,12 +22,18 @@
 
 import {Theme} from "@/gen/appearance_pb.ts";
 
+/**
+ * The theme options as human-readable strings.
+ */
 export type ThemeOption = "dark" | "light" | "system";
 
 const lightTheme: ThemeOption = "light";
 const darkTheme: ThemeOption = "dark";
 const systemTheme: ThemeOption = "system";
 
+/**
+ * Converts a {@link Theme} to a ThemeOption.
+ */
 function fromTheme(value: Theme): ThemeOption {
     if (value === Theme.LIGHT) {
         return lightTheme;
@@ -40,6 +46,9 @@ function fromTheme(value: Theme): ThemeOption {
     }
 }
 
+/**
+ * Converts a ThemeOption to a {@link Theme}.
+ */
 function toTheme(value: ThemeOption): Theme {
     if (value === lightTheme) {
         return Theme.LIGHT;

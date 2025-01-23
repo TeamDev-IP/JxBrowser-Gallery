@@ -31,12 +31,13 @@ import "general.proto";
 import "appearance.proto";
 import "notifications.proto";
 
+// Allows managing user preferences.
 service AppPreferencesService {
   rpc GetAccount(google.protobuf.Empty) returns (Account);
   rpc SetAccount(Account) returns (google.protobuf.Empty);
 
   rpc SetProfilePicture(ProfilePicture) returns (google.protobuf.Empty);
-  rpc GetProfilePicture(google.protobuf.Empty) returns (google.protobuf.BytesValue);
+  rpc GetProfilePicture(google.protobuf.Empty) returns (ProfilePicture);
 
   rpc SetGeneral(General) returns (google.protobuf.Empty);
   rpc GetGeneral(google.protobuf.Empty) returns (General);

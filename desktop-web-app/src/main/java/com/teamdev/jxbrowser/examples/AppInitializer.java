@@ -55,6 +55,9 @@ import static com.teamdev.jxbrowser.examples.AppContents.CHROMIUM_USER_DATA_DIR;
 import static java.awt.Taskbar.Feature.ICON_IMAGE;
 import static javax.swing.SwingUtilities.invokeLater;
 
+/**
+ * Configures JxBrowser, gRPC and displays the application window.
+ */
 public final class AppInitializer {
 
     private static final int RPC_PORT = 50051;

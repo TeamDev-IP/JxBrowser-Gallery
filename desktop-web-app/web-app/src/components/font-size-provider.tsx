@@ -30,15 +30,24 @@ import {
     smallFontSize
 } from "@/components/converter/font-size.ts";
 
+/**
+ * The FontSizeProvider's properties.
+ */
 type FontSizeProviderProps = {
     children: React.ReactNode
 }
 
+/**
+ * The state for the FontSizeProvider component.
+ */
 type FontSizeProviderState = {
-    fontSize: FontSizeOption
-    setFontSize: (theme: FontSizeOption) => void
+    fontSize: FontSizeOption,
+    setFontSize: (theme: FontSizeOption) => void,
 }
 
+/**
+ * The initial state for FontSizeProviderContext.
+ */
 const initialState: FontSizeProviderState = {
     fontSize: defaultFontSize,
     setFontSize: () => null,
@@ -50,12 +59,17 @@ const smallScaleFactor = 0.8;
 const defaultScaleFactor = 1.0;
 const largeScaleFactor = 1.2;
 
-export function FontSizeProvider({
-                                     children,
-                                     ...props
-                                 }: FontSizeProviderProps) {
+/**
+ * Provides font size context to its child components and dynamically adjusts
+ * font size styles based on the selected option.
+ *
+ * @param children the React nodes that will have access to the font size context
+ * @constructor
+ */
+export function FontSizeProvider({children}: FontSizeProviderProps) {
     const [fontSize, setFontSize] = useState<FontSizeOption>(fontSizeFromStorage());
 
+    // Dynamically adjusts CSS font size variables based on the selected fontSize.
     const adjustFontSize = () => {
         const setFontSizeStyles = (scaleFactor: number) => {
             const style = document.documentElement.style;
@@ -91,12 +105,15 @@ export function FontSizeProvider({
     };
 
     return (
-        <FontSizeProviderContext.Provider {...props} value={value}>
+        <FontSizeProviderContext.Provider value={value}>
             {children}
         </FontSizeProviderContext.Provider>
     );
 }
 
+/**
+ * A custom hook that provides access the current font size and a function to change it.
+ */
 export const useFontSize = () => {
     const context = useContext(FontSizeProviderContext);
 

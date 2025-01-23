@@ -22,30 +22,57 @@
 
 import {englishLanguage, LanguageOption} from "@/components/converter/language.ts";
 
+/**
+ * A key for the launch-at-startup preference in the local storage.
+ */
 const launchAtStartupKey = "launch-at-startup";
+/**
+ * A key for the check-for-updates preference in the local storage.
+ */
 const checkForUpdatesKey = "check-for-updates";
+/**
+ * A key for the language in the local storage.
+ */
 const languageKey = "language";
 
+/**
+ * Returns true if the launch-at-startup preference is enabled.
+ */
 function launchAtStartupFromStorage() {
     return localStorage.getItem(launchAtStartupKey) === "true" || false;
 }
 
+/**
+ * Saves "true" to the local storage if the launch-at-startup preference is enabled.
+ */
 function saveLaunchAtStartupInStorage(isEnabled: boolean) {
     localStorage.setItem(launchAtStartupKey, isEnabled ? "true" : "false");
 }
 
+/**
+ * Returns true if the check-for-updates preference is enabled.
+ */
 function checkForUpdatesFromStorage() {
     return localStorage.getItem(checkForUpdatesKey) === "true" || false;
 }
 
+/**
+ * Saves "true" to the local storage if the check-for-updates preference is enabled.
+ */
 function saveCheckForUpdatesInStorage(isEnabled: boolean) {
     localStorage.setItem(checkForUpdatesKey, isEnabled ? "true" : "false");
 }
 
+/**
+ * Reads the language from the local storage.
+ */
 function languageFromStorage() {
     return localStorage.getItem(languageKey) as LanguageOption || englishLanguage;
 }
 
+/**
+ * Saves a new language to the local storage.
+ */
 function saveLanguageInStorage(language: LanguageOption) {
     localStorage.setItem(languageKey, language);
 }

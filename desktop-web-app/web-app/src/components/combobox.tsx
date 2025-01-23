@@ -27,12 +27,23 @@ import {Check, ChevronsUpDown} from "lucide-react";
 import {Command, CommandGroup, CommandItem, CommandList} from "@/components/ui/command.tsx";
 import {cn} from "@/lib/utils.ts";
 
+/**
+ * The combo box's properties.
+ */
 interface ComboboxProps {
     options: string[],
-    currentOption: string
+    currentOption: string,
     onSelect: (value: string) => void
 }
 
+/**
+ * A component that represents a combo box where the user can select one of the options.
+ *
+ * @param options available options
+ * @param currentOption the current selected option
+ * @param onSelect a callback function that is invoked when the user selects an option
+ * @constructor
+ */
 export function Combobox({options, currentOption, onSelect}: ComboboxProps) {
     const [open, setOpen] = useState(false);
 

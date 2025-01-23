@@ -20,6 +20,9 @@
  *  SOFTWARE.
  */
 
+/**
+ * Converts the provided bytes to a data URI string.
+ */
 function imageToDataUri(contentBytes: Uint8Array) {
     const base64String = btoa(
         String.fromCharCode(...contentBytes)

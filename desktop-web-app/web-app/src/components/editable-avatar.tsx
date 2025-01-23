@@ -25,12 +25,23 @@ import {cn} from "@/lib/utils.ts";
 import {Upload} from "lucide-react";
 import {useRef} from "react";
 
+/**
+ * The avatar's properties.
+ */
 interface AvatarProps {
-    pictureDataUri: string;
-    fallback: string;
-    onChange: (file: File) => void;
+    pictureDataUri: string,
+    fallback: string,
+    onChange: (file: File) => void
 }
 
+/**
+ * A component that represents the user's avatar that can be edited on click.
+ *
+ * @param pictureDataUri data URI of the avatar image
+ * @param fallback a literal value that should be applied when pictureDataUri is not valid
+ * @param onChange a callback function that is invoked when the used selects another avatar
+ * @constructor
+ */
 export function EditableAvatar({pictureDataUri, fallback, onChange}: AvatarProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 

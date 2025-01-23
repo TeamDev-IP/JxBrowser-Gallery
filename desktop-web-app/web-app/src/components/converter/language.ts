@@ -22,12 +22,18 @@
 
 import {Language} from "@/gen/general_pb.ts";
 
+/**
+ * The language options as human-readable strings.
+ */
 export type LanguageOption = "English" | "German" | "French"
 
 const englishLanguage: LanguageOption = "English";
 const germanLanguage: LanguageOption = "German";
 const frenchLanguage: LanguageOption = "French";
 
+/**
+ * Converts a {@link Language} to a LanguageOption.
+ */
 function fromLanguage(value: Language): LanguageOption {
     if (value === Language.ENGLISH) {
         return englishLanguage;
@@ -40,6 +46,9 @@ function fromLanguage(value: Language): LanguageOption {
     }
 }
 
+/**
+ * Converts a LanguageOption to a {@link Language}.
+ */
 function toLanguage(value: LanguageOption): Language {
     if (value === englishLanguage) {
         return Language.ENGLISH;

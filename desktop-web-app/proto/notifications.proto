@@ -24,7 +24,10 @@ syntax = "proto3";
 
 package com.teamdev.jxbrowser.preferences;
 
+// Preferences for receiving notifications.
 message Notifications {
+  // Indicates if email notifications are enabled.
   bool email_enabled = 1;
+  // Indicates if desktop notifications are enabled.
   bool desktop_enabled = 2;
 }
