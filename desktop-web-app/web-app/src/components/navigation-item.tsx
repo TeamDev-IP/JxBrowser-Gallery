@@ -22,16 +22,20 @@
 
 import {SidebarMenuButton, SidebarMenuItem} from "@/components/ui/sidebar.tsx";
 import {LucideIcon} from "lucide-react";
-import {useEffect, useState} from "react";
+
+/**
+ * Available navigation items.
+ */
+export type NavigationItemType = "Account" | "General" | "Appearance" | "Notifications";
 
 /**
  * The navigation item's properties.
  */
 interface NavigationItemProps {
     /**
-     * The item's title.
+     * The item's type.
      */
-    title: string;
+    type: NavigationItemType;
     /**
      * The URL to be navigated to.
      */
@@ -40,6 +44,14 @@ interface NavigationItemProps {
      * The item's icon.
      */
     icon: LucideIcon;
+    /**
+     * Indicates if the navigation item is selected.
+     */
+    isSelected: boolean;
+    /**
+     * A callback invoked when the navigation item has been selected.
+     */
+    onSelect: () => void;
 }
 
 /**
@@ -49,26 +61,12 @@ interface NavigationItemProps {
  * @constructor
  */
 export function NavigationItem(props: NavigationItemProps) {
-    // console.log(window.location)
-    // console.log("----")
-    // console.log(`#${props.url}`)
-    const [isSelected, setSelected] = useState(window.location.hash === `#${props.url}`);
-    useEffect(() => {
-        console.log("useEffect " + props.url)
-    });
     return (
-        <SidebarMenuItem key={props.title}>
-            <SidebarMenuButton isActive={isSelected} onClick={() => {
-                console.log("onclick")
-                window.location.hash = `${props.url}`;
-                console.log(window.location.hash === `#${props.url}`)
-                console.log(window.location.pathname)
-                setSelected(true)
-
-            }} asChild>
+        <SidebarMenuItem key={props.type}>
+            <SidebarMenuButton isActive={props.isSelected} onClick={props.onSelect} asChild>
                 <a href={`#${props.url}`}>
                     <props.icon/>
-                    <span>{props.title}</span>
+                    <span>{props.type}</span>
                 </a>
             </SidebarMenuButton>
         </SidebarMenuItem>

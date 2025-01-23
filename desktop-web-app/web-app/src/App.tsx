@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 import {
     Sidebar,
     SidebarContent,
@@ -33,11 +33,12 @@ import {
 import {UserAccount} from "@/components/user-account.tsx";
 import {General} from "@/components/general.tsx";
 import {Appearance} from "@/components/appearance.tsx";
-import {NavigationItem} from "@/components/navigation-item.tsx";
+import {NavigationItem, NavigationItemType} from "@/components/navigation-item.tsx";
 import {Bell, Settings, SquareUser, SunMoon} from "lucide-react";
 import {Notifications} from "@/components/notifications.tsx";
 import {FontSizeProvider} from "@/components/font-size-provider.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";
+import {useState} from "react";
 
 /**
  * The main application component.
@@ -45,6 +46,14 @@ import {ThemeProvider} from "@/components/theme-provider.tsx";
  * @constructor
  */
 function App() {
+    const [currentNavigation, setCurrentNavigation] = useState<NavigationItemType>("Account");
+
+    const updateNavigation = (navigation: NavigationItemType) => {
+        return () => {
+            setCurrentNavigation(navigation);
+        }
+    };
+
     return (
         <ThemeProvider>
             <FontSizeProvider>
@@ -54,19 +63,31 @@ function App() {
                             <SidebarGroup/>
                             <SidebarGroupContent>
                                 <SidebarMenu>
-                                    <NavigationItem title={"Account"} url={"/"} icon={SquareUser}/>
+                                    <NavigationItem type={"Account"}
+                                                    url={"/"}
+                                                    icon={SquareUser}
+                                                    isSelected={currentNavigation === "Account"}
+                                                    onSelect={updateNavigation("Account")}/>
                                 </SidebarMenu>
                             </SidebarGroupContent>
                             <SidebarGroupLabel className={"pt-3"}>Preferences</SidebarGroupLabel>
                             <SidebarGroupContent>
                                 <SidebarMenu>
-                                    <NavigationItem title={"General"} url={"/prefs/general"}
-                                                    icon={Settings}/>
-                                    <NavigationItem title={"Appearance"} url={"/prefs/appearance"}
-                                                    icon={SunMoon}/>
-                                    <NavigationItem title={"Notifications"}
+                                    <NavigationItem type={"General"}
+                                                    url={"/prefs/general"}
+                                                    icon={Settings}
+                                                    isSelected={currentNavigation === "General"}
+                                                    onSelect={updateNavigation("General")}/>
+                                    <NavigationItem type={"Appearance"}
+                                                    url={"/prefs/appearance"}
+                                                    icon={SunMoon}
+                                                    isSelected={currentNavigation === "Appearance"}
+                                                    onSelect={updateNavigation("Appearance")}/>
+                                    <NavigationItem type={"Notifications"}
                                                     url={"/prefs/notifications"}
-                                                    icon={Bell}/>
+                                                    icon={Bell}
+                                                    isSelected={currentNavigation === "Notifications"}
+                                                    onSelect={updateNavigation("Notifications")}/>
                                 </SidebarMenu>
                             </SidebarGroupContent>
                             <SidebarGroup/>
@@ -74,7 +95,7 @@ function App() {
                     </Sidebar>
                     <main className="w-full p-8">
                         <div className="w-full">
-                            <Router>
+                            <HashRouter>
                                 <Routes>
                                     <Route path={"/"} element={<UserAccount/>}/>
                                     <Route path={"/prefs/general"} element={<General/>}/>
@@ -82,7 +103,7 @@ function App() {
                                     <Route path={"/prefs/notifications"}
                                            element={<Notifications/>}/>
                                 </Routes>
-                            </Router>
+                            </HashRouter>
                         </div>
                     </main>
                 </SidebarProvider>

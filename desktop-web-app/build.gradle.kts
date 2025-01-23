@@ -132,10 +132,11 @@ tasks.register<Exec>("buildWeb") {
     workingDir = file(wedAppLocationDir)
     commandLine(npmCommand, "run", "build")
     doLast {
-        delete("src/main/resources/web")
+        val webResources = "src/main/resources/web"
+        delete(webResources)
         copy {
             from("$wedAppLocationDir/dist")
-            into("src/main/resources/web")
+            into(webResources)
         }
     }
 }
@@ -195,6 +196,7 @@ tasks.register<Exec>("packageExe") {
         "--dest", "./build/installer",
         "--win-dir-chooser",
         "--win-menu",
-        "--win-shortcut-prompt"
+        "--win-shortcut-prompt",
+        "--icon", "src/main/resources/app.ico",
     )
 }
