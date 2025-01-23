@@ -52,6 +52,7 @@ import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 import static com.teamdev.jxbrowser.examples.AppContents.APP_RESOURCES_DIR;
 import static com.teamdev.jxbrowser.examples.AppContents.APP_URL;
 import static com.teamdev.jxbrowser.examples.AppContents.CHROMIUM_USER_DATA_DIR;
+import static com.teamdev.jxbrowser.net.Scheme.of;
 import static java.awt.Taskbar.Feature.ICON_IMAGE;
 import static javax.swing.SwingUtilities.invokeLater;
 
@@ -61,8 +62,8 @@ import static javax.swing.SwingUtilities.invokeLater;
 public final class AppInitializer {
 
     private static final int RPC_PORT = 50051;
-    public static final Scheme SCHEME = com.teamdev.jxbrowser.net.Scheme.of("jxbrowser");
-    public static final String APP_IMAGE = "settings.png";
+    public static final Scheme SCHEME = of("jxbrowser");
+    public static final String APP_IMAGE = "preferences.png";
 
     public void initialize() throws InterruptedException {
         setupLogging();
