@@ -55,6 +55,7 @@ const languages: LanguageOption[] = [
 
 /**
  * A component that allows managing general application preferences.
+ *
  * @constructor
  */
 export function General() {

@@ -41,17 +41,18 @@ interface ThemeProps {
     /**
      * A callback that is invoked when the user selects the theme.
      */
-    onClick: () => void;
+    onSelect: () => void;
 }
 
 /**
+ * A component representing one theme option to select.
  *
- * @param props
+ * @param props the theme's properties
  * @constructor
  */
 export function ThemeBox(props: ThemeProps) {
     return (
-        <div onClick={props.onClick}
+        <div onClick={props.onSelect}
              className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ?
                  "border-green-500" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-2`}>
             <props.icon className={"text-right"}/>

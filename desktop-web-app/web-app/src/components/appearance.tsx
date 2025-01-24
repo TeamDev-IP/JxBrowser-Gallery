@@ -65,8 +65,10 @@ export function Appearance() {
 
     useEffect(() => {
         getAppearance(appearance => {
+            console.log("getAppearance")
             setUiTheme(appearance.theme);
             setTheme(fromTheme(appearance.theme));
+
             const fontSize = fromFontSize(appearance.fontSize);
             setFontSize(fontSize);
             saveFontSizeInStorage(fontSize);
@@ -103,15 +105,15 @@ export function Appearance() {
                 <div
                     className="flex flex-col sm:flex-row gap-x-2 gap-y-2 justify-center items-center">
                     <ThemeBox title="Light" isSelected={uiTheme === Theme.LIGHT}
-                              onClick={() => {
+                              onSelect={() => {
                                   setUiTheme(Theme.LIGHT);
                               }} icon={Sun}/>
                     <ThemeBox title="Dark" isSelected={uiTheme === Theme.DARK}
-                              onClick={() => {
+                              onSelect={() => {
                                   setUiTheme(Theme.DARK);
                               }} icon={Moon}/>
                     <ThemeBox title="System" isSelected={uiTheme === Theme.SYSTEM}
-                              onClick={() => {
+                              onSelect={() => {
                                   setUiTheme(Theme.SYSTEM);
                               }} icon={Laptop}/>
                 </div>

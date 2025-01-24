@@ -28,8 +28,10 @@ import {General} from "@/gen/general_pb.ts";
 import {Appearance} from "@/gen/appearance_pb.ts";
 import {Notifications} from "@/gen/notifications_pb.ts";
 
-// A port for RPC communication passed obtained from the server side via
-// the JxBrowser Java-Js bridge.
+/**
+ * A port for RPC communication obtained from the server side via
+ * the JxBrowser's Java-Js bridge.
+ */
 declare const rpcPort: Number;
 
 const transport = createGrpcWebTransport({
