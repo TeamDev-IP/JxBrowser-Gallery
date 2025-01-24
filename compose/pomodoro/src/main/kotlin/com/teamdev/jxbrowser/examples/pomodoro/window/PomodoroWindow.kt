@@ -31,6 +31,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -139,7 +141,7 @@ private fun OutlinedContainer(content: @Composable BoxScope.() -> Unit) {
     val fillMaxSize = Modifier.fillMaxSize()
     Surface(
         modifier = fillMaxSize,
-        shape = MaterialTheme.shapes.large,
+        shape = MaterialTheme.shapes.large.copy(all = CornerSize(10.dp)),
         color = MaterialTheme.colors.background,
         border = outlinedBorder()
     ) {
@@ -159,6 +161,7 @@ private fun OutlinedCard(content: @Composable () -> Unit) {
     Card(
         elevation = 0.dp,
         border = outlinedBorder(),
+        shape = RoundedCornerShape(5.dp),
         content = content
     )
 }
