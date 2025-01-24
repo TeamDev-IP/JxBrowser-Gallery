@@ -53,7 +53,7 @@ export function EditableAvatar({pictureDataUri, fallback, onChange}: AvatarProps
             }}
                  className="flex relative justify-center items-center group">
                 <Avatar
-                    className="group-hover:opacity-50 transition-colors duration-200 object-cover">
+                    className="group-hover:opacity-60 transition-colors duration-200 object-cover">
                     <AvatarImage src={pictureDataUri}/>
                     <AvatarFallback>{fallback}</AvatarFallback>
                 </Avatar>
@@ -70,7 +70,7 @@ export function EditableAvatar({pictureDataUri, fallback, onChange}: AvatarProps
                     }}
                 />
                 <div className={cn(
-                    "absolute inset-0 flex items-center justify-center text-white text-sm font-medium opacity-0 transition-opacity group-hover:opacity-100"
+                    "absolute inset-0 flex items-center justify-center text-primary text-sm font-medium opacity-0 transition-opacity group-hover:opacity-100"
                 )}>
                     <Upload/>
                 </div>
