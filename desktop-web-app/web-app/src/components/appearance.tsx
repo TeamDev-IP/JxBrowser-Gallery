@@ -65,7 +65,6 @@ export function Appearance() {
 
     useEffect(() => {
         getAppearance(appearance => {
-            console.log("getAppearance")
             setUiTheme(appearance.theme);
             setTheme(fromTheme(appearance.theme));
 
