@@ -14,7 +14,8 @@ Nowadays, developing and supporting desktop applications based on traditional so
 Swing/JavaFX/SWT can be challenging. They become extremely hard to scale and maintain due to 
 lack of experienced developers in this area. That is why an increasing number of old legacy 
 applications switch to web-based UI to eliminate everyday maintenance challenges and improve 
-scalability and user experience.
+scalability and user experience. With millions of developers experienced in JavaScript, TypeScript,
+and frameworks like React, finding talent and speeding up development is much easier.
 
 Using modern browsers like Chromium makes this transition toward web-based UIs easier. This browser
 allows to render web content seamlessly, and support the latest HTML/CSS/JavaScript, ensuring 
@@ -35,6 +36,10 @@ However, the Vite server isn't designed for production use. In this case, we wil
 approach based on intercepting URL requests and registering a custom scheme for loading web UI
 resources.
 
+Communication between Java and UI is implemented using Protobuf and gRPC. These technologies provide
+an effective solution, enabling fast and reliable communication with a well-structured 
+approach to data exchange.
+
 To sum up, here is a short list of benefits:
 
 1. Full automation of rendering.
@@ -53,11 +58,6 @@ application preferences.
 - [Node.js](https://nodejs.org/en/download) 20.11.0 or higher.
 - Wix Toolset (Windows only) version 3.1 or higher if you are planning to package an installer.
   We tested with [3.14.1](https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm).
-
-## JxBrowser license
-
-Replace the `LICENSE_KEY` variable in [App.java](src/main/java/com/teamdev/jxbrowser/App.java#L24)
-with your JxBrowser license key.
 
 ## Running the application
 
