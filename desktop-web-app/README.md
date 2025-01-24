@@ -2,7 +2,7 @@
 
 This project demonstrates how to use JxBrowser with modern web UI frameworks such
 as [shadcn/ui](https://ui.shadcn.com/) to create desktop applications with Java backend and
-TypeScript/React/ShadCN frontend.
+TypeScript/React/Shadcn frontend.
 
 ![img.png](.github/readme-resources/screenshot.png)
 
@@ -24,7 +24,7 @@ and rich component libraries.
 
 #### Solution
 
-This example demonstrates how to create a desktop application that uses a modern ShadCN framework
+This example demonstrates how to create a desktop application that uses a modern Shadcn framework
 for building UI. The showcased application is a web server that utilizes the JxBrowser API
 to render web UI from the [web-app](/web-app) directory. 
 
@@ -49,7 +49,7 @@ the UI as needs change.
 
 ### Description
 
-The project is a desktop application that uses web UI on ShadCN to display regular 
+The project is a desktop application that uses web UI on Shadcn to display regular 
 application preferences.
 
 ## Prerequisites
