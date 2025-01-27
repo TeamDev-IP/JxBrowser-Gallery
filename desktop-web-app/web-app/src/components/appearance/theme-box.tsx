@@ -25,7 +25,7 @@ import {LucideIcon} from "lucide-react";
 /**
  * The theme box's properties.
  */
-interface ThemeProps {
+interface ThemeBoxProps {
     /**
      * The theme's title.
      */
@@ -50,7 +50,7 @@ interface ThemeProps {
  * @param props the theme's properties
  * @constructor
  */
-export function ThemeBox(props: ThemeProps) {
+export function ThemeBox(props: ThemeBoxProps) {
     return (
         <div onClick={props.onSelect}
              className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ?

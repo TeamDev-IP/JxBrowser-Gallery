@@ -26,7 +26,7 @@ import {ChangeEventHandler, useState} from "react";
 /**
  * The input's properties.
  */
-interface InputProps {
+interface EditableInputProps {
     title: string,
     value: string,
     id: string,
@@ -44,7 +44,7 @@ interface InputProps {
  * specifically on blur
  * @constructor
  */
-export function EditableInput({title, value, isEmail, onChange}: InputProps) {
+export function EditableInput({title, value, isEmail, onChange}: EditableInputProps) {
     const [isValid, setIsValid] = useState(true);
 
     const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {

@@ -25,7 +25,7 @@ import {Switch} from "@/components/ui/switch.tsx";
 /**
  * The switch's properties.
  */
-interface SwitchProps {
+interface GreenSwitchProps {
     isChecked: boolean;
     onChange: (value: boolean) => void;
 }
