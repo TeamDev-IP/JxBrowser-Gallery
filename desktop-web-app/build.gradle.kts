@@ -102,7 +102,7 @@ val npmCommand = if (isWindows) "npm.cmd" else "npm"
 val npxCommand = if (isWindows) "npx.cmd" else "npx"
 
 tasks.register<Exec>("startDevServer") {
-    dependsOn(tasks.named("installNpmPackages"))
+    dependsOn(tasks.named("generateJsProto"))
     workingDir = file(wedAppLocationDir)
     commandLine(npmCommand, "run", "dev", "--", "--port=$port", "--strictPort")
 }
