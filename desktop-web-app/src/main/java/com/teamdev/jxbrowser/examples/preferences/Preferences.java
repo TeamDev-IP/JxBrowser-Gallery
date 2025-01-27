@@ -22,10 +22,10 @@
 
 package com.teamdev.jxbrowser.examples.preferences;
 
-import com.teamdev.jxbrowser.preferences.AccountOuterClass.Account;
-import com.teamdev.jxbrowser.preferences.AppearanceOuterClass.Appearance;
-import com.teamdev.jxbrowser.preferences.GeneralOuterClass.General;
-import com.teamdev.jxbrowser.preferences.NotificationsOuterClass.Notifications;
+import com.teamdev.jxbrowser.preferences.Preferences.Account;
+import com.teamdev.jxbrowser.preferences.Preferences.Appearance;
+import com.teamdev.jxbrowser.preferences.Preferences.General;
+import com.teamdev.jxbrowser.preferences.Preferences.Notifications;
 
 /**
  * The application preferences.

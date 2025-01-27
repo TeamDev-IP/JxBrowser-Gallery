@@ -24,24 +24,24 @@ package com.teamdev.jxbrowser.examples.preferences;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Empty;
-import com.teamdev.jxbrowser.preferences.AccountOuterClass.Account;
-import com.teamdev.jxbrowser.preferences.AccountOuterClass.ProfilePicture;
-import com.teamdev.jxbrowser.preferences.AppPreferencesServiceGrpc.AppPreferencesServiceImplBase;
-import com.teamdev.jxbrowser.preferences.AppearanceOuterClass.Appearance;
-import com.teamdev.jxbrowser.preferences.GeneralOuterClass.General;
-import com.teamdev.jxbrowser.preferences.NotificationsOuterClass.Notifications;
+import com.teamdev.jxbrowser.preferences.Preferences.Account;
+import com.teamdev.jxbrowser.preferences.Preferences.ProfilePicture;
+import com.teamdev.jxbrowser.preferences.PreferencesServiceGrpc.PreferencesServiceImplBase;
+import com.teamdev.jxbrowser.preferences.Preferences.Appearance;
+import com.teamdev.jxbrowser.preferences.Preferences.General;
+import com.teamdev.jxbrowser.preferences.Preferences.Notifications;
 import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
 import java.nio.file.Files;
 
 import static com.teamdev.jxbrowser.examples.preferences.PreferencesFile.APP_PREFERENCES_FILE;
-import static com.teamdev.jxbrowser.preferences.AccountOuterClass.TwoFactorAuthentication.EMAIL;
+import static com.teamdev.jxbrowser.preferences.Preferences.TwoFactorAuthentication.EMAIL;
 
 /**
  * A service for reading and updating preferences.
  */
-public final class PreferencesService extends AppPreferencesServiceImplBase {
+public final class PreferencesService extends PreferencesServiceImplBase {
 
     private static final Preferences appPreferences;
 
