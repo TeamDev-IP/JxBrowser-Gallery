@@ -54,7 +54,7 @@ export function ThemeBox(props: ThemeProps) {
     return (
         <div onClick={props.onSelect}
              className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ?
-                 "border-green-500" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-2`}>
+                 "border-green-500" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-2 select-none`}>
             <props.icon className={"text-right"}/>
             <span className="justify-end text-center text-sm">
                       {props.title}
