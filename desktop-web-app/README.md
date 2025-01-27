@@ -1,14 +1,14 @@
-# Desktop web applications with JxBrowser
+# Desktop web apps with JxBrowser
 
 This project demonstrates how to use JxBrowser with modern web UI frameworks such
 as [shadcn/ui](https://ui.shadcn.com/) to create desktop applications with Java backend and
 TypeScript/React/Shadcn frontend.
 
-![img.png](.github/readme-resources/screenshot.png)
+![App screenshot](.github/readme-resources/preferences.png)
 
-### Summary
+## Summary
 
-#### Problem
+### Problem
 
 Nowadays, developing and supporting desktop applications based on traditional solutions like
 Swing/JavaFX/SWT can be challenging. They become extremely hard to scale and maintain due to 
@@ -47,7 +47,7 @@ To sum up, here is a short list of benefits:
 3. Web technologies' modular design makes it easy to update, scale, and improve 
 the UI as needs change.
 
-### Description
+## Description
 
 The project is a desktop application that uses web UI on Shadcn to display regular 
 application preferences.
@@ -56,18 +56,15 @@ application preferences.
 
 - Java 17 or higher.
 - [Node.js](https://nodejs.org/en/download) 20.11.0 or higher.
-- Wix Toolset (Windows only) version 3.1 or higher if you are planning to package an installer.
-  We tested with [3.14.1](https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm).
+- [WiX Toolset](https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm) 3.14.1 or higher if you are planning to package an installer on Windows.
 
 ## Running the application
 
-To run the application in the development mode, you first need to start Vite development server:
+To run the application in the development mode, you first need to start Vite development server with Hot-Module Reload (HMR):
 
 ```bash
 ./gradlew desktop-web-app:startDevServer
 ```
-
-This command will start a development web server with Hot-Module Reload (HMR).
 
 Then open another terminal and run the following command to start the application:
 
@@ -77,15 +74,15 @@ Then open another terminal and run the following command to start the applicatio
 
 ## Packaging
 
-To build application installer for production, use the following commands:
+To build a native installer for macOS or Windows, use the following commands.
 
-- macOS (DMG)
+### macOS (DMG)
 
 ```bash
 ./gradlew desktop-web-app:clean desktop-web-app:packageDmg
 ```
 
-- Windows (EXE)
+### Windows (EXE)
 
 ```bash
 gradlew.bat desktop-web-app:clean desktop-web-app:packageExe
@@ -93,10 +90,10 @@ gradlew.bat desktop-web-app:clean desktop-web-app:packageExe
 
 ## Protobuf
 
-This demo uses Protobuf for communication between Java and JavaScript. The Protobuf files are
-located in the `proto` directory.
+This app uses Protobuf for communication between Java and JavaScript. The Protobuf files are
+located in the `proto` directory. Java and JavaScript code for Protobuf messages is generated automatically during the build process.
 
-To generate proto messages for Java and JavaScript run the following command:
+To generate proto messages manually, run the following command:
 
 ```bash
 ./gradlew desktop-web-app:generateProto
