@@ -89,6 +89,8 @@ module.exports = {
     				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
     				accent: 'hsl(var(--sidebar-accent))',
     				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+    				hover: 'hsl(var(--sidebar-accent-hover))',
+    				'hover-foreground': 'hsl(var(--sidebar-accent-hover-foreground))',
     				border: 'hsl(var(--sidebar-border))',
     				ring: 'hsl(var(--sidebar-ring))'
     			}
