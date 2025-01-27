@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-import {TwoFactorAuthentication} from "@/gen/account_pb.ts";
+import {TwoFactorAuthentication} from "@/gen/preferences_pb.ts";
 
 /**
  * The two-factor authentication methods as human-readable strings.

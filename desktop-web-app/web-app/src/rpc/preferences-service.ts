@@ -22,11 +22,7 @@
 
 import {createGrpcWebTransport} from "@connectrpc/connect-web";
 import {createCallbackClient} from "@connectrpc/connect";
-import {Account, ProfilePicture} from "@/gen/account_pb.ts";
-import {AppPreferencesService} from "@/gen/app_preferences_pb.ts";
-import {General} from "@/gen/general_pb.ts";
-import {Appearance} from "@/gen/appearance_pb.ts";
-import {Notifications} from "@/gen/notifications_pb.ts";
+import {Account, ProfilePicture, PreferencesService, Notifications, Appearance, General } from "@/gen/preferences_pb.ts";
 
 /**
  * A port for RPC communication obtained from the server side via
@@ -37,7 +33,7 @@ declare const rpcPort: Number;
 const transport = createGrpcWebTransport({
     baseUrl: `http://localhost:${rpcPort}`,
 });
-const appPreferencesClient = createCallbackClient(AppPreferencesService, transport);
+const preferencesClient = createCallbackClient(PreferencesService, transport);
 
 /**
  * Sends a request for the account info.
@@ -45,7 +41,7 @@ const appPreferencesClient = createCallbackClient(AppPreferencesService, transpo
  * @param callback a callback that is invoked when the account info has been received
  */
 function getAccount(callback?: (account: Account) => void) {
-    appPreferencesClient.getAccount({}, (_err, res) => {
+    preferencesClient.getAccount({}, (_err, res) => {
         callback && callback(res);
     });
 }
@@ -57,7 +53,7 @@ function getAccount(callback?: (account: Account) => void) {
  * @param callback a callback that is invoked when the account has been updated
  */
 function setAccount(newAccount: Account, callback?: () => void) {
-    appPreferencesClient.setAccount(newAccount, (_err) => {
+    preferencesClient.setAccount(newAccount, (_err) => {
         callback && callback();
     });
 }
@@ -69,7 +65,7 @@ function setAccount(newAccount: Account, callback?: () => void) {
  * @param callback a callback that is invoked when the picture has been updated
  */
 function setProfilePicture(newProfilePicture: ProfilePicture, callback?: () => void) {
-    appPreferencesClient.setProfilePicture(newProfilePicture, (_err) => {
+    preferencesClient.setProfilePicture(newProfilePicture, (_err) => {
         callback && callback();
     });
 }
@@ -80,7 +76,7 @@ function setProfilePicture(newProfilePicture: ProfilePicture, callback?: () => v
  * @param callback a callback that is invoked when the account info has been received
  */
 function getProfilePicture(callback?: (src: Uint8Array) => void) {
-    appPreferencesClient.getProfilePicture({}, (_err, res) => {
+    preferencesClient.getProfilePicture({}, (_err, res) => {
         callback && callback(res.content);
     });
 }
@@ -92,7 +88,7 @@ function getProfilePicture(callback?: (src: Uint8Array) => void) {
  * @param callback a callback that is invoked when the preferences have been updated
  */
 function setGeneral(newGeneral: General, callback?: () => void) {
-    appPreferencesClient.setGeneral(newGeneral, (_err) => {
+    preferencesClient.setGeneral(newGeneral, (_err) => {
         callback && callback();
     });
 }
@@ -103,7 +99,7 @@ function setGeneral(newGeneral: General, callback?: () => void) {
  * @param callback a callback that is invoked when the preferences have been received
  */
 function getGeneral(callback?: (general: General) => void) {
-    appPreferencesClient.getGeneral({}, (_err, res) => {
+    preferencesClient.getGeneral({}, (_err, res) => {
         callback && callback(res);
     });
 }
@@ -115,7 +111,7 @@ function getGeneral(callback?: (general: General) => void) {
  * @param callback a callback that is invoked when the preferences have been updated
  */
 function setAppearance(newAppearance: Appearance, callback?: () => void) {
-    appPreferencesClient.setAppearance(newAppearance, (_err) => {
+    preferencesClient.setAppearance(newAppearance, (_err) => {
         callback && callback();
     });
 }
@@ -126,7 +122,7 @@ function setAppearance(newAppearance: Appearance, callback?: () => void) {
  * @param callback a callback that is invoked when the preferences have been received
  */
 function getAppearance(callback?: (appearancePrefs: Appearance) => void) {
-    appPreferencesClient.getAppearance({}, (_err, res) => {
+    preferencesClient.getAppearance({}, (_err, res) => {
         callback && callback(res);
     });
 }
@@ -138,7 +134,7 @@ function getAppearance(callback?: (appearancePrefs: Appearance) => void) {
  * @param callback a callback that is invoked when the preferences have been updated
  */
 function setNotifications(newNotifications: Notifications, callback?: () => void) {
-    appPreferencesClient.setNotifications(newNotifications, (_err) => {
+    preferencesClient.setNotifications(newNotifications, (_err) => {
         callback && callback();
     });
 }
@@ -149,7 +145,7 @@ function setNotifications(newNotifications: Notifications, callback?: () => void
  * @param callback a callback that is invoked when the preferences have been received
  */
 function getNotifications(callback?: (notificationPrefs: Notifications) => void) {
-    appPreferencesClient.getNotifications({}, (_err, res) => {
+    preferencesClient.getNotifications({}, (_err, res) => {
         callback && callback(res);
     });
 }

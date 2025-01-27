@@ -31,8 +31,8 @@ import {
     getProfilePicture,
     setAccount,
     setProfilePicture
-} from "@/rpc/app-preferences-service.ts";
-import {AccountSchema, ProfilePictureSchema} from "@/gen/account_pb.ts";
+} from "@/rpc/preferences-service.ts";
+import {AccountSchema, ProfilePictureSchema} from "@/gen/preferences_pb.ts";
 import {create} from "@bufbuild/protobuf";
 import {
     biometricAuthenticationFromStorage,

@@ -21,7 +21,7 @@
  */
 
 import React, {createContext, useContext, useEffect, useState} from "react";
-import {getAppearance} from "@/rpc/app-preferences-service.ts";
+import {getAppearance} from "@/rpc/preferences-service.ts";
 import {fromTheme, systemTheme, ThemeOption} from "@/converter/theme.ts";
 import {saveThemeInStorage, themeFromStorage} from "@/storage/appearance.ts";
 

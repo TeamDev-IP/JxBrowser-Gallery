@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-import {Language} from "@/gen/general_pb.ts";
+import {Language} from "@/gen/preferences_pb.ts";
 
 /**
  * The language options as human-readable strings.

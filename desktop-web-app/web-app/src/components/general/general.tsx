@@ -24,8 +24,8 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {Combobox} from "@/components/ui/common/combobox.tsx";
 import {GreenSwitch} from "@/components/ui/common/green-switch.tsx";
 import {useEffect, useRef, useState} from "react";
-import {GeneralSchema} from "@/gen/general_pb.ts";
-import {getGeneral, setGeneral} from "@/rpc/app-preferences-service.ts";
+import {GeneralSchema} from "@/gen/preferences_pb.ts";
+import {getGeneral, setGeneral} from "@/rpc/preferences-service.ts";
 import {create} from "@bufbuild/protobuf";
 import {
     checkForUpdatesFromStorage,

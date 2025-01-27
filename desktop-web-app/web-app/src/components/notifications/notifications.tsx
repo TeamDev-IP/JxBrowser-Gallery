@@ -30,9 +30,9 @@ import {
     saveDesktopNotificationsKeyInStorage,
     saveEmailNotificationsInStorage
 } from "@/storage/notifications.ts";
-import {getNotifications, setNotifications} from "@/rpc/app-preferences-service.ts";
+import {getNotifications, setNotifications} from "@/rpc/preferences-service.ts";
 import {create} from "@bufbuild/protobuf";
-import {NotificationsSchema} from "@/gen/notifications_pb.ts";
+import {NotificationsSchema} from "@/gen/preferences_pb.ts";
 
 /**
  * A component that allows managing the notification preferences.
