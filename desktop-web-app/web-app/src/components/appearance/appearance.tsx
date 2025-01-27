@@ -104,17 +104,11 @@ export function Appearance() {
                 <div
                     className="flex flex-col sm:flex-row gap-x-2 gap-y-2 justify-center items-center">
                     <ThemeBox title="Light" isSelected={uiTheme === Theme.LIGHT}
-                              onSelect={() => {
-                                  setUiTheme(Theme.LIGHT);
-                              }} icon={Sun}/>
+                              onSelect={() => setUiTheme(Theme.LIGHT)} icon={Sun}/>
                     <ThemeBox title="Dark" isSelected={uiTheme === Theme.DARK}
-                              onSelect={() => {
-                                  setUiTheme(Theme.DARK);
-                              }} icon={Moon}/>
+                              onSelect={() => setUiTheme(Theme.DARK)} icon={Moon}/>
                     <ThemeBox title="System" isSelected={uiTheme === Theme.SYSTEM}
-                              onSelect={() => {
-                                  setUiTheme(Theme.SYSTEM);
-                              }} icon={Laptop}/>
+                              onSelect={() => setUiTheme(Theme.SYSTEM)} icon={Laptop}/>
                 </div>
             </div>
             <div className="w-full flex items-center space-y-2 justify-between py-2">

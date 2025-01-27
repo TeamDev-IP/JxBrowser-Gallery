@@ -60,7 +60,7 @@ export function EditableAvatar({pictureDataUri, fallback, onChange}: AvatarProps
                 <input
                     type="file"
                     ref={fileInputRef}
-                    accept="image/png"
+                    accept="image/*"
                     className="hidden"
                     onChange={event => {
                         const file = event.target.files?.[0];
