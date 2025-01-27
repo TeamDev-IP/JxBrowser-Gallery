@@ -20,49 +20,27 @@
  *  SOFTWARE.
  */
 
-import {defaultFontSize, FontSizeOption} from "@/converter/font-size.ts";
-import {systemTheme, ThemeOption} from "@/converter/theme.ts";
+import {HashRouter, Route, Routes} from "react-router-dom";
+import {UserAccount} from "@/components/account/user-account.tsx";
+import {General} from "@/components/general/general.tsx";
+import {Appearance} from "@/components/appearance/appearance.tsx";
+import {Notifications} from "@/components/notifications/notifications.tsx";
 
 /**
- * A key for the font size in the local storage.
+ * A router for navigating between preferences.
+ *
+ * @constructor
  */
-const fontSizeKey = "font-size";
-/**
- * A key for the theme in the local storage.
- */
-const themeKey = "vite-ui-theme";
-
-/**
- * Reads the theme from the local storage.
- */
-function themeFromStorage() {
-    return localStorage.getItem(themeKey) as ThemeOption || systemTheme;
+export function PreferencesRouter() {
+    return (
+        <HashRouter>
+            <Routes>
+                <Route path={"/"} element={<UserAccount/>}/>
+                <Route path={"/prefs/general"} element={<General/>}/>
+                <Route path={"/prefs/appearance"} element={<Appearance/>}/>
+                <Route path={"/prefs/notifications"}
+                       element={<Notifications/>}/>
+            </Routes>
+        </HashRouter>
+    );
 }
-
-/**
- * Saves a new theme to the local storage.
- */
-function saveThemeInStorage(language: ThemeOption) {
-    localStorage.setItem(themeKey, language);
-}
-
-/**
- * Reads the font size from the local storage.
- */
-function fontSizeFromStorage() {
-    return localStorage.getItem(fontSizeKey) as FontSizeOption || defaultFontSize;
-}
-
-/**
- * Saves a new font size to the local storage.
- */
-function saveFontSizeInStorage(option: FontSizeOption) {
-    localStorage.setItem(fontSizeKey, option);
-}
-
-export {
-    fontSizeFromStorage,
-    saveFontSizeInStorage,
-    themeFromStorage,
-    saveThemeInStorage
-};

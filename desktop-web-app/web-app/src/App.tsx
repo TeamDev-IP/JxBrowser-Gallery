@@ -20,25 +20,10 @@
  *  SOFTWARE.
  */
 
-import {HashRouter, Route, Routes} from "react-router-dom";
-import {
-    Sidebar,
-    SidebarContent,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarProvider
-} from "@/components/ui/sidebar.tsx";
-import {UserAccount} from "@/components/user-account.tsx";
-import {General} from "@/components/general.tsx";
-import {Appearance} from "@/components/appearance.tsx";
-import {NavigationItem, NavigationItemType} from "@/components/navigation-item.tsx";
-import {Bell, Settings, SquareUser, SunMoon} from "lucide-react";
-import {Notifications} from "@/components/notifications.tsx";
-import {FontSizeProvider} from "@/components/font-size-provider.tsx";
-import {ThemeProvider} from "@/components/theme-provider.tsx";
-import {useState} from "react";
+import {SidebarProvider} from "@/components/ui/sidebar.tsx";
+import {AppearanceProvider} from "@/components/appearance/appearance-provider.tsx";
+import {LeftSidebar} from "@/components/navigation/left-sidebar.tsx";
+import {PreferencesRouter} from "@/components/navigation/preferences-router.tsx";
 
 /**
  * The main application component.
@@ -46,69 +31,15 @@ import {useState} from "react";
  * @constructor
  */
 function App() {
-    const [currentNavigation, setCurrentNavigation] = useState<NavigationItemType>("Account");
-
-    const updateNavigation = (navigation: NavigationItemType) => {
-        return () => {
-            setCurrentNavigation(navigation);
-        }
-    };
-
     return (
-        <ThemeProvider>
-            <FontSizeProvider>
-                <SidebarProvider className="space-y-2 space-x-2 h-full">
-                    <Sidebar className="!h-auto" collapsible={"none"} side="left">
-                        <SidebarContent className="p-4">
-                            <SidebarGroup/>
-                            <SidebarGroupContent>
-                                <SidebarMenu>
-                                    <NavigationItem type={"Account"}
-                                                    url={"/"}
-                                                    icon={SquareUser}
-                                                    isSelected={currentNavigation === "Account"}
-                                                    onSelect={updateNavigation("Account")}/>
-                                </SidebarMenu>
-                            </SidebarGroupContent>
-                            <SidebarGroupLabel className={"pt-3"}>Preferences</SidebarGroupLabel>
-                            <SidebarGroupContent>
-                                <SidebarMenu>
-                                    <NavigationItem type={"General"}
-                                                    url={"/prefs/general"}
-                                                    icon={Settings}
-                                                    isSelected={currentNavigation === "General"}
-                                                    onSelect={updateNavigation("General")}/>
-                                    <NavigationItem type={"Appearance"}
-                                                    url={"/prefs/appearance"}
-                                                    icon={SunMoon}
-                                                    isSelected={currentNavigation === "Appearance"}
-                                                    onSelect={updateNavigation("Appearance")}/>
-                                    <NavigationItem type={"Notifications"}
-                                                    url={"/prefs/notifications"}
-                                                    icon={Bell}
-                                                    isSelected={currentNavigation === "Notifications"}
-                                                    onSelect={updateNavigation("Notifications")}/>
-                                </SidebarMenu>
-                            </SidebarGroupContent>
-                            <SidebarGroup/>
-                        </SidebarContent>
-                    </Sidebar>
-                    <main className="w-full p-8">
-                        <div className="w-full">
-                            <HashRouter>
-                                <Routes>
-                                    <Route path={"/"} element={<UserAccount/>}/>
-                                    <Route path={"/prefs/general"} element={<General/>}/>
-                                    <Route path={"/prefs/appearance"} element={<Appearance/>}/>
-                                    <Route path={"/prefs/notifications"}
-                                           element={<Notifications/>}/>
-                                </Routes>
-                            </HashRouter>
-                        </div>
-                    </main>
-                </SidebarProvider>
-            </FontSizeProvider>
-        </ThemeProvider>
+        <AppearanceProvider>
+            <SidebarProvider className="space-y-2 space-x-2 h-full">
+                <LeftSidebar/>
+                <main className="w-full p-8">
+                    <PreferencesRouter/>
+                </main>
+            </SidebarProvider>
+        </AppearanceProvider>
     );
 }
 

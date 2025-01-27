@@ -21,8 +21,8 @@
  */
 
 import {Separator} from "@/components/ui/separator.tsx";
-import {Combobox} from "@/components/combobox.tsx";
-import {GreenSwitch} from "@/components/green-switch.tsx";
+import {Combobox} from "@/components/ui/common/combobox.tsx";
+import {GreenSwitch} from "@/components/ui/common/green-switch.tsx";
 import {useEffect, useRef, useState} from "react";
 import {GeneralSchema} from "@/gen/general_pb.ts";
 import {getGeneral, setGeneral} from "@/rpc/app-preferences-service.ts";
@@ -42,7 +42,7 @@ import {
     germanLanguage,
     LanguageOption,
     toLanguage
-} from "@/components/converter/language.ts";
+} from "@/converter/language.ts";
 
 /**
  * Available language options.

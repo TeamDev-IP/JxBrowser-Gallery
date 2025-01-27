@@ -28,7 +28,7 @@ import {
     FontSizeOption,
     fromFontSize,
     smallFontSize
-} from "@/components/converter/font-size.ts";
+} from "@/converter/font-size.ts";
 
 /**
  * The FontSizeProvider's properties.

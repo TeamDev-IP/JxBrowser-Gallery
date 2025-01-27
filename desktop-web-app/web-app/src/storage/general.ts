@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-import {englishLanguage, LanguageOption} from "@/components/converter/language.ts";
+import {englishLanguage, LanguageOption} from "@/converter/language.ts";
 
 /**
  * A key for the launch-at-startup preference in the local storage.

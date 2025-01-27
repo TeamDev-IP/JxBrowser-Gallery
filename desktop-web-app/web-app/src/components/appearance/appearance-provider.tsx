@@ -20,49 +20,29 @@
  *  SOFTWARE.
  */
 
-import {defaultFontSize, FontSizeOption} from "@/converter/font-size.ts";
-import {systemTheme, ThemeOption} from "@/converter/theme.ts";
+import {ThemeProvider} from "@/components/appearance/theme-provider.tsx";
+import {FontSizeProvider} from "@/components/appearance/font-size-provider.tsx";
+import React from "react";
 
 /**
- * A key for the font size in the local storage.
+ * The AppearanceProvider's properties.
  */
-const fontSizeKey = "font-size";
-/**
- * A key for the theme in the local storage.
- */
-const themeKey = "vite-ui-theme";
-
-/**
- * Reads the theme from the local storage.
- */
-function themeFromStorage() {
-    return localStorage.getItem(themeKey) as ThemeOption || systemTheme;
+type AppearanceProviderProps = {
+    children: React.ReactNode
 }
 
 /**
- * Saves a new theme to the local storage.
+ * Provides appearance context like theme and font size to its child components.
+ *
+ * @param children the React nodes that will have access to the appearance context
+ * @constructor
  */
-function saveThemeInStorage(language: ThemeOption) {
-    localStorage.setItem(themeKey, language);
+export function AppearanceProvider({children}: AppearanceProviderProps) {
+    return (
+        <ThemeProvider>
+            <FontSizeProvider>
+                {children}
+            </FontSizeProvider>
+        </ThemeProvider>
+    )
 }
-
-/**
- * Reads the font size from the local storage.
- */
-function fontSizeFromStorage() {
-    return localStorage.getItem(fontSizeKey) as FontSizeOption || defaultFontSize;
-}
-
-/**
- * Saves a new font size to the local storage.
- */
-function saveFontSizeInStorage(option: FontSizeOption) {
-    localStorage.setItem(fontSizeKey, option);
-}
-
-export {
-    fontSizeFromStorage,
-    saveFontSizeInStorage,
-    themeFromStorage,
-    saveThemeInStorage
-};

@@ -22,7 +22,7 @@
 
 import {Separator} from "@/components/ui/separator.tsx";
 
-import {GreenSwitch} from "@/components/green-switch.tsx";
+import {GreenSwitch} from "@/components/ui/common/green-switch.tsx";
 import {useEffect, useRef, useState} from "react";
 import {
     desktopNotificationsKeyFromStorage,

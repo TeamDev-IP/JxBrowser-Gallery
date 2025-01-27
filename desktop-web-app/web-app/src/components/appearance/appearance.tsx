@@ -23,14 +23,14 @@
 import {Separator} from "@/components/ui/separator.tsx";
 import {useEffect, useRef, useState} from "react";
 import {Laptop, Moon, Sun} from "lucide-react";
-import {ThemeBox} from "@/components/theme-box.tsx";
-import {Combobox} from "@/components/combobox.tsx";
+import {ThemeBox} from "@/components/appearance/theme-box.tsx";
+import {Combobox} from "@/components/ui/common/combobox.tsx";
 import {AppearanceSchema, Theme} from "@/gen/appearance_pb.ts";
 import {getAppearance, setAppearance} from "@/rpc/app-preferences-service.ts";
 import {create} from "@bufbuild/protobuf";
-import {useTheme} from "@/components/theme-provider.tsx";
+import {useTheme} from "@/components/appearance/theme-provider.tsx";
 import {saveFontSizeInStorage,} from "@/storage/appearance.ts";
-import {useFontSize} from "@/components/font-size-provider.tsx";
+import {useFontSize} from "@/components/appearance/font-size-provider.tsx";
 import {
     defaultFontSize,
     FontSizeOption,
@@ -38,8 +38,8 @@ import {
     largeFontSize,
     smallFontSize,
     toFontSize
-} from "@/components/converter/font-size.ts";
-import {fromTheme, toTheme} from "@/components/converter/theme.ts";
+} from "@/converter/font-size.ts";
+import {fromTheme, toTheme} from "@/converter/theme.ts";
 
 /**
  * Available font size options.

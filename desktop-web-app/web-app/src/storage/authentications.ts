@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-import {emailTfa, TfaMethod} from "@/components/converter/tfa-method.ts";
+import {emailTfa, TfaMethod} from "@/converter/tfa-method.ts";
 
 /**
  * A key for the two-factor authentication in the local storage.

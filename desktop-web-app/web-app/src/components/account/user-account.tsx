@@ -20,11 +20,11 @@
  *  SOFTWARE.
  */
 
-import {Combobox} from "@/components/combobox.tsx";
-import {GreenSwitch} from "@/components/green-switch.tsx";
-import {EditableAvatar} from "@/components/editable-avatar.tsx";
-import {EditableInput} from "@/components/editable-input.tsx";
-import {GuidingLine} from "@/components/guiding-line.tsx";
+import {Combobox} from "@/components/ui/common/combobox.tsx";
+import {GreenSwitch} from "@/components/ui/common/green-switch.tsx";
+import {EditableAvatar} from "@/components/account/editable-avatar.tsx";
+import {EditableInput} from "@/components/account/editable-input.tsx";
+import {GuidingLine} from "@/components/ui/common/guiding-line.tsx";
 import {useEffect, useRef, useState} from "react";
 import {
     getAccount,
@@ -40,15 +40,8 @@ import {
     saveTfaInStorage,
     tfaFromStorage,
 } from "@/storage/authentications.ts";
-import {imageToDataUri} from "@/components/converter/image.ts";
-import {
-    emailTfa,
-    fromTfa,
-    passkeyTfa,
-    smsTfa,
-    TfaMethod,
-    toTfa
-} from "@/components/converter/tfa-method.ts";
+import {imageToDataUri} from "@/converter/image.ts";
+import {emailTfa, fromTfa, passkeyTfa, smsTfa, TfaMethod, toTfa} from "@/converter/tfa-method.ts";
 
 /**
  * Available two-factor authentication methods.
@@ -105,22 +98,23 @@ export function UserAccount() {
         saveBiometricAuthenticationInStorage(biometricAuthentication);
     }, [fullName, email, twoFactorAuthentication, biometricAuthentication]);
 
+    const onChangeAvatar = (file: File) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const newProfilePicture = create(ProfilePictureSchema, {
+                content: new Uint8Array(reader.result as ArrayBuffer)
+            });
+            setProfilePicture(newProfilePicture, () => {
+                setProfilePictureDataUri(imageToDataUri(newProfilePicture.content));
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    };
     return (
         <div className="space-y-4">
             <h1 className="text-2xl font-semibold">Account</h1>
             <GuidingLine/>
-            <EditableAvatar onChange={file => {
-                const reader = new FileReader();
-                reader.onload = () => {
-                    const newProfilePicture = create(ProfilePictureSchema, {
-                        content: new Uint8Array(reader.result as ArrayBuffer)
-                    });
-                    setProfilePicture(newProfilePicture, () => {
-                        setProfilePictureDataUri(imageToDataUri(newProfilePicture.content));
-                    });
-                };
-                reader.readAsArrayBuffer(file);
-            }} pictureDataUri={profilePictureDataUri}
+            <EditableAvatar onChange={onChangeAvatar} pictureDataUri={profilePictureDataUri}
                             fallback={fullName.split(" ").map(it => it[0]).join("")}/>
             <EditableInput title={"Email"} isEmail={true}
                            onChange={setEmail} value={email} id={"email"}/>
