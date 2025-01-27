@@ -91,9 +91,7 @@ gradlew.bat desktop-web-app:clean desktop-web-app:packageExe
 ## Protobuf
 
 This app uses Protobuf for communication between Java and JavaScript. The Protobuf files are
-located in the `proto` directory. Java and JavaScript code for Protobuf messages is generated automatically during the build process.
-
-To generate proto messages manually, run the following command:
+located in the `proto` directory. Java and JavaScript code for Protobuf messages is generated automatically during the build process. To generate proto messages manually, run the following command:
 
 ```bash
 ./gradlew desktop-web-app:generateProto
