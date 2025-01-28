@@ -39,7 +39,7 @@ import static com.teamdev.jxbrowser.examples.preferences.PreferencesFile.APP_PRE
 import static com.teamdev.jxbrowser.preferences.Preferences.TwoFactorAuthentication.EMAIL;
 
 /**
- * A service for reading and updating preferences.
+ * A gRPC service for reading and updating preferences.
  */
 public final class PreferencesService extends PreferencesServiceImplBase {
 
