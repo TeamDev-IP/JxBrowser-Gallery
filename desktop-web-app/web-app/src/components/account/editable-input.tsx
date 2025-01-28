@@ -61,7 +61,7 @@ export function EditableInput({title, value, isEmail, onChange}: EditableInputPr
                 <p className="text-sm">{title}</p>
                 <div className={"xs:w-full sm:w-[50%] lg:w-[30%]"}>
                     <Input type={isEmail ? "email" : "text"}
-                           className={`w-full text-sm ${!isValid && "bg-red-300"}`}
+                           className={`w-full text-sm ${!isValid && "bg-red-300"} focus-visible:border-control-select`}
                            onBlur={(event) => {
                                if (isValid) {
                                    onChange(event.target.value);

@@ -54,6 +54,13 @@
         --input: 214.3 31.8% 91.4%;
         --ring: 222.2 84% 4.9%;
 
+        /*--control-hover:*/
+        /*--control-hover-fore:*/
+        --control-select: 212 88% 45%;
+        --control-select-foreground: 0 0% 100%;
+        --control-hover: 212 100% 90%;
+        --control-hover-foreground: 0 0% 0%;
+
         --radius: 0.5rem;
         --sidebar-background: 0 0% 98%;
         --sidebar-foreground: 240 5.3% 26.1%;
@@ -91,6 +98,11 @@
 
         --destructive: 0 62.8% 30.6%;
         --destructive-foreground: 210 40% 98%;
+
+        --control-select: 212 88% 45%;
+        --control-select-foreground: 240 4.8% 95.9%;
+        --control-hover: 212 100% 20%;
+        --control-hover-foreground: 240 4.8% 95.9%;
 
         --border: 217.2 32.6% 17.5%;
         --input: 217.2 32.6% 17.5%;

@@ -21,7 +21,7 @@
  */
 
 import {Combobox} from "@/components/ui/common/combobox.tsx";
-import {GreenSwitch} from "@/components/ui/common/green-switch.tsx";
+import {PreferenceSwitch} from "@/components/ui/common/preference-switch.tsx";
 import {EditableAvatar} from "@/components/account/editable-avatar.tsx";
 import {EditableInput} from "@/components/account/editable-input.tsx";
 import {GuidingLine} from "@/components/ui/common/guiding-line.tsx";
@@ -141,8 +141,8 @@ export function UserAccount() {
                         Allow authentication via fingerprints or Face ID.
                     </p>
                 </div>
-                <GreenSwitch onChange={setBiometricAuthentication}
-                             isChecked={biometricAuthentication}/>
+                <PreferenceSwitch onChange={setBiometricAuthentication}
+                                  isChecked={biometricAuthentication}/>
             </div>
         </div>
     );
