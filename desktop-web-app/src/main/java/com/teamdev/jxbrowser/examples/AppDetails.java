@@ -22,28 +22,51 @@
 
 package com.teamdev.jxbrowser.examples;
 
-import com.teamdev.jxbrowser.examples.production.ProductionMode;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * A utility containing information about application location and its resources.
+ * Application details such as the application location directory, resources directory, and Chromium user data directory.
  */
-public final class AppContents {
-    public static final String APP_LOCATION =
-            new File(AppContents.class
-                    .getProtectionDomain()
-                    .getCodeSource()
-                    .getLocation()
-                    .getPath())
-                    .getParent();
-    public static final String APP_URL = ProductionMode.isEnabled() ? "jxbrowser://my-app.com" : "http://localhost:5173";
-    public static final Path APP_RESOURCES_DIR;
-    public static final Path CHROMIUM_USER_DATA_DIR;
+public enum AppDetails {
+    INSTANCE;
 
-    static {
+    /**
+     * Returns the directory path where the application is located.
+     */
+    public static Path appLocationDir() {
+        return new File(AppDetails.class
+                .getProtectionDomain()
+                .getCodeSource()
+                .getLocation()
+                .getPath())
+                .getParentFile()
+                .toPath();
+    }
+
+    /**
+     * Returns the URL of the application frontend.
+     */
+    public static String appUrl() {
+        return isProductionMode() ? "jxbrowser://my-app.com" : "http://localhost:5173";
+    }
+
+    public static String getAppIconFileName() {
+        return "preferences.png";
+    }
+
+    /**
+     * Indicates if the application is running in the production mode.
+     */
+    public static boolean isProductionMode() {
+        return System.getProperty("app.dev.mode") == null;
+    }
+
+    private final Path appResourcesDir;
+    private final Path chromiumUserDataDir;
+
+    AppDetails() {
         String userHome = System.getProperty("user.home");
         String osName = System.getProperty("os.name").toLowerCase();
         Path userDataDir;
@@ -55,11 +78,21 @@ public final class AppContents {
         } else {
             userDataDir = Paths.get(userHome, "Library", "Application Support");
         }
-        APP_RESOURCES_DIR = userDataDir.resolve("JxBrowserShadcnApp");
-        CHROMIUM_USER_DATA_DIR = APP_RESOURCES_DIR.resolve("UserData");
+        appResourcesDir = userDataDir.resolve("JxBrowserShadcnApp");
+        chromiumUserDataDir = appResourcesDir.resolve("UserData");
     }
 
-    private AppContents() {
-        // Prevents instance creation.
+    /**
+     * Returns the directory path where the application resources are located.
+     */
+    public Path appResourcesDir() {
+        return appResourcesDir;
+    }
+
+    /**
+     * Returns the directory path where the Chromium user data is stored.
+     */
+    public Path chromiumUserDataDir() {
+        return chromiumUserDataDir;
     }
 }
