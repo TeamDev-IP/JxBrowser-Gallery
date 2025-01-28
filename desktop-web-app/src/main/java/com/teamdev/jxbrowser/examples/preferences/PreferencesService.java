@@ -25,17 +25,19 @@ package com.teamdev.jxbrowser.examples.preferences;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Empty;
 import com.teamdev.jxbrowser.preferences.Preferences.Account;
-import com.teamdev.jxbrowser.preferences.Preferences.ProfilePicture;
-import com.teamdev.jxbrowser.preferences.PreferencesServiceGrpc.PreferencesServiceImplBase;
 import com.teamdev.jxbrowser.preferences.Preferences.Appearance;
 import com.teamdev.jxbrowser.preferences.Preferences.General;
 import com.teamdev.jxbrowser.preferences.Preferences.Notifications;
+import com.teamdev.jxbrowser.preferences.Preferences.ProfilePicture;
+import com.teamdev.jxbrowser.preferences.PreferencesServiceGrpc.PreferencesServiceImplBase;
 import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static com.teamdev.jxbrowser.examples.preferences.PreferencesFile.APP_PREFERENCES_FILE;
+import static com.teamdev.jxbrowser.examples.preferences.PreferencesFile.PREFERENCES_FILE;
+import static com.teamdev.jxbrowser.preferences.Preferences.FontSize.DEFAULT;
+import static com.teamdev.jxbrowser.preferences.Preferences.Theme.SYSTEM;
 import static com.teamdev.jxbrowser.preferences.Preferences.TwoFactorAuthentication.EMAIL;
 
 /**
@@ -43,26 +45,13 @@ import static com.teamdev.jxbrowser.preferences.Preferences.TwoFactorAuthenticat
  */
 public final class PreferencesService extends PreferencesServiceImplBase {
 
-    private static final Preferences appPreferences;
+    private final Preferences appPreferences;
 
-    static {
-        if (!APP_PREFERENCES_FILE.exists()) {
-            try {
-                Files.createFile(APP_PREFERENCES_FILE.toPath());
-                Account user = Account.newBuilder()
-                        .setFullName("John Doe")
-                        .setEmail("john.doe@mail.com")
-                        .setBiometricAuthentication(false)
-                        .setTwoFactorAuthentication(EMAIL)
-                        .build();
-                appPreferences = new Preferences();
-                appPreferences.account(user);
-                PreferencesFile.write(appPreferences);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
+    public PreferencesService() {
+        if (PREFERENCES_FILE.exists()) {
             appPreferences = PreferencesFile.read();
+        } else {
+            appPreferences = initPreferences();
         }
     }
 
@@ -133,4 +122,29 @@ public final class PreferencesService extends PreferencesServiceImplBase {
         responseObserver.onNext(appPreferences.notifications());
         responseObserver.onCompleted();
     }
+
+    private Preferences initPreferences() {
+        final Preferences appPreferences;
+        try {
+            Files.createFile(PREFERENCES_FILE.toPath());
+            Account user = Account.newBuilder()
+                    .setFullName("John Doe")
+                    .setEmail("john.doe@mail.com")
+                    .setBiometricAuthentication(false)
+                    .setTwoFactorAuthentication(EMAIL)
+                    .build();
+            Appearance appearance = Appearance.newBuilder()
+                    .setFontSize(DEFAULT)
+                    .setTheme(SYSTEM)
+                    .build();
+            appPreferences = new Preferences();
+            appPreferences.account(user);
+            appPreferences.appearance(appearance);
+            PreferencesFile.write(appPreferences);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return appPreferences;
+    }
+
 }

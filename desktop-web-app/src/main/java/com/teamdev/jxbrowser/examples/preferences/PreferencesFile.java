@@ -35,13 +35,13 @@ import java.io.IOException;
  */
 public final class PreferencesFile {
 
-    static final File APP_PREFERENCES_FILE =
+    static final File PREFERENCES_FILE =
             new File(AppDetails.INSTANCE.appResourcesDir()
-                                        .resolve("preferences.json")
-                                        .toString());
+                    .resolve("preferences.json")
+                    .toString());
 
     private PreferencesFile() {
-
+        // Prevents instantiation.
     }
 
     /**
@@ -49,7 +49,7 @@ public final class PreferencesFile {
      */
     public static Preferences read() {
         Gson gson = new Gson();
-        try (FileReader reader = new FileReader(APP_PREFERENCES_FILE)) {
+        try (FileReader reader = new FileReader(PREFERENCES_FILE)) {
             return gson.fromJson(reader, Preferences.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -61,7 +61,7 @@ public final class PreferencesFile {
      */
     public static void write(Preferences preferences) {
         Gson gson = new Gson();
-        try (FileWriter writer = new FileWriter(APP_PREFERENCES_FILE)) {
+        try (FileWriter writer = new FileWriter(PREFERENCES_FILE)) {
             gson.toJson(preferences, writer);
         } catch (IOException e) {
             throw new RuntimeException(e);
