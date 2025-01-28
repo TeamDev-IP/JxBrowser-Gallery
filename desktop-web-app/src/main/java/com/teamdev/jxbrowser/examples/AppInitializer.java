@@ -34,7 +34,6 @@ import com.teamdev.jxbrowser.browser.callback.InjectJsCallback;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.examples.preferences.PreferencesService;
-import com.teamdev.jxbrowser.examples.production.ProductionMode;
 import com.teamdev.jxbrowser.examples.production.UrlRequestInterceptor;
 import com.teamdev.jxbrowser.js.JsObject;
 import com.teamdev.jxbrowser.license.internal.LicenseProvider;
@@ -49,9 +48,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
-import static com.teamdev.jxbrowser.examples.AppContents.APP_RESOURCES_DIR;
-import static com.teamdev.jxbrowser.examples.AppContents.APP_URL;
-import static com.teamdev.jxbrowser.examples.AppContents.CHROMIUM_USER_DATA_DIR;
+import static com.teamdev.jxbrowser.examples.AppDetails.appUrl;
+import static com.teamdev.jxbrowser.examples.AppDetails.getAppIconFileName;
+import static com.teamdev.jxbrowser.examples.AppDetails.isProductionMode;
 import static com.teamdev.jxbrowser.net.Scheme.of;
 import static java.awt.Taskbar.Feature.ICON_IMAGE;
 import static javax.swing.SwingUtilities.invokeLater;
@@ -62,8 +61,7 @@ import static javax.swing.SwingUtilities.invokeLater;
 public final class AppInitializer {
 
     private static final int RPC_PORT = 50051;
-    public static final Scheme SCHEME = of("jxbrowser");
-    public static final String APP_IMAGE = "preferences.png";
+    private static final Scheme SCHEME = of("jxbrowser");
 
     public void initialize() throws InterruptedException {
         setupLogging();
@@ -75,16 +73,18 @@ public final class AppInitializer {
     }
 
     private static void setupLogging() {
-        String logFile = APP_RESOURCES_DIR.resolve("jxbrowser.log").toString();
+        String logFile = AppDetails.INSTANCE.appResourcesDir()
+                .resolve("jxbrowser.log")
+                .toString();
         System.setProperty("jxbrowser.logging.file", logFile);
         Logger.level(Level.DEBUG);
     }
 
     private static Engine createEngine() {
         var optionsBuilder = EngineOptions.newBuilder(HARDWARE_ACCELERATED)
-                .userDataDir(CHROMIUM_USER_DATA_DIR)
+                .userDataDir(AppDetails.INSTANCE.chromiumUserDataDir())
                 .licenseKey(LicenseProvider.INSTANCE.getKey());
-        if (ProductionMode.isEnabled()) {
+        if (isProductionMode()) {
             optionsBuilder.addScheme(SCHEME, new UrlRequestInterceptor());
         }
 
@@ -93,7 +93,7 @@ public final class AppInitializer {
 
     private static void setupUI(Engine engine, Browser browser) {
         invokeLater(() -> {
-            var frame = new JFrame("MyApp Preferences");
+            var frame = new JFrame("Preferences");
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.addWindowListener(new WindowAdapter() {
                 @Override
@@ -113,14 +113,12 @@ public final class AppInitializer {
     }
 
     private static void setAppIcon(JFrame frame) {
-        var imageResource = AppInitializer.class.getClassLoader()
-                                                .getResource(APP_IMAGE);
-        if (imageResource != null) {
-            var image = Toolkit.getDefaultToolkit().getImage(imageResource);
-            frame.setIconImage(image);
-            if (Taskbar.isTaskbarSupported() &&
-                    Taskbar.getTaskbar().isSupported(ICON_IMAGE)) {
-                Taskbar.getTaskbar().setIconImage(image);
+        var appIconRes = AppInitializer.class.getClassLoader().getResource(getAppIconFileName());
+        if (appIconRes != null) {
+            var icon = Toolkit.getDefaultToolkit().getImage(appIconRes);
+            frame.setIconImage(icon);
+            if (Taskbar.isTaskbarSupported() && Taskbar.getTaskbar().isSupported(ICON_IMAGE)) {
+                Taskbar.getTaskbar().setIconImage(icon);
             }
         }
     }
@@ -134,14 +132,14 @@ public final class AppInitializer {
             return InjectJsCallback.Response.proceed();
         });
 
-        if (!ProductionMode.isEnabled()) {
+        if (!isProductionMode()) {
             browser.devTools().show();
         }
     }
 
     private static void initializeRpc(Browser browser) throws InterruptedException {
         var serverBuilder = Server.builder().http(RPC_PORT);
-        var corsBuilder = CorsService.builder(APP_URL)
+        var corsBuilder = CorsService.builder(appUrl())
                 .allowRequestMethods(HttpMethod.POST)
                 .allowRequestHeaders(
                         HttpHeaderNames.CONTENT_TYPE,
@@ -159,7 +157,7 @@ public final class AppInitializer {
 
         try (var server = serverBuilder.build()) {
             server.start();
-            browser.navigation().loadUrl(APP_URL);
+            browser.navigation().loadUrl(appUrl());
             server.blockUntilShutdown();
         }
     }

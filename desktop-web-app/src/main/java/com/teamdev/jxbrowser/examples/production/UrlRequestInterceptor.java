@@ -22,6 +22,7 @@
 
 package com.teamdev.jxbrowser.examples.production;
 
+import com.teamdev.jxbrowser.examples.AppDetails;
 import com.teamdev.jxbrowser.net.HttpHeader;
 import com.teamdev.jxbrowser.net.HttpStatus;
 import com.teamdev.jxbrowser.net.UrlRequestJob;
@@ -31,11 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
-
-import static com.teamdev.jxbrowser.examples.AppContents.APP_LOCATION;
-import static com.teamdev.jxbrowser.examples.AppContents.APP_URL;
 
 /**
  * A request interceptor for loading web resources.
@@ -53,7 +50,7 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
     @Override
     public Response on(Params params) {
         var url = params.urlRequest().url();
-        if (url.contains(APP_URL)) {
+        if (url.contains(AppDetails.appUrl())) {
             var uri = URI.create(url);
             String filePath;
             if (uri.getPath().equals("/")) {
@@ -61,7 +58,7 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
             } else {
                 filePath = CONTENT_ROOT + uri.getPath();
             }
-            var pathOnDisk = Paths.get(APP_LOCATION, filePath);
+            var pathOnDisk = AppDetails.appLocationDir().resolve(filePath);
             var job = urlRequestJob(params, filePath);
             try {
                 readFile(pathOnDisk, job);

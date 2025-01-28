@@ -23,13 +23,12 @@
 package com.teamdev.jxbrowser.examples.preferences;
 
 import com.google.gson.Gson;
+import com.teamdev.jxbrowser.examples.AppDetails;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import static com.teamdev.jxbrowser.examples.AppContents.APP_RESOURCES_DIR;
 
 /**
  * A utility for reading from and writing to the preferences file.
@@ -37,7 +36,9 @@ import static com.teamdev.jxbrowser.examples.AppContents.APP_RESOURCES_DIR;
 public final class PreferencesFile {
 
     static final File APP_PREFERENCES_FILE =
-            new File(APP_RESOURCES_DIR.resolve("preferences.json").toString());
+            new File(AppDetails.INSTANCE.appResourcesDir()
+                                        .resolve("preferences.json")
+                                        .toString());
 
     private PreferencesFile() {
 

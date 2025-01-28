@@ -23,7 +23,17 @@
 package com.teamdev.jxbrowser.examples;
 
 /**
- * An application that displays preferences.
+ * A simple hybrid desktop application that demonstrates how to build
+ * application UI using web technologies and business logic using Java.
+ *
+ * <p>The UI is built using React, TypeScript, Shadcn, Tailwind CSS, and Vite.
+ *
+ * <p>The business logic is implemented using Java.
+ *
+ * <p>The application creates and displays a Swing window with embedded
+ * JxBrowser web view component that loads and displays the UI. Communication
+ * between TypeScript and Java is done using gRPC, Protocol Buffers, and
+ * JxBrowser JavaScript-Java Bridge.
  */
 public final class App {
 
