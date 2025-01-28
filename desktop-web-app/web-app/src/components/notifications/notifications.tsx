@@ -22,7 +22,7 @@
 
 import {Separator} from "@/components/ui/separator.tsx";
 
-import {GreenSwitch} from "@/components/ui/common/green-switch.tsx";
+import {PreferenceSwitch} from "@/components/ui/common/preference-switch.tsx";
 import {useEffect, useRef, useState} from "react";
 import {
     desktopNotificationsKeyFromStorage,
@@ -81,7 +81,7 @@ export function Notifications() {
                         grouped together and sent based on their urgency.
                     </p>
                 </div>
-                <GreenSwitch onChange={setEmailEnabled} isChecked={emailEnabled}/>
+                <PreferenceSwitch onChange={setEmailEnabled} isChecked={emailEnabled}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">
@@ -90,7 +90,7 @@ export function Notifications() {
                         Receive personal notifications on the desktop.
                     </p>
                 </div>
-                <GreenSwitch onChange={setDesktopEnabled} isChecked={desktopEnabled}/>
+                <PreferenceSwitch onChange={setDesktopEnabled} isChecked={desktopEnabled}/>
             </div>
         </div>
     );

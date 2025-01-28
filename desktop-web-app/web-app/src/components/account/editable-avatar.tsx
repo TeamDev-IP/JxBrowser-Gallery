@@ -28,7 +28,7 @@ import {useRef} from "react";
 /**
  * The avatar's properties.
  */
-interface AvatarProps {
+interface EditableAvatarProps {
     pictureDataUri: string,
     fallback: string,
     onChange: (file: File) => void
@@ -42,7 +42,7 @@ interface AvatarProps {
  * @param onChange a callback function that is invoked when the used selects another avatar
  * @constructor
  */
-export function EditableAvatar({pictureDataUri, fallback, onChange}: AvatarProps) {
+export function EditableAvatar({pictureDataUri, fallback, onChange}: EditableAvatarProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (

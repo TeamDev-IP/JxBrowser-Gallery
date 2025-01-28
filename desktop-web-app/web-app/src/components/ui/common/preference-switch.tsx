@@ -25,20 +25,19 @@ import {Switch} from "@/components/ui/switch.tsx";
 /**
  * The switch's properties.
  */
-interface SwitchProps {
+interface PreferenceSwitchProps {
     isChecked: boolean;
     onChange: (value: boolean) => void;
 }
 
 /**
- * A switch component for toggling boolean values, styled with a green color
- * for the "checked" state.
+ * A switch component for toggling boolean values.
  *
  * @param isChecked indicates whether the switch is in the "checked" state
  * @param onChange a callback function triggered when the switch state changes
  * @constructor
  */
-export function GreenSwitch({isChecked, onChange}: SwitchProps) {
+export function PreferenceSwitch({isChecked, onChange}: PreferenceSwitchProps) {
     return <Switch checked={isChecked} onCheckedChange={onChange}
-                   className="hover:opacity-70 data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-neutral-200"/>;
+                   className="hover:opacity-70 data-[state=checked]:bg-control-select data-[state=unchecked]:bg-neutral-200"/>;
 }

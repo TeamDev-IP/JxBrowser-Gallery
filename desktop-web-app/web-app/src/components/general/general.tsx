@@ -22,7 +22,7 @@
 
 import {Separator} from "@/components/ui/separator.tsx";
 import {Combobox} from "@/components/ui/common/combobox.tsx";
-import {GreenSwitch} from "@/components/ui/common/green-switch.tsx";
+import {PreferenceSwitch} from "@/components/ui/common/preference-switch.tsx";
 import {useEffect, useRef, useState} from "react";
 import {GeneralSchema} from "@/gen/preferences_pb.ts";
 import {getGeneral, setGeneral} from "@/rpc/preferences-service.ts";
@@ -109,7 +109,7 @@ export function General() {
                         boots up.
                     </p>
                 </div>
-                <GreenSwitch isChecked={launchAtStartup} onChange={setLaunchAtStartup}/>
+                <PreferenceSwitch isChecked={launchAtStartup} onChange={setLaunchAtStartup}/>
             </div>
             <div className="w-full inline-flex items-center space-y-2 justify-between py-1">
                 <div className="pr-8">
@@ -130,7 +130,7 @@ export function General() {
                         Allow to check for updates in the background.
                     </p>
                 </div>
-                <GreenSwitch isChecked={checkForUpdates} onChange={setCheckForUpdates}/>
+                <PreferenceSwitch isChecked={checkForUpdates} onChange={setCheckForUpdates}/>
             </div>
         </div>
     );

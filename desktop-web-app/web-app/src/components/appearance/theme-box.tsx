@@ -25,7 +25,7 @@ import {LucideIcon} from "lucide-react";
 /**
  * The theme box's properties.
  */
-interface ThemeProps {
+interface ThemeBoxProps {
     /**
      * The theme's title.
      */
@@ -50,11 +50,11 @@ interface ThemeProps {
  * @param props the theme's properties
  * @constructor
  */
-export function ThemeBox(props: ThemeProps) {
+export function ThemeBox(props: ThemeBoxProps) {
     return (
         <div onClick={props.onSelect}
-             className={`${!props.isSelected ? "hover:border-gray-600" : ""} ${props.isSelected ?
-                 "border-green-500" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-2 select-none`}>
+             className={`cursor-pointer ${!props.isSelected ? "hover:border-control-hover" : ""} ${props.isSelected ?
+                 "border-control-select" : ""} rounded-lg p-2 items-center border-2 flex w-full justify-center gap-x-2 select-none`}>
             <props.icon className={"text-right"}/>
             <span className="justify-end text-center text-sm">
                       {props.title}
