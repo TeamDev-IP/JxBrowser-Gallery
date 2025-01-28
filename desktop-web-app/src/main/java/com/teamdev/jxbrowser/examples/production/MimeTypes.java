@@ -57,18 +57,18 @@ public final class MimeTypes {
     }
 
     private static Map<String, MimeType> createMap() {
-        ImmutableMap.Builder<String, MimeType> mapBuilder = ImmutableMap.builder();
+        ImmutableMap.Builder<String, MimeType> builder = ImmutableMap.builder();
         var properties = new Properties();
-        var propertiesUrl = MimeTypes.class.getClassLoader().getResource("ext-to-mimetype.properties");
+        var propertiesUrl = MimeTypes.class.getClassLoader().getResource("mime-types.properties");
         if (propertiesUrl != null) {
             try (var inputStream = propertiesUrl.openStream()) {
                 properties.load(inputStream);
-                properties.forEach((key, value) -> mapBuilder.put(key.toString(),
-                        MimeType.of(value.toString())));
+                properties.forEach((key, value) ->
+                        builder.put(key.toString(), MimeType.of(value.toString())));
             } catch (IOException ignore) {
-                warn(format("Couldn't read the list of mime-types from: %s", propertiesUrl));
+                warn(format("Couldn't read the list of MIME types from: %s", propertiesUrl));
             }
         }
-        return mapBuilder.build();
+        return builder.build();
     }
 }
