@@ -21,7 +21,7 @@
  */
 
 import React, {createContext, useContext, useEffect, useState} from "react";
-import {getAppearance} from "@/rpc/preferences-service.ts";
+import {preferencesClient} from "@/rpc/preference-client.ts";
 import {fromTheme, systemTheme, ThemeOption} from "@/converter/theme.ts";
 import {saveThemeInStorage, themeFromStorage} from "@/storage/appearance.ts";
 
@@ -80,11 +80,12 @@ export function ThemeProvider({
     };
     setRootTheme();
     useEffect(() => {
-        getAppearance(appearance => {
+        (async () => {
+            const appearance = await preferencesClient.getAppearance({});
             const theme = fromTheme(appearance.theme);
             setTheme(theme);
             saveThemeInStorage(theme);
-        });
+        })();
     }, []);
     useEffect(setRootTheme, [theme]);
 

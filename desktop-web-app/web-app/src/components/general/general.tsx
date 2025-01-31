@@ -23,9 +23,9 @@
 import {Separator} from "@/components/ui/separator.tsx";
 import {Combobox} from "@/components/ui/common/combobox.tsx";
 import {PreferenceSwitch} from "@/components/ui/common/preference-switch.tsx";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {GeneralSchema} from "@/gen/preferences_pb.ts";
-import {getGeneral, setGeneral} from "@/rpc/preferences-service.ts";
+import {preferencesClient} from "@/rpc/preference-client.ts";
 import {create} from "@bufbuild/protobuf";
 import {
     checkForUpdatesFromStorage,
@@ -65,10 +65,10 @@ export function General() {
         useState<LanguageOption>(languageFromStorage());
     const [checkForUpdates, setCheckForUpdates] =
         useState<boolean>(checkForUpdatesFromStorage());
-    const isInitialized = useRef(false);
 
     useEffect(() => {
-        getGeneral(general => {
+        (async () => {
+            const general = await preferencesClient.getGeneral({});
             const language = fromLanguage(general.language);
 
             setLaunchAtStartup(general.launchAtStartup);
@@ -78,24 +78,25 @@ export function General() {
             saveLaunchAtStartupInStorage(general.launchAtStartup);
             saveCheckForUpdatesInStorage(general.checkForUpdates);
             saveLanguageInStorage(language);
-            isInitialized.current = true;
-        });
+        })();
     }, []);
 
-    useEffect(() => {
-        if (!isInitialized.current) {
-            return;
-        }
+    const onUpdateGeneral = ({
+                                 newLanguage = language,
+                                 newLaunchAtStartup = launchAtStartup,
+                                 newCheckForUpdates = checkForUpdates,
+                             }: {
+        newLanguage?: LanguageOption;
+        newLaunchAtStartup?: boolean,
+        newCheckForUpdates?: boolean,
+    }) => {
         const newGeneral = create(GeneralSchema, {
-            launchAtStartup,
-            language: toLanguage(language),
-            checkForUpdates
+            launchAtStartup: newLaunchAtStartup,
+            language: toLanguage(newLanguage),
+            checkForUpdates: newCheckForUpdates
         });
-        saveLanguageInStorage(language);
-        saveCheckForUpdatesInStorage(checkForUpdates);
-        saveLaunchAtStartupInStorage(launchAtStartup);
-        setGeneral(newGeneral);
-    }, [launchAtStartup, language, checkForUpdates]);
+        preferencesClient.setGeneral(newGeneral);
+    };
 
     return (
         <div className="space-y-4">
@@ -109,7 +110,11 @@ export function General() {
                         boots up.
                     </p>
                 </div>
-                <PreferenceSwitch isChecked={launchAtStartup} onChange={setLaunchAtStartup}/>
+                <PreferenceSwitch isChecked={launchAtStartup} onChange={checked => {
+                    onUpdateGeneral({newLaunchAtStartup: checked});
+                    saveLaunchAtStartupInStorage(checked);
+                    setLaunchAtStartup(checked);
+                }}/>
             </div>
             <div className="w-full inline-flex items-center space-y-2 justify-between py-1">
                 <div className="pr-8">
@@ -120,7 +125,10 @@ export function General() {
                 </div>
                 <Combobox options={languages} currentOption={language}
                           onSelect={value => {
-                              setLanguage(value as LanguageOption);
+                              const newLanguage = value as LanguageOption;
+                              onUpdateGeneral({newLanguage});
+                              saveLanguageInStorage(newLanguage);
+                              setLanguage(newLanguage);
                           }}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
@@ -130,7 +138,11 @@ export function General() {
                         Allow to check for updates in the background.
                     </p>
                 </div>
-                <PreferenceSwitch isChecked={checkForUpdates} onChange={setCheckForUpdates}/>
+                <PreferenceSwitch isChecked={checkForUpdates} onChange={checked => {
+                    onUpdateGeneral({newCheckForUpdates: checked});
+                    saveCheckForUpdatesInStorage(checked);
+                    setCheckForUpdates(checked);
+                }}/>
             </div>
         </div>
     );

@@ -21,7 +21,7 @@
  */
 
 import React, {createContext, useContext, useEffect, useState} from "react";
-import {getAppearance} from "@/rpc/preferences-service.ts";
+import {preferencesClient} from "@/rpc/preference-client.ts";
 import {fontSizeFromStorage, saveFontSizeInStorage,} from "@/storage/appearance.ts";
 import {
     defaultFontSize,
@@ -89,10 +89,12 @@ export function FontSizeProvider({children}: FontSizeProviderProps) {
 
     adjustFontSize();
     useEffect(() => {
-        getAppearance(appearance => {
-            setFontSize(fromFontSize(appearance.fontSize));
-            saveFontSizeInStorage(fromFontSize(appearance.fontSize));
-        });
+        (async () => {
+            const appearance = await preferencesClient.getAppearance({});
+            const fontSize = fromFontSize(appearance.fontSize);
+            setFontSize(fontSize);
+            saveFontSizeInStorage(fontSize);
+        })();
     }, []);
     useEffect(adjustFontSize, [fontSize]);
 

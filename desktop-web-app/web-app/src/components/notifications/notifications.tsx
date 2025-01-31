@@ -23,14 +23,14 @@
 import {Separator} from "@/components/ui/separator.tsx";
 
 import {PreferenceSwitch} from "@/components/ui/common/preference-switch.tsx";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {
     desktopNotificationsKeyFromStorage,
     emailNotificationsFromStorage,
     saveDesktopNotificationsKeyInStorage,
     saveEmailNotificationsInStorage
 } from "@/storage/notifications.ts";
-import {getNotifications, setNotifications} from "@/rpc/preferences-service.ts";
+import {preferencesClient} from "@/rpc/preference-client.ts";
 import {create} from "@bufbuild/protobuf";
 import {NotificationsSchema} from "@/gen/preferences_pb.ts";
 
@@ -44,30 +44,30 @@ export function Notifications() {
         useState<boolean>(desktopNotificationsKeyFromStorage());
     const [emailEnabled, setEmailEnabled] =
         useState<boolean>(emailNotificationsFromStorage());
-    const isInitialized = useRef(false);
 
     useEffect(() => {
-        getNotifications(notifications => {
+        (async () => {
+            const notifications = await preferencesClient.getNotifications({});
             setEmailEnabled(notifications.emailEnabled);
             setDesktopEnabled(notifications.desktopEnabled);
             saveEmailNotificationsInStorage(notifications.emailEnabled);
             saveDesktopNotificationsKeyInStorage(notifications.desktopEnabled);
-            isInitialized.current = true;
-        });
-    }, []);
+        })();
+    });
 
-    useEffect(() => {
-        if (!isInitialized.current) {
-            return;
-        }
+    const onUpdateNotifications = ({
+                                       newDesktopEnabled = desktopEnabled,
+                                       newEmailEnabled = emailEnabled,
+                                   }: {
+        newDesktopEnabled?: boolean;
+        newEmailEnabled?: boolean,
+    }) => {
         const newNotifications = create(NotificationsSchema, {
-            emailEnabled,
-            desktopEnabled,
+            emailEnabled: newEmailEnabled,
+            desktopEnabled: newDesktopEnabled,
         });
-        setNotifications(newNotifications);
-        saveEmailNotificationsInStorage(emailEnabled);
-        saveDesktopNotificationsKeyInStorage(desktopEnabled);
-    }, [desktopEnabled, emailEnabled]);
+        preferencesClient.setNotifications(newNotifications);
+    };
 
     return (
         <div className="space-y-4">
@@ -81,7 +81,11 @@ export function Notifications() {
                         grouped together and sent based on their urgency.
                     </p>
                 </div>
-                <PreferenceSwitch onChange={setEmailEnabled} isChecked={emailEnabled}/>
+                <PreferenceSwitch onChange={checked => {
+                    onUpdateNotifications({newEmailEnabled: checked});
+                    saveEmailNotificationsInStorage(checked);
+                    setEmailEnabled(checked);
+                }} isChecked={emailEnabled}/>
             </div>
             <div className="w-full inline-flex items-center justify-between py-1">
                 <div className="pr-8">
@@ -90,7 +94,11 @@ export function Notifications() {
                         Receive personal notifications on the desktop.
                     </p>
                 </div>
-                <PreferenceSwitch onChange={setDesktopEnabled} isChecked={desktopEnabled}/>
+                <PreferenceSwitch onChange={checked => {
+                    onUpdateNotifications({newDesktopEnabled: checked});
+                    saveDesktopNotificationsKeyInStorage(checked);
+                    setDesktopEnabled(checked);
+                }} isChecked={desktopEnabled}/>
             </div>
         </div>
     );

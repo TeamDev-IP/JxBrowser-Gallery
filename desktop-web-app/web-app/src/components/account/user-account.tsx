@@ -25,13 +25,8 @@ import {PreferenceSwitch} from "@/components/ui/common/preference-switch.tsx";
 import {EditableAvatar} from "@/components/account/editable-avatar.tsx";
 import {EditableInput} from "@/components/account/editable-input.tsx";
 import {GuidingLine} from "@/components/ui/common/guiding-line.tsx";
-import {useEffect, useRef, useState} from "react";
-import {
-    getAccount,
-    getProfilePicture,
-    setAccount,
-    setProfilePicture
-} from "@/rpc/preferences-service.ts";
+import {useEffect, useState} from "react";
+import {preferencesClient} from "@/rpc/preference-client.ts";
 import {AccountSchema, ProfilePictureSchema} from "@/gen/preferences_pb.ts";
 import {create} from "@bufbuild/protobuf";
 import {
@@ -65,10 +60,10 @@ export function UserAccount() {
         useState<TfaMethod>(tfaFromStorage());
     const [biometricAuthentication, setBiometricAuthentication] =
         useState<boolean>(biometricAuthenticationFromStorage());
-    const isInitialized = useRef(false);
 
     useEffect(() => {
-        getAccount(account => {
+        (async () => {
+            const account = await preferencesClient.getAccount({});
             setEmail(account.email);
             setFullName(account.fullName);
 
@@ -78,35 +73,40 @@ export function UserAccount() {
 
             saveTfaInStorage(tfaMethod);
             saveBiometricAuthenticationInStorage(account.biometricAuthentication);
-            isInitialized.current = true;
-        });
-        getProfilePicture(contentBytes => setProfilePictureDataUri(imageToDataUri(contentBytes)));
+            const profilePicture = await preferencesClient.getProfilePicture({});
+            setProfilePictureDataUri(imageToDataUri(profilePicture.content));
+        })();
     }, []);
 
-    useEffect(() => {
-        if (!isInitialized.current) {
-            return;
-        }
+    const onUpdateAccount = ({
+                                 newFullName = fullName,
+                                 newEmail = email,
+                                 newTwoFactorAuthentication = twoFactorAuthentication,
+                                 newBiometricAuthentication = biometricAuthentication
+                             }: {
+        newFullName?: string;
+        newEmail?: string,
+        newTwoFactorAuthentication?: TfaMethod,
+        newBiometricAuthentication?: boolean
+    }) => {
         const newAccount = create(AccountSchema, {
-            fullName,
-            email,
-            twoFactorAuthentication: toTfa(twoFactorAuthentication),
-            biometricAuthentication
+            fullName: newFullName,
+            email: newEmail,
+            twoFactorAuthentication: toTfa(newTwoFactorAuthentication),
+            biometricAuthentication: newBiometricAuthentication
         });
-        setAccount(newAccount);
-        saveTfaInStorage(twoFactorAuthentication);
-        saveBiometricAuthenticationInStorage(biometricAuthentication);
-    }, [fullName, email, twoFactorAuthentication, biometricAuthentication]);
-
+        preferencesClient.setAccount(newAccount);
+        saveTfaInStorage(newTwoFactorAuthentication);
+        saveBiometricAuthenticationInStorage(newBiometricAuthentication);
+    };
     const onChangeAvatar = (file: File) => {
         const reader = new FileReader();
         reader.onload = () => {
             const newProfilePicture = create(ProfilePictureSchema, {
                 content: new Uint8Array(reader.result as ArrayBuffer)
             });
-            setProfilePicture(newProfilePicture, () => {
-                setProfilePictureDataUri(imageToDataUri(newProfilePicture.content));
-            });
+            preferencesClient.setProfilePicture(newProfilePicture);
+            setProfilePictureDataUri(imageToDataUri(newProfilePicture.content));
         };
         reader.readAsArrayBuffer(file);
     };
@@ -117,10 +117,15 @@ export function UserAccount() {
             <EditableAvatar onChange={onChangeAvatar} pictureDataUri={profilePictureDataUri}
                             fallback={fullName.split(" ").map(it => it[0]).join("")}/>
             <EditableInput title={"Email"} isEmail={true}
-                           onChange={setEmail} value={email} id={"email"}/>
-            <EditableInput title={"Full name"} isEmail={false}
-                           value={fullName}
-                           onChange={setFullName} id={"fullname"}/>
+                           onChange={(value) => {
+                               onUpdateAccount({newEmail: value});
+                               setEmail(value);
+                           }} value={email} id={"email"}/>
+            <EditableInput title={"Full name"} isEmail={false} value={fullName}
+                           onChange={(value) => {
+                               onUpdateAccount({newFullName: value});
+                               setFullName(value);
+                           }} id={"fullname"}/>
             <GuidingLine/>
             <div className="w-full inline-flex items-center space-y-2 justify-between py-1">
                 <div className="pr-8">
@@ -130,6 +135,7 @@ export function UserAccount() {
                     </p>
                 </div>
                 <Combobox onSelect={value => {
+                    onUpdateAccount({newTwoFactorAuthentication: value as TfaMethod});
                     setTwoFactorAuthentication(value as TfaMethod);
                 }} options={authentications}
                           currentOption={twoFactorAuthentication}/>
@@ -141,8 +147,10 @@ export function UserAccount() {
                         Allow authentication via fingerprints or Face ID.
                     </p>
                 </div>
-                <PreferenceSwitch onChange={setBiometricAuthentication}
-                                  isChecked={biometricAuthentication}/>
+                <PreferenceSwitch onChange={checked => {
+                    onUpdateAccount({newBiometricAuthentication: checked});
+                    setBiometricAuthentication(checked);
+                }} isChecked={biometricAuthentication}/>
             </div>
         </div>
     );
