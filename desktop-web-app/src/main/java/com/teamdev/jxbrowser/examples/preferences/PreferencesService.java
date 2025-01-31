@@ -65,6 +65,7 @@ public final class PreferencesService extends PreferencesServiceImplBase {
     public void setAccount(Account request, StreamObserver<Empty> responseObserver) {
         appPreferences.account(request);
         PreferencesFile.write(appPreferences);
+        responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
 
@@ -73,6 +74,7 @@ public final class PreferencesService extends PreferencesServiceImplBase {
         byte[] content = request.getContent().toByteArray();
         appPreferences.profilePicture(content);
         PreferencesFile.write(appPreferences);
+        responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
 
@@ -88,6 +90,7 @@ public final class PreferencesService extends PreferencesServiceImplBase {
     public void setGeneral(General request, StreamObserver<Empty> responseObserver) {
         appPreferences.general(request);
         PreferencesFile.write(appPreferences);
+        responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
 
@@ -101,6 +104,7 @@ public final class PreferencesService extends PreferencesServiceImplBase {
     public void setAppearance(Appearance request, StreamObserver<Empty> responseObserver) {
         appPreferences.appearance(request);
         PreferencesFile.write(appPreferences);
+        responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
 
@@ -114,6 +118,7 @@ public final class PreferencesService extends PreferencesServiceImplBase {
     public void setNotifications(Notifications request, StreamObserver<Empty> responseObserver) {
         appPreferences.notifications(request);
         PreferencesFile.write(appPreferences);
+        responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
 
