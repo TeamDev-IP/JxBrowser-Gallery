@@ -28,14 +28,6 @@ import {GeneralSchema} from "@/gen/preferences_pb.ts";
 import {preferencesClient} from "@/rpc/preference-client.ts";
 import {create} from "@bufbuild/protobuf";
 import {
-    checkForUpdatesFromStorage,
-    languageFromStorage,
-    launchAtStartupFromStorage,
-    saveCheckForUpdatesInStorage,
-    saveLanguageInStorage,
-    saveLaunchAtStartupInStorage
-} from "@/storage/general.ts";
-import {
     englishLanguage,
     frenchLanguage,
     fromLanguage,
@@ -43,6 +35,7 @@ import {
     LanguageOption,
     toLanguage
 } from "@/converter/language.ts";
+import {preferencesStorage} from "@/storage/preferences-storage.ts";
 
 /**
  * Available language options.
@@ -60,11 +53,11 @@ const languages: LanguageOption[] = [
  */
 export function General() {
     const [launchAtStartup, setLaunchAtStartup] =
-        useState<boolean>(launchAtStartupFromStorage());
+        useState<boolean>(preferencesStorage.launchAtStartupEnabled());
     const [language, setLanguage] =
-        useState<LanguageOption>(languageFromStorage());
+        useState<LanguageOption>(preferencesStorage.language());
     const [checkForUpdates, setCheckForUpdates] =
-        useState<boolean>(checkForUpdatesFromStorage());
+        useState<boolean>(preferencesStorage.checkForUpdatesEnabled());
 
     useEffect(() => {
         (async () => {
@@ -75,9 +68,9 @@ export function General() {
             setLanguage(language);
             setCheckForUpdates(general.checkForUpdates);
 
-            saveLaunchAtStartupInStorage(general.launchAtStartup);
-            saveCheckForUpdatesInStorage(general.checkForUpdates);
-            saveLanguageInStorage(language);
+            preferencesStorage.saveLaunchAtStartup(general.launchAtStartup);
+            preferencesStorage.saveCheckForUpdates(general.checkForUpdates);
+            preferencesStorage.saveLanguage(language);
         })();
     }, []);
 
@@ -112,7 +105,7 @@ export function General() {
                 </div>
                 <PreferenceSwitch isChecked={launchAtStartup} onChange={checked => {
                     onUpdateGeneral({newLaunchAtStartup: checked});
-                    saveLaunchAtStartupInStorage(checked);
+                    preferencesStorage.saveLaunchAtStartup(checked);
                     setLaunchAtStartup(checked);
                 }}/>
             </div>
@@ -127,7 +120,7 @@ export function General() {
                           onSelect={value => {
                               const newLanguage = value as LanguageOption;
                               onUpdateGeneral({newLanguage});
-                              saveLanguageInStorage(newLanguage);
+                              preferencesStorage.saveLanguage(newLanguage);
                               setLanguage(newLanguage);
                           }}/>
             </div>
@@ -140,7 +133,7 @@ export function General() {
                 </div>
                 <PreferenceSwitch isChecked={checkForUpdates} onChange={checked => {
                     onUpdateGeneral({newCheckForUpdates: checked});
-                    saveCheckForUpdatesInStorage(checked);
+                    preferencesStorage.saveCheckForUpdates(checked);
                     setCheckForUpdates(checked);
                 }}/>
             </div>

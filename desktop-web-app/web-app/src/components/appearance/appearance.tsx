@@ -29,7 +29,6 @@ import {AppearanceSchema} from "@/gen/preferences_pb.ts";
 import {preferencesClient} from "@/rpc/preference-client.ts";
 import {create} from "@bufbuild/protobuf";
 import {useTheme} from "@/components/appearance/theme-provider.tsx";
-import {saveFontSizeInStorage,} from "@/storage/appearance.ts";
 import {useFontSize} from "@/components/appearance/font-size-provider.tsx";
 import {
     defaultFontSize,
@@ -47,6 +46,7 @@ import {
     ThemeOption,
     toTheme
 } from "@/converter/theme.ts";
+import {preferencesStorage} from "@/storage/preferences-storage.ts";
 
 /**
  * Available font size options.
@@ -77,7 +77,7 @@ export function Appearance() {
 
             const fontSize = fromFontSize(appearance.fontSize);
             setFontSize(fontSize);
-            saveFontSizeInStorage(fontSize);
+            preferencesStorage.saveFontSize(fontSize);
         })();
     }, []);
 

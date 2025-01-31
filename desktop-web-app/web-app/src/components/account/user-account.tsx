@@ -29,22 +29,24 @@ import {useEffect, useState} from "react";
 import {preferencesClient} from "@/rpc/preference-client.ts";
 import {AccountSchema, ProfilePictureSchema} from "@/gen/preferences_pb.ts";
 import {create} from "@bufbuild/protobuf";
-import {
-    biometricAuthenticationFromStorage,
-    saveBiometricAuthenticationInStorage,
-    saveTfaInStorage,
-    tfaFromStorage,
-} from "@/storage/authentications.ts";
 import {imageToDataUri} from "@/converter/image.ts";
-import {emailTfa, fromTfa, passkeyTfa, smsTfa, TfaMethod, toTfa} from "@/converter/tfa-method.ts";
+import {
+    emailTwoFA,
+    fromTfa,
+    passkeyTwoFA,
+    smsTwoFA,
+    toTfa,
+    TwoFAMethod
+} from "@/converter/two-fa-method.ts";
+import {preferencesStorage} from "@/storage/preferences-storage.ts";
 
 /**
  * Available two-factor authentication methods.
  */
-const authentications: TfaMethod[] = [
-    emailTfa,
-    smsTfa,
-    passkeyTfa
+const authentications: TwoFAMethod[] = [
+    emailTwoFA,
+    smsTwoFA,
+    passkeyTwoFA
 ];
 
 /**
@@ -57,9 +59,9 @@ export function UserAccount() {
     const [fullName, setFullName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [twoFactorAuthentication, setTwoFactorAuthentication] =
-        useState<TfaMethod>(tfaFromStorage());
+        useState<TwoFAMethod>(preferencesStorage.twoFA());
     const [biometricAuthentication, setBiometricAuthentication] =
-        useState<boolean>(biometricAuthenticationFromStorage());
+        useState<boolean>(preferencesStorage.biometricAuthenticationEnabled());
 
     useEffect(() => {
         (async () => {
@@ -71,8 +73,8 @@ export function UserAccount() {
             setTwoFactorAuthentication(tfaMethod);
             setBiometricAuthentication(account.biometricAuthentication);
 
-            saveTfaInStorage(tfaMethod);
-            saveBiometricAuthenticationInStorage(account.biometricAuthentication);
+            preferencesStorage.saveTwoFA(tfaMethod);
+            preferencesStorage.saveBiometricAuthentication(account.biometricAuthentication);
             const profilePicture = await preferencesClient.getProfilePicture({});
             setProfilePictureDataUri(imageToDataUri(profilePicture.content));
         })();
@@ -86,7 +88,7 @@ export function UserAccount() {
                              }: {
         newFullName?: string;
         newEmail?: string,
-        newTwoFactorAuthentication?: TfaMethod,
+        newTwoFactorAuthentication?: TwoFAMethod,
         newBiometricAuthentication?: boolean
     }) => {
         const newAccount = create(AccountSchema, {
@@ -96,8 +98,8 @@ export function UserAccount() {
             biometricAuthentication: newBiometricAuthentication
         });
         preferencesClient.setAccount(newAccount);
-        saveTfaInStorage(newTwoFactorAuthentication);
-        saveBiometricAuthenticationInStorage(newBiometricAuthentication);
+        preferencesStorage.saveTwoFA(newTwoFactorAuthentication);
+        preferencesStorage.saveBiometricAuthentication(newBiometricAuthentication);
     };
     const onChangeAvatar = (file: File) => {
         const reader = new FileReader();
@@ -135,8 +137,8 @@ export function UserAccount() {
                     </p>
                 </div>
                 <Combobox onSelect={value => {
-                    onUpdateAccount({newTwoFactorAuthentication: value as TfaMethod});
-                    setTwoFactorAuthentication(value as TfaMethod);
+                    onUpdateAccount({newTwoFactorAuthentication: value as TwoFAMethod});
+                    setTwoFactorAuthentication(value as TwoFAMethod);
                 }} options={authentications}
                           currentOption={twoFactorAuthentication}/>
             </div>

@@ -23,7 +23,7 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
 import {preferencesClient} from "@/rpc/preference-client.ts";
 import {fromTheme, systemTheme, ThemeOption} from "@/converter/theme.ts";
-import {saveThemeInStorage, themeFromStorage} from "@/storage/appearance.ts";
+import {preferencesStorage} from "@/storage/preferences-storage.ts";
 
 /**
  * The ThemeProvider's properties.
@@ -59,7 +59,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 export function ThemeProvider({
                                   children,
                               }: ThemeProviderProps) {
-    const [theme, setTheme] = useState<ThemeOption>(themeFromStorage());
+    const [theme, setTheme] = useState<ThemeOption>(preferencesStorage.theme());
 
     /**
      * Applies the current theme to the root element by adding the appropriate class.
@@ -84,7 +84,7 @@ export function ThemeProvider({
             const appearance = await preferencesClient.getAppearance({});
             const theme = fromTheme(appearance.theme);
             setTheme(theme);
-            saveThemeInStorage(theme);
+            preferencesStorage.saveTheme(theme);
         })();
     }, []);
     useEffect(setRootTheme, [theme]);
@@ -92,7 +92,7 @@ export function ThemeProvider({
     const value = {
         theme,
         setTheme: (theme: ThemeOption) => {
-            saveThemeInStorage(theme);
+            preferencesStorage.saveTheme(theme);
             setTheme(theme);
         },
     };

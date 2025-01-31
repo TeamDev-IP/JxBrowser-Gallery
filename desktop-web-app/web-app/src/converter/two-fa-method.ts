@@ -25,34 +25,34 @@ import {TwoFactorAuthentication} from "@/gen/preferences_pb.ts";
 /**
  * The two-factor authentication methods as human-readable strings.
  */
-export type TfaMethod = "Email" | "SMS" | "Passkey"
+export type TwoFAMethod = "Email" | "SMS" | "Passkey"
 
-const emailTfa: TfaMethod = "Email";
-const smsTfa: TfaMethod = "SMS";
-const passkeyTfa: TfaMethod = "Passkey";
+const emailTwoFA: TwoFAMethod = "Email";
+const smsTwoFA: TwoFAMethod = "SMS";
+const passkeyTwoFA: TwoFAMethod = "Passkey";
 
 /**
  * Converts {@link TwoFactorAuthentication} to TfaMethod.
  */
-function fromTfa(value: TwoFactorAuthentication): TfaMethod {
+function fromTfa(value: TwoFactorAuthentication): TwoFAMethod {
     if (value === TwoFactorAuthentication.EMAIL) {
-        return emailTfa;
+        return emailTwoFA;
     } else if (value === TwoFactorAuthentication.SMS) {
-        return smsTfa;
+        return smsTwoFA;
     } else if (value === TwoFactorAuthentication.PASS_KEY) {
-        return passkeyTfa;
+        return passkeyTwoFA;
     } else {
         throw new TypeError("Incorrect two-factor authentication.");
     }
 }
 
 /**
- * Converts TwoFactorAuthentication to {@link TfaMethod}.
+ * Converts TwoFactorAuthentication to {@link TwoFAMethod}.
  */
-function toTfa(value: TfaMethod): TwoFactorAuthentication {
-    if (value === emailTfa) {
+function toTfa(value: TwoFAMethod): TwoFactorAuthentication {
+    if (value === emailTwoFA) {
         return TwoFactorAuthentication.EMAIL;
-    } else if (value === smsTfa) {
+    } else if (value === smsTwoFA) {
         return TwoFactorAuthentication.SMS;
     } else {
         return TwoFactorAuthentication.PASS_KEY;
@@ -60,9 +60,9 @@ function toTfa(value: TfaMethod): TwoFactorAuthentication {
 }
 
 export {
-    emailTfa,
-    smsTfa,
-    passkeyTfa,
+    emailTwoFA,
+    smsTwoFA,
+    passkeyTwoFA,
     fromTfa,
     toTfa
 };

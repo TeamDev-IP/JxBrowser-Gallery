@@ -24,15 +24,10 @@ import {Separator} from "@/components/ui/separator.tsx";
 
 import {PreferenceSwitch} from "@/components/ui/common/preference-switch.tsx";
 import {useEffect, useState} from "react";
-import {
-    desktopNotificationsKeyFromStorage,
-    emailNotificationsFromStorage,
-    saveDesktopNotificationsKeyInStorage,
-    saveEmailNotificationsInStorage
-} from "@/storage/notifications.ts";
 import {preferencesClient} from "@/rpc/preference-client.ts";
 import {create} from "@bufbuild/protobuf";
 import {NotificationsSchema} from "@/gen/preferences_pb.ts";
+import {preferencesStorage} from "@/storage/preferences-storage.ts";
 
 /**
  * A component that allows managing the notification preferences.
@@ -41,17 +36,17 @@ import {NotificationsSchema} from "@/gen/preferences_pb.ts";
  */
 export function Notifications() {
     const [desktopEnabled, setDesktopEnabled] =
-        useState<boolean>(desktopNotificationsKeyFromStorage());
+        useState<boolean>(preferencesStorage.desktopNotificationsEnabled());
     const [emailEnabled, setEmailEnabled] =
-        useState<boolean>(emailNotificationsFromStorage());
+        useState<boolean>(preferencesStorage.emailNotificationsEnabled());
 
     useEffect(() => {
         (async () => {
             const notifications = await preferencesClient.getNotifications({});
             setEmailEnabled(notifications.emailEnabled);
             setDesktopEnabled(notifications.desktopEnabled);
-            saveEmailNotificationsInStorage(notifications.emailEnabled);
-            saveDesktopNotificationsKeyInStorage(notifications.desktopEnabled);
+            preferencesStorage.saveEmailNotifications(notifications.emailEnabled);
+            preferencesStorage.saveDesktopNotifications(notifications.desktopEnabled);
         })();
     });
 
@@ -83,7 +78,7 @@ export function Notifications() {
                 </div>
                 <PreferenceSwitch onChange={checked => {
                     onUpdateNotifications({newEmailEnabled: checked});
-                    saveEmailNotificationsInStorage(checked);
+                    preferencesStorage.saveEmailNotifications(checked);
                     setEmailEnabled(checked);
                 }} isChecked={emailEnabled}/>
             </div>
@@ -96,7 +91,7 @@ export function Notifications() {
                 </div>
                 <PreferenceSwitch onChange={checked => {
                     onUpdateNotifications({newDesktopEnabled: checked});
-                    saveDesktopNotificationsKeyInStorage(checked);
+                    preferencesStorage.saveDesktopNotifications(checked);
                     setDesktopEnabled(checked);
                 }} isChecked={desktopEnabled}/>
             </div>
