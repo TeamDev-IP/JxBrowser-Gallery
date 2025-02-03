@@ -21,7 +21,7 @@
  */
 
 import {Separator} from "@/components/ui/separator.tsx";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {Laptop, Moon, Sun} from "lucide-react";
 import {ThemeBox} from "@/components/appearance/theme-box.tsx";
 import {Combobox} from "@/components/ui/common/combobox.tsx";
@@ -46,7 +46,6 @@ import {
     ThemeOption,
     toTheme
 } from "@/converter/theme.ts";
-import {preferencesStorage} from "@/storage/preferences-storage.ts";
 
 /**
  * Available font size options.
@@ -66,24 +65,20 @@ export function Appearance() {
     const {theme, setTheme} = useTheme();
     const {fontSize, setFontSize} = useFontSize();
 
-    const [uiTheme, setUiTheme] = useState<ThemeOption>(theme);
-    const [uiFontSize, setUiFontSize] = useState<FontSizeOption>(fontSize);
-
     useEffect(() => {
         (async () => {
             const appearance = await preferencesClient.getAppearance({});
-            setUiTheme(fromTheme(appearance.theme));
-            setTheme(fromTheme(appearance.theme));
+            const theme = fromTheme(appearance.theme);
+            setTheme(theme);
 
             const fontSize = fromFontSize(appearance.fontSize);
             setFontSize(fontSize);
-            preferencesStorage.saveFontSize(fontSize);
         })();
     }, []);
 
     const onUpdateAppearance = ({
-                                    newTheme = uiTheme,
-                                    newFontSize = uiFontSize,
+                                    newTheme = theme,
+                                    newFontSize = fontSize,
                                 }: {
         newTheme?: ThemeOption;
         newFontSize?: FontSizeOption,
@@ -97,7 +92,6 @@ export function Appearance() {
 
     function updateTheme(theme: ThemeOption) {
         onUpdateAppearance({newTheme: theme});
-        setUiTheme(theme);
         setTheme(theme);
     }
 
@@ -115,11 +109,11 @@ export function Appearance() {
                 </div>
                 <div
                     className="flex flex-col sm:flex-row gap-x-2 gap-y-2 justify-center items-center">
-                    <ThemeBox title="Light" isSelected={uiTheme === lightTheme}
+                    <ThemeBox title="Light" isSelected={theme === lightTheme}
                               onSelect={() => updateTheme(lightTheme)} icon={Sun}/>
-                    <ThemeBox title="Dark" isSelected={uiTheme === darkTheme}
+                    <ThemeBox title="Dark" isSelected={theme === darkTheme}
                               onSelect={() => updateTheme(darkTheme)} icon={Moon}/>
-                    <ThemeBox title="System" isSelected={uiTheme === systemTheme}
+                    <ThemeBox title="System" isSelected={theme === systemTheme}
                               onSelect={() => updateTheme(systemTheme)} icon={Laptop}/>
                 </div>
             </div>
@@ -131,9 +125,9 @@ export function Appearance() {
                     </p>
                 </div>
                 <Combobox options={fontsSizes} onSelect={(value) => {
-                    const newFont = value as FontSizeOption;
-                    setUiFontSize(newFont);
-                    setFontSize(newFont);
+                    const newFontSize = value as FontSizeOption;
+                    onUpdateAppearance({newFontSize});
+                    setFontSize(newFontSize);
                 }} currentOption={fontSize}/>
             </div>
         </div>
