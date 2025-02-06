@@ -25,8 +25,8 @@ import {useEffect} from "react";
 import {Laptop, Moon, Sun} from "lucide-react";
 import {ThemeBox} from "@/components/appearance/theme-box.tsx";
 import {Combobox} from "@/components/ui/common/combobox.tsx";
-import {AppearanceSchema} from "@/gen/preferences_pb.ts";
-import {preferencesClient} from "@/rpc/preference-client.ts";
+import {AppearanceSchema} from "@/gen/prefs_pb.ts";
+import {prefsClient} from "@/rpc/prefs-client.ts";
 import {create} from "@bufbuild/protobuf";
 import {useTheme} from "@/components/appearance/theme-provider.tsx";
 import {useFontSize} from "@/components/appearance/font-size-provider.tsx";
@@ -67,7 +67,7 @@ export function Appearance() {
 
     useEffect(() => {
         (async () => {
-            const appearance = await preferencesClient.getAppearance({});
+            const appearance = await prefsClient.getAppearance({});
             const theme = fromTheme(appearance.theme);
             setTheme(theme);
 
@@ -87,7 +87,7 @@ export function Appearance() {
             theme: toTheme(newTheme),
             fontSize: toFontSize(newFontSize)
         });
-        preferencesClient.setAppearance(newAppearance);
+        prefsClient.setAppearance(newAppearance);
     };
 
     function updateTheme(theme: ThemeOption) {

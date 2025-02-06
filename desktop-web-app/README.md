@@ -4,7 +4,7 @@ This project demonstrates how to use JxBrowser with modern web UI frameworks suc
 as [shadcn/ui](https://ui.shadcn.com/) to create desktop applications with Java backend and
 TypeScript/React/Shadcn frontend.
 
-![App screenshot](.github/readme-resources/preferences.png)
+![App screenshot](.github/readme-resources/prefs.png)
 
 ## Summary
 

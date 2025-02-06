@@ -22,7 +22,7 @@
 
 import {createGrpcWebTransport} from "@connectrpc/connect-web";
 import {createClient} from "@connectrpc/connect";
-import {PreferencesService} from "@/gen/preferences_pb.ts";
+import {PrefsService} from "@/gen/prefs_pb.ts";
 
 /**
  * A port for RPC communication obtained from the server side via
@@ -37,8 +37,8 @@ const transport = createGrpcWebTransport({
 /**
  * gRPC client for reading/writing preferences.
  */
-const preferencesClient = createClient(PreferencesService, transport);
+const prefsClient = createClient(PrefsService, transport);
 
 export {
-    preferencesClient
+    prefsClient
 };

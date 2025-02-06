@@ -22,13 +22,13 @@
 
 syntax = "proto3";
 
-package com.teamdev.jxbrowser.preferences;
+package com.teamdev.jxbrowser.prefs;
 
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/empty.proto";
 
 // Allows managing app preferences.
-service PreferencesService {
+service PrefsService {
   rpc GetAccount(google.protobuf.Empty) returns (Account);
   rpc SetAccount(Account) returns (google.protobuf.Empty);
 
@@ -89,7 +89,6 @@ enum Language {
   GERMAN = 1;
   FRENCH = 2;
 }
-
 
 // Preferences for the application's appearance.
 message Appearance {

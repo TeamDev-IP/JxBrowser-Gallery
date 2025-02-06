@@ -65,7 +65,7 @@ const desktopNotificationsKey = "desktop-notifications";
 /**
  * A wrapper over the local storage to store the preferences.
  */
-class PreferencesStorage {
+class PrefsStorage {
 
     /**
      * Reads the two-factor authentication method from the local storage.
@@ -194,8 +194,8 @@ class PreferencesStorage {
     }
 }
 
-const preferencesStorage = new PreferencesStorage();
+const prefsStorage = new PrefsStorage();
 
 export {
-    preferencesStorage
+    prefsStorage
 }

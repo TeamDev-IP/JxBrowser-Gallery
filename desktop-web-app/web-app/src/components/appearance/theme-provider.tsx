@@ -21,9 +21,9 @@
  */
 
 import React, {createContext, useContext, useEffect, useState} from "react";
-import {preferencesClient} from "@/rpc/preference-client.ts";
+import {prefsClient} from "@/rpc/prefs-client.ts";
 import {fromTheme, systemTheme, ThemeOption} from "@/converter/theme.ts";
-import {preferencesStorage} from "@/storage/preferences-storage.ts";
+import {prefsStorage} from "@/storage/prefs-storage.ts";
 
 /**
  * The ThemeProvider's properties.
@@ -59,7 +59,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 export function ThemeProvider({
                                   children,
                               }: ThemeProviderProps) {
-    const [theme, setTheme] = useState<ThemeOption>(preferencesStorage.theme());
+    const [theme, setTheme] = useState<ThemeOption>(prefsStorage.theme());
 
     /**
      * Applies the current theme to the root element by adding the appropriate class.
@@ -81,10 +81,10 @@ export function ThemeProvider({
     setRootTheme();
     useEffect(() => {
         (async () => {
-            const appearance = await preferencesClient.getAppearance({});
+            const appearance = await prefsClient.getAppearance({});
             const theme = fromTheme(appearance.theme);
             setTheme(theme);
-            preferencesStorage.saveTheme(theme);
+            prefsStorage.saveTheme(theme);
         })();
     }, []);
     useEffect(setRootTheme, [theme]);
@@ -92,7 +92,7 @@ export function ThemeProvider({
     const value = {
         theme,
         setTheme: (theme: ThemeOption) => {
-            preferencesStorage.saveTheme(theme);
+            prefsStorage.saveTheme(theme);
             setTheme(theme);
         },
     };

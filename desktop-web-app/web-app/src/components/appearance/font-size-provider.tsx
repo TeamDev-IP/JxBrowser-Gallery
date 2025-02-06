@@ -21,14 +21,14 @@
  */
 
 import React, {createContext, useContext, useEffect, useState} from "react";
-import {preferencesClient} from "@/rpc/preference-client.ts";
+import {prefsClient} from "@/rpc/prefs-client.ts";
 import {
     defaultFontSize,
     FontSizeOption,
     fromFontSize,
     smallFontSize
 } from "@/converter/font-size.ts";
-import {preferencesStorage} from "@/storage/preferences-storage.ts";
+import {prefsStorage} from "@/storage/prefs-storage.ts";
 
 /**
  * The FontSizeProvider's properties.
@@ -67,7 +67,7 @@ const largeScaleFactor = 1.2;
  * @constructor
  */
 export function FontSizeProvider({children}: FontSizeProviderProps) {
-    const [fontSize, setFontSize] = useState<FontSizeOption>(preferencesStorage.fontSize());
+    const [fontSize, setFontSize] = useState<FontSizeOption>(prefsStorage.fontSize());
 
     // Dynamically adjusts CSS font size variables based on the selected fontSize.
     const adjustFontSize = () => {
@@ -90,10 +90,10 @@ export function FontSizeProvider({children}: FontSizeProviderProps) {
     adjustFontSize();
     useEffect(() => {
         (async () => {
-            const appearance = await preferencesClient.getAppearance({});
+            const appearance = await prefsClient.getAppearance({});
             const fontSize = fromFontSize(appearance.fontSize);
             setFontSize(fontSize);
-            preferencesStorage.saveFontSize(fontSize);
+            prefsStorage.saveFontSize(fontSize);
         })();
     }, []);
     useEffect(adjustFontSize, [fontSize]);
@@ -101,7 +101,7 @@ export function FontSizeProvider({children}: FontSizeProviderProps) {
     const value = {
         fontSize,
         setFontSize: (fontSize: FontSizeOption) => {
-            preferencesStorage.saveFontSize(fontSize);
+            prefsStorage.saveFontSize(fontSize);
             setFontSize(fontSize);
         },
     };

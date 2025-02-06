@@ -20,51 +20,51 @@
  *  SOFTWARE.
  */
 
-package com.teamdev.jxbrowser.examples.preferences;
+package com.teamdev.jxbrowser.examples.prefs;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Empty;
-import com.teamdev.jxbrowser.preferences.Preferences.Account;
-import com.teamdev.jxbrowser.preferences.Preferences.Appearance;
-import com.teamdev.jxbrowser.preferences.Preferences.General;
-import com.teamdev.jxbrowser.preferences.Preferences.Notifications;
-import com.teamdev.jxbrowser.preferences.Preferences.ProfilePicture;
-import com.teamdev.jxbrowser.preferences.PreferencesServiceGrpc.PreferencesServiceImplBase;
+import com.teamdev.jxbrowser.prefs.Prefs.Account;
+import com.teamdev.jxbrowser.prefs.Prefs.Appearance;
+import com.teamdev.jxbrowser.prefs.Prefs.General;
+import com.teamdev.jxbrowser.prefs.Prefs.Notifications;
+import com.teamdev.jxbrowser.prefs.Prefs.ProfilePicture;
+import com.teamdev.jxbrowser.prefs.PrefsServiceGrpc.PrefsServiceImplBase;
 import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static com.teamdev.jxbrowser.examples.preferences.PreferencesFile.PREFERENCES_FILE;
-import static com.teamdev.jxbrowser.preferences.Preferences.FontSize.DEFAULT;
-import static com.teamdev.jxbrowser.preferences.Preferences.Theme.SYSTEM;
-import static com.teamdev.jxbrowser.preferences.Preferences.TwoFactorAuthentication.EMAIL;
+import static com.teamdev.jxbrowser.examples.prefs.PrefsFile.PREFERENCES_FILE;
+import static com.teamdev.jxbrowser.prefs.Prefs.FontSize.DEFAULT;
+import static com.teamdev.jxbrowser.prefs.Prefs.Theme.SYSTEM;
+import static com.teamdev.jxbrowser.prefs.Prefs.TwoFactorAuthentication.EMAIL;
 
 /**
- * A gRPC service for reading and updating preferences.
+ * A gRPC service for reading and updating app preferences.
  */
-public final class PreferencesService extends PreferencesServiceImplBase {
+public final class PrefsService extends PrefsServiceImplBase {
 
-    private final Preferences appPreferences;
+    private final Prefs appPrefs;
 
-    public PreferencesService() {
+    public PrefsService() {
         if (PREFERENCES_FILE.exists()) {
-            appPreferences = PreferencesFile.read();
+            appPrefs = PrefsFile.read();
         } else {
-            appPreferences = initPreferences();
+            appPrefs = initPreferences();
         }
     }
 
     @Override
     public void getAccount(Empty request, StreamObserver<Account> responseObserver) {
-        responseObserver.onNext(appPreferences.account());
+        responseObserver.onNext(appPrefs.account());
         responseObserver.onCompleted();
     }
 
     @Override
     public void setAccount(Account request, StreamObserver<Empty> responseObserver) {
-        appPreferences.account(request);
-        PreferencesFile.write(appPreferences);
+        appPrefs.account(request);
+        PrefsFile.write(appPrefs);
         responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
@@ -72,8 +72,8 @@ public final class PreferencesService extends PreferencesServiceImplBase {
     @Override
     public void setProfilePicture(ProfilePicture request, StreamObserver<Empty> responseObserver) {
         byte[] content = request.getContent().toByteArray();
-        appPreferences.profilePicture(content);
-        PreferencesFile.write(appPreferences);
+        appPrefs.profilePicture(content);
+        PrefsFile.write(appPrefs);
         responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
@@ -81,55 +81,55 @@ public final class PreferencesService extends PreferencesServiceImplBase {
     @Override
     public void getProfilePicture(Empty request, StreamObserver<ProfilePicture> responseObserver) {
         responseObserver.onNext(ProfilePicture.newBuilder()
-                .setContent(ByteString.copyFrom(appPreferences.profilePicture()))
+                .setContent(ByteString.copyFrom(appPrefs.profilePicture()))
                 .build());
         responseObserver.onCompleted();
     }
 
     @Override
     public void setGeneral(General request, StreamObserver<Empty> responseObserver) {
-        appPreferences.general(request);
-        PreferencesFile.write(appPreferences);
+        appPrefs.general(request);
+        PrefsFile.write(appPrefs);
         responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getGeneral(Empty request, StreamObserver<General> responseObserver) {
-        responseObserver.onNext(appPreferences.general());
+        responseObserver.onNext(appPrefs.general());
         responseObserver.onCompleted();
     }
 
     @Override
     public void setAppearance(Appearance request, StreamObserver<Empty> responseObserver) {
-        appPreferences.appearance(request);
-        PreferencesFile.write(appPreferences);
+        appPrefs.appearance(request);
+        PrefsFile.write(appPrefs);
         responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getAppearance(Empty request, StreamObserver<Appearance> responseObserver) {
-        responseObserver.onNext(appPreferences.appearance());
+        responseObserver.onNext(appPrefs.appearance());
         responseObserver.onCompleted();
     }
 
     @Override
     public void setNotifications(Notifications request, StreamObserver<Empty> responseObserver) {
-        appPreferences.notifications(request);
-        PreferencesFile.write(appPreferences);
+        appPrefs.notifications(request);
+        PrefsFile.write(appPrefs);
         responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getNotifications(Empty request, StreamObserver<Notifications> responseObserver) {
-        responseObserver.onNext(appPreferences.notifications());
+        responseObserver.onNext(appPrefs.notifications());
         responseObserver.onCompleted();
     }
 
-    private Preferences initPreferences() {
-        final Preferences appPreferences;
+    private Prefs initPreferences() {
+        final Prefs appPrefs;
         try {
             Files.createFile(PREFERENCES_FILE.toPath());
             Account user = Account.newBuilder()
@@ -142,14 +142,14 @@ public final class PreferencesService extends PreferencesServiceImplBase {
                     .setFontSize(DEFAULT)
                     .setTheme(SYSTEM)
                     .build();
-            appPreferences = new Preferences();
-            appPreferences.account(user);
-            appPreferences.appearance(appearance);
-            PreferencesFile.write(appPreferences);
+            appPrefs = new Prefs();
+            appPrefs.account(user);
+            appPrefs.appearance(appearance);
+            PrefsFile.write(appPrefs);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return appPreferences;
+        return appPrefs;
     }
 
 }

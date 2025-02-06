@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-import {FontSize} from "@/gen/preferences_pb.ts";
+import {FontSize} from "@/gen/prefs_pb.ts";
 
 /**
  * The font size options as human-readable strings.

@@ -33,7 +33,7 @@ import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.browser.callback.InjectJsCallback;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
-import com.teamdev.jxbrowser.examples.preferences.PreferencesService;
+import com.teamdev.jxbrowser.examples.prefs.PrefsService;
 import com.teamdev.jxbrowser.examples.production.UrlRequestInterceptor;
 import com.teamdev.jxbrowser.js.JsObject;
 import com.teamdev.jxbrowser.license.internal.LicenseProvider;
@@ -150,7 +150,7 @@ public final class AppInitializer {
                         GrpcHeaderNames.ARMERIA_GRPC_THROWABLEPROTO_BIN);
 
         serverBuilder.service(GrpcService.builder()
-                        .addService(new PreferencesService())
+                        .addService(new PrefsService())
                         .build(),
                 corsBuilder.newDecorator(),
                 LoggingService.newDecorator());

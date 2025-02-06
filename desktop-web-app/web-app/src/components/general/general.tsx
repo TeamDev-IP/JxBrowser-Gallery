@@ -24,8 +24,8 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {Combobox} from "@/components/ui/common/combobox.tsx";
 import {PreferenceSwitch} from "@/components/ui/common/preference-switch.tsx";
 import {useEffect, useState} from "react";
-import {GeneralSchema} from "@/gen/preferences_pb.ts";
-import {preferencesClient} from "@/rpc/preference-client.ts";
+import {GeneralSchema} from "@/gen/prefs_pb.ts";
+import {prefsClient} from "@/rpc/prefs-client.ts";
 import {create} from "@bufbuild/protobuf";
 import {
     englishLanguage,
@@ -35,7 +35,7 @@ import {
     LanguageOption,
     toLanguage
 } from "@/converter/language.ts";
-import {preferencesStorage} from "@/storage/preferences-storage.ts";
+import {prefsStorage} from "@/storage/prefs-storage.ts";
 
 /**
  * Available language options.
@@ -53,24 +53,24 @@ const languages: LanguageOption[] = [
  */
 export function General() {
     const [launchAtStartup, setLaunchAtStartup] =
-        useState<boolean>(preferencesStorage.launchAtStartupEnabled());
+        useState<boolean>(prefsStorage.launchAtStartupEnabled());
     const [language, setLanguage] =
-        useState<LanguageOption>(preferencesStorage.language());
+        useState<LanguageOption>(prefsStorage.language());
     const [checkForUpdates, setCheckForUpdates] =
-        useState<boolean>(preferencesStorage.checkForUpdatesEnabled());
+        useState<boolean>(prefsStorage.checkForUpdatesEnabled());
 
     useEffect(() => {
         (async () => {
-            const general = await preferencesClient.getGeneral({});
+            const general = await prefsClient.getGeneral({});
             const language = fromLanguage(general.language);
 
             setLaunchAtStartup(general.launchAtStartup);
             setLanguage(language);
             setCheckForUpdates(general.checkForUpdates);
 
-            preferencesStorage.saveLaunchAtStartup(general.launchAtStartup);
-            preferencesStorage.saveCheckForUpdates(general.checkForUpdates);
-            preferencesStorage.saveLanguage(language);
+            prefsStorage.saveLaunchAtStartup(general.launchAtStartup);
+            prefsStorage.saveCheckForUpdates(general.checkForUpdates);
+            prefsStorage.saveLanguage(language);
         })();
     }, []);
 
@@ -88,7 +88,7 @@ export function General() {
             language: toLanguage(newLanguage),
             checkForUpdates: newCheckForUpdates
         });
-        preferencesClient.setGeneral(newGeneral);
+        prefsClient.setGeneral(newGeneral);
     };
 
     return (
@@ -105,7 +105,7 @@ export function General() {
                 </div>
                 <PreferenceSwitch isChecked={launchAtStartup} onChange={checked => {
                     onUpdateGeneral({newLaunchAtStartup: checked});
-                    preferencesStorage.saveLaunchAtStartup(checked);
+                    prefsStorage.saveLaunchAtStartup(checked);
                     setLaunchAtStartup(checked);
                 }}/>
             </div>
@@ -120,7 +120,7 @@ export function General() {
                           onSelect={value => {
                               const newLanguage = value as LanguageOption;
                               onUpdateGeneral({newLanguage});
-                              preferencesStorage.saveLanguage(newLanguage);
+                              prefsStorage.saveLanguage(newLanguage);
                               setLanguage(newLanguage);
                           }}/>
             </div>
@@ -133,7 +133,7 @@ export function General() {
                 </div>
                 <PreferenceSwitch isChecked={checkForUpdates} onChange={checked => {
                     onUpdateGeneral({newCheckForUpdates: checked});
-                    preferencesStorage.saveCheckForUpdates(checked);
+                    prefsStorage.saveCheckForUpdates(checked);
                     setCheckForUpdates(checked);
                 }}/>
             </div>
