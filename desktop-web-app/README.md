@@ -69,23 +69,6 @@ compatibility with modern UI frameworks.
 
 ### Solution
 
-This project demonstrates how to create a desktop application that uses one of the most popular library for building UI on React — [shadcn/ui](https://ui.shadcn.com/). The showcased application is a web server that utilizes the JxBrowser API to render web UI from the [web-app](/web-app) directory. 
+JxBrowser allows embedding a Chromium-based browser into Java desktop applications. It allows developers to create cross-platform desktop apps that combine the power of Java platform and the flexibility of web technologies.
 
-Rendering web UI is different depending on the mode: production or development.
-
-In the development mode, you can start a local Vite server that will host the web application.
-
-However, the Vite server isn't designed for production use. In this case, we will need an
-approach based on intercepting URL requests and registering a custom scheme for loading web UI
-resources.
-
-Communication between Java and UI is implemented using Protobuf and gRPC. These technologies provide
-an effective solution, enabling fast and reliable communication with a well-structured 
-approach to data exchange.
-
-To sum up, here is a short list of benefits:
-
-1. Full automation of rendering.
-2. Advanced CSS, responsive design, and rich library of pre-designed components.
-3. Web technologies' modular design makes it easy to update, scale, and improve 
-the UI as needs change.
+Communication between Java backend and TypeScript frontend is implemented using Protobuf and gRPC. These technologies provide an effective solution, enabling fast and reliable communication with a well-structured approach to data exchange.
