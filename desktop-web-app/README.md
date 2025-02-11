@@ -1,12 +1,58 @@
 # Desktop web apps with JxBrowser
 
-This project demonstrates how to use JxBrowser with modern web UI frameworks such
-as [shadcn/ui](https://ui.shadcn.com/) to create desktop applications with Java backend and
-TypeScript/React/Shadcn frontend.
+This project demonstrates how to create a cross-platform desktop app with Java backend and [shadcn/ui](https://ui.shadcn.com/) frontend.
+
+The application represents a simple preferences dialog that allows users to change the application's settings. Here's how the dialog looks like:
 
 ![App screenshot](.github/readme-resources/prefs.png)
 
-## Summary
+## Prerequisites
+
+- Java 17 or higher.
+- [Node.js](https://nodejs.org/en/download) 20.11.0 or higher.
+- [WiX Toolset](https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm) 3.14.1 or higher if you are planning to package an installer on Windows.
+
+## Protobuf
+
+The app uses Protobuf for communication between Java backend and TypeScript frontend. The Protobuf files are located in the `proto` directory. Java and TypeScript code for Protobuf messages are generated automatically during the build process.
+
+To generate proto messages manually, run the following command:
+
+```bash
+./gradlew desktop-web-app:generateProto
+```
+
+## Running the application
+
+To run the application in the development mode, you first need to start the [Vite](https://vite.dev/) dev server with enabled **Hot-Module Reload (HMR)**:
+
+```bash
+./gradlew desktop-web-app:startDevServer
+```
+
+Then open another **Terminal** window and run the following command to start the application:
+
+```bash
+./gradlew desktop-web-app:run
+```
+
+## Packaging
+
+To build native installers for macOS and Windows, use the following commands.
+
+To build macOS DMG run:
+
+```bash
+./gradlew desktop-web-app:clean desktop-web-app:packageDmg
+```
+
+To build Windows EXE installer run:
+
+```bash
+gradlew.bat desktop-web-app:clean desktop-web-app:packageExe
+```
+
+## About the project
 
 ### Problem
 
@@ -17,18 +63,15 @@ applications switch to web-based UI to eliminate everyday maintenance challenges
 scalability and user experience. With millions of developers experienced in JavaScript, TypeScript,
 and frameworks like React, finding talent and speeding up development is much easier.
 
-Using modern browsers like Chromium makes this transition toward web-based UIs easier. This browser
-allows to render web content seamlessly, and support the latest HTML/CSS/JavaScript, ensuring 
-compatibility with modern UI frameworks. These frameworks use advanced CSS, responsive design,
-and rich component libraries.
+The modern web browsers like Chromium make this transition toward web-based UIs easier. Chromium
+allows rendering web content seamlessly, and supports the latest HTML and CSS standards, ensuring 
+compatibility with modern UI frameworks.
 
-#### Solution
+### Solution
 
-This example demonstrates how to create a desktop application that uses a modern Shadcn framework
-for building UI. The showcased application is a web server that utilizes the JxBrowser API
-to render web UI from the [web-app](/web-app) directory. 
+This project demonstrates how to create a desktop application that uses one of the most popular library for building UI on React — [shadcn/ui](https://ui.shadcn.com/). The showcased application is a web server that utilizes the JxBrowser API to render web UI from the [web-app](/web-app) directory. 
 
-Rendering web UI is different depending on the mode, production or development.
+Rendering web UI is different depending on the mode: production or development.
 
 In the development mode, you can start a local Vite server that will host the web application.
 
@@ -46,53 +89,3 @@ To sum up, here is a short list of benefits:
 2. Advanced CSS, responsive design, and rich library of pre-designed components.
 3. Web technologies' modular design makes it easy to update, scale, and improve 
 the UI as needs change.
-
-## Description
-
-The project is a desktop application that uses web UI on Shadcn to display regular 
-application preferences.
-
-## Prerequisites
-
-- Java 17 or higher.
-- [Node.js](https://nodejs.org/en/download) 20.11.0 or higher.
-- [WiX Toolset](https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm) 3.14.1 or higher if you are planning to package an installer on Windows.
-
-## Running the application
-
-To run the application in the development mode, you first need to start Vite development server with Hot-Module Reload (HMR):
-
-```bash
-./gradlew desktop-web-app:startDevServer
-```
-
-Then open another terminal and run the following command to start the application:
-
-```bash
-./gradlew desktop-web-app:run
-```
-
-## Packaging
-
-To build a native installer for macOS or Windows, use the following commands.
-
-### macOS (DMG)
-
-```bash
-./gradlew desktop-web-app:clean desktop-web-app:packageDmg
-```
-
-### Windows (EXE)
-
-```bash
-gradlew.bat desktop-web-app:clean desktop-web-app:packageExe
-```
-
-## Protobuf
-
-This app uses Protobuf for communication between Java and JavaScript. The Protobuf files are
-located in the `proto` directory. Java and JavaScript code for Protobuf messages is generated automatically during the build process. To generate proto messages manually, run the following command:
-
-```bash
-./gradlew desktop-web-app:generateProto
-```
