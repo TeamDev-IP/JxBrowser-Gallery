@@ -26,8 +26,8 @@ import {EditableAvatar} from "@/components/account/editable-avatar.tsx";
 import {EditableInput} from "@/components/account/editable-input.tsx";
 import {GuidingLine} from "@/components/ui/common/guiding-line.tsx";
 import {useEffect, useState} from "react";
-import {preferencesClient} from "@/rpc/preference-client.ts";
-import {AccountSchema, ProfilePictureSchema} from "@/gen/preferences_pb.ts";
+import {prefsClient} from "@/rpc/prefs-client.ts";
+import {AccountSchema, ProfilePictureSchema} from "@/gen/prefs_pb.ts";
 import {create} from "@bufbuild/protobuf";
 import {imageToDataUri} from "@/converter/image.ts";
 import {
@@ -38,7 +38,7 @@ import {
     toTfa,
     TwoFAMethod
 } from "@/converter/two-fa-method.ts";
-import {preferencesStorage} from "@/storage/preferences-storage.ts";
+import {prefsStorage} from "@/storage/prefs-storage.ts";
 
 /**
  * Available two-factor authentication methods.
@@ -59,13 +59,13 @@ export function UserAccount() {
     const [fullName, setFullName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [twoFactorAuthentication, setTwoFactorAuthentication] =
-        useState<TwoFAMethod>(preferencesStorage.twoFA());
+        useState<TwoFAMethod>(prefsStorage.twoFA());
     const [biometricAuthentication, setBiometricAuthentication] =
-        useState<boolean>(preferencesStorage.biometricAuthenticationEnabled());
+        useState<boolean>(prefsStorage.biometricAuthenticationEnabled());
 
     useEffect(() => {
         (async () => {
-            const account = await preferencesClient.getAccount({});
+            const account = await prefsClient.getAccount({});
             setEmail(account.email);
             setFullName(account.fullName);
 
@@ -73,9 +73,9 @@ export function UserAccount() {
             setTwoFactorAuthentication(tfaMethod);
             setBiometricAuthentication(account.biometricAuthentication);
 
-            preferencesStorage.saveTwoFA(tfaMethod);
-            preferencesStorage.saveBiometricAuthentication(account.biometricAuthentication);
-            const profilePicture = await preferencesClient.getProfilePicture({});
+            prefsStorage.saveTwoFA(tfaMethod);
+            prefsStorage.saveBiometricAuthentication(account.biometricAuthentication);
+            const profilePicture = await prefsClient.getProfilePicture({});
             setProfilePictureDataUri(imageToDataUri(profilePicture.content));
         })();
     }, []);
@@ -97,9 +97,9 @@ export function UserAccount() {
             twoFactorAuthentication: toTfa(newTwoFactorAuthentication),
             biometricAuthentication: newBiometricAuthentication
         });
-        preferencesClient.setAccount(newAccount);
-        preferencesStorage.saveTwoFA(newTwoFactorAuthentication);
-        preferencesStorage.saveBiometricAuthentication(newBiometricAuthentication);
+        prefsClient.setAccount(newAccount);
+        prefsStorage.saveTwoFA(newTwoFactorAuthentication);
+        prefsStorage.saveBiometricAuthentication(newBiometricAuthentication);
     };
     const onChangeAvatar = (file: File) => {
         const reader = new FileReader();
@@ -107,7 +107,7 @@ export function UserAccount() {
             const newProfilePicture = create(ProfilePictureSchema, {
                 content: new Uint8Array(reader.result as ArrayBuffer)
             });
-            preferencesClient.setProfilePicture(newProfilePicture);
+            prefsClient.setProfilePicture(newProfilePicture);
             setProfilePictureDataUri(imageToDataUri(newProfilePicture.content));
         };
         reader.readAsArrayBuffer(file);

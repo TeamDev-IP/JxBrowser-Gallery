@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-package com.teamdev.jxbrowser.examples.preferences;
+package com.teamdev.jxbrowser.examples.prefs;
 
 import com.google.gson.Gson;
 import com.teamdev.jxbrowser.examples.AppDetails;
@@ -33,36 +33,36 @@ import java.io.IOException;
 /**
  * A utility for reading from and writing to the preferences file.
  */
-public final class PreferencesFile {
+public final class PrefsFile {
 
     static final File PREFERENCES_FILE =
             new File(AppDetails.INSTANCE.appResourcesDir()
                     .resolve("preferences.json")
                     .toString());
 
-    private PreferencesFile() {
+    private PrefsFile() {
         // Prevents instantiation.
     }
 
     /**
-     * Reads {@link Preferences} from the preferences file.
+     * Reads {@link Prefs} from the preferences file.
      */
-    public static Preferences read() {
+    public static Prefs read() {
         Gson gson = new Gson();
         try (FileReader reader = new FileReader(PREFERENCES_FILE)) {
-            return gson.fromJson(reader, Preferences.class);
+            return gson.fromJson(reader, Prefs.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * Writes updated {@link Preferences} to the preferences file.
+     * Writes updated {@link Prefs} to the preferences file.
      */
-    public static void write(Preferences preferences) {
+    public static void write(Prefs prefs) {
         Gson gson = new Gson();
         try (FileWriter writer = new FileWriter(PREFERENCES_FILE)) {
-            gson.toJson(preferences, writer);
+            gson.toJson(prefs, writer);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -27,12 +27,12 @@ import com.teamdev.jxbrowser.internal.Lazy;
 import com.teamdev.jxbrowser.net.MimeType;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
 import static com.teamdev.jxbrowser.logging.Logger.warn;
 import static java.lang.String.format;
+import static java.util.Locale.ENGLISH;
 
 /**
  * A utility for working with MIME types.
@@ -52,21 +52,21 @@ public final class MimeTypes {
      * Returns a mime type based on the extension of {@code fileName}.
      */
     public static MimeType mimeType(String fileName) {
-        var extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-        return extToMime.get().getOrDefault(extension.toLowerCase(Locale.ENGLISH), OCTET_STREAM);
+        var fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+        return extToMime.get().getOrDefault(fileExtension.toLowerCase(ENGLISH), OCTET_STREAM);
     }
 
     private static Map<String, MimeType> createMap() {
         ImmutableMap.Builder<String, MimeType> builder = ImmutableMap.builder();
-        var properties = new Properties();
-        var propertiesUrl = MimeTypes.class.getClassLoader().getResource("mime-types.properties");
-        if (propertiesUrl != null) {
-            try (var inputStream = propertiesUrl.openStream()) {
-                properties.load(inputStream);
-                properties.forEach((key, value) ->
+        var props = new Properties();
+        var propsUrl = MimeTypes.class.getClassLoader().getResource("mime-types.properties");
+        if (propsUrl != null) {
+            try (var inputStream = propsUrl.openStream()) {
+                props.load(inputStream);
+                props.forEach((key, value) ->
                         builder.put(key.toString(), MimeType.of(value.toString())));
             } catch (IOException ignore) {
-                warn(format("Couldn't read the list of MIME types from: %s", propertiesUrl));
+                warn(format("Couldn't read the list of MIME types from: %s", propsUrl));
             }
         }
         return builder.build();

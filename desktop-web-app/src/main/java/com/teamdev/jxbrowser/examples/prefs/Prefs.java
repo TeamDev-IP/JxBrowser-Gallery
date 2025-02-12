@@ -20,23 +20,23 @@
  *  SOFTWARE.
  */
 
-package com.teamdev.jxbrowser.examples.preferences;
+package com.teamdev.jxbrowser.examples.prefs;
 
-import com.teamdev.jxbrowser.preferences.Preferences.Account;
-import com.teamdev.jxbrowser.preferences.Preferences.Appearance;
-import com.teamdev.jxbrowser.preferences.Preferences.General;
-import com.teamdev.jxbrowser.preferences.Preferences.Notifications;
+import com.teamdev.jxbrowser.prefs.Prefs.Account;
+import com.teamdev.jxbrowser.prefs.Prefs.Appearance;
+import com.teamdev.jxbrowser.prefs.Prefs.General;
+import com.teamdev.jxbrowser.prefs.Prefs.Notifications;
 
 /**
  * The application preferences.
  */
-public final class Preferences {
+public final class Prefs {
 
-    private byte[] profilePicture;
     private Account account;
     private General general;
     private Appearance appearance;
-    Notifications notifications;
+    private Notifications notifications;
+    private byte[] profilePicture;
 
     public byte[] profilePicture() {
         return profilePicture;

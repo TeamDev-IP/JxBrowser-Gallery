@@ -66,7 +66,7 @@
         --sidebar-primary-foreground: 0 0% 98%;
         --sidebar-accent: 212 88% 45%;
         --sidebar-accent-foreground: 0 0% 100%;
-        --sidebar-accent-hover: 212 100% 90%;
+        --sidebar-accent-hover: 0 0% 90%;
         --sidebar-accent-hover-foreground: 0 0% 0%;
         --sidebar-border: 220 13% 91%;
         --sidebar-ring: 217.2 91.2% 59.8%;
@@ -111,7 +111,7 @@
         --sidebar-primary-foreground: 0 0% 100%;
         --sidebar-accent: 212 88% 45%;
         --sidebar-accent-foreground: 240 4.8% 95.9%;
-        --sidebar-accent-hover: 212 100% 20%;
+        --sidebar-accent-hover: 0 0% 20%;
         --sidebar-accent-hover-foreground: 240 4.8% 95.9%;
         --sidebar-border: 240 3.7% 15.9%;
         --sidebar-ring: 217.2 91.2% 59.8%;

@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-import {Theme} from "@/gen/preferences_pb.ts";
+import {Theme} from "@/gen/prefs_pb.ts";
 
 /**
  * The theme options as human-readable strings.

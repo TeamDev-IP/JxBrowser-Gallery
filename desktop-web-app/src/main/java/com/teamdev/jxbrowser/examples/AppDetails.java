@@ -22,9 +22,17 @@
 
 package com.teamdev.jxbrowser.examples;
 
+import com.teamdev.jxbrowser.os.Environment;
+import com.teamdev.jxbrowser.os.EnvironmentException;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import static com.teamdev.jxbrowser.os.Environment.isMac;
+import static com.teamdev.jxbrowser.os.Environment.isWindows;
+import static com.teamdev.jxbrowser.os.Environment.userHomeDir;
+import static com.teamdev.jxbrowser.os.Environment.win32UserAppDataLocalDir;
 
 /**
  * Application details such as the application location directory, resources directory, and Chromium user data directory.
@@ -67,18 +75,19 @@ public enum AppDetails {
     private final Path chromiumUserDataDir;
 
     AppDetails() {
-        String userHome = System.getProperty("user.home");
-        String osName = System.getProperty("os.name").toLowerCase();
-        Path userDataDir;
-
-        if (osName.contains("win")) {
-            String appData = System.getenv("APPDATA");
-            userDataDir = appData != null ?
-                    Paths.get(appData) : Paths.get(userHome, "AppData", "Local");
-        } else {
-            userDataDir = Paths.get(userHome, "Library", "Application Support");
+        Path appDataDir = null;
+        if (isWindows()) {
+            appDataDir = win32UserAppDataLocalDir().orElseThrow(() ->
+                    new RuntimeException("Failed to get the user's AppData directory"));
         }
-        appResourcesDir = userDataDir.resolve("JxBrowserShadcnApp");
+        if (isMac()){
+            String userHome = userHomeDir().toString();
+            appDataDir = Paths.get(userHome, "Library", "Application Support");
+        }
+        if (appDataDir == null) {
+            throw new RuntimeException("Unsupported operating system");
+        }
+        appResourcesDir = appDataDir.resolve("JxBrowserShadcnApp");
         chromiumUserDataDir = appResourcesDir.resolve("UserData");
     }
 
