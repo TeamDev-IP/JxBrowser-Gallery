@@ -29,7 +29,6 @@ repositories {
 
 plugins {
     java
-    jxbrowser
     id("com.google.protobuf") version "0.9.1"
     id("application")
     `desktop-web-app`
@@ -45,10 +44,6 @@ val wedAppLocationDir = "web-app/"
 val host = "localhost"
 val port = 5173
 lateinit var devServerThread: Thread
-
-jxbrowser {
-    version = "8.2.0"
-}
 
 java {
     sourceCompatibility = VERSION_17
