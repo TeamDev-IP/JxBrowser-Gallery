@@ -1,7 +1,7 @@
 [versions]
 # Versions of JxBrowser and the related dependencies.
 jxbrowser = "8.3.0" # https://teamdev.com/jxbrowser/release-notes/
-jxbrowser-gradlePlugin = "1.2.1" # https://github.com/TeamDev-IP/JxBrowser-Gradle-Plugin/releases
+jxbrowser-gradlePlugin = "2.0.0" # https://github.com/TeamDev-IP/JxBrowser-Gradle-Plugin/releases
 
 # Other platforms, libraries, and plugins.
 kotlin = "2.0.0" # https://github.com/JetBrains/kotlin/releases
