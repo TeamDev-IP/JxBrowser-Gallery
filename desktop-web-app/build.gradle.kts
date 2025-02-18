@@ -96,10 +96,24 @@ val isWindows = System.getProperty("os.name").startsWith("Windows")
 val npmCommand = if (isWindows) "npm.cmd" else "npm"
 val npxCommand = if (isWindows) "npx.cmd" else "npx"
 
-tasks.register<Exec>("startDevServer") {
+fun runCommandInWebDirectory(errorMessage: String, vararg command: String) {
+    val process = ProcessBuilder(*command)
+        .directory(File(wedAppLocationDir))
+        .inheritIO()
+        .start()
+
+    val exitCode = process.waitFor()
+    if (exitCode != 0) {
+        throw IllegalStateException("$errorMessage. Exit code: $exitCode")
+    }
+}
+
+tasks.register("startDevServer") {
     dependsOn(tasks.named("generateJsProto"))
-    workingDir = file(wedAppLocationDir)
-    commandLine(npmCommand, "run", "dev", "--", "--port=$port", "--strictPort")
+    runCommandInWebDirectory(
+        "Failed to start dev server",
+        npmCommand, "run", "dev", "--", "--port=$port", "--strictPort"
+    )
 }
 
 application {
@@ -107,15 +121,16 @@ application {
     mainClass.set("com.teamdev.jxbrowser.examples.App")
 }
 
-tasks.register<Exec>("installNpmPackages") {
-    workingDir = file(wedAppLocationDir)
-    commandLine(npmCommand, "install")
+tasks.register("installNpmPackages") {
+    runCommandInWebDirectory("Failed to install NPM packages", npmCommand, "install")
 }
 
-tasks.register<Exec>("generateJsProto") {
-    workingDir = file(wedAppLocationDir)
-    commandLine(npxCommand, "buf", "generate")
+tasks.register("generateJsProto") {
     dependsOn(tasks.named("installNpmPackages"))
+    runCommandInWebDirectory(
+        "Failed to generate JavaScript proto",
+        npxCommand, "buf", "generate"
+    )
 }
 
 tasks.named("generateProto") {
@@ -124,8 +139,10 @@ tasks.named("generateProto") {
 
 tasks.register<Exec>("buildWeb") {
     dependsOn(tasks.named("installNpmPackages"), tasks.named("generateJsProto"))
-    workingDir = file(wedAppLocationDir)
-    commandLine(npmCommand, "run", "build")
+    runCommandInWebDirectory(
+        "Failed to build web resources",
+        npmCommand, "run", "build"
+    )
     doLast {
         val webResources = "src/main/resources/web"
         delete(webResources)
