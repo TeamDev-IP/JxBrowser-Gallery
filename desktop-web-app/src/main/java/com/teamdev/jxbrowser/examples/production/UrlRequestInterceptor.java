@@ -60,13 +60,8 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
             }
             var pathOnDisk = AppDetails.appLocationDir().resolve(filePath);
             var job = urlRequestJob(params, filePath);
-            try {
-                readFile(pathOnDisk, job);
-                job.complete();
-                return InterceptUrlRequestCallback.Response.intercept(job);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            readFile(pathOnDisk, job);
+            return InterceptUrlRequestCallback.Response.intercept(job);
         }
         return InterceptUrlRequestCallback.Response.proceed();
     }
@@ -77,17 +72,22 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
         return params.newUrlRequestJob(builder.build());
     }
 
-    private static void readFile(Path filePath, UrlRequestJob job) throws IOException {
-        try (FileInputStream stream = new FileInputStream(filePath.toFile())) {
-            var buffer = new byte[BUFFER_SIZE];
-            int bytesRead;
-            while ((bytesRead = stream.read(buffer)) > 0) {
-                if (bytesRead != buffer.length) {
-                    buffer = Arrays.copyOf(buffer, bytesRead);
+    private static void readFile(Path filePath, UrlRequestJob job) {
+        new Thread(() -> {
+            try (FileInputStream stream = new FileInputStream(filePath.toFile())) {
+                var buffer = new byte[BUFFER_SIZE];
+                int bytesRead;
+                while ((bytesRead = stream.read(buffer)) > 0) {
+                    if (bytesRead != buffer.length) {
+                        buffer = Arrays.copyOf(buffer, bytesRead);
+                    }
+                    job.write(buffer);
                 }
-                job.write(buffer);
+                job.complete();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        }
+        }).start();
     }
 
     private static HttpHeader contentType(String file) {
