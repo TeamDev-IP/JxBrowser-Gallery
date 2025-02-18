@@ -22,10 +22,8 @@
 
 package com.teamdev.jxbrowser.examples;
 
-import com.teamdev.jxbrowser.os.Environment;
-import com.teamdev.jxbrowser.os.EnvironmentException;
-
 import java.io.File;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -44,13 +42,18 @@ public enum AppDetails {
      * Returns the directory path where the application is located.
      */
     public static Path appLocationDir() {
-        return new File(AppDetails.class
-                .getProtectionDomain()
-                .getCodeSource()
-                .getLocation()
-                .getPath())
-                .getParentFile()
-                .toPath();
+        try {
+            return new File(AppDetails.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .toURI()
+                    .getPath())
+                    .getParentFile()
+                    .toPath();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
