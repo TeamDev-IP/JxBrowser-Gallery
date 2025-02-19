@@ -99,9 +99,16 @@ val npxCommand = if (isWindows) "npx.cmd" else "npx"
 fun runCommandInWebDirectory(errorMessage: String, vararg command: String) {
     val process = ProcessBuilder(*command)
         .directory(File(wedAppLocationDir))
-        .inheritIO()
+//        .inheritIO()
         .start()
 
+    process.inputStream.bufferedReader().use { reader ->
+        reader.lines().forEach { println(it) }
+    }
+
+    process.errorStream.bufferedReader().use { reader ->
+        reader.lines().forEach { System.err.println(it) } // Print stderr
+    }
     val exitCode = process.waitFor()
     if (exitCode != 0) {
         throw IllegalStateException("$errorMessage. Exit code: $exitCode")
@@ -137,7 +144,7 @@ tasks.named("generateProto") {
     dependsOn(tasks.named("generateJsProto"))
 }
 
-tasks.register<Exec>("buildWeb") {
+tasks.register("buildWeb") {
     dependsOn(tasks.named("installNpmPackages"), tasks.named("generateJsProto"))
     runCommandInWebDirectory(
         "Failed to build web resources",
