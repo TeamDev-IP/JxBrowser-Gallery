@@ -99,7 +99,6 @@ val npxCommand = if (isWindows) "npx.cmd" else "npx"
 fun runCommandInWebDirectory(errorMessage: String, vararg command: String) {
     val process = ProcessBuilder(*command)
         .directory(File(wedAppLocationDir))
-//        .inheritIO()
         .start()
 
     process.inputStream.bufferedReader().use { reader ->
@@ -107,8 +106,9 @@ fun runCommandInWebDirectory(errorMessage: String, vararg command: String) {
     }
 
     process.errorStream.bufferedReader().use { reader ->
-        reader.lines().forEach { System.err.println(it) } // Print stderr
+        reader.lines().forEach { System.err.println(it) }
     }
+
     val exitCode = process.waitFor()
     if (exitCode != 0) {
         throw IllegalStateException("$errorMessage. Exit code: $exitCode")
@@ -117,10 +117,12 @@ fun runCommandInWebDirectory(errorMessage: String, vararg command: String) {
 
 tasks.register("startDevServer") {
     dependsOn(tasks.named("generateJsProto"))
-    runCommandInWebDirectory(
-        "Failed to start dev server",
-        npmCommand, "run", "dev", "--", "--port=$port", "--strictPort"
-    )
+    doLast {
+        runCommandInWebDirectory(
+            "Failed to start dev server",
+            npmCommand, "run", "dev", "--", "--port=$port", "--strictPort"
+        )
+    }
 }
 
 application {
@@ -129,15 +131,19 @@ application {
 }
 
 tasks.register("installNpmPackages") {
-    runCommandInWebDirectory("Failed to install NPM packages", npmCommand, "install")
+    doLast {
+        runCommandInWebDirectory("Failed to install NPM packages", npmCommand, "install")
+    }
 }
 
 tasks.register("generateJsProto") {
     dependsOn(tasks.named("installNpmPackages"))
-    runCommandInWebDirectory(
-        "Failed to generate JavaScript proto",
-        npxCommand, "buf", "generate"
-    )
+    doLast {
+        runCommandInWebDirectory(
+            "Failed to generate JavaScript proto",
+            npxCommand, "buf", "generate"
+        )
+    }
 }
 
 tasks.named("generateProto") {
@@ -146,11 +152,11 @@ tasks.named("generateProto") {
 
 tasks.register("buildWeb") {
     dependsOn(tasks.named("installNpmPackages"), tasks.named("generateJsProto"))
-    runCommandInWebDirectory(
-        "Failed to build web resources",
-        npmCommand, "run", "build"
-    )
     doLast {
+        runCommandInWebDirectory(
+            "Failed to build web resources",
+            npmCommand, "run", "build"
+        )
         val webResources = "src/main/resources/web"
         delete(webResources)
         copy {
