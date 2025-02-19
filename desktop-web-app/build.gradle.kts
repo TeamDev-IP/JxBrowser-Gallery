@@ -39,7 +39,7 @@ version = "1.0"
 val applicationName = "JxBrowserWebApp"
 val mainJar = "$applicationName-$version.jar"
 
-val wedAppLocationDir = "web-app/"
+val wedAppLocationDir = "${projectDir}/web-app/"
 
 val host = "localhost"
 val port = 5173
