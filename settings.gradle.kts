@@ -20,7 +20,7 @@
  *  SOFTWARE.
  */
 
-rootProject.name = "jxbrowser-gallery"
+rootProject.name = "JxBrowser-Gallery"
 
 include(
     "jxbrowser-license",
