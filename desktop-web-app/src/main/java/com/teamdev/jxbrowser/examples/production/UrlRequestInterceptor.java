@@ -28,11 +28,9 @@ import com.teamdev.jxbrowser.net.HttpStatus;
 import com.teamdev.jxbrowser.net.UrlRequestJob;
 import com.teamdev.jxbrowser.net.callback.InterceptUrlRequestCallback;
 
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Path;
-import java.util.Arrays;
 
 /**
  * A request interceptor for loading web resources.
@@ -43,24 +41,22 @@ import java.util.Arrays;
 public final class UrlRequestInterceptor implements InterceptUrlRequestCallback {
 
     private static final String CONTENT_TYPE = "Content-Type";
-    private static final String INDEX_HTML = "index.html";
-    private static final String CONTENT_ROOT = "web/";
-    private static final int BUFFER_SIZE = 4096;
+    private static final String INDEX_HTML = "/index.html";
+    private static final String CONTENT_ROOT = "/web";
 
     @Override
     public Response on(Params params) {
         var url = params.urlRequest().url();
         if (url.contains(AppDetails.appUrl())) {
             var uri = URI.create(url);
-            String filePath;
+            String fileName;
             if (uri.getPath().equals("/")) {
-                filePath = CONTENT_ROOT + INDEX_HTML;
+                fileName = INDEX_HTML;
             } else {
-                filePath = CONTENT_ROOT + uri.getPath();
+                fileName = uri.getPath();
             }
-            var pathOnDisk = AppDetails.appLocationDir().resolve(filePath);
-            var job = urlRequestJob(params, filePath);
-            readFile(pathOnDisk, job);
+            var job = urlRequestJob(params, fileName);
+            readFile(fileName, job);
             return InterceptUrlRequestCallback.Response.intercept(job);
         }
         return InterceptUrlRequestCallback.Response.proceed();
@@ -72,22 +68,16 @@ public final class UrlRequestInterceptor implements InterceptUrlRequestCallback 
         return params.newUrlRequestJob(builder.build());
     }
 
-    private static void readFile(Path filePath, UrlRequestJob job) {
-        new Thread(() -> {
-            try (FileInputStream stream = new FileInputStream(filePath.toFile())) {
-                var buffer = new byte[BUFFER_SIZE];
-                int bytesRead;
-                while ((bytesRead = stream.read(buffer)) > 0) {
-                    if (bytesRead != buffer.length) {
-                        buffer = Arrays.copyOf(buffer, bytesRead);
-                    }
-                    job.write(buffer);
-                }
-                job.complete();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+    private static void readFile(String fileName, UrlRequestJob job) {
+        try (var stream = UrlRequestInterceptor.class.getResourceAsStream(CONTENT_ROOT + fileName)) {
+            if (stream == null) {
+                throw new FileNotFoundException(CONTENT_ROOT + fileName);
             }
-        }).start();
+            job.write(stream.readAllBytes());
+            job.complete();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static HttpHeader contentType(String file) {

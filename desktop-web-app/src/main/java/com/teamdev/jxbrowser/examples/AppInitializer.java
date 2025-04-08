@@ -65,8 +65,8 @@ public final class AppInitializer {
 
     public void initialize() throws InterruptedException {
         setupLogging();
-        Engine engine = createEngine();
-        Browser browser = engine.newBrowser();
+        var engine = createEngine();
+        var browser = engine.newBrowser();
         setupUI(engine, browser);
         setupBrowserCallbacks(browser);
         initializeRpc(browser);

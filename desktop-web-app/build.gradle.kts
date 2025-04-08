@@ -157,11 +157,13 @@ tasks.register("buildWeb") {
             "Failed to build web resources",
             npmCommand, "run", "build"
         )
-        val webResources = "src/main/resources/web"
-        delete(webResources)
-        copy {
-            from("$wedAppLocationDir/dist")
-            into(webResources)
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir("$wedAppLocationDir/dist")
         }
     }
 }
@@ -180,10 +182,6 @@ tasks.jar {
     })
 
     doLast {
-        copy {
-            from("$wedAppLocationDir/dist/")
-            into("build/dist/web")
-        }
         copy {
             from("build/libs/$mainJar")
             into("build/dist")
