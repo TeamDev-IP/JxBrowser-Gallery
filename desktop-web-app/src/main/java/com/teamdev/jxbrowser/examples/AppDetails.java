@@ -22,8 +22,6 @@
 
 package com.teamdev.jxbrowser.examples;
 
-import java.io.File;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -37,24 +35,6 @@ import static com.teamdev.jxbrowser.os.Environment.win32UserAppDataLocalDir;
  */
 public enum AppDetails {
     INSTANCE;
-
-    /**
-     * Returns the directory path where the application is located.
-     */
-    public static Path appLocationDir() {
-        try {
-            return new File(AppDetails.class
-                    .getProtectionDomain()
-                    .getCodeSource()
-                    .getLocation()
-                    .toURI()
-                    .getPath())
-                    .getParentFile()
-                    .toPath();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     /**
      * Returns the URL of the application frontend.
