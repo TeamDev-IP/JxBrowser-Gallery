@@ -128,6 +128,9 @@ public final class PrefsService extends PrefsServiceImplBase {
         responseObserver.onCompleted();
     }
 
+    /**
+     * Initializes the default preferences and writes them into the file.
+     */
     private Prefs initPreferences() {
         final Prefs appPrefs;
         try {

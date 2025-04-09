@@ -114,7 +114,7 @@ export function FontSizeProvider({children}: FontSizeProviderProps) {
 }
 
 /**
- * A custom hook that provides access the current font size and a function to change it.
+ * A custom hook that provides access to the current font size and a function to change it.
  */
 export const useFontSize = () => {
     const context = useContext(FontSizeProviderContext);
