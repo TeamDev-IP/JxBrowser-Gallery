@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 TeamDev
+ *  Copyright (c) 2025 TeamDev
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,27 @@
  *  SOFTWARE.
  */
 
-rootProject.name = "JxBrowser-Gallery"
+import {HashRouter, Route, Routes} from "react-router-dom";
+import {UserAccount} from "@/components/account/user-account.tsx";
+import {General} from "@/components/general/general.tsx";
+import {Appearance} from "@/components/appearance/appearance.tsx";
+import {Notifications} from "@/components/notifications/notifications.tsx";
 
-include(
-    "jxbrowser-license",
-
-    "desktop-web-app",
-    "compose:pomodoro",
-
-    "compose:screen-share:server",
-    "compose:screen-share:sender",
-    "compose:screen-share:receiver",
-    "compose:screen-share:common",
-
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+/**
+ * A router for navigating between preferences.
+ *
+ * @constructor
+ */
+export function PreferencesRouter() {
+    return (
+        <HashRouter>
+            <Routes>
+                <Route path={"/"} element={<UserAccount/>}/>
+                <Route path={"/prefs/general"} element={<General/>}/>
+                <Route path={"/prefs/appearance"} element={<Appearance/>}/>
+                <Route path={"/prefs/notifications"}
+                       element={<Notifications/>}/>
+            </Routes>
+        </HashRouter>
+    );
+}

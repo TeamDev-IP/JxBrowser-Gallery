@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 TeamDev
+ *  Copyright (c) 2025 TeamDev
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,27 @@
  *  SOFTWARE.
  */
 
-rootProject.name = "JxBrowser-Gallery"
+import {SidebarProvider} from "@/components/ui/sidebar.tsx";
+import {AppearanceProvider} from "@/components/appearance/appearance-provider.tsx";
+import {LeftSidebar} from "@/components/navigation/left-sidebar.tsx";
+import {PreferencesRouter} from "@/components/navigation/preferences-router.tsx";
 
-include(
-    "jxbrowser-license",
+/**
+ * The main application component.
+ *
+ * @constructor
+ */
+function App() {
+    return (
+        <AppearanceProvider>
+            <SidebarProvider className="space-y-2 space-x-2 h-full">
+                <LeftSidebar/>
+                <main className="w-full p-8">
+                    <PreferencesRouter/>
+                </main>
+            </SidebarProvider>
+        </AppearanceProvider>
+    );
+}
 
-    "desktop-web-app",
-    "compose:pomodoro",
-
-    "compose:screen-share:server",
-    "compose:screen-share:sender",
-    "compose:screen-share:receiver",
-    "compose:screen-share:common",
-
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+export default App;

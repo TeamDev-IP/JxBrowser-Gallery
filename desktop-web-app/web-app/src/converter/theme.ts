@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 TeamDev
+ *  Copyright (c) 2025 TeamDev
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,49 @@
  *  SOFTWARE.
  */
 
-rootProject.name = "JxBrowser-Gallery"
+import {Theme} from "@/gen/prefs_pb.ts";
 
-include(
-    "jxbrowser-license",
+/**
+ * The theme options as human-readable strings.
+ */
+export type ThemeOption = "dark" | "light" | "system";
 
-    "desktop-web-app",
-    "compose:pomodoro",
+const lightTheme: ThemeOption = "light";
+const darkTheme: ThemeOption = "dark";
+const systemTheme: ThemeOption = "system";
 
-    "compose:screen-share:server",
-    "compose:screen-share:sender",
-    "compose:screen-share:receiver",
-    "compose:screen-share:common",
+/**
+ * Converts {@link Theme} to ThemeOption.
+ */
+function fromTheme(value: Theme): ThemeOption {
+    if (value === Theme.LIGHT) {
+        return lightTheme;
+    } else if (value === Theme.DARK) {
+        return darkTheme;
+    } else if (value === Theme.SYSTEM) {
+        return systemTheme;
+    } else {
+        throw new TypeError("Incorrect two-factor authentication.");
+    }
+}
 
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
+/**
+ * Converts ThemeOption to {@link Theme}.
+ */
+function toTheme(value: ThemeOption): Theme {
+    if (value === lightTheme) {
+        return Theme.LIGHT;
+    } else if (value === darkTheme) {
+        return Theme.DARK;
+    } else {
+        return Theme.SYSTEM;
+    }
+}
 
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+export {
+    fromTheme,
+    toTheme,
+    lightTheme,
+    darkTheme,
+    systemTheme
+};

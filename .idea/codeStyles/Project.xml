@@ -21,8 +21,7 @@
       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
     </JetCodeStyleSettings>
     <codeStyleSettings language="JAVA">
-      <option name="ALIGN_MULTILINE_CHAINED_METHODS" value="true" />
-      <option name="METHOD_CALL_CHAIN_WRAP" value="2" />
+      <option name="METHOD_CALL_CHAIN_WRAP" value="1" />
       <option name="BUILDER_METHODS" value="newBuilder,builder" />
       <option name="KEEP_BUILDER_METHODS_INDENTS" value="true" />
     </codeStyleSettings>

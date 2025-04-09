@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 TeamDev
+ *  Copyright (c) 2025 TeamDev
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,18 @@
  *  SOFTWARE.
  */
 
-rootProject.name = "JxBrowser-Gallery"
+import path from "path"
+import react from "@vitejs/plugin-react"
+import {defineConfig} from "vite"
 
-include(
-    "jxbrowser-license",
-
-    "desktop-web-app",
-    "compose:pomodoro",
-
-    "compose:screen-share:server",
-    "compose:screen-share:sender",
-    "compose:screen-share:receiver",
-    "compose:screen-share:common",
-
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+export default defineConfig({
+    plugins: [react()],
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "./src"),
+        },
+    },
+    build: {
+        outDir: 'dist/web',
+    },
+})

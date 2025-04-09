@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 TeamDev
+ *  Copyright (c) 2025 TeamDev
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,24 @@
  *  SOFTWARE.
  */
 
-rootProject.name = "JxBrowser-Gallery"
+import {Switch} from "@/components/ui/switch.tsx";
 
-include(
-    "jxbrowser-license",
+/**
+ * The switch's properties.
+ */
+interface PreferenceSwitchProps {
+    isChecked: boolean;
+    onChange: (value: boolean) => void;
+}
 
-    "desktop-web-app",
-    "compose:pomodoro",
-
-    "compose:screen-share:server",
-    "compose:screen-share:sender",
-    "compose:screen-share:receiver",
-    "compose:screen-share:common",
-
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+/**
+ * A switch component for toggling boolean values.
+ *
+ * @param isChecked indicates whether the switch is in the "checked" state
+ * @param onChange a callback function triggered when the switch state changes
+ * @constructor
+ */
+export function PreferenceSwitch({isChecked, onChange}: PreferenceSwitchProps) {
+    return <Switch checked={isChecked} onCheckedChange={onChange}
+                   className="hover:opacity-70 data-[state=checked]:bg-control-select data-[state=unchecked]:bg-neutral-200"/>;
+}

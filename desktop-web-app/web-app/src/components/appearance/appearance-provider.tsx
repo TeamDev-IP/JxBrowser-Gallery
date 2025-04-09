@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 TeamDev
+ *  Copyright (c) 2025 TeamDev
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,29 @@
  *  SOFTWARE.
  */
 
-rootProject.name = "JxBrowser-Gallery"
+import {ThemeProvider} from "@/components/appearance/theme-provider.tsx";
+import {FontSizeProvider} from "@/components/appearance/font-size-provider.tsx";
+import React from "react";
 
-include(
-    "jxbrowser-license",
+/**
+ * The AppearanceProvider's properties.
+ */
+type AppearanceProviderProps = {
+    children: React.ReactNode
+}
 
-    "desktop-web-app",
-    "compose:pomodoro",
-
-    "compose:screen-share:server",
-    "compose:screen-share:sender",
-    "compose:screen-share:receiver",
-    "compose:screen-share:common",
-
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+/**
+ * Provides appearance context like theme and font size to its child components.
+ *
+ * @param children the React nodes that will have access to the appearance context
+ * @constructor
+ */
+export function AppearanceProvider({children}: AppearanceProviderProps) {
+    return (
+        <ThemeProvider>
+            <FontSizeProvider>
+                {children}
+            </FontSizeProvider>
+        </ThemeProvider>
+    )
+}
