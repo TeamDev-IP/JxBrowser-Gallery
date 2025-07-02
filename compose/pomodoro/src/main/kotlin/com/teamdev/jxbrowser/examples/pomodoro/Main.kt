@@ -35,6 +35,8 @@ import com.teamdev.jxbrowser.view.compose.runtime.windowExceptionHandler
  */
 @OptIn(ExperimentalComposeUiApi::class) // For the custom error handler.
 fun main() = application {
+    // Enable support of the template images on macOS.
+    System.setProperty("apple.awt.enableTemplateImages", "true")
     CompositionLocalProvider(
         windowExceptionHandler { throwable, _ -> throwable.printStackTrace() }
     ) {
