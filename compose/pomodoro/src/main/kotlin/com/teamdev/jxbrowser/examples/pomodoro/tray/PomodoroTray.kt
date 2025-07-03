@@ -53,7 +53,7 @@ import java.awt.SystemTray
 import java.awt.TrayIcon
 import java.awt.image.BufferedImage
 import java.util.*
-import kotlin.math.round
+import kotlin.math.roundToInt
 
 /**
  * Adds the application icon to the platform taskbar.
@@ -160,17 +160,17 @@ private fun rememberIcon(icon: Painter): Image {
 /**
  * Defines tray icon layout parameters based on screen density.
  */
-private class TrayStyle(density: Density) {
-    val boxSize = IntSize(22.dpToPx(density), 22.dpToPx(density))
-    val iconSize = IntSize(16.dpToPx(density), 16.dpToPx(density))
-    val iconPosition = Point(3.dpToPx(density), 3.dpToPx(density))
-}
+private class TrayStyle(private val density: Density) {
+    val boxSize = IntSize(22.scaled, 22.scaled)
+    val iconSize = IntSize(16.scaled, 16.scaled)
+    val iconPosition = Point(3.scaled, 3.scaled)
 
-/**
- * Converts a density-independent pixel value to screen pixels using [Density].
- */
-private fun Int.dpToPx(density: Density): Int =
-    round(this * density.density).toInt()
+    /**
+     * Scales pixel value to fit the screen density.
+     */
+    private val Int.scaled: Int
+        get() = (this * density.density).roundToInt()
+}
 
 private fun TrayIcon.displayMessage(notification: Notification) {
     val messageType = when (notification.type) {
