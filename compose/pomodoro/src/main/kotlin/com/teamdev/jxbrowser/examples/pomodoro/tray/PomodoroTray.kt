@@ -30,11 +30,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCompositionContext
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.MenuScope
 import androidx.compose.ui.window.Notification
@@ -73,6 +74,13 @@ fun ApplicationScope.PomodoroTray(state: PomodoroTrayState) =
         }
     )
 
+/**
+ * Displays a tray icon in the system taskbar.
+ *
+ * We intentionally use a custom composable for tray handling. It renders
+ * the icon into a fixed-size [BufferedImage] with padding to ensure consistent
+ * tray icon appearance across platforms.
+ */
 @Composable
 private fun Tray(
     icon: Painter,
@@ -83,8 +91,11 @@ private fun Tray(
 ) {
     val currentOnAction by rememberUpdatedState(onAction)
     val currentMenu by rememberUpdatedState(menu)
-
+    val composition = rememberCompositionContext()
+    val scope = rememberCoroutineScope()
+    val popupMenu = remember { PopupMenu() }
     val iconImage = rememberIcon(icon)
+
     val tray = remember {
         TrayIcon(iconImage).apply {
             isImageAutoSize = true
@@ -92,28 +103,20 @@ private fun Tray(
         }
     }
 
-    val popupMenu = remember { PopupMenu() }
-
     SideEffect {
         if (tray.image != iconImage) tray.image = iconImage
         if (tray.toolTip != tooltip) tray.toolTip = tooltip
     }
-
-    val composition = rememberCompositionContext()
-    val scope = rememberCoroutineScope()
 
     DisposableEffect(Unit) {
         tray.popupMenu = popupMenu
         val menuComposition = popupMenu.setContent(composition) {
             currentMenu()
         }
-
         SystemTray.getSystemTray().add(tray)
-
         state.notificationFlow
             .onEach(tray::displayMessage)
             .launchIn(scope)
-
         onDispose {
             menuComposition.dispose()
             SystemTray.getSystemTray().remove(tray)
@@ -121,14 +124,22 @@ private fun Tray(
     }
 }
 
+/**
+ * Creates and remembers the AWT [Image] icon from the given [icon].
+ *
+ * It renders the icon into a [BufferedImage] with a fixed box size.
+ * This ensures consistent tray icon appearance across platforms.
+ */
 @Composable
 private fun rememberIcon(icon: Painter): Image {
+    // Using `LocalDensity` here is not appropriate because the tray's density does not match it.
+    // The tray's density corresponds to the density of the screen where it is displayed.
     val density = GlobalDensity
     val layoutDirection = GlobalLayoutDirection
     val style = remember { TrayStyle(density) }
 
     return remember(icon) {
-        val awtIcon = icon.toAwtImage(density, layoutDirection, style.iconSize.toCompose())
+        val awtIcon = icon.toAwtImage(density, layoutDirection, style.iconSize.toSize())
         val compositedIcon = BufferedImage(
             style.boxSize.width,
             style.boxSize.height,
@@ -146,18 +157,20 @@ private fun rememberIcon(icon: Painter): Image {
     }
 }
 
+/**
+ * Defines tray icon layout parameters based on screen density.
+ */
 private class TrayStyle(density: Density) {
-    val boxSize = AwtSize(22.dpToPx(density), 22.dpToPx(density))
-    val iconSize = AwtSize(16.dpToPx(density), 16.dpToPx(density))
+    val boxSize = IntSize(22.dpToPx(density), 22.dpToPx(density))
+    val iconSize = IntSize(16.dpToPx(density), 16.dpToPx(density))
     val iconPosition = Point(3.dpToPx(density), 3.dpToPx(density))
 }
 
+/**
+ * Converts a density-independent pixel value to screen pixels using [Density].
+ */
 private fun Int.dpToPx(density: Density): Int =
     round(this * density.density).toInt()
-
-private data class AwtSize(val width: Int, val height: Int) {
-    fun toCompose(): Size = Size(width.toFloat(), height.toFloat())
-}
 
 private fun TrayIcon.displayMessage(notification: Notification) {
     val messageType = when (notification.type) {
@@ -169,6 +182,12 @@ private fun TrayIcon.displayMessage(notification: Notification) {
     displayMessage(notification.title, notification.message, messageType)
 }
 
+/**
+ * Gets the screen density.
+ *
+ * This value is constant and suitable for use with components
+ * rendered outside the Compose window (e.g., AWT tray icon).
+ */
 internal val GlobalDensity: Density
     get() = GraphicsEnvironment.getLocalGraphicsEnvironment()
         .defaultScreenDevice
@@ -177,6 +196,12 @@ internal val GlobalDensity: Density
             Density(defaultTransform.scaleX.toFloat(), fontScale = 1f)
         }
 
+/**
+ * Gets the global layout direction.
+ *
+ * This value is constant and suitable for use with components
+ * rendered outside the Compose window.
+ */
 internal val GlobalLayoutDirection: LayoutDirection
     get() = if (ComponentOrientation.getOrientation(Locale.getDefault()).isLeftToRight) {
         LayoutDirection.Ltr
