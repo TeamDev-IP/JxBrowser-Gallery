@@ -1,6 +1,6 @@
 [versions]
 # Versions of JxBrowser and the related dependencies.
-jxbrowser = "8.9.4" # https://teamdev.com/jxbrowser/release-notes/
+jxbrowser = "8.10.0" # https://teamdev.com/jxbrowser/release-notes/
 jxbrowser-gradlePlugin = "1.2.1" # https://github.com/TeamDev-IP/JxBrowser-Gradle-Plugin/releases
 
 # Other platforms, libraries, and plugins.
