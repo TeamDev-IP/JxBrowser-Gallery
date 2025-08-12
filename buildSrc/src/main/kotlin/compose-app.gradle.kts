@@ -20,16 +20,14 @@
  *  SOFTWARE.
  */
 
-plugins {
-    // Ideally, this section would also apply and configure
-    // the Gradle plugins for Compose.
-    // But due to https://github.com/gradle/gradle/issues/27099,
-    // they can only be applied down in particular Gradle modules.
-    //
-    // We expect this to be changed as soon as Gradle 8.9 RC1 is out.
+import gradle.jxBrowserPackagingVersion
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
+plugins {
     id("jvm-module")
     id("jxbrowser")
+    id("org.jetbrains.kotlin.plugin.compose")
+    id("org.jetbrains.compose")
 }
 
 repositories {
@@ -38,5 +36,16 @@ repositories {
 
 dependencies {
     implementation(jxbrowser.compose)
+    implementation(compose.desktop.currentOs)
     implementation(project(":jxbrowser-license"))
+}
+
+compose.desktop {
+    application {
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = project.name
+            packageVersion = jxBrowserPackagingVersion()
+        }
+    }
 }
