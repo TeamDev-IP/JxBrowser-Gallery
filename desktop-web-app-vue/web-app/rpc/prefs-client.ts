@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 TeamDev
+ *  Copyright (c) 2025 TeamDev
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -20,23 +20,25 @@
  *  SOFTWARE.
  */
 
-rootProject.name = "JxBrowser-Gallery"
+import {createGrpcWebTransport} from "@connectrpc/connect-web";
+import {createClient} from "@connectrpc/connect";
+import {PrefsService} from "@/gen/prefs_pb.ts";
 
-include(
-    "jxbrowser-license",
+/**
+ * A port for RPC communication obtained from the server side via
+ * the JxBrowser's Java-Js bridge.
+ */
+declare const rpcPort: number;
 
-    "desktop-web-app",
-    "desktop-web-app-vue",
-    "compose:pomodoro",
+const transport = createGrpcWebTransport({
+    baseUrl: `http://localhost:${rpcPort}`,
+});
 
-    "compose:screen-share:server",
-    "compose:screen-share:sender",
-    "compose:screen-share:receiver",
-    "compose:screen-share:common",
+/**
+ * gRPC client for reading/writing preferences.
+ */
+const prefsClient = createClient(PrefsService, transport);
 
-    "web-server:chart-rendering:client",
-    "web-server:chart-rendering:server",
-
-    "web-server:pdf-export:client",
-    "web-server:pdf-export:server"
-)
+export {
+    prefsClient
+};
