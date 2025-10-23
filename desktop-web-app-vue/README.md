@@ -1,6 +1,6 @@
 # Desktop web apps with JxBrowser
 
-This project demonstrates how to create a cross-platform desktop app with Java backend and vue frontend.
+This project demonstrates how to create a cross-platform desktop app with Java backend and [shadcn/ui](https://ui.shadcn.com/) frontend.
 
 The application represents a simple preferences dialog that allows users to change the application's settings. Here's how the dialog looks like:
 
@@ -61,7 +61,7 @@ Swing/JavaFX/SWT can be challenging. They become extremely hard to scale and mai
 lack of experienced developers in this area. That is why an increasing number of old legacy 
 applications switch to web-based UI to eliminate everyday maintenance challenges and improve 
 scalability and user experience. With millions of developers experienced in JavaScript, TypeScript,
-and frameworks like Vue, finding talent and speeding up development is much easier.
+and frameworks like React, finding talent and speeding up development is much easier.
 
 The modern web browsers like Chromium make this transition toward web-based UIs easier. Chromium
 allows rendering web content seamlessly, and supports the latest HTML and CSS standards, ensuring 

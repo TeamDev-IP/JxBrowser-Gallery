@@ -60,6 +60,7 @@ async function updatePosition() {
   contentStyle.value = {
     top: `${rect.bottom + sideOffset + scrollY}px`,
     left: `${left}px`,
+    width: `${rect.width}px`,
   }
 }
 

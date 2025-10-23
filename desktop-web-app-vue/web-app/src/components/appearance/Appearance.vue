@@ -1,9 +1,8 @@
 <template>
   <div class="space-y-4">
     <h1 class="text-2xl font-semibold">Appearance</h1>
-    <Separator class="my-4 h-[1px] w-full" />
+    <Separator class="my-4 h-[1px] w-full"/>
 
-    <!-- Theme section -->
     <div class="items-center flex-wrap space-y-4 py-1">
       <div>
         <p class="text-sm">Theme</p>
@@ -34,7 +33,6 @@
       </div>
     </div>
 
-    <!-- Font size section -->
     <div class="w-full flex items-center space-y-2 justify-between py-2">
       <div class="pr-8">
         <p class="text-sm">Font size</p>
@@ -52,14 +50,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue"
+import {onMounted} from "vue"
 import Separator from "@/components/ui/Separator.vue"
 import ThemeBox from "@/components/appearance/ThemeBox.vue"
 import Combobox from "@/components/ui/common/Combobox.vue"
-import { Sun, Moon, Laptop } from "lucide-vue-next"
+import {Sun, Moon, Laptop} from "lucide-vue-next"
 
-import { create } from "@bufbuild/protobuf"
-import { AppearanceSchema } from "@/gen/prefs_pb.ts"
+import {create} from "@bufbuild/protobuf"
+import {AppearanceSchema} from "@/gen/prefs_pb.ts"
 
 import {
   lightTheme,
@@ -83,14 +81,10 @@ import {useTheme} from "@/components/hooks/useTheme.ts";
 import {useFontSize} from "@/components/hooks/useFontSize.ts";
 
 
-// Reactive state from composables
-const { theme, setTheme } = useTheme()
-const { fontSize, setFontSize } = useFontSize()
-
-// Available font sizes
+const {theme, setTheme} = useTheme()
+const {fontSize, setFontSize} = useFontSize()
 const fontSizes: FontSizeOption[] = [smallFontSize, defaultFontSize, largeFontSize]
 
-// Load appearance settings on mount
 onMounted(async () => {
   try {
     const appearance = await prefsClient.getAppearance({})
@@ -117,9 +111,9 @@ function onUpdateAppearance({
   prefsClient.setAppearance(newAppearance);
 }
 
-// Handlers
 function updateTheme(t: ThemeOption) {
-  onUpdateAppearance({ newTheme: t })
+  console.log(t)
+  onUpdateAppearance({newTheme: t})
   setTheme(t)
 }
 </script>

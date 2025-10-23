@@ -38,7 +38,7 @@ const isActive = computed(() => route.path === props.url)
 .nav-item {
   display: flex;
   align-items: center;
-  padding: 0.75rem 1rem;
+  padding: 0.3rem 0.75rem;
   border-radius: 0.5rem;
   text-decoration: none;
   color: #374151;
@@ -56,7 +56,7 @@ const isActive = computed(() => route.path === props.url)
 
 .icon {
   margin-right: 0.75rem;
-  font-size: 1.25rem;
+  width: 18px;
 }
 
 .label {
