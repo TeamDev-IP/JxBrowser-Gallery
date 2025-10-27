@@ -31,7 +31,8 @@ import static com.teamdev.jxbrowser.os.Environment.userHomeDir;
 import static com.teamdev.jxbrowser.os.Environment.win32UserAppDataLocalDir;
 
 /**
- * Application details such as the application location directory, resources directory, and Chromium user data directory.
+ * Application details such as the application location directory,
+ * resources directory, and Chromium user data directory.
  */
 public enum AppDetails {
     INSTANCE;

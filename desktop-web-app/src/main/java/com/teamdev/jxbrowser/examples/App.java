@@ -26,7 +26,7 @@ package com.teamdev.jxbrowser.examples;
  * A simple hybrid desktop application that demonstrates how to build
  * application UI using web technologies and business logic using Java.
  *
- * <p>The UI is built using React, TypeScript, Shadcn, Tailwind CSS, and Vite.
+ * <p>The UI is built using React or Vue, TypeScript, Shadcn, Tailwind CSS, and Vite.
  *
  * <p>The business logic is implemented using Java.
  *

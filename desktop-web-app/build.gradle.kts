@@ -39,7 +39,11 @@ version = "1.0"
 val applicationName = "JxBrowserWebApp"
 val mainJar = "$applicationName-$version.jar"
 
-val wedAppLocationDir = "${projectDir}/web-app/"
+val webFramework = project.findProperty("webFramework")?.toString()?.lowercase() ?: "react"
+
+val wedAppReactLocationDir = "${projectDir}/web-app-react/"
+val wedAppVueLocationDir = "${projectDir}/web-app-vue/"
+val webAppLocationDir = if (webFramework == "vue") wedAppVueLocationDir else wedAppReactLocationDir
 
 val host = "localhost"
 val port = 5173
@@ -98,7 +102,7 @@ val npxCommand = if (isWindows) "npx.cmd" else "npx"
 
 fun runCommandInWebDirectory(errorMessage: String, vararg command: String) {
     val process = ProcessBuilder(*command)
-        .directory(File(wedAppLocationDir))
+        .directory(File(webAppLocationDir))
         .start()
 
     process.inputStream.bufferedReader().use { reader ->
@@ -163,7 +167,7 @@ tasks.register("buildWeb") {
 sourceSets {
     main {
         resources {
-            srcDir("$wedAppLocationDir/dist")
+            srcDir("$webAppLocationDir/dist")
         }
     }
 }

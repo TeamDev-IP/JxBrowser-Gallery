@@ -1,6 +1,8 @@
 # Desktop web apps with JxBrowser
 
-This project demonstrates how to create a cross-platform desktop app with Java backend and [shadcn/ui](https://ui.shadcn.com/) frontend.
+This project demonstrates how to create a cross-platform desktop app with Java backend 
+and a modern web frontend using either [React](https://react.dev/) or [Vue](https://vuejs.org/) 
+with [shadcn/ui](https://ui.shadcn.com/) frontend.
 
 The application represents a simple preferences dialog that allows users to change the application's settings. Here's how the dialog looks like:
 
@@ -26,8 +28,14 @@ To generate proto messages manually, run the following command:
 
 To run the application in the development mode, you first need to start the [Vite](https://vite.dev/) dev server with enabled **Hot-Module Reload (HMR)**:
 
+For React:
 ```bash
-./gradlew desktop-web-app:startDevServer
+./gradlew desktop-web-app:startDevServer -PwebFramework=react
+```
+
+For Vue:
+```bash
+./gradlew desktop-web-app:startDevServer -PwebFramework=vue
 ```
 
 Then open another **Terminal** window and run the following command to start the application:
@@ -61,7 +69,7 @@ Swing/JavaFX/SWT can be challenging. They become extremely hard to scale and mai
 lack of experienced developers in this area. That is why an increasing number of old legacy 
 applications switch to web-based UI to eliminate everyday maintenance challenges and improve 
 scalability and user experience. With millions of developers experienced in JavaScript, TypeScript,
-and frameworks like React, finding talent and speeding up development is much easier.
+and frameworks like React and Vue, finding talent and speeding up development is much easier.
 
 The modern web browsers like Chromium make this transition toward web-based UIs easier. Chromium
 allows rendering web content seamlessly, and supports the latest HTML and CSS standards, ensuring 
