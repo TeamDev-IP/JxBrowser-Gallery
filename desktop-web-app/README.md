@@ -30,11 +30,13 @@ To run the application in the development mode, you first need to start the [Vit
 
 For React:
 ```bash
+./gradlew clean build -PwebFramework=react
 ./gradlew desktop-web-app:startDevServer -PwebFramework=react
 ```
 
 For Vue:
 ```bash
+./gradlew clean build -PwebFramework=vue
 ./gradlew desktop-web-app:startDevServer -PwebFramework=vue
 ```
 

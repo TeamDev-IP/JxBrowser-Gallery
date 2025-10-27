@@ -20,7 +20,7 @@
 
 version: v2
 inputs:
-  - directory: ./proto
+  - directory: ../proto
 plugins:
   - local: protoc-gen-es
     out: src/gen
