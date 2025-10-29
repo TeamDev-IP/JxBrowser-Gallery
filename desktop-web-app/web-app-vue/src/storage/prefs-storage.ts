@@ -3,9 +3,6 @@ import { englishLanguage, LanguageOption } from "@/converter/language";
 import { defaultFontSize, FontSizeOption } from "@/converter/font-size";
 import { systemTheme, ThemeOption } from "@/converter/theme";
 
-/**
- * Ключи для localStorage
- */
 const twoFAKey = "two-factor-authentication";
 const biometricAuthenticationKey = "biometric-authentication";
 const launchAtStartupKey = "launch-at-startup";

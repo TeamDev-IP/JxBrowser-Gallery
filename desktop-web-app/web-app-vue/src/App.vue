@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import AppearanceProvider from '@/components/appearance/AppearanceProvider.vue';
-import SidebarProvider from '@/components/ui/SidebarProvider.vue';
-import LeftSidebar from '@/components/navigation/LeftSidebar.vue';
-
 /*
   Copyright (c) 2025 TeamDev
 
@@ -24,6 +19,12 @@ import LeftSidebar from '@/components/navigation/LeftSidebar.vue';
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
 */
+
+<script setup lang="ts">
+import AppearanceProvider from '@/components/appearance/AppearanceProvider.vue';
+import SidebarProvider from '@/components/ui/SidebarProvider.vue';
+import LeftSidebar from '@/components/navigation/LeftSidebar.vue';
+
 </script>
 
 <template>

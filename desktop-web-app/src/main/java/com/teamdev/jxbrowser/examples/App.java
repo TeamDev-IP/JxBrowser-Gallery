@@ -23,17 +23,17 @@
 package com.teamdev.jxbrowser.examples;
 
 /**
- * A simple hybrid desktop application that demonstrates how to build
- * application UI using web technologies and business logic using Java.
+ * A simple hybrid desktop application demonstrating how to combine
+ * a web-based user interface with Java business logic.
  *
- * <p>The UI is built using React or Vue, TypeScript, Shadcn, Tailwind CSS, and Vite.
+ * <p>The application supports interchangeable frontends — built with either
+ * React or Vue, using TypeScript, Shadcn, Tailwind CSS, and Vite.
  *
- * <p>The business logic is implemented using Java.
+ * <p>The backend logic is implemented in Java.
  *
- * <p>The application creates and displays a Swing window with embedded
- * JxBrowser web view component that loads and displays the UI. Communication
- * between TypeScript and Java is done using gRPC, Protocol Buffers, and
- * JxBrowser JavaScript-Java Bridge.
+ * <p>The app creates a Swing window embedding a JxBrowser web view that
+ * loads the selected frontend. Communication between the UI and Java
+ * is handled via gRPC, Protocol Buffers, and the JxBrowser JavaScript–Java Bridge.
  */
 public final class App {
 

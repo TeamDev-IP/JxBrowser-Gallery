@@ -49,7 +49,7 @@ watch(
       const previousIndex = getRouteIndex(oldPath || previousRoutePath)
       const currentIndex = getRouteIndex(newPath)
 
-      // Determine transition direction based on route order
+      // Determine transition direction based on the route order.
       if (currentIndex > previousIndex) {
         transitionName.value = 'slide-left'
       } else if (currentIndex < previousIndex) {

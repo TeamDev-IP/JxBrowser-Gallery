@@ -1,17 +1,11 @@
 import { FontSize } from "@/gen/prefs_pb.ts";
 
-/**
- * Доступные варианты размера шрифта в виде строк для Vue.
- */
 export type FontSizeOption = "Small" | "Default" | "Large";
 
 export const smallFontSize: FontSizeOption = "Small";
 export const defaultFontSize: FontSizeOption = "Default";
 export const largeFontSize: FontSizeOption = "Large";
 
-/**
- * Конвертация enum FontSize → FontSizeOption
- */
 export function fromFontSize(value: FontSize): FontSizeOption {
     switch (value) {
         case FontSize.SMALL:

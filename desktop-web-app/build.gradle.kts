@@ -39,7 +39,7 @@ version = "1.0"
 val applicationName = "JxBrowserWebApp"
 val mainJar = "$applicationName-$version.jar"
 
-val webFramework = project.findProperty("webFramework")?.toString()?.lowercase() ?: "react"
+val webFramework = project.findProperty("frontend")?.toString()?.lowercase() ?: "react"
 
 val wedAppReactLocationDir = "${projectDir}/web-app-react/"
 val wedAppVueLocationDir = "${projectDir}/web-app-vue/"

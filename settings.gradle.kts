@@ -26,7 +26,6 @@ include(
     "jxbrowser-license",
 
     "desktop-web-app",
-    "desktop-web-app-vue",
     "compose:pomodoro",
 
     "compose:screen-share:server",

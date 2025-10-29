@@ -30,14 +30,14 @@ To run the application in the development mode, you first need to start the [Vit
 
 For React:
 ```bash
-./gradlew clean build -PwebFramework=react
-./gradlew desktop-web-app:startDevServer -PwebFramework=react
+./gradlew clean build -Pfrontend=react
+./gradlew desktop-web-app:startDevServer -Pfrontend=react
 ```
 
 For Vue:
 ```bash
-./gradlew clean build -PwebFramework=vue
-./gradlew desktop-web-app:startDevServer -PwebFramework=vue
+./gradlew clean build -Pfrontend=vue
+./gradlew desktop-web-app:startDevServer -Pfrontend=vue
 ```
 
 Then open another **Terminal** window and run the following command to start the application:
