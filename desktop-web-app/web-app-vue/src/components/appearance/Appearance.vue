@@ -76,7 +76,7 @@ import {
   toFontSize,
   FontSizeOption,
 } from "@/converter/font-size.ts"
-import {prefsClient} from "../../../rpc/prefs-client.ts";
+import { prefsClient } from "@shared/rpc/prefs-client";
 import {useTheme} from "@/components/hooks/useTheme.ts";
 import {useFontSize} from "@/components/hooks/useFontSize.ts";
 

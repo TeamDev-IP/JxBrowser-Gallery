@@ -10,13 +10,20 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
+      '@': path.resolve(__dirname, './src'),
+      '@shared': path.resolve(__dirname, '../shared'),
     }
+  },
+  optimizeDeps: {
+    include: ["@connectrpc/connect-web", "@connectrpc/connect"]
   },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    emptyOutDir: true
+    emptyOutDir: true,
+  rollupOptions: {
+      external: ["@connectrpc/connect-web", "@connectrpc/connect"],
+    }
   },
   server: {
     port: 5175,

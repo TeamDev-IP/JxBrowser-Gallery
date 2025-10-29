@@ -12,19 +12,19 @@
       "@/*": ["./src/*"]
     },
 
-    /* Bundler mode */
+
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
 
-    /* Vue does not use JSX by default */
+
     "jsx": "preserve",
     "esModuleInterop": true,
     "resolveJsonModule": true,
 
-    /* Linting / strictness */
+
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

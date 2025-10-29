@@ -18,7 +18,7 @@ import {
   TwoFAMethod,
 } from "@/converter/two-fa-method.ts";
 import {prefsStorage} from "@/storage/prefs-storage.ts";
-import {prefsClient} from "../../../rpc/prefs-client.ts";
+import { prefsClient } from "@shared/rpc/prefs-client";
 
 const profilePictureDataUri = ref<string>("");
 const fullName = ref<string>("");

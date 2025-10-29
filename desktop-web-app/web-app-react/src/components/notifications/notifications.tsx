@@ -24,7 +24,7 @@ import {Separator} from "@/components/ui/separator.tsx";
 
 import {PreferenceSwitch} from "@/components/ui/common/preference-switch.tsx";
 import {useEffect, useState} from "react";
-import {prefsClient} from "@/rpc/prefs-client.ts";
+import { prefsClient } from "@shared/rpc/prefs-client";
 import {create} from "@bufbuild/protobuf";
 import {NotificationsSchema} from "@/gen/prefs_pb.ts";
 import {prefsStorage} from "@/storage/prefs-storage.ts";

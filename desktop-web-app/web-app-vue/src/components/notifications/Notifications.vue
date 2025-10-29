@@ -4,7 +4,7 @@ import PreferenceSwitch from "@/components/ui/common/PreferenceSwitch.vue";
 import { create } from "@bufbuild/protobuf";
 import { NotificationsSchema } from "@/gen/prefs_pb.ts";
 import { prefsStorage } from "@/storage/prefs-storage.ts";
-import {prefsClient} from "../../../rpc/prefs-client.ts";
+import { prefsClient } from "@shared/rpc/prefs-client";
 import Separator from "@/components/ui/Separator.vue";
 
 const desktopEnabled = ref<boolean>(prefsStorage.desktopNotificationsEnabled());

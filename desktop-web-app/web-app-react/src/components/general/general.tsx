@@ -25,7 +25,7 @@ import {Combobox} from "@/components/ui/common/combobox.tsx";
 import {PreferenceSwitch} from "@/components/ui/common/preference-switch.tsx";
 import {useEffect, useState} from "react";
 import {GeneralSchema} from "@/gen/prefs_pb.ts";
-import {prefsClient} from "@/rpc/prefs-client.ts";
+import { prefsClient } from "@shared/rpc/prefs-client";
 import {create} from "@bufbuild/protobuf";
 import {
     englishLanguage,

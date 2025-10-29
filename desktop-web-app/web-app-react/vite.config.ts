@@ -29,9 +29,16 @@ export default defineConfig({
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "./src"),
+            "@shared": path.resolve(__dirname, "../shared"),
         },
+    },
+    optimizeDeps: {
+      include: ["@connectrpc/connect-web", "@connectrpc/connect"]
     },
     build: {
         outDir: 'dist/web',
+        rollupOptions: {
+         external: ["@connectrpc/connect-web", "@connectrpc/connect"],
+        }
     },
 })

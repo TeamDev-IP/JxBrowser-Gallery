@@ -3,7 +3,7 @@ import { ref, provide, onMounted, watch } from "vue";
 import { prefsStorage } from "@/storage/prefs-storage.ts";
 import { systemTheme, ThemeOption, fromTheme } from "@/converter/theme.ts";
 import {ThemeContext, ThemeContextKey} from "@/utils/theme-context.ts";
-import {prefsClient} from "../../../rpc/prefs-client.ts";
+import { prefsClient } from "@shared/rpc/prefs-client";
 
 const theme = ref<ThemeOption>(prefsStorage.theme() ?? systemTheme);
 

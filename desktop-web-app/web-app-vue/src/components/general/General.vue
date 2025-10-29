@@ -60,7 +60,7 @@ import {
   toLanguage,
 } from "@/converter/language";
 import { prefsStorage } from "@/storage/prefs-storage";
-import {prefsClient} from "../../../rpc/prefs-client.ts";
+import { prefsClient } from "@shared/rpc/prefs-client";
 
 const languages: LanguageOption[] = [
   englishLanguage,

@@ -26,7 +26,7 @@ import {EditableAvatar} from "@/components/account/editable-avatar.tsx";
 import {EditableInput} from "@/components/account/editable-input.tsx";
 import {GuidingLine} from "@/components/ui/common/guiding-line.tsx";
 import {useEffect, useState} from "react";
-import {prefsClient} from "@/rpc/prefs-client.ts";
+import {prefsClient} from "@shared/rpc/prefs-client.ts";
 import {AccountSchema, ProfilePictureSchema} from "@/gen/prefs_pb.ts";
 import {create} from "@bufbuild/protobuf";
 import {imageToDataUri} from "@/converter/image.ts";
