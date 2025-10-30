@@ -1,6 +1,0 @@
-# The project dependencies
-node_modules
-# The generated Protobuf services and messages
-src/gen
-# The web build directory
-dist

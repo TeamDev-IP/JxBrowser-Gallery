@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@connectrpc/connect": "^2.1.0",
-    "@connectrpc/connect-web": "^2.1.0",
+    "@connectrpc/connect": "2.1.0",
+    "@connectrpc/connect-web": "2.1.0",
     "@vueuse/core": "10.7.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",

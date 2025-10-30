@@ -10,8 +10,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./src/*"
-      ]
+        "./src/*",
+      ],
+      "@shared/*": ["../shared/*"]
     },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -27,6 +28,8 @@
     "noUncheckedSideEffectImports": true
   },
   "include": [
-    "src"
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.vue"
   ]
 }
