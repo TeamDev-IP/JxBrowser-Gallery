@@ -39,11 +39,8 @@ version = "1.0"
 val applicationName = "JxBrowserWebApp"
 val mainJar = "$applicationName-$version.jar"
 
-val webFramework = project.findProperty("frontend")?.toString()?.lowercase() ?: "react"
-
-val wedAppReactLocationDir = "${projectDir}/web-app-react/"
-val wedAppVueLocationDir = "${projectDir}/web-app-vue/"
-val webAppLocationDir = if (webFramework == "vue") wedAppVueLocationDir else wedAppReactLocationDir
+val webFramework = WebFramework.fromProperty(project.findProperty("frontend")?.toString())
+val webAppLocationDir = "${projectDir}/${webFramework.dirName}"
 
 val host = "localhost"
 val port = 5173
@@ -226,4 +223,16 @@ tasks.register<Exec>("packageExe") {
         "--win-shortcut-prompt",
         "--icon", "src/main/resources/app.ico",
     )
+}
+
+enum class WebFramework(val dirName: String) {
+    REACT("web-app-react"),
+    VUE("web-app-vue");
+
+    companion object {
+        fun fromProperty(value: String?): WebFramework {
+            return values().find { it.name.equals(value, ignoreCase = true) }
+                ?: REACT
+        }
+    }
 }

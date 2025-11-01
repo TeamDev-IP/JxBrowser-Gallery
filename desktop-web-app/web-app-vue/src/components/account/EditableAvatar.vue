@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import Avatar from "@/components/ui/Avatar.vue"
-import { Upload } from "lucide-vue-next" // Vue-версия lucide-react
+import { Upload } from "lucide-vue-next"
 
 interface Props {
   pictureDataUri: string

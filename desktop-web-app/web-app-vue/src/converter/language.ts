@@ -22,18 +22,12 @@
 
 import { Language } from "@/gen/prefs_pb";
 
-/**
- * Список языковых опций в человекочитаемом виде.
- */
 export type LanguageOption = "English" | "German" | "French";
 
 export const englishLanguage: LanguageOption = "English";
 export const germanLanguage: LanguageOption = "German";
 export const frenchLanguage: LanguageOption = "French";
 
-/**
- * Конвертирует значение Language из protobuf в человекочитаемый вариант.
- */
 export function fromLanguage(value: Language): LanguageOption {
   switch (value) {
     case Language.ENGLISH:
@@ -47,9 +41,6 @@ export function fromLanguage(value: Language): LanguageOption {
   }
 }
 
-/**
- * Конвертирует человекочитаемое значение языка обратно в protobuf Language.
- */
 export function toLanguage(value: LanguageOption): Language {
   switch (value) {
     case englishLanguage:

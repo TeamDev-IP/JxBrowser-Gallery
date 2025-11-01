@@ -59,7 +59,6 @@ const baseClasses =
      data-[state=open]:animate-in data-[state=closed]:animate-out \
      data-[state=closed]:duration-300 data-[state=open]:duration-500";
 
-/* варианты для стороны */
 const sideClasses = computed(() => {
   switch (side.value) {
     case "top":

@@ -19,9 +19,6 @@ export function fromFontSize(value: FontSize): FontSizeOption {
     }
 }
 
-/**
- * Конвертация FontSizeOption → enum FontSize
- */
 export function toFontSize(value: FontSizeOption): FontSize {
     switch (value) {
         case smallFontSize:

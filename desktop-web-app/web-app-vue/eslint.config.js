@@ -26,6 +26,7 @@ export default defineConfig([
             '@typescript-eslint/no-explicit-any': 'off',
             'vue/multi-word-component-names': 'off',
             'vue/no-parsing-error': 'off',
+            "eol-last": ["error", "always"]
         },
         files: ['**/*.{ts,vue}'],
     },

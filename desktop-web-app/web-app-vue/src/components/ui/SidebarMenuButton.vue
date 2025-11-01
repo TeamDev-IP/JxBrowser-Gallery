@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import {ref, computed, useAttrs} from "vue";
 import {cn} from "@/lib/utils";
-import {useSidebar} from "@/components/hooks/useSidebar.ts"; // предполагается, что у тебя уже есть этот composable
+import {useSidebar} from "@/components/hooks/useSidebar.ts";
 import {cva} from "class-variance-authority";
 import TooltipContent from "@/components/ui/TooltipContent.vue";
 import TooltipTrigger from "@/components/ui/TooltipTrigger.vue";
