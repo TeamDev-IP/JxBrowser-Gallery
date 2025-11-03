@@ -1,3 +1,3 @@
-import { InjectionKey } from "vue";
+import { InjectionKey } from 'vue'
 
-export const tooltipContextKey: InjectionKey<{ delay: number }> = Symbol("TooltipContext");
+export const tooltipContextKey: InjectionKey<{ delay: number }> = Symbol('TooltipContext')

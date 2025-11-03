@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-4">
     <h1 class="text-2xl font-semibold">Appearance</h1>
-    <Separator class="my-4 h-[1px] w-full"/>
+    <Separator class="my-4 h-[1px] w-full" />
 
     <div class="items-center flex-wrap space-y-4 py-1">
       <div>
@@ -13,22 +13,22 @@
 
       <div class="flex flex-col sm:flex-row gap-x-2 gap-y-2 justify-center items-center">
         <ThemeBox
-            title="Light"
-            :isSelected="theme === lightTheme"
-            :onSelect="() => updateTheme(lightTheme)"
-            :icon="Sun"
+          title="Light"
+          :isSelected="theme === lightTheme"
+          :onSelect="() => updateTheme(lightTheme)"
+          :icon="Sun"
         />
         <ThemeBox
-            title="Dark"
-            :isSelected="theme === darkTheme"
-            :onSelect="() => updateTheme(darkTheme)"
-            :icon="Moon"
+          title="Dark"
+          :isSelected="theme === darkTheme"
+          :onSelect="() => updateTheme(darkTheme)"
+          :icon="Moon"
         />
         <ThemeBox
-            title="System"
-            :isSelected="theme === systemTheme"
-            :onSelect="() => updateTheme(systemTheme)"
-            :icon="Laptop"
+          title="System"
+          :isSelected="theme === systemTheme"
+          :onSelect="() => updateTheme(systemTheme)"
+          :icon="Laptop"
         />
       </div>
     </div>
@@ -41,23 +41,20 @@
         </p>
       </div>
 
-      <Combobox
-          v-model:currentOption="fontSize"
-          :options="fontSizes"
-      />
+      <Combobox v-model:currentOption="fontSize" :options="fontSizes" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {onMounted} from "vue"
-import Separator from "@/components/ui/Separator.vue"
-import ThemeBox from "@/components/appearance/ThemeBox.vue"
-import Combobox from "@/components/ui/common/Combobox.vue"
-import {Sun, Moon, Laptop} from "lucide-vue-next"
+import { onMounted } from 'vue'
+import Separator from '@/components/ui/Separator.vue'
+import ThemeBox from '@/components/appearance/ThemeBox.vue'
+import Combobox from '@/components/ui/common/Combobox.vue'
+import { Sun, Moon, Laptop } from 'lucide-vue-next'
 
-import {create} from "@bufbuild/protobuf"
-import {AppearanceSchema} from "@/gen/prefs_pb.ts"
+import { create } from '@bufbuild/protobuf'
+import { AppearanceSchema } from '@/gen/prefs_pb.ts'
 
 import {
   lightTheme,
@@ -66,7 +63,7 @@ import {
   fromTheme,
   toTheme,
   ThemeOption,
-} from "@/converter/theme.ts"
+} from '@/converter/theme.ts'
 
 import {
   smallFontSize,
@@ -75,14 +72,13 @@ import {
   fromFontSize,
   toFontSize,
   FontSizeOption,
-} from "@/converter/font-size.ts"
-import { prefsClient } from "@shared/rpc/prefs-client";
-import {useTheme} from "@/components/hooks/useTheme.ts";
-import {useFontSize} from "@/components/hooks/useFontSize.ts";
+} from '@/converter/font-size.ts'
+import { prefsClient } from '@shared/rpc/prefs-client'
+import { useTheme } from '@/components/hooks/useTheme.ts'
+import { useFontSize } from '@/components/hooks/useFontSize.ts'
 
-
-const {theme, setTheme} = useTheme()
-const {fontSize, setFontSize} = useFontSize()
+const { theme, setTheme } = useTheme()
+const { fontSize, setFontSize } = useFontSize()
 const fontSizes: FontSizeOption[] = [smallFontSize, defaultFontSize, largeFontSize]
 
 onMounted(async () => {
@@ -93,27 +89,27 @@ onMounted(async () => {
     setTheme(t)
     setFontSize(f)
   } catch (err) {
-    console.error("Failed to load appearance:", err)
+    console.error('Failed to load appearance:', err)
   }
 })
 
 function onUpdateAppearance({
-                              newTheme = theme.value,
-                              newFontSize = fontSize.value,
-                            }: {
-  newTheme?: ThemeOption;
-  newFontSize?: FontSizeOption;
+  newTheme = theme.value,
+  newFontSize = fontSize.value,
+}: {
+  newTheme?: ThemeOption
+  newFontSize?: FontSizeOption
 }) {
   const newAppearance = create(AppearanceSchema, {
     theme: toTheme(newTheme),
     fontSize: toFontSize(newFontSize),
-  });
-  prefsClient.setAppearance(newAppearance);
+  })
+  prefsClient.setAppearance(newAppearance)
 }
 
 function updateTheme(t: ThemeOption) {
   console.log(t)
-  onUpdateAppearance({newTheme: t})
+  onUpdateAppearance({ newTheme: t })
   setTheme(t)
 }
 </script>

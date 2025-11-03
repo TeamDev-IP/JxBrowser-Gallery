@@ -12,6 +12,6 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  ratio: 16 / 9
+  ratio: 16 / 9,
 })
 </script>

@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-import Separator from "@/components/ui/Separator.vue"
+import Separator from '@/components/ui/Separator.vue'
 </script>

@@ -26,6 +26,6 @@ function updateValue(value: string | number) {
 provide('radioGroup', {
   modelValue: props.modelValue,
   name: props.name,
-  updateValue
+  updateValue,
 })
 </script>

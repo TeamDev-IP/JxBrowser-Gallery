@@ -1,8 +1,5 @@
 <template>
-  <label
-      :class="labelClass"
-      v-bind="$attrs"
-  >
+  <label :class="labelClass" v-bind="$attrs">
     <slot />
   </label>
 </template>
@@ -20,10 +17,10 @@ const props = defineProps<Props>()
 
 const labelClass = computed(() => {
   return cn(
-      'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
-      {
-        'text-destructive': props.error
-      }
+    'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+    {
+      'text-destructive': props.error,
+    }
   )
 })
 </script>

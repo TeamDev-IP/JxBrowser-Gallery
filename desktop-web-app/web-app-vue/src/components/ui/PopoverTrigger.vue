@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue"
+import { inject } from 'vue'
 
-const togglePopover = inject("togglePopover") as () => void
-if (!togglePopover) throw new Error("PopoverTrigger must be used inside Popover")
+const togglePopover = inject('togglePopover') as () => void
+if (!togglePopover) throw new Error('PopoverTrigger must be used inside Popover')
 </script>

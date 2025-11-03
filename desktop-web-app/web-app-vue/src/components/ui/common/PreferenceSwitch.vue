@@ -1,10 +1,7 @@
 <template>
   <Switch
-      v-model="localValue"
-      :class="cn(
-      'hover:opacity-70',
-      localValue ? 'bg-control-select' : 'bg-neutral-200'
-    )"
+    v-model="localValue"
+    :class="cn('hover:opacity-70', localValue ? 'bg-control-select' : 'bg-neutral-200')"
   />
 </template>
 
@@ -20,9 +17,12 @@ const props = defineProps<{
 
 const localValue = ref(props.isChecked)
 
-watch(() => props.isChecked, (val) => {
-  localValue.value = val
-})
+watch(
+  () => props.isChecked,
+  (val) => {
+    localValue.value = val
+  }
+)
 
 watch(localValue, (val) => {
   props.onChange(val)

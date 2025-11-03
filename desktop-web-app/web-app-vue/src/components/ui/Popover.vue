@@ -16,10 +16,13 @@ const emit = defineEmits<{ (e: 'update:open', value: boolean): void }>()
 
 const isOpen = ref(props.open ?? false)
 
-watch(() => props.open, val => {
-  isOpen.value = val ?? false
-})
-watch(isOpen, val => {
+watch(
+  () => props.open,
+  (val) => {
+    isOpen.value = val ?? false
+  }
+)
+watch(isOpen, (val) => {
   emit('update:open', val)
 })
 

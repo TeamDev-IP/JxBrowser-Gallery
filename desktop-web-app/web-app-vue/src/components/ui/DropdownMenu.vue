@@ -7,10 +7,7 @@
     </div>
 
     <Transition name="dropdown">
-      <div
-          v-if="isOpen"
-          :class="dropdownClass"
-      >
+      <div v-if="isOpen" :class="dropdownClass">
         <slot />
       </div>
     </Transition>
@@ -27,7 +24,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  align: 'start'
+  align: 'start',
 })
 
 const isOpen = ref(false)
@@ -35,14 +32,14 @@ const dropdownRef = ref<HTMLElement>()
 
 const dropdownClass = computed(() => {
   return cn(
-      'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
-      'animate-in fade-in-0 zoom-in-95',
-      {
-        'left-0': props.align === 'start',
-        'left-1/2 -translate-x-1/2': props.align === 'center',
-        'right-0': props.align === 'end'
-      },
-      'top-full mt-2'
+    'absolute z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+    'animate-in fade-in-0 zoom-in-95',
+    {
+      'left-0': props.align === 'start',
+      'left-1/2 -translate-x-1/2': props.align === 'center',
+      'right-0': props.align === 'end',
+    },
+    'top-full mt-2'
   )
 })
 
@@ -77,7 +74,9 @@ defineExpose({ close })
 <style scoped>
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
 .dropdown-enter-from,

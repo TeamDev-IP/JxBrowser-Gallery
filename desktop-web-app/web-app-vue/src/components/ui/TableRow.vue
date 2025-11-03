@@ -1,11 +1,10 @@
-
 <template>
   <tr
-      :class="[
+    :class="[
       'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
-      clickable ? 'cursor-pointer' : ''
+      clickable ? 'cursor-pointer' : '',
     ]"
-      @click="onClick"
+    @click="onClick"
   >
     <slot />
   </tr>

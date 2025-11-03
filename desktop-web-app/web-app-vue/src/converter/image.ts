@@ -26,14 +26,14 @@
  * @returns Data URI string representing the image.
  */
 export function imageToDataUri(contentBytes: Uint8Array): string {
-  const chunkSize = 8192;
-  const chunks: string[] = [];
+  const chunkSize = 8192
+  const chunks: string[] = []
 
   for (let i = 0; i < contentBytes.length; i += chunkSize) {
-    const chunk = contentBytes.subarray(i, i + chunkSize);
-    chunks.push(String.fromCharCode(...chunk));
+    const chunk = contentBytes.subarray(i, i + chunkSize)
+    chunks.push(String.fromCharCode(...chunk))
   }
 
-  const base64String = btoa(chunks.join(""));
-  return `data:image/*;base64,${base64String}`;
+  const base64String = btoa(chunks.join(''))
+  return `data:image/*;base64,${base64String}`
 }

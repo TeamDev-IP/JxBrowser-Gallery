@@ -20,16 +20,16 @@
  *  SOFTWARE.
  */
 
-import { TwoFactorAuthentication } from "@/gen/prefs_pb.ts";
+import { TwoFactorAuthentication } from '@/gen/prefs_pb.ts'
 
 /**
  * The two-factor authentication methods as human-readable strings.
  */
-export type TwoFAMethod = "Email" | "SMS" | "Passkey";
+export type TwoFAMethod = 'Email' | 'SMS' | 'Passkey'
 
-export const emailTwoFA: TwoFAMethod = "Email";
-export const smsTwoFA: TwoFAMethod = "SMS";
-export const passkeyTwoFA: TwoFAMethod = "Passkey";
+export const emailTwoFA: TwoFAMethod = 'Email'
+export const smsTwoFA: TwoFAMethod = 'SMS'
+export const passkeyTwoFA: TwoFAMethod = 'Passkey'
 
 /**
  * Converts {@link TwoFactorAuthentication} to TwoFAMethod.
@@ -37,13 +37,13 @@ export const passkeyTwoFA: TwoFAMethod = "Passkey";
 export function fromTfa(value: TwoFactorAuthentication): TwoFAMethod {
   switch (value) {
     case TwoFactorAuthentication.EMAIL:
-      return emailTwoFA;
+      return emailTwoFA
     case TwoFactorAuthentication.SMS:
-      return smsTwoFA;
+      return smsTwoFA
     case TwoFactorAuthentication.PASS_KEY:
-      return passkeyTwoFA;
+      return passkeyTwoFA
     default:
-      throw new TypeError("Incorrect two-factor authentication.");
+      throw new TypeError('Incorrect two-factor authentication.')
   }
 }
 
@@ -53,12 +53,12 @@ export function fromTfa(value: TwoFactorAuthentication): TwoFAMethod {
 export function toTfa(value: TwoFAMethod): TwoFactorAuthentication {
   switch (value) {
     case emailTwoFA:
-      return TwoFactorAuthentication.EMAIL;
+      return TwoFactorAuthentication.EMAIL
     case smsTwoFA:
-      return TwoFactorAuthentication.SMS;
+      return TwoFactorAuthentication.SMS
     case passkeyTwoFA:
-      return TwoFactorAuthentication.PASS_KEY;
+      return TwoFactorAuthentication.PASS_KEY
     default:
-      throw new TypeError("Incorrect TwoFAMethod");
+      throw new TypeError('Incorrect TwoFAMethod')
   }
 }

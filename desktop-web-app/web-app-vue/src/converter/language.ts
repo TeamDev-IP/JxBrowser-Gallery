@@ -20,36 +20,36 @@
  *  SOFTWARE.
  */
 
-import { Language } from "@/gen/prefs_pb";
+import { Language } from '@/gen/prefs_pb'
 
-export type LanguageOption = "English" | "German" | "French";
+export type LanguageOption = 'English' | 'German' | 'French'
 
-export const englishLanguage: LanguageOption = "English";
-export const germanLanguage: LanguageOption = "German";
-export const frenchLanguage: LanguageOption = "French";
+export const englishLanguage: LanguageOption = 'English'
+export const germanLanguage: LanguageOption = 'German'
+export const frenchLanguage: LanguageOption = 'French'
 
 export function fromLanguage(value: Language): LanguageOption {
   switch (value) {
     case Language.ENGLISH:
-      return englishLanguage;
+      return englishLanguage
     case Language.GERMAN:
-      return germanLanguage;
+      return germanLanguage
     case Language.FRENCH:
-      return frenchLanguage;
+      return frenchLanguage
     default:
-      throw new TypeError("Incorrect language.");
+      throw new TypeError('Incorrect language.')
   }
 }
 
 export function toLanguage(value: LanguageOption): Language {
   switch (value) {
     case englishLanguage:
-      return Language.ENGLISH;
+      return Language.ENGLISH
     case germanLanguage:
-      return Language.GERMAN;
+      return Language.GERMAN
     case frenchLanguage:
-      return Language.FRENCH;
+      return Language.FRENCH
     default:
-      throw new TypeError("Incorrect language option.");
+      throw new TypeError('Incorrect language option.')
   }
 }

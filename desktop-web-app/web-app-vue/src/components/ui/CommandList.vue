@@ -8,9 +8,9 @@ const listRef = ref<HTMLElement>()
 
 <template>
   <div
-      ref="listRef"
-      :class="cn('max-h-[300px] overflow-y-auto overflow-x-hidden', props.className)"
-      v-bind="$attrs"
+    ref="listRef"
+    :class="cn('max-h-[300px] overflow-y-auto overflow-x-hidden', props.className)"
+    v-bind="$attrs"
   >
     <slot />
   </div>

@@ -10,7 +10,10 @@ const titleRef = ref<HTMLElement>()
 </script>
 
 <template>
-  <h2 ref="titleRef" :class="cn('text-lg font-semibold leading-none tracking-tight', props.className)">
+  <h2
+    ref="titleRef"
+    :class="cn('text-lg font-semibold leading-none tracking-tight', props.className)"
+  >
     <slot />
   </h2>
 </template>

@@ -21,9 +21,12 @@ const emit = defineEmits<Emits>()
 
 const activeTab = ref(props.modelValue || props.defaultValue || '')
 
-watch(() => props.modelValue, (val) => {
-  if (val) activeTab.value = val
-})
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (val) activeTab.value = val
+  }
+)
 
 function setActiveTab(value: string) {
   activeTab.value = value
@@ -32,6 +35,6 @@ function setActiveTab(value: string) {
 
 provide('tabs', {
   activeTab,
-  setActiveTab
+  setActiveTab,
 })
 </script>

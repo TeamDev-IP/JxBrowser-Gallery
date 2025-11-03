@@ -1,4 +1,3 @@
-
 <template>
   <div class="space-y-2">
     <Label v-if="label" :for="id" :required="required" :error="!!error">
@@ -28,5 +27,5 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const id = computed(() => props.name ? `field-${props.name}` : undefined)
+const id = computed(() => (props.name ? `field-${props.name}` : undefined))
 </script>

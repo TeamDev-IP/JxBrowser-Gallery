@@ -1,10 +1,10 @@
 <template>
   <div class="preferences-router h-full bg-gray-50 dark:bg-gray-900">
     <Transition
-        :name="transitionName"
-        mode="out-in"
-        @before-enter="onBeforeEnter"
-        @after-leave="onAfterLeave"
+      :name="transitionName"
+      mode="out-in"
+      @before-enter="onBeforeEnter"
+      @after-leave="onAfterLeave"
     >
       <router-view v-slot="{ Component, route }">
         <div :key="route.path" class="route-container">
@@ -26,12 +26,7 @@ const route = useRoute()
 const isTransitioning = ref(false)
 const transitionName = ref('slide-left')
 
-const routeOrder = [
-  '/general',
-  '/account',
-  '/appearance',
-  '/notifications'
-]
+const routeOrder = ['/general', '/account', '/appearance', '/notifications']
 
 // Get route index
 function getRouteIndex(path: string): number {
@@ -44,22 +39,22 @@ let previousRoutePath = route.path
 
 // Watch route changes for transition direction
 watch(
-    () => route.path,
-    (newPath, oldPath) => {
-      const previousIndex = getRouteIndex(oldPath || previousRoutePath)
-      const currentIndex = getRouteIndex(newPath)
+  () => route.path,
+  (newPath, oldPath) => {
+    const previousIndex = getRouteIndex(oldPath || previousRoutePath)
+    const currentIndex = getRouteIndex(newPath)
 
-      // Determine transition direction based on the route order.
-      if (currentIndex > previousIndex) {
-        transitionName.value = 'slide-left'
-      } else if (currentIndex < previousIndex) {
-        transitionName.value = 'slide-right'
-      } else {
-        transitionName.value = 'fade'
-      }
-
-      previousRoutePath = newPath
+    // Determine transition direction based on the route order.
+    if (currentIndex > previousIndex) {
+      transitionName.value = 'slide-left'
+    } else if (currentIndex < previousIndex) {
+      transitionName.value = 'slide-right'
+    } else {
+      transitionName.value = 'fade'
     }
+
+    previousRoutePath = newPath
+  }
 )
 
 // Transition lifecycle hooks
@@ -76,7 +71,7 @@ const isLoading = computed(() => isTransitioning.value)
 
 // Expose loading state if needed
 defineExpose({
-  isLoading
+  isLoading,
 })
 </script>
 

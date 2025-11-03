@@ -1,4 +1,4 @@
 export interface SidebarContext {
-    isOpen: boolean;
-    toggle: () => void;
+  isOpen: boolean
+  toggle: () => void
 }

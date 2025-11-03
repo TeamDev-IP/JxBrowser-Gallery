@@ -69,7 +69,7 @@ export function useMobile(breakpoint: number = MOBILE_BREAKPOINT) {
     deviceType,
     isTouchDevice,
     orientation,
-    windowWidth
+    windowWidth,
   }
 }
 
@@ -77,26 +77,19 @@ export function useMobile(breakpoint: number = MOBILE_BREAKPOINT) {
  * Extended version with more features
  */
 export function useResponsive() {
-  const {
-    isMobile,
-    isTablet,
-    isDesktop,
-    deviceType,
-    isTouchDevice,
-    orientation,
-    windowWidth
-  } = useMobile()
+  const { isMobile, isTablet, isDesktop, deviceType, isTouchDevice, orientation, windowWidth } =
+    useMobile()
 
   /**
    * Breakpoint helpers
    */
   const breakpoints = {
-    xs: 0,      // Extra small devices
-    sm: 640,    // Small devices
-    md: 768,    // Medium devices (tablets)
-    lg: 1024,   // Large devices (desktops)
-    xl: 1280,   // Extra large devices
-    '2xl': 1536 // 2X Extra large devices
+    xs: 0, // Extra small devices
+    sm: 640, // Small devices
+    md: 768, // Medium devices (tablets)
+    lg: 1024, // Large devices (desktops)
+    xl: 1280, // Extra large devices
+    '2xl': 1536, // 2X Extra large devices
   }
 
   /**
@@ -116,13 +109,9 @@ export function useResponsive() {
   /**
    * Check if viewport is between two breakpoints
    */
-  const isBetween = (
-    min: keyof typeof breakpoints,
-    max: keyof typeof breakpoints
-  ) => {
-    return computed(() =>
-      windowWidth.value >= breakpoints[min] &&
-      windowWidth.value < breakpoints[max]
+  const isBetween = (min: keyof typeof breakpoints, max: keyof typeof breakpoints) => {
+    return computed(
+      () => windowWidth.value >= breakpoints[min] && windowWidth.value < breakpoints[max]
     )
   }
 
@@ -150,7 +139,7 @@ export function useResponsive() {
     isAtLeast,
     isAtMost,
     isBetween,
-    currentBreakpoint
+    currentBreakpoint,
   }
 }
 
@@ -201,7 +190,7 @@ export function useDeviceDetection() {
     isTabletDevice,
     browser,
     os,
-    userAgent
+    userAgent,
   }
 }
 
@@ -233,6 +222,6 @@ export function useScreenFeatures() {
     isRetina,
     colorScheme,
     reducedMotion,
-    highContrast
+    highContrast,
   }
 }

@@ -1,27 +1,22 @@
 <template>
-  <router-link
-      :to="url"
-      class="nav-item"
-      :class="{ active: isActive }"
-      @click="$emit('select')"
-  >
+  <router-link :to="url" class="nav-item" :class="{ active: isActive }" @click="$emit('select')">
     <component :is="icon" class="icon" />
     <span class="label">{{ type }}</span>
   </router-link>
 </template>
 
 <script setup lang="ts">
-import {computed} from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import {LucideIcon} from "lucide-vue-next";
+import { LucideIcon } from 'lucide-vue-next'
 
 /**
  * Available navigation items.
  */
-export type NavigationItemType = "Account" | "General" | "Appearance" | "Notifications";
+export type NavigationItemType = 'Account' | 'General' | 'Appearance' | 'Notifications'
 
 interface Props {
-  icon: LucideIcon;
+  icon: LucideIcon
   type: string
   url: string
   isSelected: boolean
@@ -29,7 +24,6 @@ interface Props {
 
 const props = defineProps<Props>()
 const route = useRoute()
-
 
 const isActive = computed(() => route.path === props.url)
 </script>
