@@ -54,3 +54,6 @@ dist
 
 # Ignore generated WebGL resources for `:compose:pomodoro`.
 compose/pomodoro/src/main/resources/webgl
+
+# Ignore generated proto file
+gen

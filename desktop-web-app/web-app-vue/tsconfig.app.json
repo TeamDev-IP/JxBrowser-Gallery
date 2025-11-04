@@ -13,18 +13,15 @@
       "@shared/*": ["../shared/*"]
     },
 
-
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
 
-
     "jsx": "preserve",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-
 
     "strict": true,
     "noUnusedLocals": true,
@@ -32,9 +29,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.vue"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"]
 }

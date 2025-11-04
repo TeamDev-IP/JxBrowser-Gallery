@@ -19,11 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { inject } from 'vue'
-import { FontSizeContext, FontSizeContextKey } from '@/utils/fontsize-context.ts'
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
-export function useFontSize(): FontSizeContext {
-  const context = inject<FontSizeContext>(FontSizeContextKey)
-  if (!context) throw new Error('useFontSize must be used within a FontSizeProvider')
-  return context
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
 }
