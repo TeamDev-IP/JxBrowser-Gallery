@@ -19,8 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 import { FontSize } from '@/gen/prefs_pb.ts'
 
+/**
+ * The available font size options used in user preferences.
+ */
 export type FontSizeOption = 'Small' | 'Default' | 'Large'
 
 export const smallFontSize: FontSizeOption = 'Small'
@@ -28,7 +32,13 @@ export const defaultFontSize: FontSizeOption = 'Default'
 export const largeFontSize: FontSizeOption = 'Large'
 
 /**
- * Converts {@link FontSize} to FontSizeOption.
+ * Converts a protobuf {@link FontSize} enum value into a human-readable {@link FontSizeOption}.
+ *
+ * @param value - The {@link FontSize} value from the protobuf definition.
+ * @returns Corresponding {@link FontSizeOption} string.
+ *
+ * @see https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types — About union types in TypeScript.
+ * @see https://protobuf.dev/programming-guides/encoding/ — Protocol Buffers encoding reference.
  */
 export function fromFontSize(value: FontSize): FontSizeOption {
   switch (value) {
@@ -39,12 +49,17 @@ export function fromFontSize(value: FontSize): FontSizeOption {
     case FontSize.LARGE:
       return largeFontSize
     default:
-      throw new TypeError('Incorrect font size value')
+      throw new TypeError('Incorrect font size value.')
   }
 }
 
 /**
- * Converts FontSizeOption to {@link FontSize}.
+ * Converts a {@link FontSizeOption} string into the corresponding protobuf {@link FontSize} enum.
+ *
+ * @param value - A {@link FontSizeOption} string such as `"Small"` or `"Large"`.
+ * @returns Corresponding {@link FontSize} enum value.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch — MDN: switch statement reference.
  */
 export function toFontSize(value: FontSizeOption): FontSize {
   switch (value) {

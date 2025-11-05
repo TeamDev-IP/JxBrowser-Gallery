@@ -8,6 +8,13 @@
         "prepend": " * "
       }
     },
+    "cjs": {
+      "prepend": "/*",
+      "append": " */",
+      "eachLine": {
+        "prepend": " * "
+      }
+    },
     "ts": {
       "prepend": "/*",
       "append": " */",

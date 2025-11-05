@@ -39,7 +39,10 @@ version = "1.0"
 val applicationName = "JxBrowserWebApp"
 val mainJar = "$applicationName-$version.jar"
 
-val webFramework = WebFramework.fromProperty(project.findProperty("frontend")?.toString())
+val webFramework = project.findProperty("frontend")
+    ?.toString()
+    ?.let { WebFramework.fromProperty(it) }
+    ?: WebFramework.REACT
 val webAppLocationDir = "${projectDir}/${webFramework.dirName}"
 
 val host = "localhost"
