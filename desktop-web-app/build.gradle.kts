@@ -20,6 +20,7 @@
  *  SOFTWARE.
  */
 
+import Build_gradle.WebFramework.Companion.fromProperty
 import com.google.protobuf.gradle.id
 import org.gradle.api.JavaVersion.VERSION_17
 
@@ -39,10 +40,7 @@ version = "1.0"
 val applicationName = "JxBrowserWebApp"
 val mainJar = "$applicationName-$version.jar"
 
-val webFramework = project.findProperty("frontend")
-    ?.toString()
-    ?.let { WebFramework.fromProperty(it) }
-    ?: WebFramework.REACT
+val webFramework = project.fromProperty("frontend")
 val webAppLocationDir = "${projectDir}/${webFramework.dirName}"
 
 val host = "localhost"
@@ -233,9 +231,9 @@ enum class WebFramework(val dirName: String) {
     VUE("web-app-vue");
 
     companion object {
-        fun fromProperty(value: String?): WebFramework {
-            return values().find { it.name.equals(value, ignoreCase = true) }
-                ?: REACT
+        fun Project.fromProperty(propertyName: String): WebFramework {
+            val value = findProperty(propertyName)?.toString()
+            return values().find { it.name.equals(value, ignoreCase = true) } ?: REACT
         }
     }
 }
