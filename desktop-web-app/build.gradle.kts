@@ -40,7 +40,8 @@ version = "1.0"
 val applicationName = "JxBrowserWebApp"
 val mainJar = "$applicationName-$version.jar"
 
-val webFramework = project.fromProperty("frontend")
+WebFramework.init(project)
+val webFramework = WebFramework.fromProperty("frontend")
 val webAppLocationDir = "${projectDir}/${webFramework.dirName}"
 
 val host = "localhost"
@@ -231,8 +232,14 @@ enum class WebFramework(val dirName: String) {
     VUE("web-app-vue");
 
     companion object {
-        fun Project.fromProperty(propertyName: String): WebFramework {
-            val value = findProperty(propertyName)?.toString()
+        private lateinit var projectRef: Project
+
+        fun init(project: Project) {
+            projectRef = project
+        }
+
+        fun fromProperty(propertyName: String): WebFramework {
+            val value = projectRef.findProperty(propertyName)?.toString()
             return values().find { it.name.equals(value, ignoreCase = true) } ?: REACT
         }
     }
