@@ -21,17 +21,7 @@
  */
 
 /**
- * Converts a binary image (Uint8Array) to a Base64 Data URI string.
- *
- * This function splits the byte array into chunks for performance reasons, converts
- * them to a Base64-encoded string, and prefixes it with the standard `data:image/*;base64,` header.
- *
- * @param contentBytes - The image content as a Uint8Array.
- * @returns A Data URI string that can be directly used in an `<img src="...">` tag.
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs — About Data URIs.
- * @see https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa — MDN: `btoa()` function for Base64 encoding.
- * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array — Typed array reference.
+ * Converts the provided image bytes to a data URI string.
  */
 export function imageToDataUri(contentBytes: Uint8Array): string {
   const chunkSize = 8192

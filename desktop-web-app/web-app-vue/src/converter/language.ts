@@ -23,11 +23,7 @@
 import { Language } from '@/gen/prefs_pb'
 
 /**
- * Represents supported application languages as human-readable strings.
- *
- * @see https://en.wikipedia.org/wiki/Language_localisation — About software localization.
- * @see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization — MDN on internationalization (i18n).
- * @see https://protobuf.dev/programming-guides/proto3/#enum — Protocol Buffers enum reference.
+ * The language options as human-readable strings.
  */
 export type LanguageOption = 'English' | 'German' | 'French'
 
@@ -36,14 +32,7 @@ export const germanLanguage: LanguageOption = 'German'
 export const frenchLanguage: LanguageOption = 'French'
 
 /**
- * Converts protobuf {@link Language} enum to a human-readable {@link LanguageOption}.
- *
- * @param value - Enum value from the generated protobuf `Language`.
- * @returns Corresponding {@link LanguageOption} string.
- *
- * @throws {TypeError} If the language is not recognized.
- *
- * @see https://developers.google.com/protocol-buffers/docs/reference/overview — Protobuf overview.
+ * Converts {@link Language} to {@link LanguageOption}.
  */
 export function fromLanguage(value: Language): LanguageOption {
   switch (value) {
@@ -59,14 +48,7 @@ export function fromLanguage(value: Language): LanguageOption {
 }
 
 /**
- * Converts a human-readable {@link LanguageOption} to the protobuf {@link Language} enum.
- *
- * @param value - The selected language option.
- * @returns Corresponding {@link Language} enum value.
- *
- * @throws {TypeError} If the language option is invalid.
- *
- * @see https://www.typescriptlang.org/docs/handbook/enums.html — TypeScript enums documentation.
+ * Converts {@link LanguageOption} to {@link Language}.
  */
 export function toLanguage(value: LanguageOption): Language {
   switch (value) {

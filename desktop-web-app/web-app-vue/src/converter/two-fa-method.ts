@@ -23,12 +23,7 @@
 import { TwoFactorAuthentication } from '@/gen/prefs_pb.ts'
 
 /**
- * Represents supported two-factor authentication methods as human-readable strings.
- *
- * Related documentation:
- * - General info about 2FA: https://en.wikipedia.org/wiki/Multi-factor_authentication
- * - Best practices for 2FA implementation: https://owasp.org/www-community/controls/Two-factor_authentication
- * - Protobuf enums: https://protobuf.dev/programming-guides/proto3/#enum
+ * The two-factor authentication methods as human-readable strings.
  */
 export type TwoFAMethod = 'Email' | 'SMS' | 'Passkey'
 
@@ -37,13 +32,7 @@ export const smsTwoFA: TwoFAMethod = 'SMS'
 export const passkeyTwoFA: TwoFAMethod = 'Passkey'
 
 /**
- * Converts protobuf {@link TwoFactorAuthentication} enum to a human-readable {@link TwoFAMethod}.
- *
- * @param value - Enum value from the generated protobuf `TwoFactorAuthentication`.
- * @returns Corresponding {@link TwoFAMethod} string.
- *
- * See:
- * - Protobuf reference: https://developers.google.com/protocol-buffers/docs/reference/overview
+ * Converts {@link TwoFactorAuthentication} to {@link TwoFAMethod}.
  */
 export function fromTfa(value: TwoFactorAuthentication): TwoFAMethod {
   switch (value) {
@@ -59,14 +48,7 @@ export function fromTfa(value: TwoFactorAuthentication): TwoFAMethod {
 }
 
 /**
- * Converts a human-readable {@link TwoFAMethod} to the protobuf {@link TwoFactorAuthentication} enum.
- *
- * @param value - The selected 2FA method string.
- * @returns Corresponding {@link TwoFactorAuthentication} enum value.
- *
- * See:
- * - TypeScript enums: https://www.typescriptlang.org/docs/handbook/enums.html
- * - Mapping constants between client and backend: https://stackoverflow.com/questions/48006913/how-to-map-enum-values-between-client-and-server
+ * Converts {@link TwoFactorAuthentication} to {@link TwoFAMethod}.
  */
 export function toTfa(value: TwoFAMethod): TwoFactorAuthentication {
   switch (value) {

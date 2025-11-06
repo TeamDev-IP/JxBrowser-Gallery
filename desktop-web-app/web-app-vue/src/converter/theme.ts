@@ -23,11 +23,7 @@
 import { Theme } from '@/gen/prefs_pb.ts'
 
 /**
- * Defines available theme options for the UI.
- *
- * Related documentation:
- * - Design guidelines: https://material.io/design/color/dark-theme.html
- * - Theme handling in applications: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+ * The theme options as human-readable strings.
  */
 export type ThemeOption = 'light' | 'dark' | 'system'
 
@@ -36,13 +32,7 @@ export const darkTheme: ThemeOption = 'dark'
 export const systemTheme: ThemeOption = 'system'
 
 /**
- * Converts protobuf {@link Theme} enum to a {@link ThemeOption} string.
- *
- * @param value - Enum value from generated protobuf `Theme`.
- * @returns Corresponding `ThemeOption` string value.
- *
- * See:
- * - Protobuf enum reference: https://protobuf.dev/programming-guides/proto3/#enum
+ * Converts {@link Theme} to {@link ThemeOption}.
  */
 export function fromTheme(value: Theme): ThemeOption {
   switch (value) {
@@ -58,13 +48,7 @@ export function fromTheme(value: Theme): ThemeOption {
 }
 
 /**
- * Converts a {@link ThemeOption} string to protobuf {@link Theme} enum.
- *
- * @param value - Theme option string.
- * @returns Corresponding `Theme` enum value.
- *
- * See:
- * - Enum conversion best practices: https://www.typescriptlang.org/docs/handbook/enums.html
+ * Converts {@link ThemeOption} to {@link Theme}.
  */
 export function toTheme(value: ThemeOption): Theme {
   switch (value) {
