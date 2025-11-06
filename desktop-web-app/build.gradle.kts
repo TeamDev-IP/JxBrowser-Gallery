@@ -235,7 +235,7 @@ enum class WebFramework(val dirName: String) {
         fun fromProperty(property: Any?): WebFramework {
             val framework = property?.toString()
             return values().find { 
-                it.name.equals(requestedFramework, ignoreCase = true) 
+                it.name.equals(framework, ignoreCase = true)
             } ?: DEFAULT
         }
     }
