@@ -20,7 +20,6 @@
  *  SOFTWARE.
  */
 
-import Build_gradle.WebFramework.Companion.fromProperty
 import com.google.protobuf.gradle.id
 import org.gradle.api.JavaVersion.VERSION_17
 
