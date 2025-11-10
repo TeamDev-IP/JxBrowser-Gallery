@@ -21,7 +21,7 @@
  */
 
 import React, {createContext, useContext, useEffect, useState} from "react";
-import { prefsClient } from "@shared/rpc/prefs-client.ts";
+import {prefsClient} from "@shared/rpc/prefs-client.ts";
 import {
     defaultFontSize,
     FontSizeOption,

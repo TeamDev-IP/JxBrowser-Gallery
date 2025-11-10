@@ -26,7 +26,7 @@ import {Laptop, Moon, Sun} from "lucide-react";
 import {ThemeBox} from "@/components/appearance/theme-box.tsx";
 import {Combobox} from "@/components/ui/common/combobox.tsx";
 import {AppearanceSchema} from "@/gen/prefs_pb.ts";
-import { prefsClient } from "@shared/rpc/prefs-client.ts";
+import {prefsClient} from "@shared/rpc/prefs-client.ts";
 import {create} from "@bufbuild/protobuf";
 import {useTheme} from "@/components/appearance/theme-provider.tsx";
 import {useFontSize} from "@/components/appearance/font-size-provider.tsx";
