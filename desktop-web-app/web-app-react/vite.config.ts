@@ -20,24 +20,25 @@
  *  SOFTWARE.
  */
 
-package com.teamdev.jxbrowser.examples;
+import path from "path"
+import react from "@vitejs/plugin-react"
+import {defineConfig} from "vite"
 
-/**
- * A simple hybrid desktop application demonstrating how to combine
- * a web-based user interface with Java business logic.
- *
- * <p>The application supports interchangeable frontends — built with either
- * React or Vue, using TypeScript, Shadcn, Tailwind CSS, and Vite.
- *
- * <p>The backend logic is implemented in Java.
- *
- * <p>The app creates a Swing window embedding a JxBrowser web view that
- * loads the selected frontend. Communication between the UI and Java
- * is handled via gRPC, Protocol Buffers, and the JxBrowser JavaScript–Java Bridge.
- */
-public final class App {
-
-    public static void main(String[] args) throws InterruptedException {
-        new AppInitializer().initialize();
-    }
-}
+export default defineConfig({
+    plugins: [react()],
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "./src"),
+            "@shared": path.resolve(__dirname, "../shared"),
+        },
+    },
+    optimizeDeps: {
+      include: ["@connectrpc/connect-web", "@connectrpc/connect"]
+    },
+    build: {
+        outDir: 'dist/web',
+        rollupOptions: {
+         external: ["@connectrpc/connect-web", "@connectrpc/connect"],
+        }
+    },
+})

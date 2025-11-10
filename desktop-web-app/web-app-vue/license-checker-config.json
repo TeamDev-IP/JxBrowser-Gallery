@@ -1,0 +1,65 @@
+{
+  "license": "LICENSE",
+  "licenseFormats": {
+    "js": {
+      "prepend": "/*",
+      "append": " */",
+      "eachLine": {
+        "prepend": " * "
+      }
+    },
+    "cjs": {
+      "prepend": "/*",
+      "append": " */",
+      "eachLine": {
+        "prepend": " * "
+      }
+    },
+    "ts": {
+      "prepend": "/*",
+      "append": " */",
+      "eachLine": {
+        "prepend": " * "
+      }
+    },
+    "vue": {
+      "prepend": "<!--",
+      "append": "-->",
+      "eachLine": {
+        "prepend": "  "
+      }
+    },
+    "html": {
+      "prepend": "<!--",
+      "append": "-->",
+      "eachLine": {
+        "prepend": "  "
+      }
+    },
+    "css": {
+      "prepend": "/*",
+      "append": " */",
+      "eachLine": {
+        "prepend": " * "
+      }
+    },
+    "scss": {
+      "prepend": "/*",
+      "append": " */",
+      "eachLine": {
+        "prepend": " * "
+      }
+    },
+    "json": {
+      "eachLine": {
+        "prepend": "// "
+      }
+    },
+    "dotfile": {
+      "eachLine": {
+        "prepend": "# "
+      }
+    }
+  },
+  "trailingWhitespace": "TRIM"
+}

@@ -1,0 +1,53 @@
+{
+  "name": "jxbrowser-web-app",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint . --ext .ts,.vue --fix",
+    "preview": "vite preview",
+    "add-license": "license-check-and-add add"
+  },
+  "dependencies": {
+    "@connectrpc/connect": "2.1.0",
+    "@connectrpc/connect-web": "2.1.0",
+    "@vueuse/core": "10.7.0",
+    "class-variance-authority": "0.7.1",
+    "lucide-vue-next": "0.545.0",
+    "tailwind-merge": "2.5.4",
+    "tailwindcss-animate": "1.0.7",
+    "vue": "3.4.0",
+    "vue-router": "4.2.5"
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "1.58.0",
+    "@bufbuild/protobuf": "2.9.0",
+    "@bufbuild/protoc-gen-es": "2.9.0",
+    "@types/node": "22.8.6",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "8.46.2",
+    "@vitejs/plugin-vue": "5.0.0",
+    "autoprefixer": "10.4.20",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-define-config": "^2.1.0",
+    "eslint-plugin-header": "^3.1.1",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-vue": "^10.5.1",
+    "license-check-and-add": "^4.0.5",
+    "postcss": "8.5.3",
+    "prettier": "^3.6.2",
+    "protoc": "32.1.0",
+    "tailwindcss": "3.4.14",
+    "typescript": "5.6.3",
+    "vite": "5.4.17",
+    "vite-plugin-singlefile": "2.0.0",
+    "vue-eslint-parser": "^10.2.0",
+    "vue-tsc": "1.8.27"
+  },
+  "engines": {
+    "node": ">=20 <23",
+    "npm": ">=9"
+  }
+}

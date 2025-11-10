@@ -20,24 +20,25 @@
  *  SOFTWARE.
  */
 
-package com.teamdev.jxbrowser.examples;
+import {createGrpcWebTransport} from "@connectrpc/connect-web";
+import {createClient} from "@connectrpc/connect";
+import {PrefsService} from "@/gen/prefs_pb.ts";
 
 /**
- * A simple hybrid desktop application demonstrating how to combine
- * a web-based user interface with Java business logic.
- *
- * <p>The application supports interchangeable frontends — built with either
- * React or Vue, using TypeScript, Shadcn, Tailwind CSS, and Vite.
- *
- * <p>The backend logic is implemented in Java.
- *
- * <p>The app creates a Swing window embedding a JxBrowser web view that
- * loads the selected frontend. Communication between the UI and Java
- * is handled via gRPC, Protocol Buffers, and the JxBrowser JavaScript–Java Bridge.
+ * A port for RPC communication obtained from the server side via
+ * the JxBrowser's Java-Js bridge.
  */
-public final class App {
+declare const rpcPort: number;
 
-    public static void main(String[] args) throws InterruptedException {
-        new AppInitializer().initialize();
-    }
-}
+const transport = createGrpcWebTransport({
+    baseUrl: `http://localhost:${rpcPort}`,
+});
+
+/**
+ * gRPC client for reading/writing preferences.
+ */
+const prefsClient = createClient(PrefsService, transport);
+
+export {
+    prefsClient
+};

@@ -39,7 +39,8 @@ version = "1.0"
 val applicationName = "JxBrowserWebApp"
 val mainJar = "$applicationName-$version.jar"
 
-val wedAppLocationDir = "${projectDir}/web-app/"
+val webFramework = WebFramework.fromProperty(properties["frontend"])
+val webAppLocationDir = "${projectDir}/${webFramework.dirName}"
 
 val host = "localhost"
 val port = 5173
@@ -98,7 +99,7 @@ val npxCommand = if (isWindows) "npx.cmd" else "npx"
 
 fun runCommandInWebDirectory(errorMessage: String, vararg command: String) {
     val process = ProcessBuilder(*command)
-        .directory(File(wedAppLocationDir))
+        .directory(File(webAppLocationDir))
         .start()
 
     process.inputStream.bufferedReader().use { reader ->
@@ -163,7 +164,7 @@ tasks.register("buildWeb") {
 sourceSets {
     main {
         resources {
-            srcDir("$wedAppLocationDir/dist")
+            srcDir("$webAppLocationDir/dist")
         }
     }
 }
@@ -222,4 +223,20 @@ tasks.register<Exec>("packageExe") {
         "--win-shortcut-prompt",
         "--icon", "src/main/resources/app.ico",
     )
+}
+
+enum class WebFramework(val dirName: String) {
+    REACT("web-app-react"),
+    VUE("web-app-vue");
+
+    companion object {
+        private val DEFAULT = REACT
+
+        fun fromProperty(property: Any?): WebFramework {
+            val framework = property?.toString()
+            return values().find { 
+                it.name.equals(framework, ignoreCase = true)
+            } ?: DEFAULT
+        }
+    }
 }
