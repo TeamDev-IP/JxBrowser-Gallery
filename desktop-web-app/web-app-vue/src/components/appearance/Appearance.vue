@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -69,35 +69,35 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted} from 'vue'
+import { onMounted } from 'vue'
 import Separator from '@/components/ui/Separator.vue'
 import ThemeBox from '@/components/appearance/ThemeBox.vue'
 import Combobox from '@/components/ui/common/Combobox.vue'
-import {Laptop, Moon, Sun} from 'lucide-vue-next'
+import { Sun, Moon, Laptop } from 'lucide-vue-next'
 
-import {create} from '@bufbuild/protobuf'
-import {AppearanceSchema} from '@/gen/prefs_pb.ts'
+import { create } from '@bufbuild/protobuf'
+import { AppearanceSchema } from '@/gen/prefs_pb.ts'
 
 import {
-  darkTheme,
-  fromTheme,
   lightTheme,
+  darkTheme,
   systemTheme,
-  ThemeOption,
+  fromTheme,
   toTheme,
+  ThemeOption,
 } from '@/converter/theme.ts'
 
 import {
-  defaultFontSize,
-  FontSizeOption,
-  fromFontSize,
-  largeFontSize,
   smallFontSize,
+  defaultFontSize,
+  largeFontSize,
+  fromFontSize,
   toFontSize,
+  FontSizeOption,
 } from '@/converter/font-size.ts'
-import {prefsClient} from '@shared/rpc/prefs-client'
-import {useTheme} from '@/components/hooks/useTheme.ts'
-import {useFontSize} from '@/components/hooks/useFontSize.ts'
+import { prefsClient } from '@shared/rpc/prefs-client'
+import { useTheme } from '@/components/hooks/useTheme.ts'
+import { useFontSize } from '@/components/hooks/useFontSize.ts'
 
 const { theme, setTheme } = useTheme()
 const { fontSize, setFontSize } = useFontSize()

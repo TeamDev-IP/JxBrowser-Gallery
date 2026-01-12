@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -40,8 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, watch} from 'vue'
-import {useRoute} from 'vue-router'
+import { ref, computed, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 

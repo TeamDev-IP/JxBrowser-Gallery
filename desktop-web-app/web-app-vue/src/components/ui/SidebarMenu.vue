@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
 -->
 
 <script setup lang="ts">
-import {defineProps, ref, useAttrs} from 'vue'
+import { ref, defineProps, useAttrs } from 'vue'
 
 const props = defineProps<{
   className?: string

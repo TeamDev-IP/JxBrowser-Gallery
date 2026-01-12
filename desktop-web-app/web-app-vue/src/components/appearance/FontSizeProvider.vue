@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,11 @@
 -->
 
 <script setup lang="ts">
-import {onMounted, provide, ref, watch} from 'vue'
-import {prefsStorage} from '@/storage/prefs-storage.ts'
-import {defaultFontSize, FontSizeOption, fromFontSize} from '@/converter/font-size.ts'
-import {prefsClient} from '@shared/rpc/prefs-client'
-import {FontSizeContext, FontSizeContextKey} from '@/utils/fontsize-context.ts'
+import { ref, provide, onMounted, watch } from 'vue'
+import { prefsStorage } from '@/storage/prefs-storage.ts'
+import { defaultFontSize, FontSizeOption, fromFontSize } from '@/converter/font-size.ts'
+import { prefsClient } from '@shared/rpc/prefs-client'
+import { FontSizeContext, FontSizeContextKey } from '@/utils/fontsize-context.ts'
 
 const fontSize = ref<FontSizeOption>(prefsStorage.fontSize() ?? defaultFontSize)
 

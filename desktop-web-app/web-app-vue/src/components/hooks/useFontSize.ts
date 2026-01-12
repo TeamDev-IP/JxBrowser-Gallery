@@ -1,5 +1,5 @@
 /*
- * Copyright 2026, TeamDev
+ * Copyright (c) 2025 TeamDev
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {inject} from 'vue'
-import {FontSizeContext, FontSizeContextKey} from '@/utils/fontsize-context.ts'
+import { inject } from 'vue'
+import { FontSizeContext, FontSizeContextKey } from '@/utils/fontsize-context.ts'
 
 export function useFontSize(): FontSizeContext {
   const context = inject<FontSizeContext>(FontSizeContextKey)

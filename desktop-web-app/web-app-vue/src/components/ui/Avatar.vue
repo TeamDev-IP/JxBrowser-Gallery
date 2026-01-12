@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import {defineProps, ref, watch} from 'vue'
+import { ref, watch, defineProps } from 'vue'
 
 interface Props {
   className?: string

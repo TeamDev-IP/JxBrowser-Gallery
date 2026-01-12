@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,11 @@
 -->
 
 <script setup lang="ts">
-import {onMounted, provide, ref, watch} from 'vue'
-import {prefsStorage} from '@/storage/prefs-storage.ts'
-import {fromTheme, systemTheme, ThemeOption} from '@/converter/theme.ts'
-import {ThemeContext, ThemeContextKey} from '@/utils/theme-context.ts'
-import {prefsClient} from '@shared/rpc/prefs-client'
+import { ref, provide, onMounted, watch } from 'vue'
+import { prefsStorage } from '@/storage/prefs-storage.ts'
+import { systemTheme, ThemeOption, fromTheme } from '@/converter/theme.ts'
+import { ThemeContext, ThemeContextKey } from '@/utils/theme-context.ts'
+import { prefsClient } from '@shared/rpc/prefs-client'
 
 const theme = ref<ThemeOption>(prefsStorage.theme() ?? systemTheme)
 

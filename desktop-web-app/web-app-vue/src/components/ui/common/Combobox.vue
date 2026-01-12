@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -60,12 +60,12 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from 'vue'
+import { ref, watch } from 'vue'
 import Popover from '@/components/ui/Popover.vue'
 import PopoverTrigger from '@/components/ui/PopoverTrigger.vue'
 import PopoverContent from '@/components/ui/PopoverContent.vue'
 import Button from '@/components/ui/Button.vue'
-import {Check, ChevronsUpDown} from 'lucide-vue-next'
+import { Check, ChevronsUpDown } from 'lucide-vue-next'
 import Command from '@/components/ui/Command.vue'
 import CommandGroup from '@/components/ui/CommandGroup.vue'
 import CommandList from '@/components/ui/CommandList.vue'

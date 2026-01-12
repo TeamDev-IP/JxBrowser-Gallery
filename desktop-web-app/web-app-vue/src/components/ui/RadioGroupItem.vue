@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -46,8 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import {computed, inject} from 'vue'
-import {cn} from '@/lib/utils'
+import { inject, computed } from 'vue'
+import { cn } from '@/lib/utils'
 
 interface Props {
   value: string | number

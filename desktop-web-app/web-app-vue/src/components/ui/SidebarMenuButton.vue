@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -60,10 +60,10 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, useAttrs} from 'vue'
-import {cn} from '@/lib/utils'
-import {useSidebar} from '@/components/hooks/useSidebar.ts'
-import {cva} from 'class-variance-authority'
+import { ref, computed, useAttrs } from 'vue'
+import { cn } from '@/lib/utils'
+import { useSidebar } from '@/components/hooks/useSidebar.ts'
+import { cva } from 'class-variance-authority'
 import TooltipContent from '@/components/ui/TooltipContent.vue'
 import TooltipTrigger from '@/components/ui/TooltipTrigger.vue'
 import Tooltip from '@/components/ui/Tooltip.vue'

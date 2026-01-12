@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -70,9 +70,9 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
-import NavigationItem, {NavigationItemType} from '@/components/navigation/NavigationItem.vue'
-import {Bell, Settings, SquareUser, SunMoon} from 'lucide-vue-next'
+import { ref } from 'vue'
+import NavigationItem, { NavigationItemType } from '@/components/navigation/NavigationItem.vue'
+import { Bell, Settings, SquareUser, SunMoon } from 'lucide-vue-next'
 import Sidebar from '@/components/ui/Sidebar.vue'
 import SidebarMenu from '@/components/ui/SidebarMenu.vue'
 import SidebarGroupContent from '@/components/ui/SidebarGroupContent.vue'

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2026, TeamDev
+ *  Copyright (c) 2024 TeamDev
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +26,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.teamdev.jxbrowser.examples.pomodoro.window.animation.AnimatedModel
+import com.teamdev.jxbrowser.examples.pomodoro.window.timer.TimerState
 import com.teamdev.jxbrowser.examples.pomodoro.window.animation.Animator
 import com.teamdev.jxbrowser.examples.pomodoro.window.animation.AnimatorTimerListener
-import com.teamdev.jxbrowser.examples.pomodoro.window.timer.TimerState
 import kotlinx.coroutines.CoroutineScope
 import kotlin.time.Duration.Companion.minutes
 

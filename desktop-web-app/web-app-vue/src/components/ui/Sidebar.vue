@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -95,8 +95,8 @@
 </template>
 
 <script setup lang="ts">
-import {ref, useAttrs} from 'vue'
-import {useSidebar} from '@/components/hooks/useSidebar'
+import { ref, useAttrs } from 'vue'
+import { useSidebar } from '@/components/hooks/useSidebar'
 import Sheet from '@/components/ui/Sheet.vue'
 import SheetContent from '@/components/ui/SheetContent.vue'
 

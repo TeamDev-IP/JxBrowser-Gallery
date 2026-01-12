@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from 'vue'
-import {cn} from '@/lib/utils'
+import { ref, watch } from 'vue'
+import { cn } from '@/lib/utils'
 import Switch from '@/components/ui/Switch.vue'
 
 const props = defineProps<{

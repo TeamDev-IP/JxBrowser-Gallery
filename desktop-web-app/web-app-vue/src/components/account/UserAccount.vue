@@ -1,5 +1,5 @@
 <!--
-  Copyright 2026, TeamDev
+  Copyright (c) 2025 TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,26 +21,26 @@
 -->
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import Combobox from '@/components/ui/common/Combobox.vue'
 import PreferenceSwitch from '@/components/ui/common/PreferenceSwitch.vue'
 import EditableAvatar from '@/components/account/EditableAvatar.vue'
 import EditableInput from '@/components/account/EditableInput.vue'
 import GuidingLine from '@/components/ui/common/GuidingLine.vue'
 
-import {AccountSchema, ProfilePictureSchema} from '@/gen/prefs_pb.ts'
-import {create} from '@bufbuild/protobuf'
-import {imageToDataUri} from '@/converter/image.ts'
+import { AccountSchema, ProfilePictureSchema } from '@/gen/prefs_pb.ts'
+import { create } from '@bufbuild/protobuf'
+import { imageToDataUri } from '@/converter/image.ts'
 import {
   emailTwoFA,
-  fromTfa,
-  passkeyTwoFA,
   smsTwoFA,
+  passkeyTwoFA,
+  fromTfa,
   toTfa,
   TwoFAMethod,
 } from '@/converter/two-fa-method.ts'
-import {prefsStorage} from '@/storage/prefs-storage.ts'
-import {prefsClient} from '@shared/rpc/prefs-client'
+import { prefsStorage } from '@/storage/prefs-storage.ts'
+import { prefsClient } from '@shared/rpc/prefs-client'
 
 const profilePictureDataUri = ref<string>('')
 const fullName = ref<string>('')
