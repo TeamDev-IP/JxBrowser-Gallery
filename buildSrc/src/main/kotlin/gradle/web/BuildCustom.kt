@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2024 TeamDev
+ *  Copyright 2026, TeamDev
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,17 @@ package gradle.web
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileTree
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.*
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.util.PatternSet
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.TaskContainerScope
+import org.gradle.kotlin.dsl.assign
+import org.gradle.kotlin.dsl.getValue
+import org.gradle.kotlin.dsl.getting
+import org.gradle.kotlin.dsl.register
 import java.io.File
 
 /**

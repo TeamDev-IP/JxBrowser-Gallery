@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2025 TeamDev
+  Copyright 2026, TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
+import {inject} from 'vue'
 
 const togglePopover = inject('togglePopover') as () => void
 if (!togglePopover) throw new Error('PopoverTrigger must be used inside Popover')

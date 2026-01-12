@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2025 TeamDev
+  Copyright 2026, TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -37,8 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { cn } from '@/lib/utils'
+import {computed, onMounted, onUnmounted, ref} from 'vue'
+import {cn} from '@/lib/utils'
 import Button from './Button.vue'
 
 interface Props {

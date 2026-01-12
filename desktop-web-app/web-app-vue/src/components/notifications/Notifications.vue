@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2025 TeamDev
+  Copyright 2026, TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,12 +21,12 @@
 -->
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import {onMounted, ref} from 'vue'
 import PreferenceSwitch from '@/components/ui/common/PreferenceSwitch.vue'
-import { create } from '@bufbuild/protobuf'
-import { NotificationsSchema } from '@/gen/prefs_pb.ts'
-import { prefsStorage } from '@/storage/prefs-storage.ts'
-import { prefsClient } from '@shared/rpc/prefs-client'
+import {create} from '@bufbuild/protobuf'
+import {NotificationsSchema} from '@/gen/prefs_pb.ts'
+import {prefsStorage} from '@/storage/prefs-storage.ts'
+import {prefsClient} from '@shared/rpc/prefs-client'
 import Separator from '@/components/ui/Separator.vue'
 
 const desktopEnabled = ref<boolean>(prefsStorage.desktopNotificationsEnabled())

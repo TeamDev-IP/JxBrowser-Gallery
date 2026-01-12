@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2025 TeamDev
+  Copyright 2026, TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,10 @@
 -->
 
 <script setup lang="ts">
-import { provide, ref, computed, onMounted, onUnmounted } from 'vue'
-import { useMobile } from '@/components/hooks/useMobile'
+import {computed, onMounted, onUnmounted, provide, ref} from 'vue'
+import {useMobile} from '@/components/hooks/useMobile'
 import TooltipProvider from '@/components/ui/TooltipProvider.vue'
-import { SIDEBAR_KEY } from '@/components/hooks/useSidebar.ts'
+import {SIDEBAR_KEY} from '@/components/hooks/useSidebar.ts'
 
 export interface SidebarContext {
   state: 'expanded' | 'collapsed'

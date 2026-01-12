@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2025 TeamDev
+  Copyright 2026, TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -59,22 +59,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import {onMounted, ref} from 'vue'
 import Separator from '@/components/ui/Separator.vue'
 import Combobox from '@/components/ui/common/Combobox.vue'
 import PreferenceSwitch from '@/components/ui/common/PreferenceSwitch.vue'
-import { GeneralSchema } from '@/gen/prefs_pb'
-import { create } from '@bufbuild/protobuf'
+import {GeneralSchema} from '@/gen/prefs_pb'
+import {create} from '@bufbuild/protobuf'
 import {
   englishLanguage,
   frenchLanguage,
+  fromLanguage,
   germanLanguage,
   LanguageOption,
-  fromLanguage,
   toLanguage,
 } from '@/converter/language'
-import { prefsStorage } from '@/storage/prefs-storage'
-import { prefsClient } from '@shared/rpc/prefs-client'
+import {prefsStorage} from '@/storage/prefs-storage'
+import {prefsClient} from '@shared/rpc/prefs-client'
 
 const languages: LanguageOption[] = [englishLanguage, germanLanguage, frenchLanguage]
 const launchAtStartup = ref(prefsStorage.launchAtStartupEnabled())

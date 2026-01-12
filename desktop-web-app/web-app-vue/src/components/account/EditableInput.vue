@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2025 TeamDev
+  Copyright 2026, TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
 -->
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import {computed, ref, watch} from 'vue'
 import Input from '@/components/ui/Input.vue'
 
 interface Props {

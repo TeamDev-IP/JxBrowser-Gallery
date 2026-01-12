@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2025 TeamDev
+  Copyright 2026, TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -28,9 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { LucideIcon } from 'lucide-vue-next'
+import {computed} from 'vue'
+import {useRoute} from 'vue-router'
+import {LucideIcon} from 'lucide-vue-next'
 
 /**
  * Available navigation items.

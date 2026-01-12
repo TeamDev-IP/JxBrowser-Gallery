@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2025 TeamDev
+  Copyright 2026, TeamDev
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +21,9 @@
 -->
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import {ref} from 'vue'
 import Avatar from '@/components/ui/Avatar.vue'
-import { Upload } from 'lucide-vue-next'
+import {Upload} from 'lucide-vue-next'
 
 interface Props {
   pictureDataUri: string
