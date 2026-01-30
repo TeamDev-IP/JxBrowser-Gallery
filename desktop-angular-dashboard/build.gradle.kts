@@ -68,14 +68,11 @@ val npmCommand = if (isWindows) "npm.cmd" else "npm"
 fun runCommandInWebDirectory(errorMessage: String, vararg command: String) {
     val process = ProcessBuilder(*command)
         .directory(File(webAppDir))
+        .redirectErrorStream(true)
         .start()
 
     process.inputStream.bufferedReader().use { reader ->
         reader.lines().forEach { println(it) }
-    }
-
-    process.errorStream.bufferedReader().use { reader ->
-        reader.lines().forEach { System.err.println(it) }
     }
 
     val exitCode = process.waitFor()
