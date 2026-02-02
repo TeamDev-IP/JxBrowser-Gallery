@@ -91,16 +91,6 @@ tasks.register("buildWeb") {
     dependsOn(tasks.named("installNpmPackages"))
     doLast {
         runCommandInWebDirectory("Failed to build web resources", npmCommand, "run", "build")
-
-        // After build, rename the output folder to 'web' for UrlRequestInterceptor
-        val browserDir = file("$webAppDir/dist/angular-jxbrowser-dashboard/browser")
-        val webDir = file("$webAppDir/dist/web")
-
-        if (browserDir.exists() && !webDir.exists()) {
-            browserDir.renameTo(webDir)
-            // Clean up the intermediate directory
-            file("$webAppDir/dist/angular-jxbrowser-dashboard").deleteRecursively()
-        }
     }
 }
 
@@ -140,7 +130,6 @@ tasks.jar {
     })
 
     doLast {
-        // Copy the JAR to build/dist for jpackage
         copy {
             from("build/libs/$mainJar")
             into("build/dist")

@@ -3,7 +3,7 @@ import { TopCard, Feed, Project, SalesSummary, ChartSeries } from '../models/das
 
 declare global {
   interface Window {
-    backend: {
+    backend?: {
       getTopCards(): string;
       getFeeds(): string;
       getProjects(): string;
@@ -22,22 +22,37 @@ declare global {
 export class BackendService {
 
   getTopCards(): TopCard[] {
-    return JSON.parse(window.backend.getTopCards());
+    if (window.backend) {
+      return JSON.parse(window.backend.getTopCards());
+    }
+    return [];
   }
 
   getFeeds(): Feed[] {
-    return JSON.parse(window.backend.getFeeds());
+    if (window.backend) {
+      return JSON.parse(window.backend.getFeeds());
+    }
+    return [];
   }
 
   getProjects(): Project[] {
-    return JSON.parse(window.backend.getProjects());
+    if (window.backend) {
+      return JSON.parse(window.backend.getProjects());
+    }
+    return [];
   }
 
   getSalesSummary(): SalesSummary {
-    return JSON.parse(window.backend.getSalesSummary());
+    if (window.backend) {
+      return JSON.parse(window.backend.getSalesSummary());
+    }
+    return { totalSales: '$0', thisMonth: '$0', thisWeek: '$0' };
   }
 
   getChartData(timeRange: string = '3m'): ChartSeries[] {
-    return JSON.parse(window.backend.getChartData(timeRange));
+    if (window.backend) {
+      return JSON.parse(window.backend.getChartData(timeRange));
+    }
+    return [];
   }
 }
