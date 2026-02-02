@@ -1,6 +1,6 @@
 # Desktop Angular Dashboard with JxBrowser
 
-This project demonstrates how to create a cross-platform desktop application with a Java backend and a modern web frontend using [Angular UI](https://angular.dev/) with [Tailwind CSS](https://tailwindcss.com/).
+This project demonstrates how to create a cross-platform desktop application with a Java backend and a modern web frontend using [Angular UI][angular] with [Tailwind CSS][tailwind].
 
 The application represents a dashboard that displays various metrics, charts, and activity feeds. Here's how the dashboard looks like:
 
@@ -9,8 +9,8 @@ The application represents a dashboard that displays various metrics, charts, an
 ## Prerequisites
 
 - Java 17 or higher.
-- [Node.js](https://nodejs.org/en/download) 22.0 or higher.
-- [WiX Toolset](https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm) 3.14.1 or higher if you are planning to package an installer on Windows.
+- [Node.js][nodejs] 22.0 or higher.
+- [WiX Toolset][wix] 3.14.1 or higher if you are planning to package an installer on Windows.
 
 ## Running the application
 
@@ -57,4 +57,9 @@ The modern web browsers like Chromium make this transition toward web-based UIs 
 JxBrowser allows embedding a Chromium-based browser into Java desktop applications. It allows developers to create cross-platform desktop apps that combine the power of Java platform and the flexibility of web technologies.
 
 Communication between Java backend and Angular frontend is implemented using JxBrowser's JavaScript-Java Bridge.
+
+[angular]: https://angular.dev/
+[tailwind]: https://tailwindcss.com/
+[nodejs]: https://nodejs.org/en/download
+[wix]: https://github.com/wixtoolset/wix3/releases/tag/wix3141rtm
 
