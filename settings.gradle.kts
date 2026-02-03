@@ -26,6 +26,7 @@ include(
     "jxbrowser-license",
 
     "desktop-web-app",
+    "desktop-angular-dashboard",
     "compose:pomodoro",
 
     "compose:screen-share:server",
