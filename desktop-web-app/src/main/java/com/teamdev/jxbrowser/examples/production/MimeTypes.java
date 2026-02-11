@@ -22,11 +22,11 @@
 
 package com.teamdev.jxbrowser.examples.production;
 
-import com.teamdev.jxbrowser.deps.com.google.common.collect.ImmutableMap;
 import com.teamdev.jxbrowser.internal.Lazy;
 import com.teamdev.jxbrowser.net.MimeType;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -57,18 +57,18 @@ public final class MimeTypes {
     }
 
     private static Map<String, MimeType> createMap() {
-        ImmutableMap.Builder<String, MimeType> builder = ImmutableMap.builder();
+        var result = new HashMap<String, MimeType>();
         var props = new Properties();
         var propsUrl = MimeTypes.class.getClassLoader().getResource("mime-types.properties");
         if (propsUrl != null) {
             try (var inputStream = propsUrl.openStream()) {
                 props.load(inputStream);
                 props.forEach((key, value) ->
-                        builder.put(key.toString(), MimeType.of(value.toString())));
+                        result.put(key.toString(), MimeType.of(value.toString())));
             } catch (IOException ignore) {
                 warn(format("Couldn't read the list of MIME types from: %s", propsUrl));
             }
         }
-        return builder.build();
+        return result;
     }
 }
