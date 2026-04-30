@@ -4,10 +4,10 @@ jxbrowser = "9.0.1" # https://teamdev.com/jxbrowser/release-notes/
 jxbrowser-gradlePlugin = "1.2.1" # https://github.com/TeamDev-IP/JxBrowser-Gradle-Plugin/releases
 
 # Other platforms, libraries, and plugins.
-kotlin = "2.0.0" # https://github.com/JetBrains/kotlin/releases
+kotlin = "2.3.0" # https://github.com/JetBrains/kotlin/releases
 kotlin-serialization = "1.6.3" # https://github.com/Kotlin/kotlinx.serialization/releases
 detekt = "1.23.6" # https://github.com/detekt/detekt/releases
-compose = "1.7.0-rc01" # https://github.com/JetBrains/compose-multiplatform/releases
+compose = "1.10.3" # https://github.com/JetBrains/compose-multiplatform/releases
 ktor = "2.3.10" # https://github.com/ktorio/ktor
 micronaut = "4.3.7" # https://github.com/micronaut-projects/micronaut-starter
 micronaut-gradlePlugin = "4.3.5" # https://github.com/micronaut-projects/micronaut-gradle-plugin
